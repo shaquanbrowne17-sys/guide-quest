@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@1,7..72,400;1,7..72,500&display=swap">
+<style>
+[hidden]{display:none!important}
+html,body{margin:0}
+body{margin:0}
+/* Layout: a top-down map of the wilderness sanctuary is the hero; the reading panel sits beside it (desktop) or slides up over it (phone). */
+:root{
+  --linen:#F5F3EE; --surface:#FFFFFF; --surface2:#ECE8DF; --ink:#1D1B2B; --muted:#5C596D; --line:#DEDAD0;
+  --primary-bg:#2B4C8C; --primary-fg:#FFFFFF; --scarlet:#B3202A;
+  --court-ink:#8A4F22; --court-soft:#F3E3D3; --holy-ink:#8F6A08; --holy-soft:#F7EDCF; --most-ink:#2B4C8C; --most-soft:#E1E8F5;
+  --good:#1E7A46; --good-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FBE4E1;
+  --shadow:0 1px 2px rgba(29,27,43,.06),0 10px 30px rgba(29,27,43,.08);
+  --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --scripture:'Literata',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --linen:#13121C; --surface:#1D1C2A; --surface2:#2A2939; --ink:#ECEAF4; --muted:#A8A5BB; --line:#34324A;
+    --primary-bg:#9DB5EE; --primary-fg:#13121C; --scarlet:#FF8A8A;
+    --court-ink:#E6A673; --court-soft:#36261A; --holy-ink:#E9C25A; --holy-soft:#352C12; --most-ink:#A7BDF0; --most-soft:#1D2648;
+    --good:#62D092; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --linen:#13121C; --surface:#1D1C2A; --surface2:#2A2939; --ink:#ECEAF4; --muted:#A8A5BB; --line:#34324A;
+  --primary-bg:#9DB5EE; --primary-fg:#13121C; --scarlet:#FF8A8A;
+  --court-ink:#E6A673; --court-soft:#36261A; --holy-ink:#E9C25A; --holy-soft:#352C12; --most-ink:#A7BDF0; --most-soft:#1D2648;
+  --good:#62D092; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--linen);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--scarlet);outline-offset:2px}
+.page{max-width:1080px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:14px 40px;display:flex;flex-direction:column;gap:18px}
+body.sheet-open .page{padding-block-end:64vh}
+
+/* header */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.head h1{font-size:clamp(30px,6vw,44px);line-height:1;font-weight:800}
+.me{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:15px;background:var(--surface);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow)}
+.me a{color:var(--primary-bg);font-weight:800}
+.head .sub{font-family:var(--scripture);font-style:italic;color:var(--muted);font-size:15px;margin-top:6px}
+.seg{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:14px}
+.seg button{min-height:42px;padding:0 18px;border:none;border-radius:10px;background:transparent;font-weight:800;font-size:15px;color:var(--muted);cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+@media (min-width:820px){
+  .layout{grid-template-columns:minmax(0,460px) minmax(0,1fr);gap:28px}
+  .mapcol{position:sticky;top:calc(12px + env(safe-area-inset-top, 0px))}
+}
+.mapcol{display:flex;flex-direction:column;gap:12px;min-width:0}
+.mapframe{border-radius:22px;overflow:hidden;background:#E2D0A8;box-shadow:var(--shadow);line-height:0}
+.mapframe svg{display:block;width:100%;height:auto;max-height:78vh}
+.mapnote{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip .dot{width:9px;height:9px;border-radius:50%}
+.chip.seen{border-color:currentColor}
+.chip.c-court{color:var(--court-ink)} .chip.c-holy{color:var(--holy-ink)} .chip.c-most{color:var(--most-ink)}
+.chip.c-court .dot{background:var(--court-ink)} .chip.c-holy .dot{background:var(--holy-ink)} .chip.c-most .dot{background:var(--most-ink)}
+.chip svg{flex-shrink:0}
+
+/* map parts */
+.part{cursor:pointer;outline:none}
+.part .hit{fill:transparent}
+.part:hover .hit{fill:rgba(255,255,255,.12)}
+.part .ring{pointer-events:none;fill:none;stroke:#B3202A;stroke-width:5;stroke-dasharray:10 8;opacity:0;transition:opacity .2s}
+.part.is-sel .ring,.part:focus-visible .ring{opacity:1}
+.part:focus-visible .ring{stroke:#2B4C8C}
+.part.is-correct .ring{opacity:1;stroke:#1E7A46;stroke-dasharray:none;stroke-width:7}
+.part.is-wrong .ring{opacity:1;stroke:#B3261E;stroke-dasharray:none;stroke-width:7}
+.zone{cursor:pointer}
+.zone .zfill{transition:stroke .2s}
+.zone.is-sel .zfill{stroke:#B3202A;stroke-width:6}
+.lbl{font-family:'Figtree',sans-serif;font-weight:800;font-size:21px;paint-order:stroke;stroke-linejoin:round;pointer-events:none}
+.lbl.dk{fill:#3B2A12;stroke:#F2E7CC;stroke-width:5}
+.lbl.lt{fill:#FFFFFF;stroke:rgba(0,0,0,.35);stroke-width:4}
+.slbl{font-family:'Figtree',sans-serif;font-weight:800;font-size:16px;letter-spacing:3px;pointer-events:none}
+.no-labels .lbl{display:none}
+.smoke{animation:drift 3.2s ease-in-out infinite;transform-origin:300px 360px}
+@keyframes drift{0%,100%{opacity:.55;transform:translateY(0)}50%{opacity:.95;transform:translateY(-4px)}}
+.marker{animation:pulse 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+@media (prefers-reduced-motion:reduce){.smoke,.marker{animation:none}}
+
+/* panel */
+.panel{background:var(--surface);border-radius:22px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;min-width:0}
+.panel h2{font-size:clamp(24px,4.4vw,30px);line-height:1.1;font-weight:800}
+.panel h3{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cardtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cardtop .sp{flex:1}
+.sec{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.sec-court{background:var(--court-soft);color:var(--court-ink)}
+.sec-holy{background:var(--holy-soft);color:var(--holy-ink)}
+.sec-most{background:var(--most-soft);color:var(--most-ink)}
+.sec-between{background:var(--surface2);color:var(--ink)}
+.stepno{font-size:13px;font-weight:700;color:var(--muted)}
+.iconbtn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.facts{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.facts li::marker{color:var(--muted)}
+.points{border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.points.court{background:var(--court-soft)} .points.holy{background:var(--holy-soft)} .points.most{background:var(--most-soft)} .points.between{background:var(--surface2)}
+.points b{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.points.court b{color:var(--court-ink)} .points.holy b{color:var(--holy-ink)} .points.most b{color:var(--most-ink)} .points.between b{color:var(--ink)}
+.points p{font-size:17px;font-weight:600;line-height:1.45}
+.verse{margin:0;padding:4px 0 4px 16px;border-left:3px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.verse p{font-family:var(--scripture);font-style:italic;font-size:17px;line-height:1.5}
+.verse cite{font-style:normal;font-size:13px;font-weight:800;color:var(--muted)}
+.life{font-size:15px}
+.life b{font-weight:800}
+.think{font-size:15px;color:var(--muted)}
+.think b{color:var(--ink)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.btn{min-height:48px;padding:0 18px;border-radius:14px;border:2px solid transparent;font-weight:800;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--primary-bg);color:var(--primary-fg)}
+.btn-ghost{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.btn-grow{flex:1 1 160px}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav .btn{flex:1 1 140px}
+.progress{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:var(--muted)}
+.bar{display:block;height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:99px;background:var(--scarlet);transition:width .4s}
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.room{border:none;border-radius:14px;padding:12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-height:76px}
+.room b{font-family:var(--display);font-size:16px;line-height:1.15}
+.room span{font-size:12.5px;font-weight:600}
+.room.court{background:var(--court-soft);color:var(--court-ink)} .room.holy{background:var(--holy-soft);color:var(--holy-ink)} .room.most{background:var(--most-soft);color:var(--most-ink)}
+@media (max-width:420px){.rooms{grid-template-columns:minmax(0,1fr)}.room{min-height:0}}
+.intro-verse{margin:0;display:flex;flex-direction:column;gap:4px}
+.intro-verse p{font-family:var(--scripture);font-style:italic;font-size:19px;line-height:1.45}
+.intro-verse cite{font-style:normal;font-size:13px;font-weight:800;color:var(--muted)}
+
+/* challenge */
+.qhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.score{display:flex;gap:8px;align-items:center;font-weight:800;font-size:14px}
+.pill{padding:4px 10px;border-radius:999px;background:var(--surface2);font-variant-numeric:tabular-nums}
+.pill.hot{background:var(--holy-soft);color:var(--holy-ink)}
+.qtext{font-family:var(--display);font-size:clamp(20px,4vw,24px);line-height:1.25;font-weight:700}
+.qverse{font-family:var(--scripture);font-style:italic;font-size:18px;line-height:1.45}
+.tapnote{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--scarlet);font-size:15px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{min-height:52px;border-radius:14px;border:2px solid var(--line);background:var(--surface);text-align:left;padding:10px 14px;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.opt:hover{border-color:var(--primary-bg)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt[disabled]{cursor:default}
+.opt .k{width:28px;height:28px;border-radius:8px;background:var(--surface2);display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.feedback{border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.feedback.ok{background:var(--good-soft)}
+.feedback.no{background:var(--bad-soft)}
+.feedback b{font-family:var(--display);font-size:18px}
+.feedback.ok b{color:var(--good)} .feedback.no b{color:var(--bad)}
+.stars{display:flex;gap:6px}
+.endscore{font-family:var(--display);font-size:56px;font-weight:800;line-height:1}
+.qbar{height:6px}
+.join{background:var(--surface);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;border:2px solid var(--primary-bg)}
+.join .jt{font-family:var(--display);font-size:19px;font-weight:800}
+.join p{font-size:15px;color:var(--muted)}
+.join form{display:flex;gap:8px;flex-wrap:wrap}
+.join input{flex:1 1 200px;min-width:0;min-height:48px;border:1.5px solid var(--line);border-radius:12px;background:var(--linen);color:var(--ink);padding:10px 12px;font:16px var(--body)}
+.join input:focus{outline:none;border-color:var(--primary-bg)}
+.join .err{color:var(--bad);font-weight:700;font-size:14px}
+.join .tip{font-size:13px}
+.linkbtn{background:none;border:none;padding:0;color:var(--muted);font-weight:700;font-size:14px;text-decoration:underline;cursor:pointer;width:max-content}
+
+/* phone sheet */
+@media (max-width:819px){
+  .layout.challenge .panel{order:-1}
+  .panel.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;max-height:62vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px max(18px, env(safe-area-inset-left, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-right, 0px));box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+  .panel.sheet::before{content:"";display:block;width:44px;height:5px;border-radius:9px;background:var(--line);margin:-6px auto 2px}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="head">
+    <div>
+      <div class="eyebrow">Pathfinder Guide class · SD 2</div>
+      <h1>Sanctuary Explorer</h1>
+      <p class="sub">“Thy way, O God, is in the sanctuary.” Psalm 77:13</p>
+    </div>
+    <div class="seg" role="tablist" aria-label="Mode">
+      <button id="tab-explore" role="tab" aria-selected="true" data-mode="explore">Explore</button>
+      <button id="tab-challenge" role="tab" aria-selected="false" data-mode="challenge">Challenge</button>
+    </div>
+  </header>
+  <div id="whoami" hidden></div>
+  <div id="join" class="join" hidden></div>
+
+  <div class="layout" id="layout">
+    <div class="mapcol">
+      <div class="mapframe">
+        <svg id="map" viewBox="0 0 600 1000" role="group" aria-label="Top-down map of the sanctuary. The gate faces east, at the bottom.">
+          <defs>
+            <pattern id="weave" width="16" height="16" patternUnits="userSpaceOnUse">
+              <rect width="4" height="16" fill="#2B4C8C"/><rect x="4" width="4" height="16" fill="#6B2D6B"/><rect x="8" width="4" height="16" fill="#B3202A"/><rect x="12" width="4" height="16" fill="#F7F4EA"/>
+            </pattern>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFF6D6" stop-opacity=".75"/>
+              <stop offset="55%" stop-color="#FFE7A0" stop-opacity=".22"/>
+              <stop offset="100%" stop-color="#FFE7A0" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width="600" height="1000" fill="#E2D0A8"/>
+
+          <!-- Courtyard (zone) -->
+          <g class="zone" data-id="court" aria-label="Courtyard">
+            <rect class="zfill" x="30" y="30" width="540" height="940" fill="#F2E7CC" stroke="none"/>
+          </g>
+          <text class="slbl" x="96" y="720" fill="#8C7444" transform="rotate(-90 96 720)">COURTYARD</text>
+
+          <!-- Linen fence -->
+          <g class="part" data-id="fence" tabindex="0" role="button" aria-label="White linen fence">
+            <rect x="30" y="30" width="540" height="940" fill="none" stroke="transparent" stroke-width="36" class="hit" style="fill:none;pointer-events:stroke"/>
+            <rect x="30" y="30" width="540" height="940" fill="none" stroke="#FFFDF6" stroke-width="9"/>
+            <rect x="24.5" y="24.5" width="551" height="951" fill="none" stroke="#C3B086" stroke-width="1.5"/>
+            <g id="posts" fill="#B9B3A4"></g>
+            <text class="lbl dk" x="548" y="500" text-anchor="middle" transform="rotate(90 548 500)" style="font-size:17px;letter-spacing:2px">LINEN FENCE</text>
+            <rect class="ring" x="30" y="30" width="540" height="940" rx="4"/>
+          </g>
+
+          <!-- Tent: Holy Place + Most Holy Place zones -->
+          <g class="zone" data-id="most" aria-label="Most Holy Place">
+            <rect class="zfill" x="185" y="85" width="230" height="235" fill="#1F2754"/>
+          </g>
+          <circle cx="300" cy="195" r="110" fill="url(#glow)" pointer-events="none"/>
+          <g class="zone" data-id="holy" aria-label="Holy Place">
+            <rect class="zfill" x="185" y="325" width="230" height="315" fill="#3A2F1C"/>
+          </g>
+          <path d="M180 640 V80 H420 V640" fill="none" stroke="#D9A520" stroke-width="10" pointer-events="none"/>
+          <rect x="180" y="634" width="240" height="12" fill="url(#weave)" pointer-events="none"/>
+          <text class="slbl" x="300" y="116" text-anchor="middle" fill="#C9D3F2">MOST HOLY PLACE</text>
+          <text class="slbl" x="300" y="618" text-anchor="middle" fill="#E9D49A">HOLY PLACE</text>
+
+          <!-- Path line (walk-through) -->
+          <g id="pathlayer" pointer-events="none"></g>
+
+          <!-- Gate -->
+          <g class="part" data-id="gate" tabindex="0" role="button" aria-label="The gate">
+            <rect class="hit" x="186" y="925" width="228" height="70"/>
+            <rect x="200" y="962" width="200" height="16" fill="url(#weave)" stroke="#5A2A5A" stroke-width="1.5"/>
+            <circle cx="200" cy="970" r="7" fill="#B9B3A4"/><circle cx="400" cy="970" r="7" fill="#B9B3A4"/>
+            <text class="lbl dk" x="300" y="948" text-anchor="middle">Gate</text>
+            <rect class="ring" x="190" y="928" width="220" height="62" rx="12"/>
+          </g>
+
+          <!-- Altar of burnt offering -->
+          <g class="part" data-id="altar" tabindex="0" role="button" aria-label="Altar of burnt offering">
+            <rect class="hit" x="228" y="778" width="190" height="134"/>
+            <rect x="258" y="803" width="84" height="84" rx="3" fill="#A35F2A" stroke="#6E3D17" stroke-width="2"/>
+            <rect x="272" y="817" width="56" height="56" fill="#4E2E14"/>
+            <path d="M286 817V873M300 817V873M314 817V873M272 831H328M272 845H328M272 859H328" stroke="#7A4A22" stroke-width="2"/>
+            <rect x="251" y="796" width="17" height="17" rx="3" fill="#C9844A"/><rect x="332" y="796" width="17" height="17" rx="3" fill="#C9844A"/>
+            <rect x="251" y="877" width="17" height="17" rx="3" fill="#C9844A"/><rect x="332" y="877" width="17" height="17" rx="3" fill="#C9844A"/>
+            <path d="M300 820C312 834 319 846 311 859C306 867 293 867 289 859C283 848 290 840 296 831C296 842 302 846 305 840C307 834 304 827 300 820Z" fill="#F28C28"/>
+            <path d="M300 842C306 849 308 855 304 860C301 864 296 863 295 858C294 853 297 849 300 842Z" fill="#FFD15C"/>
+            <text class="lbl dk" x="360" y="852" text-anchor="start">Altar</text>
+            <circle class="ring" cx="300" cy="845" r="66"/>
+          </g>
+
+          <!-- Laver -->
+          <g class="part" data-id="laver" tabindex="0" role="button" aria-label="The laver">
+            <rect class="hit" x="240" y="680" width="176" height="92"/>
+            <circle cx="300" cy="725" r="34" fill="#A35F2A" stroke="#6E3D17" stroke-width="2"/>
+            <circle cx="300" cy="725" r="26" fill="#7CC3DD"/>
+            <circle cx="300" cy="725" r="15" fill="none" stroke="#B6E3F1" stroke-width="2"/>
+            <ellipse cx="291" cy="716" rx="9" ry="4.5" fill="#E2F6FC" opacity=".85"/>
+            <text class="lbl dk" x="346" y="732" text-anchor="start">Laver</text>
+            <circle class="ring" cx="300" cy="725" r="50"/>
+          </g>
+
+          <!-- Lampstand (south side = left on this map) -->
+          <g class="part" data-id="lampstand" tabindex="0" role="button" aria-label="Golden lampstand">
+            <rect class="hit" x="188" y="438" width="96" height="146"/>
+            <g transform="translate(235,505)" fill="none" stroke="#E2B12E" stroke-linecap="round">
+              <path d="M0 32V-26" stroke-width="5"/>
+              <path d="M-30 -26Q-30 12 0 12Q30 12 30 -26" stroke-width="4"/>
+              <path d="M-20 -26Q-20 4 0 4Q20 4 20 -26" stroke-width="4"/>
+              <path d="M-10 -26Q-10 -4 0 -4Q10 -4 10 -26" stroke-width="4"/>
+              <path d="M-15 34H15" stroke-width="7"/>
+            </g>
+            <g fill="#FFB547">
+              <ellipse cx="205" cy="475" rx="3.6" ry="6"/><ellipse cx="215" cy="475" rx="3.6" ry="6"/><ellipse cx="225" cy="475" rx="3.6" ry="6"/><ellipse cx="235" cy="475" rx="3.6" ry="6"/><ellipse cx="245" cy="475" rx="3.6" ry="6"/><ellipse cx="255" cy="475" rx="3.6" ry="6"/><ellipse cx="265" cy="475" rx="3.6" ry="6"/>
+            </g>
+            <text class="lbl lt" x="235" y="574" text-anchor="middle">Lampstand</text>
+            <circle class="ring" cx="235" cy="510" r="58"/>
+          </g>
+
+          <!-- Table of showbread (north side = right on this map) -->
+          <g class="part" data-id="table" tabindex="0" role="button" aria-label="Table of showbread">
+            <rect class="hit" x="316" y="438" width="96" height="146"/>
+            <rect x="340" y="458" width="50" height="84" rx="3" fill="#D9A520" stroke="#8A6512" stroke-width="2"/>
+            <g fill="#F3D9A4" stroke="#C79A55" stroke-width="1">
+              <rect x="345" y="465" width="18" height="10" rx="4"/><rect x="367" y="465" width="18" height="10" rx="4"/>
+              <rect x="345" y="477" width="18" height="10" rx="4"/><rect x="367" y="477" width="18" height="10" rx="4"/>
+              <rect x="345" y="489" width="18" height="10" rx="4"/><rect x="367" y="489" width="18" height="10" rx="4"/>
+              <rect x="345" y="501" width="18" height="10" rx="4"/><rect x="367" y="501" width="18" height="10" rx="4"/>
+              <rect x="345" y="513" width="18" height="10" rx="4"/><rect x="367" y="513" width="18" height="10" rx="4"/>
+              <rect x="345" y="525" width="18" height="10" rx="4"/><rect x="367" y="525" width="18" height="10" rx="4"/>
+            </g>
+            <text class="lbl lt" x="365" y="574" text-anchor="middle">Showbread</text>
+            <circle class="ring" cx="365" cy="510" r="58"/>
+          </g>
+
+          <!-- Altar of incense -->
+          <g class="part" data-id="incense" tabindex="0" role="button" aria-label="Altar of incense">
+            <rect class="hit" x="246" y="336" width="108" height="98"/>
+            <rect x="282" y="366" width="36" height="36" rx="3" fill="#D9A520" stroke="#8A6512" stroke-width="2"/>
+            <rect x="289" y="373" width="22" height="22" rx="2" fill="#F2CB5A"/>
+            <path class="smoke" d="M300 364C290 355 311 349 300 340C292 333 306 328 300 321" fill="none" stroke="#EFE8D8" stroke-width="3" stroke-linecap="round"/>
+            <text class="lbl lt" x="300" y="428" text-anchor="middle">Incense</text>
+            <circle class="ring" cx="300" cy="384" r="46"/>
+          </g>
+
+          <!-- Veil -->
+          <g class="part" data-id="veil" tabindex="0" role="button" aria-label="The veil">
+            <rect class="hit" x="180" y="300" width="300" height="44"/>
+            <rect x="185" y="314" width="230" height="14" fill="url(#weave)"/>
+            <text class="lbl dk" x="432" y="329" text-anchor="start">Veil</text>
+            <rect class="ring" x="176" y="304" width="248" height="34" rx="8"/>
+          </g>
+
+          <!-- Ark of the covenant -->
+          <g class="part" data-id="ark" tabindex="0" role="button" aria-label="Ark of the covenant and mercy seat">
+            <rect class="hit" x="222" y="134" width="156" height="140"/>
+            <rect x="234" y="191" width="132" height="7" rx="3.5" fill="#A97B0F"/>
+            <rect x="256" y="170" width="88" height="50" rx="4" fill="#D9A520" stroke="#8A6512" stroke-width="2"/>
+            <rect x="252" y="166" width="96" height="10" rx="3" fill="#F2CB5A"/>
+            <path d="M262 170C266 142 292 139 298 163M338 170C334 142 308 139 302 163" fill="none" stroke="#FFF1C4" stroke-width="5" stroke-linecap="round"/>
+            <text class="lbl lt" x="300" y="258" text-anchor="middle">Ark</text>
+            <circle class="ring" cx="300" cy="200" r="70"/>
+          </g>
+        </svg>
+      </div>
+      <div class="mapnote"><span>Gate faces east (bottom). Not drawn to scale.</span><span>1 cubit ≈ 45 cm</span></div>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <section class="panel" id="panel" aria-live="polite"></section>
+  </div>
+</div>
+
+<script>var BOOT = <?!= boot ?>;</script>
+<script>
+(function(){
+  var B = window.BOOT || {};
+  var TOKEN = B.token || '';
+  var LSK = TOKEN ? '-' + TOKEN.slice(0, 10) : '';
+  function hasRun(){ return !!(window.google && google.script && google.script.run); }
+  var SECTIONS = {
+    court: { name:'Courtyard', cls:'court', tag:'Anyone could come in',
+      what:['A large open yard, 100 × 50 cubits (about 45 × 22 metres), fenced with white linen (Exodus 27:9–18).','Any Israelite could come in through the gate with an offering.','It held the altar of burnt offering and the laver.'],
+      points:'Jesus’ life and death here on earth. The courtyard is about the cross, where our sins are forgiven.',
+      life:'Forgiven. This is where a sinner first comes to Jesus.',
+      verse:{t:'…without shedding of blood is no remission.', r:'Hebrews 9:22'},
+      think:'Why did everything in the courtyard deal with blood and water?' },
+    holy: { name:'Holy Place', cls:'holy', tag:'Priests, every day',
+      what:['The first room of the tent, 20 × 10 cubits, with walls of gold-covered boards (Exodus 26).','Only priests went in, every day, to trim the lamps, burn incense and set out the bread.','It held the lampstand, the table of showbread and the altar of incense.'],
+      points:'Jesus’ work for us in heaven after He went back to His Father. He is our High Priest there right now (Hebrews 8:1–2).',
+      life:'Growing. A daily walk with God through His Word, His Spirit and prayer.',
+      verse:{t:'We have such an high priest, who is set on the right hand of the throne of the Majesty in the heavens; a minister of the sanctuary…', r:'Hebrews 8:1–2'},
+      think:'The priests served here every single day. What does that say about how often Jesus wants to meet with you?' },
+    most: { name:'Most Holy Place', cls:'most', tag:'High priest, once a year',
+      what:['The inner room, a perfect cube of 10 cubits each way.','Only the high priest went in, once a year, on the Day of Atonement (Leviticus 16; Hebrews 9:7).','It held the Ark of the Covenant, where God’s glory shone.'],
+      points:'God’s throne. The Day of Atonement points to Jesus’ final work in heaven, the judgment and cleansing of the sanctuary, before He comes again (Daniel 8:14; Hebrews 9:24).',
+      life:'Ready. Jesus is preparing a people to live with God forever.',
+      verse:{t:'For Christ is not entered into the holy places made with hands… but into heaven itself, now to appear in the presence of God for us.', r:'Hebrews 9:24'},
+      think:'The high priest carried the names of the tribes on his heart (Exodus 28:29). Whose name is Jesus carrying today?' }
+  };
+
+  var ITEMS = {
+    gate: { name:'The Gate', sec:'court', short:'Jesus, the only way to God',
+      what:['The only way into the courtyard, on the east side.','Wide: 20 cubits (about 9 metres) across.','A curtain of blue, purple, scarlet and fine white linen (Exodus 27:16).'],
+      points:'Jesus is the only way to God, and the gate is wide, so anyone may come.',
+      verse:{t:'I am the door: by me if any man enter in, he shall be saved…', r:'John 10:9'},
+      think:'Why do you think there was only one gate?' },
+    fence: { name:'White Linen Fence', sec:'court', short:'The righteousness Jesus gives us',
+      what:['Fine white linen hung on 60 pillars, 5 cubits (about 2.3 metres) high (Exodus 27:9–18).','It marked off God’s holy dwelling from the camp around it.','From outside you could not see in. You had to come through the gate.'],
+      points:'White linen stands for righteousness: a clean, right life that only Jesus can give us.',
+      verse:{t:'…for the fine linen is the righteousness of saints.', r:'Revelation 19:8'},
+      think:'What does it mean to be “clothed” in Jesus’ righteousness?' },
+    altar: { name:'Altar of Burnt Offering', sec:'court', short:'Jesus dying on the cross for us',
+      what:['The first thing you met inside the gate.','Acacia wood covered with bronze, 5 × 5 cubits and 3 high, with a horn on each corner (Exodus 27:1–2).','Lambs were sacrificed here. The sinner laid his hands on the animal first (Leviticus 4:29), and the fire never went out (Leviticus 6:13).'],
+      points:'The cross. Jesus is the Lamb of God who died in our place so we can be forgiven.',
+      verse:{t:'Behold the Lamb of God, which taketh away the sin of the world.', r:'John 1:29'},
+      think:'The sinner put his hands on the lamb’s head. What does that show about Jesus taking our place?' },
+    laver: { name:'The Laver', sec:'court', short:'Being washed clean, like baptism',
+      what:['A large bronze basin of water between the altar and the tent.','Made from the polished bronze mirrors of the women of Israel (Exodus 38:8).','Priests washed their hands and feet here before they served (Exodus 30:18–21).'],
+      points:'Being washed clean: baptism, and the new life the Holy Spirit gives.',
+      verse:{t:'…according to his mercy he saved us, by the washing of regeneration, and renewing of the Holy Ghost.', r:'Titus 3:5'},
+      think:'After we are forgiven at the cross, why does God also want to wash and change us?' },
+    lampstand: { name:'Golden Lampstand', sec:'holy', short:'Jesus, the Light of the world',
+      what:['On the south side of the Holy Place (left on this map).','Hammered from one piece of pure gold, with seven lamps and cups shaped like almond flowers (Exodus 25:31–37).','It burned pure olive oil and was never allowed to go out (Leviticus 24:2–4).'],
+      points:'Jesus is the Light of the world. The oil is a picture of the Holy Spirit, and we are called to shine too (Matthew 5:14).',
+      verse:{t:'I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.', r:'John 8:12'},
+      think:'The Holy Place had no windows. Without the lampstand, what could the priest see?' },
+    table: { name:'Table of Showbread', sec:'holy', short:'Jesus, the Bread of Life',
+      what:['On the north side of the Holy Place (right on this map).','Acacia wood covered with gold, 2 × 1 cubits (Exodus 25:23–24).','12 loaves in two rows, one for each tribe of Israel, set out fresh every Sabbath (Leviticus 24:5–8).'],
+      points:'Jesus is the Bread of Life. We feed on Him every day through His Word.',
+      verse:{t:'I am the bread of life: he that cometh to me shall never hunger…', r:'John 6:35'},
+      think:'How do you “eat” the Bread of Life each day?' },
+    incense: { name:'Altar of Incense', sec:'holy', short:'Our prayers, and Jesus praying for us',
+      what:['Right in front of the veil, the closest furniture to the Ark.','Small: 1 × 1 cubit and 2 high, acacia wood covered with gold (Exodus 30:1–3).','Sweet incense burned on it every morning and evening (Exodus 30:7–8).'],
+      points:'Our prayers rising to God, and Jesus praying for us as our High Priest (Hebrews 7:25).',
+      verse:{t:'Let my prayer be set forth before thee as incense…', r:'Psalm 141:2'},
+      think:'Why might the place of prayer be the closest thing to God’s throne?' },
+    veil: { name:'The Veil', sec:'between', short:'The way to God, opened by Jesus’ death',
+      what:['A thick curtain of blue, purple and scarlet with cherubim woven into it (Exodus 26:31–33).','It separated the Holy Place from the Most Holy Place.','Only the high priest passed through it, once a year.'],
+      points:'When Jesus died, the temple veil tore from top to bottom. Through Jesus we can now come boldly to God (Hebrews 10:19–20).',
+      verse:{t:'And, behold, the veil of the temple was rent in twain from the top to the bottom…', r:'Matthew 27:51'},
+      think:'Why do you think it tore from the top, not from the bottom?' },
+    ark: { name:'Ark of the Covenant', sec:'most', short:'God’s throne: His law and His mercy',
+      what:['A chest covered with gold, 2½ × 1½ × 1½ cubits (Exodus 25:10–11).','Inside: the Ten Commandments on stone, a golden pot of manna, and Aaron’s rod that budded (Hebrews 9:4).','The lid was the mercy seat: pure gold with two cherubim facing each other. God’s glory shone between them (Exodus 25:17–22).'],
+      points:'God’s throne. His law is the foundation and His mercy covers it. On the Day of Atonement blood was sprinkled on the mercy seat (Leviticus 16:14). Jesus’ blood covers our sins.',
+      verse:{t:'Mercy and truth are met together; righteousness and peace have kissed each other.', r:'Psalm 85:10'},
+      think:'Why is the law kept under the mercy seat, and not on top of it?' }
+  };
+
+  var SEC_LABEL = { court:'Courtyard', holy:'Holy Place', most:'Most Holy Place', between:'Between the two rooms' };
+  var PATH = ['court','gate','altar','laver','holy','lampstand','table','incense','veil','most','ark'];
+  var PT = { court:[300,996], gate:[300,970], altar:[300,845], laver:[300,725], holy:[300,640], lampstand:[235,510], table:[365,510], incense:[300,384], veil:[300,321], most:[300,290], ark:[300,200] };
+  var ALL = PATH.concat(['fence']);
+  var TOTAL = ALL.length;
+
+  var CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var XICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var TAP = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 1 1 4 0v6"/><path d="M13 9a2 2 0 1 1 4 0v3"/><path d="M17 11a2 2 0 1 1 4 0v4a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3.4L4.5 15a2 2 0 0 1 3.3-2.2L9 14.5"/></svg>';
+  function STAR(on){ return '<svg width="38" height="38" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.8 6.4.9-4.6 4.5 1.1 6.3L12 17.3l-5.7 3 1.1-6.3L2.8 9.5l6.4-.9z" fill="'+(on?'#D9A520':'none')+'" stroke="'+(on?'#B8860B':'currentColor')+'" stroke-width="1.6" stroke-linejoin="round"/></svg>'; }
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function isSection(id){ return !!SECTIONS[id]; }
+  function secOf(id){ return isSection(id) ? id : ITEMS[id].sec; }
+  function nameOf(id){ return isSection(id) ? SECTIONS[id].name : ITEMS[id].name; }
+
+  var visited = {};
+  try { (JSON.parse(localStorage.getItem('sanctuary-visited' + LSK) || '[]') || []).forEach(function(id){ if (ALL.indexOf(id) > -1) visited[id] = true; }); } catch(e){}
+  var serverVisited = Array.isArray(B.visited) ? B.visited : [];
+  serverVisited.forEach(function(id){ if (ALL.indexOf(id) > -1) visited[id] = true; });
+  var best = 0;
+  try { best = Number(localStorage.getItem('sanctuary-best' + LSK) || 0) || 0; } catch(e){}
+  best = Math.max(best, Number(B.best) || 0);
+  var visitTimer = null;
+  function saveVisited(){
+    try { localStorage.setItem('sanctuary-visited' + LSK, JSON.stringify(Object.keys(visited))); } catch(e){}
+    if (TOKEN && hasRun()){
+      clearTimeout(visitTimer);
+      visitTimer = setTimeout(function(){ google.script.run.withFailureHandler(function(){}).s_visit(TOKEN, Object.keys(visited)); }, 1200);
+    }
+  }
+  if (TOKEN && Object.keys(visited).length > serverVisited.length) saveVisited();
+
+  var S = { mode:'explore', sel:null, walking:false, ch:null };
+  var map = document.getElementById('map');
+  var panel = document.getElementById('panel');
+  var layout = document.getElementById('layout');
+  var chips = document.getElementById('chips');
+  var isPhone = function(){ return window.matchMedia('(max-width: 819px)').matches; };
+
+  /* fence posts */
+  (function(){
+    var g = document.getElementById('posts'), h = '';
+    for (var x = 30; x <= 570; x += 54){ h += '<circle cx="'+x+'" cy="30" r="5"/>'; if (x < 200 || x > 400) h += '<circle cx="'+x+'" cy="970" r="5"/>'; }
+    for (var y = 84; y <= 916; y += 52){ h += '<circle cx="30" cy="'+y+'" r="5"/><circle cx="570" cy="'+y+'" r="5"/>'; }
+    g.innerHTML = h;
+  })();
+
+  /* ---------- map state ---------- */
+  function paintMap(){
+    var ch = S.ch, q = ch && !ch.done ? ch.qs[ch.i] : null;
+    map.classList.toggle('no-labels', S.mode === 'challenge' && !!q && !ch.answered);
+    [].forEach.call(map.querySelectorAll('.part, .zone'), function(el){
+      var id = el.getAttribute('data-id');
+      el.classList.toggle('is-sel', S.mode === 'explore' && S.sel === id);
+      var correct = false, wrong = false;
+      if (S.mode === 'challenge' && q && ch.answered){
+        correct = q.item === id;
+        wrong = q.type === 'tap' && ch.chosen === id && !ch.right;
+      }
+      el.classList.toggle('is-correct', correct);
+      el.classList.toggle('is-wrong', wrong);
+    });
+    paintPath();
+  }
+  function paintPath(){
+    var layer = document.getElementById('pathlayer'), h = '';
+    if (S.mode === 'explore' && S.walking && S.sel){
+      var step = PATH.indexOf(S.sel);
+      for (var i=1;i<=step;i++){
+        var a = PT[PATH[i-1]], b = PT[PATH[i]];
+        h += '<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="#B3202A" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 11"/>';
+      }
+      var p = PT[S.sel];
+      h += '<circle class="marker" cx="'+p[0]+'" cy="'+p[1]+'" r="11" fill="#B3202A" stroke="#FFFFFF" stroke-width="3"/>';
+    }
+    layer.innerHTML = h;
+  }
+
+  /* ---------- explore ---------- */
+  function chipHTML(id){
+    var sec = secOf(id), cls = sec === 'between' ? 'holy' : sec;
+    return '<button class="chip c-'+cls+(visited[id]?' seen':'')+'" data-go="'+id+'" aria-pressed="'+(S.sel===id)+'">'+(visited[id] ? CHECK : '<span class="dot"></span>')+'<span style="color:var(--ink)">'+esc(nameOf(id))+'</span></button>';
+  }
+  function paintChips(){
+    if (S.mode !== 'explore'){ chips.hidden = true; return; }
+    chips.hidden = false;
+    chips.innerHTML = ['court','fence','gate','altar','laver','holy','lampstand','table','incense','veil','most','ark'].map(chipHTML).join('');
+  }
+
+  function countVisited(){ return ALL.filter(function(id){ return visited[id]; }).length; }
+
+  function introHTML(){
+    var n = countVisited();
+    return '<span class="eyebrow">Walk through God’s house</span>'
+      + '<blockquote class="intro-verse"><p>“And let them make me a sanctuary; that I may dwell among them.”</p><cite>Exodus 25:8</cite></blockquote>'
+      + '<p>God showed Moses a pattern on the mountain, and Israel built this tent from it (Exodus 25:9, 40; Hebrews 8:5). Every part is a picture of Jesus and how He saves us. Tap any part of the map, or walk through it from the gate to the Ark.</p>'
+      + '<div class="btnrow"><button class="btn btn-primary btn-grow" data-act="walk">Start at the gate</button><button class="btn btn-ghost btn-grow" data-mode="challenge">Take the challenge</button></div>'
+      + '<h3>Three parts, three steps with Jesus</h3>'
+      + '<div class="rooms">'
+      + '<button class="room court" data-go="court"><b>Courtyard</b><span>Forgiven at the cross</span></button>'
+      + '<button class="room holy" data-go="holy"><b>Holy Place</b><span>Growing every day</span></button>'
+      + '<button class="room most" data-go="most"><b>Most Holy Place</b><span>Ready to be with God</span></button></div>'
+      + '<div class="progress"><span>'+(n === TOTAL ? 'You explored every part. Now try the challenge.' : 'You’ve explored '+n+' of '+TOTAL+' parts')+'</span><span class="bar"><span style="width:'+Math.round(100*n/TOTAL)+'%"></span></span></div>';
+  }
+
+  function cardHTML(id){
+    var sec = isSection(id), d = sec ? SECTIONS[id] : ITEMS[id], s = sec ? id : d.sec;
+    var step = PATH.indexOf(id), prev = S.walking ? PATH[step-1] : null, next = S.walking ? PATH[step+1] : null;
+    var h = '<div class="cardtop"><span class="sec sec-'+s+'">'+esc(sec ? d.tag : SEC_LABEL[s])+'</span>'
+      + (S.walking && step > -1 ? '<span class="stepno">Stop '+(step+1)+' of '+PATH.length+'</span>' : '')
+      + '<span class="sp"></span><button class="iconbtn" data-act="close" aria-label="Close">'+XICON+'</button></div>';
+    h += '<h2>'+esc(d.name)+'</h2>';
+    h += '<h3>'+(sec ? 'What happened here' : 'What it was')+'</h3><ul class="facts">'+d.what.map(function(f){ return '<li>'+esc(f)+'</li>'; }).join('')+'</ul>';
+    h += '<div class="points '+s+'"><b>Points to Jesus</b><p>'+esc(d.points)+'</p></div>';
+    if (sec) h += '<p class="life"><b>In your life:</b> '+esc(d.life)+'</p>';
+    h += '<blockquote class="verse"><p>“'+esc(d.verse.t)+'”</p><cite>'+esc(d.verse.r)+' (KJV)</cite></blockquote>';
+    h += '<p class="think"><b>Think about it:</b> '+esc(d.think)+'</p>';
+    if (S.walking){
+      h += '<div class="nav">'
+        + (prev ? '<button class="btn btn-ghost" data-go="'+prev+'" data-walk="1">Back</button>' : '')
+        + (next ? '<button class="btn btn-primary" data-go="'+next+'" data-walk="1">Next: '+esc(nameOf(next))+'</button>'
+                : '<button class="btn btn-primary" data-act="finishwalk">Finish the walk</button>')
+        + '</div>';
+    } else if (step > -1){
+      h += '<div class="nav"><button class="btn btn-ghost" data-act="walkfrom" data-id="'+id+'">Walk on from here</button></div>';
+    }
+    return h;
+  }
+
+  function select(id, walking){
+    S.sel = id;
+    if (walking !== undefined) S.walking = walking;
+    if (id && !visited[id]){ visited[id] = true; saveVisited(); }
+    render();
+    panel.scrollTop = 0;
+    if (id && isPhone()) bringIntoView(id);
+  }
+  function bringIntoView(id){
+    var el = map.querySelector('[data-id="'+id+'"]');
+    if (!el) return;
+    var ring = el.querySelector('.ring') || el.querySelector('.zfill') || el;
+    setTimeout(function(){
+      var r = ring.getBoundingClientRect();
+      var target = window.innerHeight * 0.2;
+      var delta = (r.top + r.height/2) - target;
+      if (Math.abs(delta) > 30) window.scrollBy({ top: delta, behavior: 'smooth' });
+    }, 30);
+  }
+
+  /* ---------- challenge ---------- */
+  var BANK = Array.isArray(B.questions) ? B.questions.filter(function(q){ return q && q.q && Array.isArray(q.opts) && q.opts[q.correct]; }) : [];
+  var TAPPABLE = ['gate','altar','laver','lampstand','table','incense','veil','ark'];
+  var ROOMABLE = ['gate','fence','altar','laver','lampstand','table','incense','ark'];
+  var ITEM_IDS = Object.keys(ITEMS);
+  function makeQuestions(){
+    var qs = [];
+    shuffle(TAPPABLE).slice(0,3).forEach(function(id){ qs.push({ type:'tap', item:id }); });
+    if (BANK.length){
+      shuffle(BANK).slice(0,7).forEach(function(b){
+        qs.push({ type:'bank', b:b, order: shuffle([0,1,2,3].filter(function(i){ return !!b.opts[i]; })) });
+      });
+    } else {
+      shuffle(ROOMABLE).slice(0,3).forEach(function(id){ qs.push({ type:'room', item:id, opts:['court','holy','most'] }); });
+      shuffle(ITEM_IDS).slice(0,2).forEach(function(id){
+        qs.push({ type:'meaning', item:id, opts: shuffle([id].concat(shuffle(ITEM_IDS.filter(function(x){ return x !== id; })).slice(0,3))) });
+      });
+      shuffle(ITEM_IDS).slice(0,2).forEach(function(id){
+        qs.push({ type:'verse', item:id, opts: shuffle([id].concat(shuffle(ITEM_IDS.filter(function(x){ return x !== id; })).slice(0,3))) });
+      });
+    }
+    return shuffle(qs);
+  }
+  function startChallenge(){
+    S.ch = { qs: makeQuestions(), i:0, score:0, streak:0, answered:false, chosen:null, right:false, done:false, log:[], save:'' };
+  }
+  function logAnswer(q, choice, right){
+    var skip = choice === '__skip', e;
+    if (q.type === 'tap'){
+      e = { type:'tap', qid:'tap-'+q.item, q:'Tap where the '+ITEMS[q.item].name.replace(/^The /,'')+' was', chosen: skip ? 'Skipped' : (ITEMS[choice] ? ITEMS[choice].name : String(choice)), correct: ITEMS[q.item].name, right: right };
+    } else if (q.type === 'bank'){
+      e = { type:'bank', qid:q.b.id, q:q.b.q, chosenIndex: skip ? -1 : Number(choice), chosen: skip ? 'Skipped' : (q.b.opts[Number(choice)] || ''), correct: q.b.opts[q.b.correct], right: right };
+    } else {
+      var it = ITEMS[q.item];
+      e = { type:'tap', qid:q.type+'-'+q.item, q:q.type === 'room' ? 'Which part was the '+it.name+' in?' : q.type === 'meaning' ? 'What does the '+it.name+' point to?' : 'Which part goes with '+it.verse.r+'?', chosen: String(choice), correct: q.type === 'room' ? SEC_LABEL[it.sec] : it.name, right: right };
+    }
+    S.ch.log.push(e);
+  }
+  function answer(choice){
+    var ch = S.ch, q = ch.qs[ch.i];
+    if (ch.answered) return;
+    var right;
+    if (q.type === 'tap') right = choice === q.item;
+    else if (q.type === 'bank') right = String(choice) === String(q.b.correct);
+    else if (q.type === 'room') right = choice === (ITEMS[q.item].sec);
+    else right = choice === q.item;
+    ch.answered = true; ch.chosen = choice; ch.right = right;
+    if (right){ ch.score++; ch.streak++; } else ch.streak = 0;
+    logAnswer(q, choice, right);
+    render();
+    if (isPhone() && q.type !== 'tap') setTimeout(function(){ var fb = document.getElementById('feedback'); if (fb) fb.scrollIntoView({ block:'nearest', behavior:'smooth' }); }, 30);
+  }
+  function submitScore(){
+    var ch = S.ch;
+    if (!TOKEN || !hasRun()) return;
+    ch.save = 'saving'; render();
+    google.script.run
+      .withSuccessHandler(function(res){ ch.save = 'saved'; if (res && res.best > best) best = res.best; if (S.ch === ch) render(); })
+      .withFailureHandler(function(){ ch.save = 'error'; if (S.ch === ch) render(); })
+      .s_submit(TOKEN, { answers: ch.log });
+  }
+  function nextQuestion(){
+    var ch = S.ch;
+    ch.i++; ch.answered = false; ch.chosen = null; ch.right = false;
+    if (ch.i >= ch.qs.length){
+      ch.done = true;
+      if (ch.score > best){ best = ch.score; try { localStorage.setItem('sanctuary-best' + LSK, String(best)); } catch(e){} }
+      submitScore();
+    }
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function challengeHTML(){
+    var ch = S.ch, total = ch.qs.length;
+    if (ch.done){
+      var sc = ch.score, pct = total ? sc / total : 0, stars = pct >= 0.9 ? 3 : pct >= 0.7 ? 2 : pct >= 0.4 ? 1 : 0;
+      var title = sc === total ? 'High priest level' : pct >= 0.8 ? 'Faithful priest' : pct >= 0.5 ? 'Levite in training' : 'Keep exploring';
+      var msg = sc === total ? 'Perfect. You know God’s house inside and out.' : pct >= 0.8 ? 'Excellent work. Just a couple to review.' : pct >= 0.5 ? 'Good start. Explore the parts you missed, then try again.' : 'Walk through the sanctuary once more, then come back.';
+      var saveLine = '';
+      if (TOKEN){
+        saveLine = ch.save === 'saving' ? '<p class="think">Saving your score…</p>'
+          : ch.save === 'saved' ? '<p class="think" style="color:var(--good)"><b style="color:var(--good)">Saved.</b> Your counsellor can see this score.</p>'
+          : ch.save === 'error' ? '<p class="think" style="color:var(--bad)">Couldn’t save your score. Check your internet. <button class="btn btn-ghost" data-act="resave" style="min-height:40px;margin-top:6px">Try again</button></p>' : '';
+      } else if (B.join){
+        saveLine = '<p class="think"><b>Want your counsellor to see this score?</b> Type your name in the box at the top and it saves straight away.</p>';
+      }
+      return '<span class="eyebrow">Challenge complete</span>'
+        + '<div class="stars" style="color:var(--line)">'+STAR(stars>=1)+STAR(stars>=2)+STAR(stars>=3)+'</div>'
+        + '<div class="endscore">'+sc+'<span style="font-size:24px;color:var(--muted)"> / '+total+'</span></div>'
+        + '<h2>'+title+'</h2><p>'+msg+'</p>' + saveLine
+        + '<p class="think">Your best score: <b>'+best+'</b></p>'
+        + '<div class="btnrow"><button class="btn btn-primary btn-grow" data-act="again">Play again</button><button class="btn btn-ghost btn-grow" data-mode="explore">Back to exploring</button></div>';
+    }
+    var q = ch.qs[ch.i], it = q.item ? ITEMS[q.item] : null, h = '';
+    h += '<div class="qhead"><span class="eyebrow">Question '+(ch.i+1)+' of '+total+'</span><span class="score"><span class="pill">Score '+ch.score+'</span>'+(ch.streak >= 2 ? '<span class="pill hot">'+ch.streak+' in a row</span>' : '')+'</span></div>';
+    h += '<span class="bar qbar"><span style="width:'+Math.round(100*ch.i/total)+'%"></span></span>';
+    var dis = ch.answered ? ' disabled' : '';
+    if (q.type === 'tap'){
+      h += '<p class="qtext">Tap where the '+esc(it.name.replace(/^The /,'').toLowerCase().replace('ark of the covenant','Ark of the Covenant'))+' was.</p>';
+      if (!ch.answered) h += '<p class="tapnote">'+TAP+(isPhone() ? 'Tap the right spot on the map below' : 'Tap the right spot on the map')+'</p><button class="btn btn-ghost" data-act="skip">I’m not sure, show me</button>';
+    } else if (q.type === 'bank'){
+      h += '<p class="qtext">'+esc(q.b.q)+'</p><div class="opts">';
+      h += q.order.map(function(oi, k){
+        var cls = ''; if (ch.answered){ if (oi === q.b.correct) cls = ' right'; else if (String(oi) === String(ch.chosen)) cls = ' wrong'; }
+        return '<button class="opt'+cls+'" data-ans="'+oi+'"'+dis+'><span class="k">'+'ABCD'[k]+'</span>'+esc(q.b.opts[oi])+'</button>';
+      }).join('') + '</div>';
+    } else if (q.type === 'room'){
+      h += '<p class="qtext">Which part of the sanctuary was the '+esc(it.name.replace(/^The /,'').replace('White Linen Fence','white linen fence'))+' in?</p><div class="opts">';
+      h += q.opts.map(function(o){
+        var cls = ''; if (ch.answered){ if (o === it.sec) cls = ' right'; else if (o === ch.chosen) cls = ' wrong'; }
+        return '<button class="opt'+cls+'" data-ans="'+o+'"'+dis+'><span class="sec sec-'+o+'">'+esc(SEC_LABEL[o])+'</span></button>';
+      }).join('') + '</div>';
+    } else if (q.type === 'meaning'){
+      h += '<p class="qtext">What does the '+esc(it.name.replace(/^The /,''))+' point to?</p><div class="opts">';
+      h += q.opts.map(function(o, k){
+        var cls = ''; if (ch.answered){ if (o === q.item) cls = ' right'; else if (o === ch.chosen) cls = ' wrong'; }
+        return '<button class="opt'+cls+'" data-ans="'+o+'"'+dis+'><span class="k">'+'ABCD'[k]+'</span>'+esc(ITEMS[o].short)+'</button>';
+      }).join('') + '</div>';
+    } else {
+      h += '<p class="qtext">Which part of the sanctuary goes with this verse?</p><p class="qverse">“'+esc(it.verse.t)+'”<br><span style="font-family:var(--body);font-style:normal;font-size:13px;font-weight:800;color:var(--muted)">'+esc(it.verse.r)+'</span></p><div class="opts">';
+      h += q.opts.map(function(o, k){
+        var cls = ''; if (ch.answered){ if (o === q.item) cls = ' right'; else if (o === ch.chosen) cls = ' wrong'; }
+        return '<button class="opt'+cls+'" data-ans="'+o+'"'+dis+'><span class="k">'+'ABCD'[k]+'</span>'+esc(ITEMS[o].name)+'</button>';
+      }).join('') + '</div>';
+    }
+    if (ch.answered){
+      var head = ch.right ? 'Correct!' : (ch.chosen === '__skip' ? 'Here it is.' : 'Not quite.'), body = '';
+      if (q.type === 'bank'){
+        body = (ch.right ? '' : '<p>The answer is: <b>'+esc(q.b.opts[q.b.correct])+'</b></p>') + (q.b.why ? '<p style="font-size:15px">'+esc(q.b.why)+'</p>' : '');
+      } else {
+        var line = q.type === 'room' ? it.name + ' was in the ' + SEC_LABEL[it.sec] + '.'
+          : q.type === 'tap' ? 'It’s circled on the map in green.'
+          : it.name + ': ' + it.short + '.';
+        body = '<p>'+esc(line)+'</p><p style="font-size:15px">'+esc(it.points)+'</p>';
+      }
+      h += '<div class="feedback '+(ch.right?'ok':'no')+'" id="feedback"><b>'+head+'</b>'+body+'</div>';
+      h += '<button class="btn btn-primary" data-act="next">'+(ch.i + 1 < total ? 'Next question' : 'See my score')+'</button>';
+    }
+    return h;
+  }
+
+  /* ---------- render ---------- */
+  function render(){
+    document.getElementById('tab-explore').setAttribute('aria-selected', S.mode === 'explore');
+    document.getElementById('tab-challenge').setAttribute('aria-selected', S.mode === 'challenge');
+    layout.classList.toggle('challenge', S.mode === 'challenge');
+    var sheet = S.mode === 'explore' && !!S.sel;
+    panel.classList.toggle('sheet', sheet && isPhone());
+    document.body.classList.toggle('sheet-open', sheet && isPhone());
+    if (S.mode === 'challenge') panel.innerHTML = challengeHTML();
+    else panel.innerHTML = S.sel ? cardHTML(S.sel) : introHTML();
+    paintChips();
+    paintMap();
+  }
+
+  /* ---------- events ---------- */
+  function onMapPick(id){
+    if (S.mode === 'explore'){ select(id, S.walking && PATH.indexOf(id) > -1); return; }
+    var ch = S.ch; if (!ch || ch.done) return;
+    var q = ch.qs[ch.i];
+    if (q.type === 'tap' && !ch.answered && TAPPABLE.concat(['fence']).indexOf(id) > -1) answer(id);
+  }
+  map.addEventListener('click', function(e){
+    var el = e.target.closest('.part, .zone');
+    if (!el) return;
+    var id = el.getAttribute('data-id');
+    if (S.mode === 'challenge' && el.classList.contains('zone')) return;
+    onMapPick(id);
+  });
+  map.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var el = e.target.closest('.part'); if (!el) return;
+    e.preventDefault(); onMapPick(el.getAttribute('data-id'));
+  });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (!b || map.contains(b)) return;
+    var d = b.dataset;
+    if (d.mode){
+      S.mode = d.mode; S.sel = null; S.walking = false;
+      if (S.mode === 'challenge' && (!S.ch || S.ch.done)) startChallenge();
+      render(); window.scrollTo({ top:0, behavior:'smooth' }); return;
+    }
+    if (d.go){ select(d.go, !!d.walk); return; }
+    if (d.ans){ answer(d.ans); return; }
+    switch (d.act){
+      case 'walk': select('court', true); break;
+      case 'walkfrom': select(d.id, true); break;
+      case 'finishwalk': S.walking = false; S.sel = null; render(); window.scrollTo({ top:0, behavior:'smooth' }); break;
+      case 'close': S.sel = null; S.walking = false; render(); break;
+      case 'skip': var sq = S.ch.qs[S.ch.i]; S.ch.answered = true; S.ch.chosen = '__skip'; S.ch.right = false; S.ch.streak = 0; logAnswer(sq, '__skip', false); render(); break;
+      case 'next': nextQuestion(); break;
+      case 'again': startChallenge(); render(); window.scrollTo({ top:0, behavior:'smooth' }); break;
+      case 'resave': submitScore(); break;
+      case 'nojoin': joinBox.hidden = true; break;
+      case 'notme':
+        try { localStorage.removeItem(JOINKEY); } catch(err){}
+        TOKEN = ''; LSK = ''; B.name = ''; visited = {}; best = 0;
+        document.getElementById('whoami').hidden = true;
+        showJoin(''); render(); window.scrollTo({ top:0, behavior:'smooth' }); break;
+    }
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && S.mode === 'explore' && S.sel){ S.sel = null; S.walking = false; render(); } });
+  var wasPhone = isPhone();
+  window.addEventListener('resize', function(){ var now = isPhone(); if (now !== wasPhone){ wasPhone = now; render(); } });
+
+  /* ---------- class link: type your name once ---------- */
+  var JOINKEY = 'gq-sanct-me';
+  var joinBox = document.getElementById('join');
+  function showWho(){
+    if (!B.name) return;
+    var who = document.getElementById('whoami');
+    who.className = 'me';
+    who.innerHTML = '<span>Hi, <b>'+esc(B.name)+'</b>. Your progress and challenge scores are saved for your counsellor.</span>'
+      + (B.back ? '<a href="'+esc(B.back)+'">'+esc(B.backLabel || 'Back to my missions')+'</a>' : B.base ? '<a href="'+esc(B.base)+'?t='+esc(TOKEN)+'">Back to my missions</a>' : '')
+      + (B.base && !/[?&]p=learn/.test(B.back || '') ? '<a href="'+esc(B.base)+'?t='+esc(TOKEN)+'&p=learn">More explorers</a>' : '')
+      + (B.join ? '<button class="linkbtn" data-act="notme">Not '+esc(String(B.name).split(' ')[0])+'?</button>' : '');
+    who.hidden = false;
+  }
+  function adopt(me){
+    TOKEN = me.token; LSK = '-' + TOKEN.slice(0, 10); B.name = me.name;
+    try { localStorage.setItem(JOINKEY, TOKEN); } catch(e){}
+    (Array.isArray(me.visited) ? me.visited : []).forEach(function(id){ if (ALL.indexOf(id) > -1) visited[id] = true; });
+    best = Math.max(best, Number(me.best) || 0);
+    joinBox.hidden = true;
+    saveVisited();
+    showWho();
+    if (S.ch && S.ch.done && !S.ch.save) submitScore();
+    render();
+  }
+  function showJoin(msg){
+    joinBox.innerHTML = '<b class="jt">Save your progress for your counsellor</b>'
+      + '<p>Type your full name once. This phone will remember you after that.</p>'
+      + '<form id="joinform" autocomplete="off"><input id="joinname" maxlength="60" placeholder="e.g. Ann Smith" aria-label="Your full name"><button class="btn btn-primary" type="submit">Start</button></form>'
+      + (msg ? '<p class="err" role="alert">'+esc(msg)+'</p>' : '')
+      + '<button class="linkbtn" data-act="nojoin">Just look around without saving</button>'
+      + '<p class="tip">Tip: put this page on your home screen so it opens like an app. Android (Chrome): tap ⋮ then <b>Add to Home screen</b>. iPhone (Safari): tap Share then <b>Add to Home Screen</b>.</p>';
+    joinBox.hidden = false;
+  }
+  var JOIN_ERR = {'bad-name':'Type your first and last name.','full':'The class list is full. Ask your counsellor.','busy':'Lots of people joined just now. Try again in a few minutes.'};
+  joinBox.addEventListener('submit', function(e){
+    e.preventDefault();
+    var inp = document.getElementById('joinname'), name = String(inp && inp.value || '').replace(/\s+/g, ' ').trim();
+    if (name.length < 2){ showJoin('Type your first and last name.'); return; }
+    if (!hasRun()){ showJoin('Saving only works from the class link.'); return; }
+    var btn = joinBox.querySelector('button[type=submit]'); if (btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
+    google.script.run
+      .withSuccessHandler(function(me){ adopt(me); })
+      .withFailureHandler(function(err){ var m = String(err && err.message || err), code = (m.match(/bad-name|full|busy/) || [''])[0]; showJoin(JOIN_ERR[code] || 'Couldn’t save. Check your internet and try again.'); })
+      .s_join(name);
+  });
+  if (TOKEN){
+    try { localStorage.setItem(JOINKEY, TOKEN); } catch(e){}
+    showWho();
+  } else if (B.join && hasRun()){
+    var remembered = '';
+    try { remembered = localStorage.getItem(JOINKEY) || ''; } catch(e){}
+    if (remembered){
+      google.script.run
+        .withSuccessHandler(function(me){ adopt(me); })
+        .withFailureHandler(function(){ try { localStorage.removeItem(JOINKEY); } catch(e){} showJoin(''); })
+        .s_whoami(remembered);
+    } else showJoin('');
+  }
+  render();
+})();
+</script>
+
+</body>
+</html>

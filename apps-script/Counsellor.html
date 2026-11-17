@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#F2F4EC; --surface:#FFFFFF; --surface2:#E6EBDF; --ink:#17231C; --muted:#526057; --line:#D2D9CA;
+  --pine:#1F4D3A; --pine-ink:#FFFFFF; --gold:#E9A91C; --gold-ink:#17231C;
+  --good:#1E7A46; --good-ink:#FFFFFF; --good-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FBE4E1;
+  --m1:#C4452C; --m1-ink:#FFFFFF; --m1-text:#A63A24; --m1-soft:#F8E3DC;
+  --m2:#0E7373; --m2-ink:#FFFFFF; --m2-text:#0A5E5E; --m2-soft:#D9EEEC;
+  --m3:#6A3D9A; --m3-ink:#FFFFFF; --m3-text:#5A3188; --m3-soft:#ECE3F5;
+  --m4:#2E6A3E; --m4-ink:#FFFFFF; --m4-text:#245633; --m4-soft:#DDEBDD;
+  --m5:#E9A91C; --m5-ink:#17231C; --m5-text:#7A5300; --m5-soft:#FBEFCB;
+  --base:#24407A; --base-ink:#FFFFFF; --base-text:#24407A; --base-soft:#DFE6F5;
+  --shadow:0 1px 2px rgba(23,35,28,.07), 0 6px 18px rgba(23,35,28,.06);
+  --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+    --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+    --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+    --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+    --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+    --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+    --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+    --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+    --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+  --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+  --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+  --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+  --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+  --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+  --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+  --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+  --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+  --shadow:0 1px 2px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:580px;margin:0 auto;padding-inline:16px;padding-block:10px 56px;display:flex;flex-direction:column;gap:18px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---- counsellor dashboard ---- */
+.cwrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:10px 72px;display:flex;flex-direction:column;gap:18px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;flex-wrap:wrap}
+.wordmark{font-family:var(--display);font-weight:800;font-size:22px;color:var(--pine);display:flex;align-items:center;gap:8px}
+.wordmark small{font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tb-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.live{font-size:12px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--good);display:inline-block}
+.live.busy i{background:var(--gold)}
+.live.err i{background:var(--bad)}
+.chipme{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;padding:4px 12px 4px 4px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line)}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--pine);color:var(--pine-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+.btn{min-height:44px;white-space:nowrap;border-radius:12px;padding:0 16px;font-weight:800;font-size:14px;border:2px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:var(--ink)}
+.btn-primary{background:var(--pine);color:var(--pine-ink)}
+.btn-ghost{background:var(--surface);border-color:var(--line)}
+.btn-danger{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.btn-wa{background:#1F8F4E;color:#FFFFFF}
+.btn-small{min-height:38px;padding:0 12px;font-size:13px}
+.btn-block{width:100%}
+.tabs{display:flex;gap:4px;background:var(--surface2);padding:4px;border-radius:14px;max-width:100%;overflow-x:auto;width:max-content}
+.tab{min-height:40px;padding:0 16px;border-radius:10px;border:none;background:transparent;font-weight:800;font-size:14px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:720px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.stat b{font-family:var(--display);font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;font-weight:700;color:var(--muted)}
+.stat.hl{border-color:var(--gold);background:var(--m5-soft)}
+.bar{display:block;height:6px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--gold);border-radius:99px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.pcard{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;width:100%}
+.pcard:hover{border-color:var(--pine)}
+.pc-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pc-name{font-family:var(--display);font-weight:800;font-size:18px;line-height:1.2}
+.pc-score{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pips{display:flex;gap:4px;flex-wrap:wrap}
+.pip{font-size:11px;font-weight:800;padding:2px 7px;border-radius:999px;border:1.5px solid var(--c);color:var(--ct);display:inline-flex;align-items:center;gap:3px}
+.pip.full{background:var(--c);color:var(--ci)}
+.ready{font-size:12px;font-weight:800;color:var(--m5-text);background:var(--m5-soft);border-radius:999px;padding:3px 9px;width:max-content}
+.gridwrap{overflow-x:auto;background:var(--surface);border:1.5px solid var(--line);border-radius:16px}
+table.grid{border-collapse:separate;border-spacing:0;font-size:13px;min-width:100%}
+.grid th,.grid td{padding:0;text-align:center;border-bottom:1px solid var(--line)}
+.grid .nm{position:sticky;left:0;z-index:2;background:var(--surface);text-align:left;padding:6px 12px;min-width:150px;border-right:1px solid var(--line)}
+.grid .nm button{background:none;border:none;padding:6px 0;font-weight:800;font-size:14px;cursor:pointer;text-align:left;color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.grid .grp th{background:var(--c);color:var(--ci);font-size:11px;font-weight:800;padding:6px 6px;white-space:nowrap;border-left:2px solid var(--surface)}
+.grid .codes th{font-size:11px;font-weight:800;color:var(--ct);padding:6px 2px;background:var(--cs)}
+.grid td.sc{font-weight:800;padding:0 10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cell{width:36px;height:40px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:auto;padding:0}
+.cell .box{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:transparent}
+.cell.on .box{background:var(--c);border-color:var(--c);color:var(--ci)}
+.cell.signed .box{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--gold)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);font-weight:600;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:16px;height:16px;border-radius:5px;border:2px solid var(--line);display:inline-block}
+.lg.on{background:var(--pine);border-color:var(--pine)}
+.lg.signed{background:var(--pine);border-color:var(--pine);box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--gold)}
+.panel{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.panel h2{font-size:19px}
+.acts{display:flex;flex-direction:column}
+.act{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.act:first-child{border-top:none}
+.act time{color:var(--muted);font-size:13px;font-weight:600}
+.back{min-height:44px;padding:0 14px 0 6px;border-radius:12px;border:none;background:transparent;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;width:max-content}
+.dhead{background:var(--surface);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.dhead h1{font-size:30px;line-height:1.05;color:var(--pine)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.linkrow{display:flex;gap:8px}
+.linkrow input{flex:1 1 auto;min-width:0}
+input[type=text],input[type=password],textarea{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:10px 12px;font:16px var(--body)}
+textarea{min-height:120px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--pine);outline:none;box-shadow:0 0 0 3px var(--surface2)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field>span{font-size:14px;font-weight:700}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;min-height:44px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--pine)}
+.mblocks{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;align-items:start}
+.mblock{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;overflow:hidden}
+.mblock-h{background:var(--c);color:var(--ci);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mblock-h b{font-family:var(--display);font-size:17px}
+.reqrow{display:flex;align-items:center;gap:12px;padding:10px 16px;border:none;border-top:1px solid var(--line);width:100%;background:none;text-align:left;cursor:pointer;min-height:52px}
+.mblock-h+.reqrow{border-top:none}
+.tick{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent}
+.reqrow[aria-pressed="true"] .tick{background:var(--c);border-color:var(--c);color:var(--ci)}
+.rc{font-weight:800;font-size:13px;color:var(--ct);width:40px;flex-shrink:0}
+.rt{font-size:14px;flex:1;line-height:1.3}
+.signbar{padding:12px 16px;border-top:2px dashed var(--c);display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;background:var(--cs)}
+.signbar p{font-size:14px;font-weight:700}
+.signbar .ok{color:var(--good);display:flex;align-items:center;gap:6px}
+.ans{display:flex;flex-direction:column;gap:2px;padding:10px 0;border-top:1px solid var(--line)}
+.ans:first-of-type{border-top:none}
+.ans b{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.04em}
+.ans p{font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.card{background:var(--surface);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow);max-width:440px;width:100%;margin:28px auto 0}
+.card h1{font-size:28px;line-height:1.1;color:var(--pine)}
+.err{color:var(--bad);font-weight:700;font-size:14px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--ground);padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;z-index:30;max-width:calc(100% - 32px);text-align:center}
+.mtable{width:100%;border-collapse:collapse;font-size:14px}
+.mtable th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 6px;border-bottom:2px solid var(--line)}
+.mtable td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.mtable td.num{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;width:120px}
+.mtag{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--c);color:var(--ci);white-space:nowrap}
+.sechead td{background:var(--surface2);font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+.schip{font-size:12px;font-weight:700;color:var(--ink);background:var(--surface2);border-radius:999px;padding:3px 9px;width:max-content;max-width:100%}
+.sd2ok{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:var(--good);font-weight:800}
+.qa{border-top:1px solid var(--line);padding:12px 0;display:flex;flex-direction:column;gap:6px}
+.qa:first-child{border-top:none}
+.qa-top{display:flex;gap:10px;font-size:15px;font-weight:600}
+.qa-top b{color:var(--muted);flex-shrink:0}
+.qa p{font-size:14px;padding-left:34px}
+.qa.no p b:first-child{color:var(--bad)}
+.markrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-left:34px}
+.mbtn{min-height:38px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+.mbtn.on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.mbtn.bad.on{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.qcard.off{opacity:.7}
+.qtext2{font-size:17px;font-weight:700;line-height:1.35}
+.qopts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.qopts li{padding:6px 10px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;gap:6px}
+.qopts li b{color:var(--muted)}
+.qopts li.ok{background:var(--good-soft);color:var(--good);font-weight:700}
+.qopt{display:flex;gap:10px;align-items:center}
+.qopt .check{flex-shrink:0;gap:6px}
+.qopt input[type=text]{flex:1 1 auto;min-width:0}
+.rrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.rrow:first-child{border-top:none}
+.rrow .nm{flex:1 1 160px;font-weight:800}
+.rrow .sc{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{min-height:40px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.tchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.tchip small{font-weight:700;opacity:.75}
+@media (max-width:560px){.act{grid-template-columns:minmax(0,1fr)}.mblocks{grid-template-columns:minmax(0,1fr)}.dhead h1{font-size:26px}}
+/* ---- assistant ---- */
+.aiwrap{max-width:760px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.aihead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.aihead h2{font-size:22px;display:flex;align-items:center;gap:8px}
+.aihead p{font-size:14px}
+.aimsgs{display:flex;flex-direction:column;gap:12px}
+.aimsg{display:flex;flex-direction:column;gap:6px;max-width:100%}
+.aimsg.me{align-items:flex-end}
+.aibub{border-radius:18px;padding:12px 15px;font-size:15px;line-height:1.55;max-width:100%;overflow-wrap:anywhere}
+.aimsg.me .aibub{background:var(--pine);color:var(--pine-ink);border-bottom-right-radius:6px;max-width:88%;white-space:pre-wrap}
+.aimsg.bot .aibub{background:var(--surface);border:1.5px solid var(--line);border-bottom-left-radius:6px}
+.aimsg.err .aibub{background:var(--bad-soft);border:1.5px solid var(--bad);color:var(--ink)}
+.aibub p{margin:0 0 8px}
+.aibub p:last-child,.aibub ul:last-child,.aibub ol:last-child,.aibub .aitable:last-child{margin-bottom:0}
+.aibub ul,.aibub ol{margin:0 0 8px;padding-left:22px;display:flex;flex-direction:column;gap:4px}
+.aibub h4{font-family:var(--display);font-size:17px;margin:10px 0 6px}
+.aibub h4:first-child{margin-top:0}
+.aibub code{background:var(--surface2);border-radius:6px;padding:1px 5px;font-size:14px}
+.aitable{overflow-x:auto;margin:0 0 8px}
+.aitable table{border-collapse:collapse;font-size:14px;min-width:100%}
+.aitable th,.aitable td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.aitable th{background:var(--surface2)}
+.aiacts{display:flex;flex-direction:column;gap:6px}
+.aiact{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--good-soft);border:1.5px solid var(--good);border-radius:14px;padding:8px 10px 8px 12px;font-weight:700;font-size:14px}
+.aiact span{flex:1 1 200px;display:flex;align-items:center;gap:6px;color:var(--ink)}
+.aiact.undone{background:var(--surface2);border-color:var(--line)}
+.aiact.undone span{text-decoration:line-through;color:var(--muted)}
+.aitools{display:flex;gap:6px;flex-wrap:wrap}
+.aitool{min-height:34px;padding:0 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:var(--muted);text-decoration:none}
+.aitool[aria-pressed="true"]{border-color:var(--pine);color:var(--pine)}
+.aiwelcome{display:flex;flex-direction:column;gap:12px}
+.aiwelcome ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.aichips{display:flex;flex-wrap:wrap;gap:8px}
+.aichip{min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:13px;cursor:pointer;color:var(--ink);text-align:left}
+.aichip:hover{border-color:var(--pine)}
+.aithinking{display:flex;align-items:center;gap:10px;color:var(--muted);font-weight:700;font-size:14px;padding:4px 2px}
+.aidots{display:inline-flex;gap:4px}
+.aidots i{width:7px;height:7px;border-radius:50%;background:var(--pine);opacity:.35;animation:aidot 1.2s infinite}
+.aidots i:nth-child(2){animation-delay:.2s}
+.aidots i:nth-child(3){animation-delay:.4s}
+@keyframes aidot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.aicompose{position:sticky;bottom:0;background:var(--ground);padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;z-index:5}
+.aibox{display:flex;align-items:flex-end;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:6px 6px 6px 14px;box-shadow:var(--shadow)}
+.aibox:focus-within{border-color:var(--pine)}
+.aibox textarea{flex:1 1 auto;min-width:0;border:none;background:transparent;color:var(--ink);font:16px/1.45 var(--body);resize:none;min-height:44px;max-height:200px;padding:10px 0;outline:none}
+.aiicon{width:44px;height:44px;border-radius:14px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface2);color:var(--ink)}
+.aiicon.send{background:var(--pine);color:var(--pine-ink)}
+.aiicon[disabled]{opacity:.45;cursor:default}
+.aiicon.on{background:var(--bad);color:#FFFFFF;animation:aipulse 1.4s infinite}
+@keyframes aipulse{0%,100%{box-shadow:0 0 0 0 rgba(179,38,30,.45)}50%{box-shadow:0 0 0 7px rgba(179,38,30,0)}}
+.aihelp{background:var(--m5-soft);border-radius:14px;padding:10px 12px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.aihelp p{flex:1}
+.aihelp button{background:none;border:none;cursor:pointer;font-weight:800;color:var(--muted);padding:0 4px;min-height:24px}
+.ainote{font-size:12px;color:var(--muted);text-align:center}
+.aisteps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px}
+.aisteps li{padding-left:2px}
+.aisettings{font-size:14px;color:var(--muted)}
+.aisettings summary{cursor:pointer;font-weight:700;min-height:32px}
+.aisettings .actions{margin-top:8px}
+@media (prefers-reduced-motion:reduce){.aidots i,.aiicon.on{animation:none}}
+/* Meetings, Report, notes, Advanced */
+input[type=date]{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:8px 12px;font:16px var(--body)}
+input[type=date]:focus{border-color:var(--pine);outline:none;box-shadow:0 0 0 3px var(--surface2)}
+.evalbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;font-size:14px}
+.evalbar.soon{border-color:var(--gold);background:var(--m5-soft)}
+.evalbar b{color:var(--pine)}
+.frow{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.frow>.field{flex:0 1 190px}
+.frow>.field.grow{flex:1 1 240px}
+.codepick{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow:auto;border:1.5px solid var(--line);border-radius:14px;padding:10px;background:var(--ground)}
+.cgroup small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.cwrap2{display:flex;flex-direction:column;gap:6px}
+.cpick{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 10px;cursor:pointer;min-height:44px;font-size:13.5px;line-height:1.3}
+.cpick b{flex:0 0 42px;font-size:13px}
+.cpick[aria-pressed="true"]{border-color:var(--pine);background:var(--good-soft);box-shadow:inset 0 0 0 1px var(--pine)}
+.cpick[aria-pressed="true"] b{color:var(--pine)}
+.whogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0 12px;border:1.5px solid var(--line);border-radius:14px;padding:4px 12px;background:var(--ground);margin-top:6px}
+.whogrid .check{min-height:42px}
+.meet{display:flex;flex-direction:column;gap:6px;padding:12px 0;border-top:1px solid var(--line)}
+.meet:first-child{border-top:none}
+.meet .sc{font-weight:800;color:var(--muted);font-size:13px;white-space:nowrap}
+.gchips{display:flex;flex-wrap:wrap;gap:6px}
+.needs{font-size:13.5px;color:var(--muted);overflow-wrap:anywhere}
+.needs b{color:var(--ink)}
+.needrow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.needrow:first-child{border-top:none}
+.needrow .ncnt{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.needrow .nwho{grid-column:1 / -1;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.gitem{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+.gitem:first-child{border-top:none}
+.gitem .sc{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.linkish{border:none;background:none;padding:0;font-weight:800;font-size:16px;color:var(--pine);cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:3px;min-height:32px}
+.okpill{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:800;color:var(--good);background:var(--good-soft);border-radius:999px;padding:4px 10px}
+.advsec{--c:var(--base);--ci:var(--base-ink);--ct:var(--base-text);--cs:var(--base-soft)}
+.advrow{display:flex;flex-direction:column;gap:8px;padding-bottom:10px;border-top:1px solid var(--line)}
+.advrow .reqrow{border-top:none;padding:10px 0}
+.advrow .rc{width:32px}
+.gitem .ok,.panel>.ok{display:flex;align-items:center;gap:6px;color:var(--good);font-weight:800;font-size:14px}
+
+/* Version 13 */
+.tabs.sub{background:transparent;padding:0;gap:6px;flex-wrap:wrap}
+.tabs.sub .tab{border:1.5px solid var(--line);background:var(--surface)}
+.tabs.sub .tab[aria-selected="true"]{background:var(--pine);color:var(--pine-ink);border-color:var(--pine)}
+select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:8px 12px;font:16px var(--body)}
+.pform{display:flex;flex-direction:column;gap:10px;border:1.5px dashed var(--line);border-radius:14px;padding:12px}
+.advrow2{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.advrow2>div{display:flex;flex-direction:column;gap:2px;font-size:14px;min-width:0}
+.advrow2 .ok{display:flex;align-items:center;gap:5px;color:var(--good);font-weight:800}
+.phgroup{display:flex;flex-direction:column;gap:6px}
+.phgroup small{font-size:13px;color:var(--muted)}
+.phgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
+.phthumb{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);overflow:hidden;padding:0;cursor:pointer}
+.phthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.phload{display:block;width:100%;height:100%;background:var(--surface2)}
+.fileb{position:relative;overflow:hidden}
+.fileb input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.fileb.busy{opacity:.6}
+.backdrop{position:fixed;inset:0;background:rgba(10,16,12,.55);z-index:40}
+.phview{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(94vw,720px);max-height:92vh;overflow:auto;background:var(--surface);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.phview img{width:100%;border-radius:12px;display:block}
+.printbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;background:var(--ground);padding:8px 0;z-index:5}
+.rec{background:#fff;color:#111;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px;font-size:13px;line-height:1.35}
+.rechead{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid #1F4D3A;padding-bottom:10px}
+.rechead h1{font-size:26px;color:#111}
+.rechead .eyebrow{color:#1F4D3A}
+.recsum{font-size:13px;text-align:right}
+.rtab{width:100%;border-collapse:collapse}
+.rtab th,.rtab td{border:1px solid #bbb;padding:4px 6px;text-align:left;vertical-align:top;color:#111}
+.rtab th{background:#eef2ea}
+.rtab .rsec td{background:#f5f5f0;font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em}
+.rtab .rc2{text-align:center;font-weight:800;width:44px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rec h3{font-size:15px;color:#111;margin-bottom:4px}
+.rec p{color:#111}
+.rphotos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rphotos figure{margin:0}
+.rphotos img,.rphold{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:#eee;display:block}
+.rphotos figcaption{font-size:11px;color:#333}
+.rsigns{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-top:10px}
+.rsign{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:end;font-size:12px;color:#111}
+.rline{border-bottom:1px solid #333;height:26px}
+.rline.short{width:90px}
+.rsset summary{cursor:pointer;font-weight:700;font-size:14px;min-height:36px;display:flex;align-items:center}
+@media (max-width:600px){.rgrid,.rsigns{grid-template-columns:1fr}.rphotos{grid-template-columns:repeat(2,1fr)}.recsum{text-align:left}.rec{padding:14px}}
+@media print{
+  html,body{background:#fff!important}
+  .noprint{display:none!important}
+  .cwrap{max-width:none!important;padding:0!important;gap:0!important}
+  .rec{border-radius:0;padding:0 0 10px;break-after:page;page-break-after:always}
+  .rphotos{grid-template-columns:repeat(4,1fr)!important}
+  .rgrid,.rsigns{grid-template-columns:1fr 1fr!important}
+  .rtab tr{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+  var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var BACK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+  var COMPASS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>';
+  var LOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+
+  var MISSIONS = [
+    {id:'m1', n:1, name:'Hands of Jesus', tasks:['CO1','CO2']},
+    {id:'m2', n:2, name:'Guide for a Day', tasks:['NS1','HF1','OL3']},
+    {id:'m3', n:3, name:'Worship Takeover', tasks:['G2','SD2','SD3']},
+    {id:'m4', n:4, name:'Two-Night Trek', tasks:['OD1','OD2','OD3','HF2','SD1','FD1']},
+    {id:'m5', n:5, name:'Church Map', tasks:['OL1']},
+    {id:'base', n:0, name:'Base Camp', tasks:['G1','G3','G4','SD4','OL2','HF3','NS2','OD4','LE1']}
+  ];
+  var SECTIONS = [['G','General'],['SD','Spiritual Discovery'],['CO','Community Outreach'],['FD','Friendship Development'],['HF','Health and Fitness'],['OL','Organisation and Leadership'],['NS','Nature Study'],['OD','Outdoor Living'],['LE','Lifestyle Enrichment']];
+  var REQ = {
+    G1:'Be 15 years old and/or in Year 11 or equivalent', G2:'Know and understand the AY Legion of Honour', G3:'Be an active member of the Pathfinder Club', G4:'Read a Teen Book Club book and a local church history book',
+    SD1:'Discuss the gifts of the Spirit from Galatians', SD2:'How the sanctuary service points to the cross and Jesus', SD3:'Outline and tell 3 Adventist pioneer stories at worship', SD4:'Have a current Memory Gem Certificate',
+    CO1:'Friendship visit to a shut-in, or adopt a family in need', CO2:'Discuss witnessing to teens and put it into practice', FD1:'Examine your attitudes on two life topics',
+    HF1:'Present the laws of good health to a younger group', HF2:'Fun Run with a recorded training programme', HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
+    OL1:'Flow chart of church organisation, with your Division', OL2:'Attend a Basic Pathfinder Staff Training Course', OL3:'Plan and teach 2 honour requirements to Juniors',
+    NS1:'Desire of Ages ch. 7 and an original nature parable', NS2:'Ecology or Environmental Conservation Honour',
+    OD1:'Two-night pack camp, and discuss the equipment', OD2:'Plan and cook a three-course meal on an open fire', OD3:'Complete an object of lashing or rope work', OD4:'New honour toward a Master award',
+    LE1:'New honour in a lifestyle area'
+  };
+  var CODES = [];
+  MISSIONS.forEach(function(m){ CODES = CODES.concat(m.tasks); });
+  var TOTAL = CODES.length;
+  function missionOf(code){ for (var i=0;i<MISSIONS.length;i++) if (MISSIONS[i].tasks.indexOf(code) > -1) return MISSIONS[i]; return null; }
+
+  var KEY = 'guide-quest-counsellor';
+  var S = { pin:'', who:'', remember:true, data:null, tab:'class', view:'cards', open:null, answers:{}, busy:0, err:false, msg:'', mode:'login', confirm:null, lastSync:0, adding:false, sanctOpen:null, attempts:{}, qs:null, qEdit:null, qConfirm:null, labTopic:'', labOpen:null, qTopic:'sanctuary' };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved){ S.pin = saved.pin || ''; S.who = saved.who || ''; } } catch(e){}
+  if (window.innerWidth >= 900) S.view = 'grid';
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]; }); }
+  function fmt(c){ return String(c).replace(/^([A-Z]+)(\d+)$/, '$1 $2'); }
+  function mvars(id){ return '--c:var(--'+id+');--ci:var(--'+id+'-ink);--ct:var(--'+id+'-text);--cs:var(--'+id+'-soft)'; }
+  function initials(n){ n = String(n||'').trim(); if (n && n.indexOf(' ') < 0 && n.length <= 3) return esc(n.toUpperCase()); var p = n.split(/\s+/); return esc(((p[0]||'')[0]||'?').toUpperCase() + ((p[1]||'')[0]||'').toUpperCase()); }
+  function when(ms){ if (!ms) return ''; try { return new Date(ms).toLocaleString(undefined,{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}); } catch(e){ return new Date(ms).toString(); } }
+  function idx(code){ return CODES.indexOf(code); }
+  function score(p){ return p.done.filter(Boolean).length; }
+  function mDone(p, m){ return m.tasks.filter(function(c){ return p.done[idx(c)]; }).length; }
+  function mComplete(p, m){ return mDone(p, m) === m.tasks.length; }
+  function readyList(p){ return MISSIONS.filter(function(m){ return mComplete(p, m) && !p.signs[m.id]; }); }
+  function linkFor(p){ return S.data && S.data.url ? S.data.url + '?t=' + p.t : ''; }
+  function waFor(p){ return 'https://wa.me/?text=' + encodeURIComponent('Hi ' + p.name + '! Here is your Guide Quest link. Keep it private: ' + linkFor(p)); }
+  function find(t){ var a = S.data ? S.data.pathfinders : []; for (var i=0;i<a.length;i++) if (a[i].t === t) return a[i]; return null; }
+  function saveCreds(){ try { if (S.remember) localStorage.setItem(KEY, JSON.stringify({pin:S.pin, who:S.who})); else localStorage.removeItem(KEY); } catch(e){} }
+
+  var toastTimer = null;
+  function toast(msg){
+    var el = document.getElementById('toast');
+    if (!el){ el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; el.setAttribute('role','status'); document.body.appendChild(el); }
+    el.textContent = msg; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ el.hidden = true; }, 3200);
+  }
+
+  /* ---------- server calls ---------- */
+  var ERR = {'bad-pin':'That PIN didn’t work.','locked':'Too many wrong tries. Wait 15 minutes and try again.','no-pin':'','weak-pin':'Use 6 to 20 letters or numbers.','pin-exists':'A PIN has already been set. Enter it below.','not-found':'That Pathfinder was removed or has a new link. Refreshing…'};
+  function call(fn, args, ok, fail){
+    S.busy++; paintLive();
+    var r = google.script.run
+      .withSuccessHandler(function(res){ S.busy--; S.err = false; paintLive(); if (ok) ok(res); })
+      .withFailureHandler(function(e){
+        S.busy--; S.err = true; paintLive();
+        var m = String(e && e.message || e);
+        var code = (m.match(/bad-pin|locked|no-pin|weak-pin|pin-exists|not-found/) || [''])[0];
+        if (S.data && (code === 'bad-pin' || code === 'locked')){ lockOut(ERR[code]); return; }
+        if (fail) fail(code, m);
+      });
+    r[fn].apply(r, args);
+  }
+  function paintLive(){
+    var el = document.getElementById('live'); if (!el) return;
+    el.className = 'live' + (S.busy ? ' busy' : (S.err ? ' err' : ''));
+    el.lastChild.textContent = S.busy ? 'Updating…' : (S.err ? 'Not connected' : 'Live · ' + (S.lastSync ? new Date(S.lastSync).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}) : ''));
+  }
+  function loadOverview(quiet){
+    call('c_overview', [S.pin], function(res){
+      S.data = res; if (!S.data.extras) S.data.extras = {}; S.lastSync = Date.now();
+      if (S.open && !find(S.open)) S.open = null;
+      var a = document.activeElement;
+      if (quiet && (S.qEdit || (a && (a.tagName === 'TEXTAREA' || a.tagName === 'INPUT')))) { paintLive(); return; }
+      rerender();
+    }, function(code){ if (!quiet) toast('Couldn’t load the class. Check your connection.'); });
+  }
+  function lockOut(msg){
+    S.pin = ''; S.data = null; S.open = null; S.mode = 'login'; S.msg = msg || '';
+    try { var sv = JSON.parse(localStorage.getItem(KEY) || 'null'); if (sv){ sv.pin = ''; localStorage.setItem(KEY, JSON.stringify(sv)); } } catch(e){}
+    render();
+  }
+  setInterval(function(){ if (S.data && !S.busy && !document.hidden) loadOverview(true); }, 20000);
+
+  /* ---------- views ---------- */
+  function renderLogin(){
+    var create = S.mode === 'create';
+    var h = '<div class="cwrap"><div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest <small>Counsellors</small></div></div>';
+    h += '<form class="card" id="loginform" autocomplete="off">';
+    if (create){
+      h += '<span class="eyebrow muted">First time here</span><h1>Create the club PIN</h1><p class="muted">You and the other counsellor will use this PIN to open the dashboard. No email needed. Use at least 6 digits and keep it away from Pathfinders.</p>'
+        + '<label class="field"><span>New PIN</span><input type="password" id="pin" inputmode="numeric" maxlength="20" autocomplete="new-password"></label>'
+        + '<label class="field"><span>Type it again</span><input type="password" id="pin2" inputmode="numeric" maxlength="20" autocomplete="new-password"></label>';
+    } else {
+      h += '<span class="eyebrow muted">Counsellor dashboard</span><h1>Enter the club PIN</h1><p class="muted">No email or password needed. Pathfinders use their own personal links instead.</p>'
+        + '<label class="field"><span>Club PIN</span><input type="password" id="pin" inputmode="numeric" maxlength="20" autocomplete="current-password"></label>';
+    }
+    h += '<label class="field"><span>Your initials (shown on sign-offs)</span><input type="text" id="who" maxlength="12" value="'+esc(S.who)+'" placeholder="e.g. JB"></label>'
+      + '<label class="check"><input type="checkbox" id="remember"'+(S.remember?' checked':'')+'>Stay signed in on this phone</label>'
+      + (S.msg ? '<p class="err" role="alert">'+esc(S.msg)+'</p>' : '')
+      + '<button class="btn btn-primary btn-block" type="submit">'+(create ? 'Save PIN and open' : 'Open dashboard')+'</button></form></div>';
+    return h;
+  }
+
+  function topbar(){
+    return '<div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest <small>Counsellors</small></div>'
+      + '<div class="tb-right"><span id="live" class="live"><i></i><span></span></span>'
+      + '<span class="chipme"><span class="avatar">'+initials(S.who || 'C')+'</span>'+esc(S.who || 'Counsellor')+'</span>'
+      + '<button class="btn btn-ghost btn-small" data-act="lock">'+LOCK+'Lock</button></div></div>';
+  }
+  function tabs(){
+    var t = [['class','Class'],['meet','Meetings & Plan'],['explorers','Explorers'],['report','Report'],['ai','Assistant'],['roster','Links']];
+    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
+    return '<div class="tabs" role="tablist">' + t.map(function(x){ return '<button class="tab" role="tab" data-tab="'+(x[0] === 'explorers' ? (S.lastX || 'lab') : x[0])+'" aria-selected="'+(cur === x[0] && !S.open)+'">'+x[1]+'</button>'; }).join('') + '</div>';
+  }
+
+  function renderClass(){
+    var list = S.data.pathfinders, n = list.length, h = '';
+    var avg = n ? (list.reduce(function(s,p){ return s + score(p); }, 0) / n) : 0;
+    var full = list.filter(function(p){ return score(p) === TOTAL; }).length;
+    var ready = list.reduce(function(s,p){ return s + readyList(p).length; }, 0);
+    h += evalBanner();
+    h += '<div class="stats">'
+      + '<div class="stat"><b>'+n+'</b><span>Pathfinders</span></div>'
+      + '<div class="stat"><b>'+avg.toFixed(1)+'</b><span>Class average out of 24</span></div>'
+      + '<div class="stat"><b>'+full+'</b><span>Fully complete</span></div>'
+      + '<div class="stat'+(ready?' hl':'')+'"><b>'+ready+'</b><span>Missions ready to sign</span></div></div>';
+    if (!n){
+      h += '<div class="panel"><h2>No Pathfinders yet</h2><p class="muted">Add your class on the Links tab, then send each one their link.</p><button class="btn btn-primary" data-tab="roster" style="width:max-content">Add Pathfinders</button></div>';
+      return h;
+    }
+    var isMap = S.tab === 'map';
+    h += '<div class="row"><div class="tabs"><button class="tab" data-tab="class" data-view="cards" aria-selected="'+(!isMap && S.view==='cards')+'">Cards</button><button class="tab" data-tab="class" data-view="grid" aria-selected="'+(!isMap && S.view==='grid')+'">Grid</button><button class="tab" data-tab="map" aria-selected="'+isMap+'">Quest Map</button></div>'
+      + '<div class="legend"><span><i class="lg"></i>Not done</span><span><i class="lg on"></i>Done</span><span><i class="lg signed"></i>Mission signed</span></div></div>';
+    if (isMap) return h + renderMap();
+    h += S.view === 'grid' ? renderGrid(list) : renderCards(list);
+    h += renderActivity();
+    return h;
+  }
+
+  function renderCards(list){
+    var sorted = list.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    return '<div class="cards">' + sorted.map(function(p){
+      var sc = score(p), rl = readyList(p);
+      return '<button class="pcard" data-open="'+esc(p.t)+'"><span class="pc-top"><span class="pc-name">'+esc(p.name)+'</span><span class="pc-score">'+sc+'/24</span></span>'
+        + '<span class="bar"><span style="width:'+Math.round(100*sc/TOTAL)+'%"></span></span>'
+        + '<span class="pips">' + MISSIONS.map(function(m){ var d = mDone(p,m), full = d === m.tasks.length, sg = p.signs[m.id];
+            return '<span class="pip'+(full?' full':'')+'" style="'+mvars(m.id)+'">'+(sg?CHECK:'')+(m.n ? 'M'+m.n : 'Base')+' '+d+'/'+m.tasks.length+'</span>'; }).join('') + '</span>'
+        + (rl.length ? '<span class="ready">Ready to sign: '+rl.map(function(m){ return m.n ? 'M'+m.n : 'Base'; }).join(', ')+'</span>' : '')
+        + (p.sanct && (p.sanct.attempts || p.sanct.explored) ? '<span class="schip">Sanctuary: '+p.sanct.explored+'/'+(S.data.parts||12)+' explored'+(p.sanct.attempts ? ' · best '+p.sanct.best+(p.sanct.last ? '/'+p.sanct.last.total : '') : '')+'</span>' : '')
+        + (p.learn && Object.keys(p.learn).length ? '<span class="schip">Learning Lab: '+Object.keys(p.learn).length+' explorer'+(Object.keys(p.learn).length === 1 ? '' : 's')+' started</span>' : '')
+        + (S.data.meetingsTotal ? '<span class="schip">Came to '+attOf(p).came+' of '+S.data.meetingsTotal+' meetings</span>' : '')
+        + (advDone(p) ? '<span class="schip">Advanced complete</span>' : (advCount(p) || advReady(p)) ? '<span class="schip">Advanced '+advCount(p)+'/6'+(advReady(p) ? ' · '+advReady(p)+' to sign' : '')+'</span>' : '')
+        + '</button>';
+    }).join('') + '</div>';
+  }
+
+  function renderGrid(list){
+    var sorted = list.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    var h = '<div class="gridwrap"><table class="grid"><thead><tr class="grp"><th class="nm" rowspan="2">Pathfinder</th><th rowspan="2" style="background:var(--surface);color:var(--muted);font-size:11px">DONE</th>';
+    MISSIONS.forEach(function(m){ h += '<th colspan="'+m.tasks.length+'" style="'+mvars(m.id)+'">'+(m.n ? 'M'+m.n+' · ' : '')+esc(m.name)+'</th>'; });
+    h += '</tr><tr class="codes">';
+    MISSIONS.forEach(function(m){ m.tasks.forEach(function(c){ h += '<th style="'+mvars(m.id)+'" title="'+esc(REQ[c])+'">'+fmt(c)+'</th>'; }); });
+    h += '</tr></thead><tbody>';
+    sorted.forEach(function(p){
+      h += '<tr><td class="nm"><button data-open="'+esc(p.t)+'">'+esc(p.name)+'</button></td><td class="sc">'+score(p)+'/24</td>';
+      MISSIONS.forEach(function(m){
+        var sg = !!p.signs[m.id];
+        m.tasks.forEach(function(c){
+          var on = !!p.done[idx(c)];
+          h += '<td style="'+mvars(m.id)+'"><button class="cell'+(on?' on':'')+(on&&sg?' signed':'')+'" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'" aria-label="'+esc(p.name)+', '+fmt(c)+(on?', done':', not done')+'"><span class="box">'+CHECK+'</span></button></td>';
+        });
+      });
+      h += '</tr>';
+    });
+    return h + '</tbody></table></div><p class="muted" style="font-size:13px">Tap a box to tick or untick it. Tap a name to open that Pathfinder.</p>';
+  }
+
+  function renderActivity(){
+    var a = S.data.activity || [];
+    if (!a.length) return '';
+    return '<section class="panel"><h2>Recent activity</h2><div class="acts">' + a.map(function(x){
+      return '<div class="act"><time>'+esc(when(x.when))+'</time><span><b>'+esc(x.name)+'</b> · '+esc(x.what)+'</span></div>';
+    }).join('') + '</div></section>';
+  }
+
+  function renderDetail(p){
+    var sc = score(p), link = linkFor(p), conf = S.confirm;
+    var h = '<button class="back" data-back="1">'+BACK+'Class</button>';
+    h += '<section class="dhead"><span class="eyebrow muted">Pathfinder</span><h1>'+esc(p.name)+'</h1>'
+      + '<div class="row"><b>'+sc+' of 24 complete</b><span class="muted" style="font-size:13px">'+(p.updated ? 'Last active '+esc(when(p.updated)) : 'Not started yet')+'</span></div>'
+      + '<span class="bar"><span style="width:'+Math.round(100*sc/TOTAL)+'%"></span></span>'
+      + '<div class="gchips"><span class="schip">'+signedCount(p)+' of 6 missions signed</span>'+(S.data.meetingsTotal ? '<span class="schip">Came to '+attOf(p).came+' of '+S.data.meetingsTotal+' meetings</span>' : '')+(advDone(p) ? '<span class="schip">Advanced complete</span>' : '')+'</div>'
+      + '<label class="field"><span>Personal link</span><span class="linkrow"><input type="text" id="plink" readonly value="'+esc(link)+'"><button class="btn btn-ghost btn-small" data-copy="'+esc(link)+'">Copy</button></span></label>'
+      + '<div class="actions"><a class="btn btn-wa btn-small" href="'+esc(waFor(p))+'" target="_blank" rel="noopener">Send on WhatsApp</a>'
+      + '<button class="btn btn-ghost btn-small" data-act="answers">'+(S.answers[p.t] ? 'Refresh answers' : 'Show their answers')+'</button>'
+      + '<button class="btn '+(conf==='new'?'btn-danger':'btn-ghost')+' btn-small" data-act="newlink">'+(conf==='new' ? 'Tap again: old link stops working' : 'New link')+'</button>'
+      + '<button class="btn '+(conf==='remove'?'btn-danger':'btn-ghost')+' btn-small" data-act="remove">'+(conf==='remove' ? 'Tap again to remove '+esc(p.name) : 'Remove')+'</button></div></section>';
+    h += '<div class="mblocks">';
+    MISSIONS.forEach(function(m){
+      var d = mDone(p,m), sg = p.signs[m.id];
+      h += '<section class="mblock" style="'+mvars(m.id)+'"><div class="mblock-h"><b>'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</b><span>'+d+'/'+m.tasks.length+'</span></div>';
+      m.tasks.forEach(function(c){
+        var on = !!p.done[idx(c)];
+        h += '<button class="reqrow" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'"><span class="tick">'+CHECK+'</span><span class="rc">'+fmt(c)+'</span><span class="rt">'+esc(REQ[c])+'</span></button>';
+      });
+      h += '<div class="signbar">' + (sg
+        ? '<p class="ok">'+CHECK+'Signed · '+esc(sg)+'</p><button class="btn btn-ghost btn-small" data-sign="'+m.id+'|0">Remove</button>'
+        : '<p>'+(d === m.tasks.length ? 'Ready to sign off' : 'Not every part is ticked yet')+'</p><button class="btn btn-primary btn-small" data-sign="'+m.id+'|1">Sign off as '+esc(S.who || 'Counsellor')+'</button>')
+        + '</div></section>';
+    });
+    h += '</div>';
+    h += detailExtrasHTML(p);
+    var ans = S.answers[p.t];
+    if (ans){
+      h += '<section class="panel"><h2>Their answers</h2>' + (ans.length ? ans.map(function(a){
+        return '<div class="ans"><b>'+esc(fmt(a.code))+' · '+esc(a.q)+'</b><p>'+esc(a.a)+'</p></div>';
+      }).join('') : '<p class="muted">Nothing typed yet.</p>') + '<p class="muted" style="font-size:13px">To change an answer, edit it in the Google Sheet’s Answers tab.</p></section>';
+    }
+    return h;
+  }
+
+  function renderMap(){
+    var list = S.data.pathfinders, n = list.length;
+    var avg = n ? (list.reduce(function(s,p){ return s + score(p); }, 0) / n) : 0;
+    var h = '<section class="panel"><span class="eyebrow muted">Quest Map · whole class</span><h2 style="font-size:24px">'+n+' Pathfinders · class average '+avg.toFixed(1)+' of 24</h2>'
+      + '<p class="muted">Every Guide requirement, the mission that covers it, and how many Pathfinders have done it.</p>';
+    h += '<div class="tablewrap"><table class="mtable"><thead><tr><th>Code</th><th>Requirement</th><th>Covered by</th><th>Done</th></tr></thead><tbody>';
+    SECTIONS.forEach(function(sec){
+      h += '<tr class="sechead"><td colspan="4">'+esc(sec[1])+'</td></tr>';
+      Object.keys(REQ).filter(function(c){ return c.replace(/\d+$/,'') === sec[0]; }).forEach(function(c){
+        var m = missionOf(c), cnt = list.filter(function(p){ return p.done[idx(c)]; }).length;
+        h += '<tr><td><b>'+fmt(c)+'</b></td><td>'+esc(REQ[c])+'</td><td><span class="mtag" style="'+mvars(m.id)+'">'+(m.n ? 'Mission '+m.n : 'Base Camp')+'</span></td>'
+          + '<td class="num">'+cnt+' / '+n+'<span class="bar" style="margin-top:4px"><span style="width:'+(n?Math.round(100*cnt/n):0)+'%"></span></span></td></tr>';
+      });
+    });
+    h += '</tbody></table></div></section>';
+    if (n){
+      var sorted = list.slice().sort(function(a,b){ return score(b) - score(a) || a.name.localeCompare(b.name); });
+      h += '<section class="panel"><h2>Each Pathfinder</h2><div class="acts">' + sorted.map(function(p){
+        var signed = MISSIONS.filter(function(m){ return p.signs[m.id]; }).length;
+        return '<div class="rrow"><span class="nm">'+esc(p.name)+'</span><span class="sc">'+score(p)+'/24 · '+signed+' of 6 signed</span><span class="bar" style="flex:1 1 100%"><span style="width:'+Math.round(100*score(p)/TOTAL)+'%"></span></span></div>';
+      }).join('') + '</div></section>';
+    }
+    return h;
+  }
+
+  function renderRoster(){
+    var list = S.data.pathfinders.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    var pub = S.data.url || '';
+    var h = (pub ? classLinkHTML(pub) : '') + '<section class="panel"><h2>Add Pathfinders</h2><label class="field"><span>One name per line</span><textarea id="addnames" placeholder="Ann Smith&#10;David Persaud"></textarea></label>'
+      + '<button class="btn btn-primary" data-act="add" style="width:max-content"'+(S.adding?' disabled':'')+'>'+(S.adding ? 'Adding…' : 'Add to class')+'</button></section>';
+    h += '<section class="panel"><h2>Personal links</h2><p class="muted">Each Pathfinder can also have their own link. It opens only their quest, with no login. “Parent link” copies a view-only link for their parents.</p>';
+    if (!list.length) h += '<p class="muted">No Pathfinders yet.</p>';
+    h += '<div class="acts">' + list.map(function(p){
+      return '<div class="rrow"><span class="nm">'+esc(p.name)+'</span><span class="sc">'+score(p)+'/24</span>'
+        + '<a class="btn btn-wa btn-small" href="'+esc(waFor(p))+'" target="_blank" rel="noopener">WhatsApp</a>'
+        + '<button class="btn btn-ghost btn-small" data-copy="'+esc(linkFor(p))+'">Copy link</button>'
+        + '<button class="btn btn-ghost btn-small" data-plink="'+esc(p.t)+'">'+(S.parent[p.t] ? 'Copy parent link' : 'Parent link')+'</button>'
+        + '<button class="btn btn-ghost btn-small" data-open="'+esc(p.t)+'">Open</button></div>';
+    }).join('') + '</div></section>';
+    return h;
+  }
+
+  /* ---------- Sanctuary: scores, marking ---------- */
+  function effScore(ans){ return ans.filter(function(a){ return a.override === true || (a.override !== false && a.right); }).length; }
+  function findAttempt(id){ for (var t in S.attempts){ var l = S.attempts[t] || []; for (var i=0;i<l.length;i++) if (l[i].id === id) return l[i]; } return null; }
+  function loadAttempts(t){ call('c_attempts', [S.pin, t], function(res){ S.attempts[t] = res || []; if (S.sanctOpen === t) rerender(); }, function(){ toast('Couldn’t load the challenge results.'); }); }
+  function sanctLink(p){ return S.data && S.data.url ? S.data.url + '?t=' + p.t + '&p=s' : ''; }
+  function classLinkHTML(pub){
+    var msg = 'Guide Quest for our Guide class: missions, the Sanctuary and Learning Lab explorers, and Advanced. Open this link, type your full name once, and your phone remembers you: ' + pub;
+    return '<section class="panel" style="border-color:var(--pine)"><h2>Guide Quest · one link for the whole class</h2>'
+      + '<p class="muted">Send this same link to every Guide. Each one types their full name the first time and their phone remembers them. It opens their missions, every explorer (the Sanctuary is inside the Learning Lab) and Advanced. New names appear in your class list by themselves.</p>'
+      + '<span class="linkrow"><input type="text" id="publink" readonly value="'+esc(pub)+'" aria-label="Class link"><button class="btn btn-ghost btn-small" data-copy="'+esc(pub)+'">Copy</button></span>'
+      + '<a class="btn btn-wa btn-small" style="width:max-content" href="https://wa.me/?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">Send to the class on WhatsApp</a></section>';
+  }
+
+  function renderSanct(){
+    var p = S.sanctOpen ? find(S.sanctOpen) : null;
+    if (p) return renderSanctDetail(p);
+    var list = S.data.pathfinders.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    var parts = S.data.parts || 12;
+    var took = list.filter(function(x){ return x.sanct && x.sanct.attempts; });
+    var avg = took.length ? took.reduce(function(s,x){ return s + x.sanct.best; }, 0) / took.length : 0;
+    var pub = S.data.url || '';
+    var h = '<div class="stats">'
+      + '<div class="stat"><b>'+took.length+'<span style="font-size:16px;color:var(--muted)"> / '+list.length+'</span></b><span>Took the challenge</span></div>'
+      + '<div class="stat"><b>'+avg.toFixed(1)+'</b><span>Average best score</span></div>'
+      + '<div class="stat"><b>'+list.filter(function(x){ return x.sanct && x.sanct.explored >= parts; }).length+'</b><span>Explored every part</span></div>'
+      + '<div class="stat"><b>'+list.filter(function(x){ return x.done[CODES.indexOf('SD2')]; }).length+'</b><span>SD 2 ticked</span></div></div>';
+    h += (pub ? classLinkHTML(pub) : '');
+    h += '<section class="panel"><h2>Each Guide</h2><p class="muted">Explored parts and challenge scores update by themselves. Tap Open to see every answer and mark it right or wrong.</p>'
+      + '<div class="acts">' + (list.length ? list.map(function(x){
+        var sc = x.sanct || {explored:0, attempts:0, best:0, last:null};
+        var sd2 = !!x.done[CODES.indexOf('SD2')];
+        return '<div class="rrow"><span class="nm">'+esc(x.name)+(sd2 ? ' <span class="sd2ok">'+CHECK+'SD 2</span>' : '')+'</span>'
+          + '<span class="sc">'+sc.explored+'/'+parts+' explored · '+(sc.attempts ? sc.attempts+' tr'+(sc.attempts===1?'y':'ies')+' · best '+sc.best+(sc.last ? '/'+sc.last.total : '') : 'no challenge yet')+'</span>'
+          + '<button class="btn btn-ghost btn-small" data-sopen="'+esc(x.t)+'">Open</button>'
+          + '<span class="bar" style="flex:1 1 100%"><span style="width:'+Math.round(100*sc.explored/parts)+'%"></span></span></div>';
+      }).join('') : '<p class="muted">No Guides yet. Send the class link above. Names appear here as each Guide joins.</p>') + '</div></section>';
+    return h;
+  }
+
+  function renderSanctDetail(p){
+    var sc = p.sanct || {explored:0, attempts:0, best:0, last:null}, parts = S.data.parts || 12;
+    var sd2 = !!p.done[CODES.indexOf('SD2')], link = sanctLink(p);
+    var h = '<button class="back" data-sopen="">'+BACK+'Sanctuary</button>';
+    h += '<section class="dhead"><span class="eyebrow muted">Sanctuary Explorer</span><h1>'+esc(p.name)+'</h1>'
+      + '<div class="row"><b>'+sc.explored+' of '+parts+' parts explored</b><span class="muted" style="font-size:13px">'+(sc.attempts ? 'Best challenge score: '+sc.best+(sc.last ? ' / '+sc.last.total : '') : 'No challenge taken yet')+'</span></div>'
+      + '<span class="bar"><span style="width:'+Math.round(100*sc.explored/parts)+'%"></span></span>'
+      + '<div class="actions"><button class="btn '+(sd2?'btn-ghost':'btn-primary')+' btn-small" data-tog="'+esc(p.t)+'|SD2" aria-pressed="'+sd2+'">'+(sd2 ? CHECK+'SD 2 ticked · tap to undo' : 'Tick SD 2 complete')+'</button>'
+      + (link ? '<button class="btn btn-ghost btn-small" data-copy="'+esc(link)+'">Copy their Sanctuary link</button>' : '') + '</div></section>';
+    var list = S.attempts[p.t];
+    if (!list){ return h + '<p class="muted">Loading their challenge results…</p>'; }
+    if (!list.length) return h + '<section class="panel"><h2>No challenge yet</h2><p class="muted">When '+esc(p.name)+' finishes a Sanctuary challenge from their personal link, every answer shows up here.</p></section>';
+    return h + attemptsHTML(list);
+  }
+  function attemptsHTML(list){
+    var h = '';
+    list.forEach(function(at, ai){
+      var changed = at.marked !== at.score;
+      h += '<section class="panel"><div class="row"><h2 style="font-size:18px">'+(ai === 0 ? 'Latest try' : 'Earlier try')+' · '+esc(when(at.when))+'</h2>'
+        + '<span class="pc-score" style="font-size:20px">'+at.marked+' / '+at.total+(changed ? ' <small class="muted" style="font-size:12px">(was '+at.score+' before marking)</small>' : '')+'</span></div><div class="acts">';
+      at.answers.forEach(function(an, qi){
+        var eff = an.override === true || (an.override !== false && an.right);
+        h += '<div class="qa'+(eff?' ok':' no')+'"><div class="qa-top"><b>Q'+(qi+1)+'</b><span>'+esc(an.q)+'</span></div>'
+          + '<p>Their answer: <b>'+esc(an.chosen || '—')+'</b>'+(!an.right ? '<br>Correct answer: <b>'+esc(an.correct)+'</b>' : '')+'</p>'
+          + '<div class="markrow"><button class="mbtn'+(eff?' on':'')+'" data-mark="'+esc(at.id)+'|'+qi+'|1" aria-pressed="'+eff+'">'+CHECK+'Right</button>'
+          + '<button class="mbtn bad'+(!eff?' on':'')+'" data-mark="'+esc(at.id)+'|'+qi+'|0" aria-pressed="'+(!eff)+'">Wrong</button>'
+          + (an.override !== null && an.override !== undefined ? '<span class="muted" style="font-size:12px">Marked by a counsellor</span>' : '') + '</div></div>';
+      });
+      h += '</div></section>';
+    });
+    return h;
+  }
+
+  /* ---------- Learning Lab ---------- */
+  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭'};
+  function labTopics(){ return (S.data.topics || []).filter(function(t){ return t.id !== 'sanctuary'; }); }
+  function labTopic(){ var l = labTopics(); return l.filter(function(t){ return t.id === S.labTopic; })[0] || l[0] || null; }
+  function topicChips(list, cur, attr){
+    return '<div class="tchips">' + list.map(function(t){ return '<button class="tchip" data-'+attr+'="'+t.id+'" aria-pressed="'+(t.id === cur)+'"><span aria-hidden="true">'+(LAB_ICONS[t.id] || '')+'</span>'+esc(t.name)+' <small>'+fmtCode(t.code)+'</small></button>'; }).join('') + '</div>';
+  }
+  function fmtCode(c){ return String(c).replace(/^([A-Z]+)(\d+)$/, '$1 $2'); }
+  function loadLabAttempts(t, topic){
+    call('c_attempts', [S.pin, t, topic], function(res){ S.attempts[t + '|' + topic] = res || []; if (S.labOpen === t) rerender(); }, function(){ toast('Couldn’t load the challenge results.'); });
+  }
+  function renderLab(){
+    var T = labTopic();
+    if (!T) return '<section class="panel"><h2>Learning Lab</h2><p class="muted">Deploy the newest version of the app to switch on the Learning Lab.</p></section>';
+    var p = S.labOpen ? find(S.labOpen) : null;
+    if (p) return renderLabDetail(p, T);
+    var list = S.data.pathfinders.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+    var lv = function(x){ return (x.learn || {})[T.id] || {seen:0, attempts:0, best:0, total:0}; };
+    var took = list.filter(function(x){ return lv(x).attempts; });
+    var avg = took.length ? took.reduce(function(s,x){ return s + lv(x).best; }, 0) / took.length : 0;
+    var ci = CODES.indexOf(T.code), pub = S.data.url ? S.data.url + '?p=learn' : '';
+    var h = '<section class="panel"><h2>Learning Lab</h2><p class="muted">An explorer for each topic: pictures to open, a game, then an 8-question challenge. Pick a topic to see each Guide’s progress.</p>' + topicChips(labTopics(), T.id, 'ltopic') + '</section>';
+    h += '<div class="stats">'
+      + '<div class="stat"><b>'+took.length+'<span style="font-size:16px;color:var(--muted)"> / '+list.length+'</span></b><span>Took the challenge</span></div>'
+      + '<div class="stat"><b>'+avg.toFixed(1)+'</b><span>Average best score</span></div>'
+      + '<div class="stat"><b>'+list.filter(function(x){ return lv(x).seen >= T.cards; }).length+'</b><span>Opened every picture</span></div>'
+      + '<div class="stat"><b>'+(ci > -1 ? list.filter(function(x){ return x.done[ci]; }).length : 0)+'</b><span>'+fmtCode(T.code)+' ticked</span></div></div>';
+    h += '<section class="panel"><h2>'+esc(T.name)+' · each Guide</h2><p class="muted">Pictures opened and challenge scores update by themselves. Tap Open to see every answer and mark it right or wrong.</p>'
+      + '<div class="acts">' + (list.length ? list.map(function(x){
+        var l = lv(x), ok = ci > -1 && !!x.done[ci];
+        return '<div class="rrow"><span class="nm">'+esc(x.name)+(ok ? ' <span class="sd2ok">'+CHECK+fmtCode(T.code)+'</span>' : '')+'</span>'
+          + '<span class="sc">'+l.seen+'/'+T.cards+' pictures · '+(l.attempts ? l.attempts+' tr'+(l.attempts===1?'y':'ies')+' · best '+l.best+(l.total ? '/'+l.total : '') : 'no challenge yet')+'</span>'
+          + '<button class="btn btn-ghost btn-small" data-lopen="'+esc(x.t)+'">Open</button>'
+          + '<span class="bar" style="flex:1 1 100%"><span style="width:'+Math.round(100*Math.min(l.seen, T.cards)/T.cards)+'%"></span></span></div>';
+      }).join('') : '<p class="muted">No Guides yet.</p>') + '</div></section>';
+    if (pub){
+      var msg = 'Guide class Learning Lab. Open this link, type your full name once, then work through the explorers and take each challenge: ' + pub;
+      h += '<section class="panel"><h2>Learning Lab · one link for the whole class</h2>'
+        + '<p class="muted">Guides with a personal link reach the Learning Lab from their missions page. This link is for anyone who only has the class link. Each Guide types their name once.</p>'
+        + '<span class="linkrow"><input type="text" readonly value="'+esc(pub)+'" aria-label="Learning Lab class link"><button class="btn btn-ghost btn-small" data-copy="'+esc(pub)+'">Copy</button></span>'
+        + '<a class="btn btn-wa btn-small" style="width:max-content" href="https://wa.me/?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">Send to the class on WhatsApp</a></section>';
+    }
+    return h;
+  }
+  function renderLabDetail(p, T){
+    var l = (p.learn || {})[T.id] || {seen:0, attempts:0, best:0, total:0};
+    var ci = CODES.indexOf(T.code), ok = ci > -1 && !!p.done[ci];
+    var link = S.data.url ? S.data.url + '?t=' + p.t + '&p=learn&k=' + T.id : '';
+    var h = '<button class="back" data-lopen="">'+BACK+'Learning Lab</button>';
+    h += '<section class="dhead"><span class="eyebrow muted">'+(LAB_ICONS[T.id] || '')+' '+esc(T.name)+'</span><h1>'+esc(p.name)+'</h1>'
+      + '<div class="row"><b>'+l.seen+' of '+T.cards+' pictures opened</b><span class="muted" style="font-size:13px">'+(l.attempts ? 'Best challenge score: '+l.best+(l.total ? ' / '+l.total : '') : 'No challenge taken yet')+'</span></div>'
+      + '<span class="bar"><span style="width:'+Math.round(100*Math.min(l.seen, T.cards)/T.cards)+'%"></span></span>'
+      + '<div class="actions">'+(ci > -1 ? '<button class="btn '+(ok?'btn-ghost':'btn-primary')+' btn-small" data-tog="'+esc(p.t)+'|'+T.code+'" aria-pressed="'+ok+'">'+(ok ? CHECK+fmtCode(T.code)+' ticked · tap to undo' : 'Tick '+fmtCode(T.code)+' complete')+'</button>' : '')
+      + (link ? '<button class="btn btn-ghost btn-small" data-copy="'+esc(link)+'">Copy their explorer link</button>' : '') + '</div></section>';
+    var list = S.attempts[p.t + '|' + T.id];
+    if (!list) return h + '<p class="muted">Loading their challenge results…</p>';
+    if (!list.length) return h + '<section class="panel"><h2>No challenge yet</h2><p class="muted">When '+esc(p.name)+' finishes the '+esc(T.name)+' challenge, every answer shows up here.</p></section>';
+    return h + attemptsHTML(list);
+  }
+
+  /* ---------- Questions editor ---------- */
+  function loadQuestions(){
+    var topic = S.qTopic;
+    call('c_questions', [S.pin, topic], function(res){ if (S.qTopic !== topic) return; S.qs = res || []; S.qEdit = null; if (S.tab === 'questions') rerender(); }, function(){ toast('Couldn’t load the questions.'); });
+  }
+  function findQ(id){ return (S.qs || []).filter(function(q){ return q.id === id; })[0] || null; }
+  function qFormHTML(q){
+    q = q || { id:'', q:'', opts:['','','',''], correct:0, why:'', active:true };
+    var h = '<section class="panel qform"><h2>'+(q.id ? 'Edit question' : 'New question')+'</h2>'
+      + '<label class="field"><span>Question</span><textarea id="qf-q" maxlength="300" style="min-height:80px">'+esc(q.q)+'</textarea></label>'
+      + '<span class="field"><span>Answers · tick the correct one</span></span>';
+    for (var i=0;i<4;i++){
+      h += '<div class="qopt"><label class="check" style="min-height:0"><input type="radio" name="qf-c" id="qf-c'+i+'" value="'+i+'"'+(q.correct===i?' checked':'')+'><b>'+'ABCD'[i]+'</b></label><input type="text" id="qf-o'+i+'" maxlength="160" value="'+esc(q.opts[i]||'')+'" placeholder="'+(i < 2 ? 'Answer '+'ABCD'[i] : 'Answer '+'ABCD'[i]+' (optional)')+'"></div>';
+    }
+    h += '<label class="field"><span>Explanation shown after answering (optional)</span><input type="text" id="qf-why" maxlength="300" value="'+esc(q.why||'')+'"></label>'
+      + '<label class="check"><input type="checkbox" id="qf-on"'+(q.active!==false?' checked':'')+'>Use this question in the challenge</label>'
+      + '<div class="actions"><button class="btn btn-primary" data-act="qsave">Save question</button><button class="btn btn-ghost" data-act="qcancel">Cancel</button></div></section>';
+    return h;
+  }
+  function saveQuestionForm(){
+    var get = function(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    var q = { id: S.qEdit === 'new' ? '' : S.qEdit, topic: S.qTopic, q: get('qf-q'), opts: [get('qf-o0'), get('qf-o1'), get('qf-o2'), get('qf-o3')], why: get('qf-why'),
+      active: !!(document.getElementById('qf-on') || {}).checked, correct: -1 };
+    for (var i=0;i<4;i++){ var r = document.getElementById('qf-c'+i); if (r && r.checked) q.correct = i; }
+    if (q.q.length < 3){ toast('Type the question first.'); return; }
+    if (q.opts.filter(Boolean).length < 2){ toast('Give at least two answers.'); return; }
+    if (q.correct < 0 || !q.opts[q.correct]){ toast('Tick which answer is correct.'); return; }
+    call('c_saveQuestion', [S.pin, q, S.who], function(){ toast('Question saved'); loadQuestions(); },
+      function(code, m){ toast('Couldn’t save the question. ' + (/q-/.test(m) ? 'Check the question and answers.' : 'Try again.')); });
+  }
+  function renderQuestions(){
+    var all = S.data.topics || [{id:'sanctuary', name:'Sanctuary Explorer', code:'SD2'}];
+    var pick = '<section class="panel"><h2>Challenge questions</h2><p class="muted">Pick which explorer’s questions to edit.</p>' + topicChips(all, S.qTopic, 'qtopic') + '</section>';
+    if (!S.qs) return pick + '<p class="muted">Loading questions…</p>';
+    var on = S.qs.filter(function(q){ return q.active && q.valid; }).length;
+    var tn = (all.filter(function(t){ return t.id === S.qTopic; })[0] || {}).name || 'Sanctuary Explorer';
+    var h = pick + '<section class="panel"><h2>'+esc(tn)+'</h2><p class="muted">'+(S.qTopic === 'sanctuary'
+        ? 'Each Sanctuary challenge has 3 “tap the map” questions plus 7 picked at random from the questions switched on below ('+on+' on now).'
+        : 'Each challenge picks 8 at random from the questions switched on below ('+on+' on now).')
+      + ' Change any question or its correct answer; Guides get the new version the next time they open the page.</p>'
+      + '<div class="actions"><button class="btn btn-primary btn-small" data-qedit="new">Add a question</button>'
+      + '<button class="btn '+(S.qConfirm==='reset'?'btn-danger':'btn-ghost')+' btn-small" data-act="qreset">'+(S.qConfirm==='reset' ? 'Tap again: replace all with the defaults' : 'Reset to default questions')+'</button></div></section>';
+    if (S.qEdit === 'new') h += qFormHTML(null);
+    S.qs.forEach(function(q, i){
+      if (S.qEdit === q.id){ h += qFormHTML(q); return; }
+      h += '<section class="panel qcard'+(q.active?'':' off')+'"><div class="row"><span class="eyebrow muted">Question '+(i+1)+(q.valid ? '' : ' · needs fixing')+'</span>'
+        + '<button class="btn '+(q.active?'btn-primary':'btn-ghost')+' btn-small" data-qtoggle="'+esc(q.id)+'" aria-pressed="'+q.active+'">'+(q.active ? 'In use' : 'Not used')+'</button></div>'
+        + '<p class="qtext2">'+esc(q.q)+'</p><ol class="qopts">' + q.opts.map(function(o, k){ return o ? '<li class="'+(k===q.correct?'ok':'')+'"><b>'+'ABCD'[k]+'</b> '+esc(o)+(k===q.correct ? ' '+CHECK : '')+'</li>' : ''; }).join('') + '</ol>'
+        + (q.why ? '<p class="muted" style="font-size:13px">'+esc(q.why)+'</p>' : '')
+        + '<div class="actions"><button class="btn btn-ghost btn-small" data-qedit="'+esc(q.id)+'">Edit</button>'
+        + '<button class="btn '+(S.qConfirm==='del:'+q.id?'btn-danger':'btn-ghost')+' btn-small" data-qdel="'+esc(q.id)+'">'+(S.qConfirm==='del:'+q.id ? 'Tap again to delete' : 'Delete')+'</button></div></section>';
+    });
+    return h;
+  }
+
+  var app = document.getElementById('app');
+  function render(){
+    if (!S.data){ app.innerHTML = renderLogin(); var pi = document.getElementById('pin'); if (pi) pi.focus(); return; }
+    if (S.print){ app.innerHTML = '<div class="cwrap">' + renderPrint() + '</div>'; return; }
+    var body = '';
+    var p = S.open ? find(S.open) : null;
+    if (p) body = renderDetail(p);
+    else if (S.tab === 'map') body = renderClass();
+    else if (S.tab === 'meet') body = renderPlan() + renderMeet();
+    else if (S.tab === 'report') body = renderReport();
+    else if (S.tab === 'sanct') body = xnav() + renderSanct();
+    else if (S.tab === 'lab') body = xnav() + renderLab();
+    else if (S.tab === 'ai') body = renderAI();
+    else if (S.tab === 'questions') body = xnav() + renderQuestions();
+    else if (S.tab === 'roster') body = renderRoster();
+    else body = renderClass();
+    app.innerHTML = '<div class="cwrap">' + topbar() + tabs() + body + '</div>';
+    paintLive();
+    if (S.phOpen) app.insertAdjacentHTML('beforeend', photoViewerHTML());
+    fetchCThumbs();
+    if (S.tab === 'ai' && !S.open) aiGrow();
+  }
+  function rerender(){ var y = window.scrollY; render(); window.scrollTo(0, y); }
+
+  /* ---------- Assistant ---------- */
+  var AIKEY = 'guide-quest-ai-chat';
+  var MIC = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>';
+  var SEND = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+  var SPARK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>';
+  var AI_ERR = {
+    'ai-off': 'The Assistant isn’t switched on yet. Add the key below.',
+    'ai-key-bad': 'Google didn’t accept that key. Check it was copied in full, or make a new key and paste that.',
+    'ai-key-format': 'That doesn’t look like a Gemini key. It’s one long code of letters and numbers with no spaces.',
+    'ai-busy': 'The free AI allowance is used up for the moment. Wait a minute and try again. If it keeps happening, today’s free limit is reached and it resets overnight.',
+    'ai-region': 'Google says its AI isn’t available for this account or country.',
+    'ai-unreachable': 'Couldn’t reach Google. Check the internet and try again.',
+    'ai-no-model': 'Google didn’t offer an AI model for this key. Try making a new key in AI Studio.',
+    'ai-error': 'Something went wrong on Google’s side. Please try again.',
+    'ai-auth': 'The Assistant needs one more Google permission. In the Apps Script editor, choose authorizeAssistant and press Run, then allow it.',
+    'undo-expired': 'Too late to undo that (changes can be undone for 6 hours). Change it on the Class tab instead.'
+  };
+  var AI_PROMPTS = [
+    ['Log an activity', 'Today we [what we did, and where]. Present were: [names].', false],
+    ['Class overview', 'Give me a quick overview of my class: what is done, what is left, and what we should do next.', true],
+    ['What’s left for each Guide?', 'For each Guide, list the requirements they still need, shortest list first.', true],
+    ['Who is ready to be signed off?', 'Which Guides have finished a whole mission but have not been signed off yet? And who is closest to investiture?', true],
+    ['Lesson plan for this week', 'Make a lesson plan for this week based on where my class is now. Check what most Guides still need and what is on our programme, then plan the lesson for the requirement(s) we most need next. Say which requirements it covers.', true],
+    ['Make a quiz', 'Make 5 quiz questions on [topic] and add them to the [explorer] challenge.', false],
+    ['Ask a Bible question', 'What does the Bible say about ', false]
+  ];
+  S.ai = { status: null, msgs: [], busy: false, draft: '', help: false, listening: false, micBlocked: false, setup: false, saving: false, keyMsg: '', speaking: -1 };
+  try { var savedChat = JSON.parse(localStorage.getItem(AIKEY) || 'null'); if (Array.isArray(savedChat)) S.ai.msgs = savedChat.slice(-40); } catch(e){}
+  function aiSaveChat(){ try { if (S.remember) localStorage.setItem(AIKEY, JSON.stringify(S.ai.msgs.slice(-40))); else localStorage.removeItem(AIKEY); } catch(e){} }
+  function aiCode(m){ return (String(m || '').match(/ai-[a-z-]+|undo-expired/) || ['ai-error'])[0]; }
+
+  function aiInline(t){
+    return esc(t).replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/(^|[^*\w])\*([^*\s][^*]*)\*(?![*\w])/g, '$1<i>$2</i>').replace(/\x60([^\x60]+)\x60/g, '<code>$1</code>');
+  }
+  function aiMd(src){
+    var lines = String(src || '').replace(/\r/g, '').split('\n'), out = '', list = '', para = [], table = [];
+    function flushPara(){ if (para.length){ out += '<p>' + para.map(aiInline).join('<br>') + '</p>'; para = []; } }
+    function flushList(){ if (list){ out += '</' + list + '>'; list = ''; } }
+    function flushTable(){
+      if (!table.length) return;
+      var rows = table.filter(function(r){ return !/^\s*\|?\s*:?-{2,}/.test(r); }).map(function(r){ return r.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|'); });
+      out += '<div class="aitable"><table>' + rows.map(function(c, i){ var tag = i === 0 ? 'th' : 'td'; return '<tr>' + c.map(function(x){ return '<' + tag + '>' + aiInline(x.trim()) + '</' + tag + '>'; }).join('') + '</tr>'; }).join('') + '</table></div>';
+      table = [];
+    }
+    lines.forEach(function(l){
+      var m;
+      if (/^\s*\|.*\|\s*$/.test(l)){ flushPara(); flushList(); table.push(l); return; }
+      flushTable();
+      if (!l.trim()){ flushPara(); flushList(); return; }
+      if ((m = l.match(/^\s*#{1,6}\s+(.*)$/))){ flushPara(); flushList(); out += '<h4>' + aiInline(m[1]) + '</h4>'; return; }
+      if ((m = l.match(/^\s*[-*•]\s+(.*)$/))){ flushPara(); if (list !== 'ul'){ flushList(); out += '<ul>'; list = 'ul'; } out += '<li>' + aiInline(m[1]) + '</li>'; return; }
+      if ((m = l.match(/^\s*\d+[.)]\s+(.*)$/))){ flushPara(); if (list !== 'ol'){ flushList(); out += '<ol>'; list = 'ol'; } out += '<li>' + aiInline(m[1]) + '</li>'; return; }
+      flushList(); para.push(l);
+    });
+    flushPara(); flushList(); flushTable();
+    return out;
+  }
+  function aiPlain(src){
+    return String(src || '').replace(/\*\*|__/g, '').replace(/^\s*#{1,6}\s+/gm, '').replace(/^\s*[-*•]\s+/gm, '• ').replace(/\x60/g, '').replace(/^\s*\|?\s*:?-{2,}.*$/gm, '').replace(/\|/g, '  ').replace(/\n{3,}/g, '\n\n').trim();
+  }
+
+  function aiLoadStatus(){
+    if (S.ai.loading) return;
+    S.ai.loading = true;
+    call('c_aiStatus', [S.pin], function(res){ S.ai.loading = false; S.ai.status = res; if (S.tab === 'ai') rerender(); },
+      function(){ S.ai.loading = false; S.ai.status = { ready: false, error: true }; if (S.tab === 'ai') rerender(); });
+  }
+
+  function aiSetupHTML(){
+    return '<section class="panel"><h2>Switch on the Assistant</h2>'
+      + '<p class="muted">The Assistant uses Google’s Gemini AI. It needs the club’s own free key, which takes about a minute to get. You only do this once.</p>'
+      + '<ol class="aisteps">'
+      + '<li><b>Open Google AI Studio</b> and sign in with the Google account that runs Guide Quest.<br><a class="btn btn-primary btn-small" style="margin-top:6px" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Open AI Studio</a></li>'
+      + '<li>Tap <b>Create API key</b>. If it asks for a project, choose the one it suggests or create one. Then tap <b>Copy</b>.</li>'
+      + '<li>Paste the key here and tap <b>Save</b>.</li></ol>'
+      + '<label class="field"><span>Gemini API key</span><input type="password" id="aikey" autocomplete="off" spellcheck="false" placeholder="Paste the key here"></label>'
+      + '<div class="actions"><button class="btn btn-primary" data-aisave="1"'+(S.ai.saving?' disabled':'')+'>'+(S.ai.saving ? 'Checking the key…' : 'Save and switch on')+'</button>'
+      + (S.ai.status && S.ai.status.ready ? '<button class="btn btn-ghost" data-aisetup="0">Cancel</button>' : '') + '</div>'
+      + (S.ai.keyMsg ? '<p class="err" role="alert">'+esc(S.ai.keyMsg)+'</p>' : '')
+      + '<p class="muted" style="font-size:13px">The key works like a password. It is kept inside your Apps Script (not in the sheet) and Guides never see it. Before anything goes to Google, Guides’ names are swapped for codes. On Google’s free plan, Google may use what you type to improve its AI, so don’t type private details such as addresses, phone numbers or health information.</p></section>';
+  }
+
+  function aiMsgHTML(m, i){
+    if (m.role === 'user') return '<div class="aimsg me"><div class="aibub">'+esc(m.text)+'</div></div>';
+    if (m.role === 'error') return '<div class="aimsg err"><div class="aibub">'+esc(m.text)+'</div>'
+      + (m.retry ? '<div class="aitools"><button class="aitool" data-airetry="1">Try again</button></div>' : '') + '</div>';
+    var h = '<div class="aimsg bot"><div class="aibub">'+aiMd(m.text)+'</div>';
+    if (m.actions && m.actions.length){
+      h += '<div class="aiacts">' + m.actions.map(function(a, k){
+        return '<div class="aiact'+(a.undone?' undone':'')+'"><span>'+(a.undone ? '' : CHECK)+esc(a.text)+(a.undone ? ' (undone)' : '')+'</span>'
+          + (a.undone ? '' : '<button class="btn btn-ghost btn-small" data-aiundo="'+i+'|'+k+'"'+(a.undoing?' disabled':'')+'>'+(a.undoing ? 'Undoing…' : 'Undo')+'</button>') + '</div>';
+      }).join('') + '</div>';
+    }
+    h += '<div class="aitools">'
+      + '<button class="aitool" data-aispeak="'+i+'" aria-pressed="'+(S.ai.speaking === i)+'">'+(S.ai.speaking === i ? '■ Stop' : '🔊 Read aloud')+'</button>'
+      + '<button class="aitool" data-aicopy="'+i+'">Copy</button>'
+      + '<a class="aitool" href="https://wa.me/?text='+encodeURIComponent(aiPlain(m.text).slice(0, 3500))+'" target="_blank" rel="noopener">WhatsApp</a></div>';
+    return h + '</div>';
+  }
+
+  function renderAI(){
+    var st = S.ai.status;
+    if (!st){ aiLoadStatus(); return '<div class="aiwrap"><p class="muted">Loading the Assistant…</p></div>'; }
+    if (!st.ready || S.ai.setup) return '<div class="aiwrap">' + aiSetupHTML() + '</div>';
+    var h = '<div class="aiwrap"><div class="aihead"><div><h2>'+SPARK+'Assistant</h2><p class="muted">Log what the class did, check progress, plan lessons, or ask anything about the Bible and the Guide class.</p></div>'
+      + (S.ai.msgs.length ? '<button class="btn btn-ghost btn-small" data-ainew="1">New chat</button>' : '') + '</div>';
+    h += '<div class="aimsgs" id="aimsgs">';
+    if (!S.ai.msgs.length){
+      h += '<div class="aiwelcome panel"><p><b>Hi'+(S.who ? ' ' + esc(S.who) : '')+'! Tell me what the class did, or ask me anything.</b></p>'
+        + '<ul><li>“We visited Sister Grant at the home on Sabbath. Present were Ann, David and Kevin.” I’ll tick the right requirements and tell you what I did.</li>'
+        + '<li>“How is my class doing?” or “What does Ann still need?”</li>'
+        + '<li>“Plan a lesson on the gifts of the Spirit.” “What does Ellen White say about nature study?”</li></ul>'
+        + '<div class="aichips">' + AI_PROMPTS.map(function(p, k){ return '<button class="aichip" data-aiprompt="'+k+'">'+esc(p[0])+'</button>'; }).join('') + '</div></div>';
+    }
+    h += S.ai.msgs.map(aiMsgHTML).join('');
+    if (S.ai.busy) h += '<div class="aithinking" role="status"><span class="aidots"><i></i><i></i><i></i></span>Thinking…</div>';
+    h += '</div>';
+    h += '<div class="aicompose">';
+    if (S.ai.help) h += '<div class="aihelp"><p><b>Speak instead of typing:</b> on a phone, tap the 🎤 on your keyboard and talk. On a Windows laptop, press the <b>Windows key + H</b>. Check the words, fix anything that came out wrong, then tap the send arrow.</p><button data-aihelp="0" aria-label="Close">✕</button></div>';
+    h += '<div class="aibox"><textarea id="aiinput" rows="1" placeholder="Type or speak your message…" aria-label="Message to the Assistant">'+esc(S.ai.draft)+'</textarea>'
+      + '<button class="aiicon'+(S.ai.listening?' on':'')+'" data-aimic="1" aria-label="'+(S.ai.listening ? 'Stop listening' : 'Speak')+'">'+MIC+'</button>'
+      + '<button class="aiicon send" data-aisend="1" aria-label="Send"'+(S.ai.busy?' disabled':'')+'>'+SEND+'</button></div>'
+      + '<p class="ainote">The Assistant can make mistakes. Check important answers, and use Undo if it ticks the wrong thing.</p></div>';
+    h += '<details class="aisettings"><summary>Assistant settings</summary><p>Using Google Gemini'+(st.model ? ' (' + esc(st.model) + ')' : '')+' with the club’s free key.</p>'
+      + '<div class="actions"><button class="btn btn-ghost btn-small" data-aisetup="1">Change the key</button><button class="btn btn-danger btn-small" data-aioff="1">Switch the Assistant off</button></div></details>';
+    return h + '</div>';
+  }
+
+  function aiGrow(){ var t = document.getElementById('aiinput'); if (!t) return; t.style.height = 'auto'; t.style.height = Math.min(200, t.scrollHeight) + 'px'; }
+  function aiScrollEnd(toReply){
+    var all = document.querySelectorAll('.aimsg'), last = all[all.length - 1];
+    if (toReply && last && last.classList.contains('bot')){ var top = last.getBoundingClientRect().top + window.scrollY - 12; window.scrollTo(0, Math.max(0, top)); return; }
+    window.scrollTo(0, document.documentElement.scrollHeight);
+  }
+
+  function aiSend(text){
+    text = String(text || '').trim();
+    if (!text || S.ai.busy) return;
+    aiStopMic();
+    S.ai.msgs = S.ai.msgs.filter(function(m){ return m.role !== 'error'; });
+    S.ai.msgs.push({ role: 'user', text: text });
+    S.ai.draft = ''; S.ai.busy = true; S.ai.help = false;
+    aiSaveChat(); render(); aiScrollEnd();
+    aiAsk();
+  }
+  function aiAsk(){
+    var hist = S.ai.msgs.filter(function(m){ return m.role === 'user' || m.role === 'model'; }).slice(-20).map(function(m){ return { role: m.role, text: m.text }; });
+    S.ai.busy = true;
+    call('c_ai', [S.pin, hist, S.who], function(res){
+      S.ai.busy = false;
+      S.ai.msgs.push({ role: 'model', text: res.text || '', actions: (res.actions || []).map(function(a){ return { undo: a.undo, text: a.text }; }) });
+      if (res.model && S.ai.status) S.ai.status.model = res.model;
+      aiSaveChat(); rerender(); aiScrollEnd(true);
+      if (res.actions && res.actions.length) loadOverview(true);
+    }, function(code, m){
+      S.ai.busy = false;
+      var c = aiCode(m);
+      if (c === 'ai-off'){ S.ai.status = { ready: false }; }
+      S.ai.msgs.push({ role: 'error', text: AI_ERR[c] || AI_ERR['ai-error'], retry: c !== 'ai-off' && c !== 'ai-key-bad' });
+      rerender(); aiScrollEnd();
+    });
+  }
+
+  var aiRec = null;
+  function aiStopMic(){ if (aiRec){ try { aiRec.stop(); } catch(e){} } aiRec = null; S.ai.listening = false; }
+  function aiMic(){
+    if (S.ai.listening){ aiStopMic(); rerender(); return; }
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var input = document.getElementById('aiinput');
+    if (!SR || S.ai.micBlocked){ S.ai.help = true; rerender(); var t0 = document.getElementById('aiinput'); if (t0) t0.focus(); return; }
+    var base = S.ai.draft ? S.ai.draft.replace(/\s*$/, ' ') : '';
+    try {
+      aiRec = new SR();
+      aiRec.lang = navigator.language || 'en-US';
+      aiRec.interimResults = true; aiRec.continuous = true;
+      aiRec.onresult = function(e){
+        var fin = '', interim = '';
+        for (var i = 0; i < e.results.length; i++){ if (e.results[i].isFinal) fin += e.results[i][0].transcript; else interim += e.results[i][0].transcript; }
+        S.ai.draft = base + fin + interim;
+        var t = document.getElementById('aiinput'); if (t){ t.value = S.ai.draft; aiGrow(); }
+      };
+      aiRec.onerror = function(e){
+        if (/not-allowed|service-not-allowed|audio-capture/.test(e.error)){ S.ai.micBlocked = true; S.ai.help = true; }
+        aiStopMic(); rerender();
+      };
+      aiRec.onend = function(){ if (S.ai.listening){ S.ai.listening = false; aiRec = null; rerender(); } };
+      aiRec.start();
+      S.ai.listening = true; rerender();
+    } catch(err){ S.ai.micBlocked = true; S.ai.help = true; aiStopMic(); rerender(); if (input) input.focus(); }
+  }
+
+  function aiSpeak(i){
+    var synth = window.speechSynthesis;
+    if (!synth){ toast('Reading aloud isn’t available on this device.'); return; }
+    if (S.ai.speaking === i){ synth.cancel(); S.ai.speaking = -1; rerender(); return; }
+    synth.cancel();
+    var m = S.ai.msgs[i]; if (!m) return;
+    var u = new SpeechSynthesisUtterance(aiPlain(m.text).replace(/•/g, ''));
+    u.lang = navigator.language || 'en-US'; u.rate = 0.98;
+    u.onend = u.onerror = function(){ if (S.ai.speaking === i){ S.ai.speaking = -1; rerender(); } };
+    S.ai.speaking = i; synth.speak(u); rerender();
+  }
+
+  function aiClick(ds){
+    if (ds.aisend){ var t = document.getElementById('aiinput'); aiSend(t ? t.value : S.ai.draft); return true; }
+    if (ds.aiprompt !== undefined){
+      var p = AI_PROMPTS[+ds.aiprompt]; if (!p) return true;
+      if (p[2]){ aiSend(p[1]); return true; }
+      S.ai.draft = p[1]; rerender();
+      var ta = document.getElementById('aiinput');
+      if (ta){ ta.focus(); var at = ta.value.indexOf('['); if (at > -1) ta.setSelectionRange(at, ta.value.indexOf(']', at) + 1); aiGrow(); }
+      return true;
+    }
+    if (ds.aimic){ aiMic(); return true; }
+    if (ds.aihelp !== undefined){ S.ai.help = ds.aihelp === '1'; rerender(); return true; }
+    if (ds.airetry){ S.ai.msgs = S.ai.msgs.filter(function(m){ return m.role !== 'error'; }); rerender(); aiAsk(); rerender(); aiScrollEnd(); return true; }
+    if (ds.ainew){ aiStopMic(); if (window.speechSynthesis) window.speechSynthesis.cancel(); S.ai.msgs = []; S.ai.speaking = -1; aiSaveChat(); rerender(); return true; }
+    if (ds.aispeak !== undefined){ aiSpeak(+ds.aispeak); return true; }
+    if (ds.aicopy !== undefined){
+      var mc = S.ai.msgs[+ds.aicopy]; if (!mc) return true;
+      try { navigator.clipboard.writeText(aiPlain(mc.text)).then(function(){ toast('Copied'); }, function(){ toast('Couldn’t copy on this device.'); }); } catch(e){ toast('Couldn’t copy on this device.'); }
+      return true;
+    }
+    if (ds.aiundo){
+      var parts = ds.aiundo.split('|'), mu = S.ai.msgs[+parts[0]], a = mu && mu.actions && mu.actions[+parts[1]];
+      if (!a || a.undone || a.undoing) return true;
+      a.undoing = true; rerender();
+      call('c_aiUndo', [S.pin, a.undo, S.who], function(){ a.undoing = false; a.undone = true; aiSaveChat(); toast('Undone'); rerender(); loadOverview(true); },
+        function(code, m){ a.undoing = false; rerender(); toast(AI_ERR[aiCode(m)] || 'Couldn’t undo. Try again.'); });
+      return true;
+    }
+    if (ds.aisetup !== undefined){ S.ai.setup = ds.aisetup === '1'; S.ai.keyMsg = ''; rerender(); return true; }
+    if (ds.aisave){
+      var k = (document.getElementById('aikey') || {}).value || '';
+      if (!k.trim()){ S.ai.keyMsg = 'Paste the key first.'; rerender(); return true; }
+      S.ai.saving = true; S.ai.keyMsg = ''; rerender();
+      call('c_setAiKey', [S.pin, k, S.who], function(res){
+        S.ai.saving = false; S.ai.setup = false; S.ai.status = { ready: true, model: res.model };
+        toast('The Assistant is switched on'); rerender();
+      }, function(code, m){ S.ai.saving = false; S.ai.keyMsg = AI_ERR[aiCode(m)] || AI_ERR['ai-error']; rerender(); });
+      return true;
+    }
+    if (ds.aioff){
+      if (S.confirm !== 'aioff'){ S.confirm = 'aioff'; toast('Tap “Switch the Assistant off” again to confirm.'); return true; }
+      S.confirm = null;
+      call('c_clearAiKey', [S.pin, S.who], function(){ S.ai.status = { ready: false }; toast('The Assistant is switched off'); rerender(); }, function(){ toast('Couldn’t switch it off. Try again.'); });
+      return true;
+    }
+    return false;
+  }
+  app.addEventListener('input', function(e){ if (e.target && e.target.id === 'aiinput'){ S.ai.draft = e.target.value; aiGrow(); } });
+  app.addEventListener('keydown', function(e){
+    if (e.target && e.target.id === 'aiinput' && e.key === 'Enter' && !e.shiftKey && window.matchMedia('(hover: hover) and (pointer: fine)').matches){ e.preventDefault(); aiSend(e.target.value); }
+  });
+
+  /* ---------- actions ---------- */
+  function submitLogin(){
+    var pin = (document.getElementById('pin') || {}).value || '';
+    var pin2 = (document.getElementById('pin2') || {}).value;
+    S.who = ((document.getElementById('who') || {}).value || '').trim().slice(0, 12);
+    S.remember = !!(document.getElementById('remember') || {}).checked;
+    pin = pin.trim();
+    if (!pin){ S.msg = 'Type the PIN first.'; render(); return; }
+    if (S.mode === 'create'){
+      if (pin !== String(pin2 || '').trim()){ S.msg = 'The two PINs don’t match.'; render(); return; }
+      call('c_setPin', [pin], function(){ openWith(pin); }, function(code){ S.msg = ERR[code] || 'Couldn’t save the PIN. Try again.'; if (code === 'pin-exists') S.mode = 'login'; render(); });
+      return;
+    }
+    call('c_login', [pin], function(){ openWith(pin); }, function(code){
+      if (code === 'no-pin'){ S.mode = 'create'; S.msg = ''; render(); return; }
+      S.msg = ERR[code] || 'Couldn’t connect. Check your internet and try again.'; render();
+    });
+  }
+  function openWith(pin){ S.pin = pin; S.msg = ''; saveCreds(); loadOverview(false); }
+
+  function copy(text){
+    if (!text){ toast('The link appears after the app is deployed.'); return; }
+    var done = function(){ toast('Link copied'); };
+    var fallback = function(){ var el = document.getElementById('plink'); if (el){ el.focus(); el.select(); toast('Link selected. Press and hold to copy.'); } else toast('Open the Pathfinder to copy their link.'); };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+  }
+
+  /* ---------- Meetings & Plan, Report, record sheets, Advanced, photos, parent links ---------- */
+  S.meets = null; S.mf = null; S.noteDraft = {}; S.prog = null; S.pf = null; S.ph = {}; S.phData = {}; S.phLoading = {}; S.phOpen = ''; S.phBusy = false;
+  S.parent = {}; S.print = null; S.lastX = 'lab';
+  var ADVC = ['AV1','AV2','AV3','AV4','AV5','AV6'];
+  var ADVN = { AV1:['General','Stewardship Honour'], AV2:['Spiritual Discovery','Read Steps to Christ and write a one-page report'], AV3:['Community Outreach','Bring 2 friends to 2 church meetings, or help with 4 youth meetings'],
+    AV4:['Friendship Development','750 words or a 10-minute talk on making and keeping friends'], AV5:['Health and Fitness','Study God’s plan for sexuality, including AIDS and STIs'], AV6:['Outdoor Living','Wilderness Master Award'] };
+  var ADVSHORT = { AV1:'Stewardship', AV2:'Steps to Christ', AV3:'Outreach', AV4:'Friendship', AV5:'Health study', AV6:'Wilderness Master' };
+  function byName(a, b){ return a.name.localeCompare(b.name); }
+  function todayYMD(){ var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function ymdDate(s){ var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; }
+  function fmtDay(s, long){ var d = ymdDate(s); if (!d) return String(s || ''); try { return d.toLocaleDateString(undefined, long ? {weekday:'long', day:'numeric', month:'long', year:'numeric'} : {weekday:'short', day:'numeric', month:'short', year:'numeric'}); } catch(e){ return String(s); } }
+  function fmtMs(ms){ try { return new Date(ms).toLocaleDateString(undefined, {day:'numeric', month:'short', year:'numeric'}); } catch(e){ return ''; } }
+  function daysUntil(s){ var d = ymdDate(s), t = ymdDate(todayYMD()); return d ? Math.round((d - t) / 86400000) : null; }
+  function untilText(n){ return n === null ? '' : n === 0 ? 'today' : n === 1 ? 'tomorrow' : n > 1 ? 'in ' + n + ' days' : n === -1 ? 'yesterday' : (-n) + ' days ago'; }
+  function xOf(p){ return ((S.data && S.data.extras) || {})[p.t] || { note: '' }; }
+  function advOf(p){ return ((S.data && S.data.advanced) || {})[p.t] || {}; }
+  function advCount(p){ var a = advOf(p); return ADVC.filter(function(c){ return a[c] && a[c].sign; }).length; }
+  function advReady(p){ var a = advOf(p); return ADVC.filter(function(c){ return a[c] && a[c].done && !a[c].sign; }).length; }
+  function advDone(p){ return advCount(p) === ADVC.length; }
+  function attOf(p){ return { came: ((S.data && S.data.attend) || {})[p.t] || 0, total: (S.data && S.data.meetingsTotal) || 0 }; }
+  function missing(p){ return Object.keys(REQ).filter(function(c){ return !p.done[idx(c)]; }); }
+  function signedCount(p){ return MISSIONS.filter(function(m){ return p.signs[m.id]; }).length; }
+  function allCodes(){ return Object.keys(REQ).concat(ADVC); }
+  function codeName(c){ return REQ[c] || (ADVN[c] ? 'Advanced · ' + ADVSHORT[c] : c); }
+  function fmtAny(c){ return REQ[c] ? fmt(c) : 'Adv. ' + c.slice(2); }
+  function copyText(text, msg){
+    var no = function(){ toast('Couldn’t copy on this device. Use the WhatsApp button instead.'); };
+    try { navigator.clipboard.writeText(text).then(function(){ toast(msg); }, no); } catch(e){ no(); }
+  }
+  function codePickHTML(sel, attr){
+    return '<div class="codepick">' + SECTIONS.map(function(sec){
+      var cs = Object.keys(REQ).filter(function(c){ return c.replace(/\d+$/, '') === sec[0]; });
+      if (!cs.length) return '';
+      return '<div class="cgroup"><small>'+esc(sec[1])+'</small><div class="cwrap2">' + cs.map(function(c){
+        return '<button class="cpick" '+attr+'="'+c+'" aria-pressed="'+!!sel[c]+'" title="'+esc(REQ[c])+'"><b>'+fmt(c)+'</b><span>'+esc(REQ[c])+'</span></button>'; }).join('') + '</div></div>';
+    }).join('') + '</div>';
+  }
+
+  function evalBanner(){
+    var e = S.data.evalDate;
+    if (!e) return '<div class="evalbar"><span>No evaluation date set yet.</span><button class="btn btn-ghost btn-small" data-tab="report">Set the date</button></div>';
+    var n = daysUntil(e);
+    return '<div class="evalbar'+(n !== null && n >= 0 && n <= 14 ? ' soon' : '')+'"><span><b>Evaluation · '+esc(fmtDay(e, true))+'</b> · '+esc(untilText(n))+'</span><button class="btn btn-ghost btn-small" data-tab="report">Open the report</button></div>';
+  }
+
+  /* Programme planner */
+  var LESSON_PROMPT = 'Make a lesson plan for this week based on where my class is now. Check what most Guides still need and what is on our programme, then plan the lesson for the requirement(s) we most need next. Say which requirements it covers.';
+  function loadProgramme(){ call('c_programme', [S.pin], function(res){ S.prog = res || []; if (S.tab === 'meet' && !S.open) rerender(); }, function(){ S.prog = S.prog || []; toast('Couldn’t load the programme.'); }); }
+  function pfStart(it){
+    var sel = {}; ((it && it.codes) || []).forEach(function(c){ sel[c] = true; });
+    var d = new Date(); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7 || 7));
+    var next = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    S.pf = it ? { id: it.id, date: it.date, title: it.title, codes: sel, bring: it.bring, notes: it.notes } : { id: '', date: next, title: '', codes: sel, bring: '', notes: '' };
+  }
+  function renderPlan(){
+    var today = todayYMD(), list = S.prog, h = '';
+    h += '<section class="panel"><div class="row"><h2>Programme · coming up</h2>'+(S.pf ? '' : '<button class="btn btn-primary btn-small" data-act="pfnew">Add a meeting to the plan</button>')+'</div>'
+      + '<p class="muted">Plan the next weeks. Parents see what’s coming up on their link.</p>'
+      + '<div class="actions"><button class="btn btn-ghost btn-small" data-act="aiplan">'+SPARK+'Lesson plan for this week</button></div>';
+    var need = needList(S.data.pathfinders).slice(0, 4);
+    if (need.length) h += '<p class="muted" style="font-size:13px"><b>The class most needs next:</b> ' + need.map(function(x){ return fmt(x.c) + ' (' + x.who.length + ' of ' + S.data.pathfinders.length + ')'; }).join(', ') + '</p>';
+    if (S.pf){
+      var f = S.pf;
+      h += '<div class="pform"><div class="frow"><label class="field"><span>Date</span><input type="date" id="pf-date" value="'+esc(f.date)+'"></label>'
+        + '<label class="field grow"><span>Topic</span><input type="text" id="pf-title" maxlength="200" value="'+esc(f.title)+'" placeholder="e.g. Lashing practice for the camp"></label></div>'
+        + '<div class="field"><span>Requirements to cover (optional)</span>' + codePickHTML(f.codes, 'data-pfcode') + '</div>'
+        + '<label class="field"><span>What to bring</span><input type="text" id="pf-bring" maxlength="300" value="'+esc(f.bring)+'" placeholder="e.g. Bible, 3 poles, rope"></label>'
+        + '<label class="field"><span>Notes (only counsellors see these)</span><input type="text" id="pf-notes" maxlength="600" value="'+esc(f.notes)+'"></label>'
+        + '<div class="actions"><button class="btn btn-primary btn-small" data-act="pfsave"'+(f.saving ? ' disabled' : '')+'>'+(f.saving ? 'Saving…' : (f.id ? 'Save changes' : 'Add to the plan'))+'</button><button class="btn btn-ghost btn-small" data-act="pfcancel">Cancel</button></div></div>';
+    }
+    if (!list) h += '<p class="muted">Loading the programme…</p>';
+    else {
+      var up = list.filter(function(x){ return x.date >= today; }), past = list.filter(function(x){ return x.date < today; }).slice(-3);
+      if (!up.length) h += '<p class="muted">Nothing planned yet.</p>';
+      h += up.concat(past.length ? [] : []).map(planItemHTML).join('');
+      if (past.length) h += '<details><summary class="muted" style="font-size:14px;cursor:pointer">Recent past ('+past.length+')</summary>' + past.map(planItemHTML).join('') + '</details>';
+    }
+    return h + '</section>';
+  }
+  function planItemHTML(x){
+    var n = daysUntil(x.date);
+    return '<div class="meet"><div class="row"><b>'+esc(fmtDay(x.date))+' · '+esc(x.title)+'</b><span class="sc">'+esc(untilText(n))+'</span></div>'
+      + (x.codes.length ? '<div class="gchips">' + x.codes.map(function(c){ var ms = missionOf(c); return '<span class="mtag" style="'+mvars(ms ? ms.id : 'base')+'">'+fmtAny(c)+'</span>'; }).join('') + '</div>' : '')
+      + (x.bring ? '<p class="needs"><b>Bring:</b> '+esc(x.bring)+'</p>' : '') + (x.notes ? '<p class="needs"><b>Notes:</b> '+esc(x.notes)+'</p>' : '')
+      + '<div class="actions"><button class="btn btn-ghost btn-small" data-pfedit="'+esc(x.id)+'">Edit</button><button class="btn btn-ghost btn-small" data-pflog="'+esc(x.id)+'">Log it as a meeting</button>'
+      + '<button class="btn '+(S.confirm === 'pfdel:'+x.id ? 'btn-danger' : 'btn-ghost')+' btn-small" data-pfdel="'+esc(x.id)+'">'+(S.confirm === 'pfdel:'+x.id ? 'Tap again to delete' : 'Delete')+'</button></div></div>';
+  }
+  function savePlan(){
+    var f = S.pf; if (!f) return;
+    ['date','title','bring','notes'].forEach(function(k){ var el = document.getElementById('pf-' + k); if (el) f[k] = el.value; });
+    if (!ymdDate(f.date)){ toast('Pick a date.'); return; }
+    if (!String(f.title).trim()){ toast('Write the topic first.'); return; }
+    f.saving = true; rerender();
+    call('c_saveProgramme', [S.pin, { id: f.id, date: f.date, title: f.title, codes: allCodes().filter(function(c){ return f.codes[c]; }), bring: f.bring, notes: f.notes }, S.who], function(){
+      S.pf = null; toast('Saved to the programme'); loadProgramme();
+    }, function(code, m){ f.saving = false; rerender(); toast(/bad-date/.test(m) ? 'Pick a valid date.' : 'Couldn’t save. Try again.'); });
+  }
+
+  /* Meetings */
+  function mfInit(){ if (!S.mf) S.mf = { date: todayYMD(), title: '', codes: {}, present: {}, tick: true, notes: '', saving: false }; return S.mf; }
+  function loadMeetings(){ call('c_meetings', [S.pin], function(res){ S.meets = res || []; if (S.tab === 'meet' && !S.open) rerender(); }, function(){ toast('Couldn’t load the meetings.'); }); }
+  function renderMeet(){
+    var f = mfInit(), list = S.data.pathfinders.slice().sort(byName), h = '';
+    var tokens = list.map(function(p){ return p.t; });
+    var nP = list.filter(function(p){ return f.present[p.t]; }).length;
+    var picked = Object.keys(REQ).filter(function(c){ return f.codes[c]; });
+    h += '<section class="panel" id="logmeeting"><h2>Log a meeting</h2><p class="muted">Write down what the class did and who came. If the box near the bottom is ticked, the requirements you pick are ticked for everyone who came.</p>'
+      + '<div class="frow"><label class="field"><span>Date</span><input type="date" id="mf-date" value="'+esc(f.date)+'"></label>'
+      + '<label class="field grow"><span>What we did</span><input type="text" id="mf-title" maxlength="200" value="'+esc(f.title)+'" placeholder="e.g. Visited Sister Brown and sang for her"></label></div>'
+      + '<div class="field"><span>Requirements covered '+(picked.length ? '· '+picked.length+' picked' : '(optional)')+'</span>' + codePickHTML(f.codes, 'data-mfcode') + '</div>';
+    h += '<div class="field"><span>Who came · '+nP+' of '+list.length+'</span>'
+      + (list.length ? '<div class="actions"><button class="btn btn-ghost btn-small" data-mfall="1">Everyone</button><button class="btn btn-ghost btn-small" data-mfall="0">No one</button></div><div class="whogrid">'
+        + list.map(function(p){ return '<label class="check"><input type="checkbox" data-mfp="'+esc(p.t)+'"'+(f.present[p.t] ? ' checked' : '')+'>'+esc(p.name)+'</label>'; }).join('') + '</div>'
+        : '<p class="muted">Add your Guides on the Links tab first.</p>') + '</div>';
+    h += '<label class="check"><input type="checkbox" id="mf-tick"'+(f.tick ? ' checked' : '')+'>Tick the picked requirements for everyone who came</label>'
+      + '<label class="field"><span>Minutes / notes (optional)</span><textarea id="mf-notes" maxlength="1000" placeholder="e.g. Ben left early. Bring the lashing poles next week.">'+esc(f.notes)+'</textarea></label>'
+      + '<p class="muted" style="font-size:13px">'+(f.tick && picked.length && nP ? 'Saving ticks '+picked.map(fmt).join(', ')+' for the '+nP+' Guide'+(nP === 1 ? '' : 's')+' who came.' : 'Saving records the meeting and who came.')+'</p>'
+      + '<button class="btn btn-primary" data-act="mfsave" style="width:max-content"'+(f.saving ? ' disabled' : '')+'>'+(f.saving ? 'Saving…' : 'Save the meeting')+'</button></section>';
+    var total = S.data.meetingsTotal || 0;
+    if (total && list.length){
+      var att = list.slice().sort(function(a, b){ return attOf(a).came - attOf(b).came || byName(a, b); });
+      h += '<section class="panel"><h2>Attendance · '+total+' meeting'+(total === 1 ? '' : 's')+' logged</h2><div class="acts">' + att.map(function(p){
+        var a = attOf(p), pc = Math.round(100 * a.came / total);
+        return '<div class="rrow"><span class="nm">'+esc(p.name)+'</span><span class="sc">'+a.came+' of '+total+' · '+pc+'%</span><span class="bar" style="flex:1 1 100%"><span style="width:'+pc+'%"></span></span></div>';
+      }).join('') + '</div></section>';
+    }
+    h += '<section class="panel"><h2>Past meetings</h2>';
+    if (!S.meets) h += '<p class="muted">Loading meetings…</p>';
+    else if (!S.meets.length) h += '<p class="muted">No meetings logged yet. Your first one will show here.</p>';
+    else h += '<div class="acts">' + S.meets.map(function(m){
+      var cnt = m.present.filter(function(t){ return tokens.indexOf(t) > -1; }).length || m.present.length;
+      return '<div class="meet"><div class="row"><b>'+esc(fmtDay(m.date))+' · '+esc(m.title)+'</b><span class="sc">'+cnt+' came</span></div>'
+        + (m.codes.length ? '<div class="gchips">' + m.codes.map(function(c){ var ms = missionOf(c); return '<span class="mtag" style="'+mvars(ms ? ms.id : 'base')+'">'+fmt(c)+'</span>'; }).join('') + '</div>' : '')
+        + (m.names ? '<p class="needs">'+esc(m.names)+'</p>' : '')
+        + (m.notes ? '<p class="needs"><b>Minutes:</b> '+esc(m.notes)+'</p>' : '')
+        + '<div class="row"><span class="muted" style="font-size:12px">Logged by '+esc(m.by || 'a counsellor')+'</span><button class="btn '+(S.confirm === 'mdel:'+m.id ? 'btn-danger' : 'btn-ghost')+' btn-small" data-mdel="'+esc(m.id)+'">'+(S.confirm === 'mdel:'+m.id ? 'Tap again to delete (ticks stay)' : 'Delete')+'</button></div></div>';
+    }).join('') + '</div>';
+    return h + '</section>';
+  }
+  function saveMeeting(){
+    var f = mfInit();
+    var d = document.getElementById('mf-date'), ti = document.getElementById('mf-title'), no = document.getElementById('mf-notes'), tk = document.getElementById('mf-tick');
+    if (d) f.date = d.value; if (ti) f.title = ti.value; if (no) f.notes = no.value; if (tk) f.tick = tk.checked;
+    if (!ymdDate(f.date)){ toast('Pick the date of the meeting.'); return; }
+    if (!f.title.trim()){ toast('Write what the class did first.'); if (ti) ti.focus(); return; }
+    var present = S.data.pathfinders.filter(function(p){ return f.present[p.t]; }).map(function(p){ return p.t; });
+    if (!present.length){ toast('Tick who came first.'); return; }
+    var codes = Object.keys(REQ).filter(function(c){ return f.codes[c]; });
+    f.saving = true; rerender();
+    call('c_saveMeeting', [S.pin, { date: f.date, title: f.title, codes: codes, present: present, tick: f.tick, notes: f.notes }, S.who], function(res){
+      S.mf = null;
+      toast('Meeting saved. ' + (res.ticked ? 'Ticked ' + res.ticked + ' box' + (res.ticked === 1 ? '' : 'es') + ' for ' + res.people + ' Guide' + (res.people === 1 ? '' : 's') + '.' : res.present + ' came.'));
+      S.meets = null; loadMeetings(); loadOverview(false);
+    }, function(code, m){ f.saving = false; rerender(); toast(/bad-date/.test(m) ? 'Pick a valid date.' : /no-title/.test(m) ? 'Write what the class did first.' : 'Couldn’t save the meeting. Try again.'); });
+  }
+
+  /* Report */
+  function needList(list){
+    return Object.keys(REQ).map(function(c){ return { c: c, who: list.filter(function(p){ return !p.done[idx(c)]; }) }; })
+      .filter(function(x){ return x.who.length; })
+      .sort(function(a, b){ return b.who.length - a.who.length || Object.keys(REQ).indexOf(a.c) - Object.keys(REQ).indexOf(b.c); });
+  }
+  function classStats(list){
+    var n = list.length, total = S.data.meetingsTotal || 0;
+    return { n: n, avg: n ? list.reduce(function(s, p){ return s + score(p); }, 0) / n : 0,
+      full: list.filter(function(p){ return score(p) === TOTAL; }).length,
+      adv: list.filter(advDone).length,
+      att: total && n ? Math.round(100 * list.reduce(function(s, p){ return s + attOf(p).came; }, 0) / (total * n)) : null };
+  }
+  function reportText(){
+    var list = S.data.pathfinders.slice().sort(byName), st = classStats(list), L2 = [];
+    L2.push('Guide class report · ' + fmtDay(todayYMD(), true));
+    if (S.data.evalDate) L2.push('Evaluation: ' + fmtDay(S.data.evalDate, true) + ' (' + untilText(daysUntil(S.data.evalDate)) + ')');
+    L2.push(st.n + ' Guides · class average ' + st.avg.toFixed(1) + ' of 24 · ' + st.full + ' finished all 24 · ' + st.adv + ' finished all of Advanced' + (st.att !== null ? ' · attendance ' + st.att + '%' : ''));
+    var need = needList(list);
+    if (need.length){
+      L2.push(''); L2.push('Still needed (most first):');
+      need.slice(0, 12).forEach(function(x){ L2.push('• ' + fmt(x.c) + ' ' + REQ[x.c] + ': ' + x.who.length + ' (' + x.who.map(function(p){ return p.name; }).join(', ') + ')'); });
+    }
+    L2.push(''); L2.push('Each Guide:');
+    list.forEach(function(p){
+      var a = attOf(p), ms = missing(p), av = advCount(p);
+      L2.push('• ' + p.name + ': ' + score(p) + '/24, ' + signedCount(p) + ' of 6 missions signed' + (a.total ? ', came to ' + a.came + ' of ' + a.total + ' meetings' : '')
+        + (av ? ', Advanced ' + av + ' of 6' : '') + (ms.length ? '. Still needs ' + ms.map(fmt).join(', ') + '.' : '. All 24 done.'));
+    });
+    return L2.join('\n');
+  }
+  function renderReport(){
+    var list = S.data.pathfinders.slice().sort(byName), e = S.data.evalDate, h = '';
+    h += '<section class="panel"><h2>Evaluation date</h2>' + (e ? '<p><b>'+esc(fmtDay(e, true))+'</b> · '+esc(untilText(daysUntil(e)))+'</p>' : '<p class="muted">Set the date of the class evaluation or investiture. The Class tab then counts down to it.</p>')
+      + '<div class="frow"><label class="field"><span>Date</span><input type="date" id="evaldate" value="'+esc(e || '')+'"></label><button class="btn btn-primary btn-small" data-act="evalsave">Save date</button>'
+      + (e ? '<button class="btn btn-ghost btn-small" data-act="evalclear">Clear</button>' : '') + '</div></section>';
+    if (!list.length) return h + '<section class="panel"><h2>No Guides yet</h2><p class="muted">Add your class on the Links tab first.</p></section>' + recordPanelHTML();
+    var st = classStats(list), phTotal = 0; Object.keys(S.data.photos || {}).forEach(function(k){ phTotal += S.data.photos[k]; });
+    h += '<div class="stats"><div class="stat"><b>'+st.avg.toFixed(1)+'</b><span>Class average out of 24</span></div>'
+      + '<div class="stat"><b>'+st.full+'<span style="font-size:16px;color:var(--muted)"> / '+st.n+'</span></b><span>Finished all 24</span></div>'
+      + '<div class="stat"><b>'+(st.att === null ? '–' : st.att + '%')+'</b><span>'+(st.att === null ? 'Log meetings to see attendance' : 'Average attendance')+'</span></div>'
+      + '<div class="stat"><b>'+phTotal+'</b><span>Photos of evidence</span></div></div>';
+    h += '<div class="actions"><button class="btn btn-primary btn-small" data-act="repcopy">Copy the report</button>'
+      + '<a class="btn btn-wa btn-small" href="https://wa.me/?text='+encodeURIComponent(reportText())+'" target="_blank" rel="noopener">Send the report on WhatsApp</a>'
+      + '<button class="btn btn-ghost btn-small" data-act="recjump">Record sheets</button></div>';
+    var need = needList(list);
+    h += '<section class="panel"><h2>What the class still needs</h2><p class="muted">Most-needed first. Plan your next meetings from the top of this list.</p>'
+      + (need.length ? '<div class="acts">' + need.map(function(x){
+          return '<div class="needrow"><span><b>'+fmt(x.c)+'</b> '+esc(REQ[x.c])+'</span><span class="ncnt">'+x.who.length+' of '+list.length+'</span><span class="nwho">'+x.who.map(function(p){ return esc(p.name); }).join(', ')+'</span></div>';
+        }).join('') + '</div>' : '<p class="ok">'+CHECK+'Every Guide has all 24 requirements ticked.</p>') + '</section>';
+    var order = list.slice().sort(function(a, b){ return missing(a).length - missing(b).length || byName(a, b); });
+    h += '<section class="panel"><h2>Each Guide</h2><p class="muted">Closest to finishing first. Tap a name to open their page.</p><div class="acts">' + order.map(function(p){
+      var a = attOf(p), ms = missing(p), s = p.sanct || {}, l = p.learn || {}, labN = Object.keys(l).filter(function(k){ return l[k].attempts; }).length, av = advCount(p), ar = advReady(p), np = (S.data.photos || {})[p.t] || 0;
+      return '<div class="gitem"><div class="row"><button class="linkish" data-open="'+esc(p.t)+'">'+esc(p.name)+'</button><span class="sc">'+score(p)+'/24</span></div>'
+        + '<span class="bar"><span style="width:'+Math.round(100 * score(p) / TOTAL)+'%"></span></span>'
+        + '<div class="gchips"><span class="schip">'+signedCount(p)+' of 6 missions signed</span>'
+        + (a.total ? '<span class="schip">Came to '+a.came+' of '+a.total+'</span>' : '')
+        + (av || ar ? '<span class="schip">Advanced '+av+'/6'+(ar ? ' · '+ar+' to sign' : '')+'</span>' : '')
+        + (np ? '<span class="schip">'+np+' photo'+(np === 1 ? '' : 's')+'</span>' : '')
+        + (s.attempts ? '<span class="schip">Sanctuary best '+s.best+(s.last ? '/'+s.last.total : '')+'</span>' : '')
+        + (labN ? '<span class="schip">'+labN+' explorer challenge'+(labN === 1 ? '' : 's')+'</span>' : '') + '</div>'
+        + (ms.length ? '<p class="needs"><b>Still needs:</b> '+ms.map(fmt).join(', ')+'</p>' : '<p class="ok">'+CHECK+'All 24 done</p>') + '</div>';
+    }).join('') + '</div></section>';
+    return h + recordPanelHTML();
+  }
+
+  /* Record sheets */
+  function recordPanelHTML(){
+    var rs = S.data.record || { club: '', titles: [] }, list = S.data.pathfinders.slice().sort(byName);
+    var h = '<section class="panel" id="records"><h2>Record sheets for investiture</h2><p class="muted">One page per Guide, laid out like the workbook’s requirement sheet: every requirement with the date it was done and who ticked it, mission sign-offs, Advanced, attendance, photos and signature lines. Print it, or choose “Save as PDF” when printing.</p>'
+      + '<div class="frow"><label class="field grow"><span>Guide</span><select id="recwho"><option value="">The whole class ('+list.length+')</option>'
+      + list.map(function(p){ return '<option value="'+esc(p.t)+'">'+esc(p.name)+'</option>'; }).join('') + '</select></label>'
+      + '<label class="check"><input type="checkbox" id="recph" checked>Include photos</label></div>'
+      + '<button class="btn btn-primary btn-small" data-act="recopen" style="width:max-content">Open the record sheet</button>'
+      + '<details class="rsset"><summary>Record sheet settings (club name, signature lines)</summary>'
+      + '<label class="field"><span>Club name</span><input type="text" id="rs-club" maxlength="80" value="'+esc(rs.club || '')+'" placeholder="e.g. Eagles Pathfinder Club"></label>'
+      + '<label class="field"><span>Signature lines, one per line</span><textarea id="rs-titles" rows="6">'+esc((rs.titles || []).join('\n'))+'</textarea></label>'
+      + '<button class="btn btn-ghost btn-small" data-act="rssave" style="width:max-content">Save settings</button></details>'
+      + '<p class="muted" style="font-size:13px">'+(S.data.backup ? 'Last automatic backup of the Sheet: ' + esc(when(S.data.backup)) + '. A copy is made every Sunday in the “Guide Quest backups” folder in Google Drive.' : 'Automatic weekly backups aren’t switched on yet.')+'</p></section>';
+    return h;
+  }
+  function openRecord(t, photos){
+    S.print = { t: t, photos: photos, data: null, err: '' }; render(); window.scrollTo(0, 0);
+    call('c_record', [S.pin, t], function(res){ if (!S.print) return; S.print.data = res; render(); if (photos) loadPrintPhotos(); },
+      function(){ if (S.print){ S.print.err = 'Couldn’t load the record sheet. Try again.'; render(); } });
+  }
+  function loadPrintPhotos(){
+    if (!S.print || !S.print.data) return;
+    var ids = []; S.print.data.guides.forEach(function(g){ g.photos.forEach(function(x){ if (!S.phData[x.id]) ids.push(x.id); }); });
+    S.print.left = ids.length;
+    function next(){
+      if (!S.print || !ids.length){ if (S.print){ S.print.left = 0; render(); } return; }
+      var id = ids.shift();
+      call('c_photo', [S.pin, id], function(res){ S.phData[id] = res.data; S.print && (S.print.left = ids.length); render(); next(); }, function(){ next(); });
+    }
+    next(); next();
+  }
+  function renderPrint(){
+    var P = S.print, d = P.data, rs = (d && d.settings) || S.data.record || { club: '', titles: [] };
+    var h = '<div class="noprint printbar"><button class="btn btn-ghost btn-small" data-act="recclose">'+BACK+'Back to the report</button>'
+      + '<button class="btn btn-primary btn-small" data-act="recprint"'+(d ? '' : ' disabled')+'>Print / Save as PDF</button>'
+      + '<span class="muted" style="font-size:13px">'+(P.err ? esc(P.err) : !d ? 'Loading…' : P.left ? 'Loading photos… '+P.left+' left' : 'Ready to print')+'</span></div>';
+    if (!d) return h;
+    if (!d.guides.length) return h + '<p class="muted">No Guides yet.</p>';
+    d.guides.forEach(function(g){
+      var n = Object.keys(g.done).filter(function(c){ return g.done[c]; }).length;
+      h += '<article class="rec"><header class="rechead"><div><span class="eyebrow">'+esc(rs.club || 'Pathfinder Club')+' · Guide class record</span><h1>'+esc(g.name)+'</h1></div>'
+        + '<div class="recsum"><b>'+n+' of 24</b> requirements · '+signedCountMap(g.signs)+' of 6 missions signed'+(g.total ? ' · came to '+g.came+' of '+g.total+' meetings' : '')+(d.evalDate ? '<br>Evaluation: '+esc(fmtDay(d.evalDate, true)) : '')+'</div></header>';
+      h += '<table class="rtab"><thead><tr><th>Requirement</th><th>Done</th><th>Date</th><th>Ticked by</th></tr></thead><tbody>';
+      SECTIONS.forEach(function(sec){
+        var cs = Object.keys(REQ).filter(function(c){ return c.replace(/\d+$/, '') === sec[0]; });
+        if (!cs.length) return;
+        h += '<tr class="rsec"><td colspan="4">'+esc(sec[1])+'</td></tr>';
+        cs.forEach(function(c){ var w = g.when[c]; h += '<tr><td><b>'+fmt(c)+'</b> '+esc(REQ[c])+'</td><td class="rc2">'+(g.done[c] ? '✓' : '')+'</td><td>'+(g.done[c] && w ? esc(fmtMs(w.date)) : '')+'</td><td>'+(g.done[c] && w ? esc(w.by) : '')+'</td></tr>'; });
+      });
+      h += '</tbody></table>';
+      h += '<div class="rgrid"><div><h3>Mission sign-offs</h3>' + MISSIONS.map(function(m){ return '<p>'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+': <b>'+esc(g.signs[m.id] || '—')+'</b></p>'; }).join('') + '</div>'
+        + '<div><h3>Advanced (optional)</h3>' + ADVC.map(function(c){ var a = g.adv[c] || {}; return '<p>'+esc(ADVN[c][0])+' · '+esc(ADVSHORT[c])+': <b>'+(a.sign ? esc(a.sign) : a.done ? 'done, not signed' : '—')+'</b></p>'; }).join('') + '</div></div>';
+      if (P.photos && g.photos.length){
+        h += '<h3>Evidence photos</h3><div class="rphotos">' + g.photos.map(function(x){ return '<figure>'+(S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<div class="rphold"></div>')+'<figcaption>'+fmtAny(x.code)+(x.caption ? ' · '+esc(x.caption) : '')+'</figcaption></figure>'; }).join('') + '</div>';
+      }
+      h += '<div class="rsigns">' + (rs.titles || []).map(function(tt){ return '<div class="rsign"><span class="rline"></span><span>'+esc(tt)+'</span><span class="rline short"></span><span>Date</span></div>'; }).join('')
+        + '<div class="rsign"><span class="rline"></span><span>Date invested</span></div></div></article>';
+    });
+    return h;
+  }
+  function signedCountMap(signs){ return MISSIONS.filter(function(m){ return signs[m.id]; }).length; }
+
+  /* Guide page: explorers, Advanced, photos, parent link, notes */
+  function loadGuidePhotos(t){
+    if (S.ph[t] || S.phLoading['list:' + t]) return;
+    S.phLoading['list:' + t] = 1;
+    call('c_photos', [S.pin, t], function(res){ delete S.phLoading['list:' + t]; S.ph[t] = res || []; if (S.open === t) rerender(); },
+      function(){ delete S.phLoading['list:' + t]; S.ph[t] = []; });
+  }
+  function fetchCThumbs(){
+    var want = [].slice.call(document.querySelectorAll('[data-cph]')).map(function(b){ return b.getAttribute('data-cph'); }).filter(function(id){ return !S.phData[id] && !S.phLoading[id]; });
+    var busy = Object.keys(S.phLoading).filter(function(k){ return k.indexOf('list:') !== 0; }).length;
+    want.slice(0, Math.max(0, 3 - busy)).forEach(function(id){
+      S.phLoading[id] = 1;
+      call('c_photo', [S.pin, id], function(res){ delete S.phLoading[id]; S.phData[id] = res.data; S.phUrl = S.phUrl || {}; S.phUrl[id] = res.url; rerender(); },
+        function(){ delete S.phLoading[id]; S.phData[id] = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10" fill="#ccc"/></svg>'); });
+    });
+  }
+  function photoViewerHTML(){
+    var all = [], x = null; Object.keys(S.ph).forEach(function(t){ all = all.concat(S.ph[t]); });
+    x = all.filter(function(p){ return p.id === S.phOpen; })[0];
+    if (!x) return '';
+    var url = x.url || (S.phUrl || {})[x.id];
+    return '<div class="backdrop" data-phclose="1"></div><div class="phview" role="dialog" aria-label="Photo"><div class="row"><b>'+esc(fmtAny(x.code))+' · '+esc(codeName(x.code))+'</b><button class="btn btn-ghost btn-small" data-phclose="1">Close</button></div>'
+      + (S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<p class="muted">Loading…</p>')
+      + '<p class="muted" style="font-size:13px">Added by '+esc(x.by)+(x.date ? ' · '+esc(fmtMs(x.date)) : '')+'</p>'
+      + '<div class="actions">'+(url ? '<a class="btn btn-ghost btn-small" href="'+esc(url)+'" target="_blank" rel="noopener">Open the original in Google Drive</a>' : '')
+      + '<button class="btn '+(S.confirm === 'phdel:'+x.id ? 'btn-danger' : 'btn-ghost')+' btn-small" data-cphdel="'+esc(x.id)+'">'+(S.confirm === 'phdel:'+x.id ? 'Tap again to delete this photo' : 'Delete photo')+'</button></div></div>';
+  }
+  function uploadCPhoto(t, code, file){
+    if (!file || !code) { toast('Pick the requirement first.'); return; }
+    if (!/^image\//.test(file.type || 'image/jpeg')){ toast('That file isn’t a photo.'); return; }
+    if (file.size > 15 * 1024 * 1024){ toast('That photo is too big. Try one under 15 MB.'); return; }
+    S.phBusy = true; rerender();
+    var rd = new FileReader();
+    rd.onload = function(){
+      var orig = String(rd.result), img = new Image();
+      var send = function(prev){
+        call('c_addPhoto', [S.pin, t, code, { data: orig, mime: file.type || 'image/jpeg', preview: prev }, S.who], function(res){
+          S.phBusy = false; S.ph[t] = null; if (prev) S.phData[res.id] = prev; loadGuidePhotos(t);
+          S.data.photos = S.data.photos || {}; S.data.photos[t] = (S.data.photos[t] || 0) + 1; toast('Photo added'); rerender();
+        }, function(c, m){ S.phBusy = false; rerender(); toast(/photo-limit/.test(m) ? 'Up to 8 photos for each requirement.' : /too-big/.test(m) ? 'That photo is too big.' : 'Couldn’t upload the photo. Try again.'); });
+      };
+      img.onload = function(){ try { var sc = Math.min(1, 960 / Math.max(img.naturalWidth, img.naturalHeight)), cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * sc); cv.height = Math.round(img.naturalHeight * sc); cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height); send(cv.toDataURL('image/jpeg', 0.82)); } catch(e){ send(''); } };
+      img.onerror = function(){ send(''); };
+      img.src = orig;
+    };
+    rd.readAsDataURL(file);
+  }
+  function detailExtrasHTML(p){
+    var h = '', l = p.learn || {}, s = p.sanct || {};
+    var ks = labTopics().filter(function(t){ return l[t.id]; });
+    if (ks.length || s.explored || s.attempts){
+      h += '<section class="panel"><h2>Explorers</h2><div class="gchips">'
+        + (s.explored || s.attempts ? '<span class="schip">⛺ Sanctuary '+s.explored+'/'+(S.data.parts || 12)+(s.attempts ? ' · best '+s.best+(s.last ? '/'+s.last.total : '') : '')+'</span>' : '')
+        + ks.map(function(t){ var x = l[t.id]; return '<span class="schip">'+(LAB_ICONS[t.id] || '')+' '+esc(t.name)+' '+Math.min(x.seen, t.cards)+'/'+t.cards+(x.attempts ? ' · best '+x.best+(x.total ? '/'+x.total : '') : '')+'</span>'; }).join('')
+        + '</div></section>';
+    }
+    var a = advOf(p), cnt = advCount(p);
+    h += '<section class="panel advsec"><div class="row"><h2>Advanced <small class="muted" style="font-size:14px">(optional)</small></h2>'
+      + (cnt === 6 ? '<span class="okpill">'+CHECK+'All 6 signed</span>' : '<span class="muted" style="font-size:13px">'+cnt+' of 6 signed</span>') + '</div>'
+      + '<p class="muted" style="font-size:13px">The Guide works on these in the Advanced section of their app. Their written work shows under “Show their answers”.</p>';
+    ADVC.forEach(function(c){
+      var x = a[c] || {}, key = p.t + '|' + c;
+      h += '<div class="advrow2"><div><b>'+esc(ADVN[c][0])+' · '+esc(ADVSHORT[c])+'</b><span class="muted">'+esc(ADVN[c][1])+'</span>'
+        + '<span class="'+(x.sign ? 'ok' : 'muted')+'" style="font-size:13px">'+(x.sign ? CHECK+'Signed · '+esc(x.sign) : x.done ? 'Marked done by the Guide · ready to sign' : 'Not marked done yet')+'</span></div>'
+        + (x.sign ? '<button class="btn btn-ghost btn-small" data-avsign="'+esc(key)+'|0">Remove</button>' : '<button class="btn '+(x.done ? 'btn-primary' : 'btn-ghost')+' btn-small" data-avsign="'+esc(key)+'|1">Sign off</button>') + '</div>';
+    });
+    h += '</section>';
+    // photos
+    loadGuidePhotos(p.t);
+    var list = S.ph[p.t];
+    h += '<section class="panel"><div class="row"><h2>Photos of evidence</h2><span class="muted" style="font-size:13px">'+(list ? list.length+' photo'+(list.length === 1 ? '' : 's') : 'Loading…')+'</span></div>';
+    if (list && list.length){
+      var codes = allCodes().filter(function(c){ return list.some(function(x){ return x.code === c; }); });
+      h += codes.map(function(c){ return '<div class="phgroup"><small><b>'+fmtAny(c)+'</b> '+esc(codeName(c))+'</small><div class="phgrid">' + list.filter(function(x){ return x.code === c; }).map(function(x){
+        return '<button class="phthumb" data-cph="'+esc(x.id)+'" aria-label="Open photo">'+(S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<span class="phload"></span>')+'</button>'; }).join('') + '</div></div>'; }).join('');
+    } else if (list) h += '<p class="muted">No photos yet. The Guide can add them on each requirement, or you can add one here.</p>';
+    h += '<div class="frow"><label class="field grow"><span>Add a photo for</span><select id="cph-code"><option value="">Choose the requirement…</option>'
+      + allCodes().map(function(c){ return '<option value="'+c+'">'+esc(fmtAny(c)+' · '+codeName(c))+'</option>'; }).join('') + '</select></label>'
+      + '<label class="btn btn-ghost btn-small fileb'+(S.phBusy ? ' busy' : '')+'"><input type="file" accept="image/*" data-cphadd="'+esc(p.t)+'"'+(S.phBusy ? ' disabled' : '')+'>'+(S.phBusy ? 'Uploading…' : 'Choose photo')+'</label></div></section>';
+    // parent link
+    var pl = S.parent[p.t];
+    h += '<section class="panel"><h2>Parent link</h2><p class="muted" style="font-size:13px">Parents can see progress, attendance, photos and the coming programme. They can’t change anything.</p>'
+      + (pl ? '<span class="linkrow"><input type="text" readonly value="'+esc(pl)+'" aria-label="Parent link"><button class="btn btn-ghost btn-small" data-copy="'+esc(pl)+'">Copy</button></span>'
+        + '<a class="btn btn-wa btn-small" style="width:max-content" href="https://wa.me/?text='+encodeURIComponent('Hello! Here is the link to follow ' + p.name + '’s progress in the Pathfinder Guide class: ' + pl)+'" target="_blank" rel="noopener">Send to a parent on WhatsApp</a>'
+        : '<button class="btn btn-ghost btn-small" data-plink="'+esc(p.t)+'" style="width:max-content">Show the parent link</button>') + '</section>';
+    var x2 = xOf(p), nd = S.noteDraft[p.t];
+    h += '<section class="panel"><h2>Counsellor notes</h2><p class="muted" style="font-size:13px">Only counsellors see these.'+(x2.updated ? ' Last saved '+esc(when(x2.updated))+(x2.by ? ' by '+esc(x2.by) : '')+'.' : '')+'</p>'
+      + '<textarea id="xn-'+esc(p.t)+'" maxlength="2000" aria-label="Notes about '+esc(p.name)+'" placeholder="e.g. Needs to finish the Pack Camp list. Parent asked about the camp date.">'+esc(nd != null ? nd : x2.note)+'</textarea>'
+      + '<button class="btn btn-primary btn-small" data-notesave="'+esc(p.t)+'" style="width:max-content">Save notes</button></section>';
+    return h;
+  }
+  function getParentLink(t, then){
+    call('c_parentLink', [S.pin, t, S.who], function(res){ S.parent[t] = res.url; rerender(); then && then(res.url); }, function(){ toast('Couldn’t make the parent link. Try again.'); });
+  }
+  function xnav(){
+    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['questions','Questions']].map(function(x){
+      return '<button class="tab" role="tab" data-tab="'+x[0]+'" aria-selected="'+(S.tab === x[0])+'">'+x[1]+'</button>'; }).join('') + '</div>';
+  }
+
+  function xClick(ds){
+    if (ds.phclose){ S.phOpen = ''; S.confirm = null; rerender(); return true; }
+    if (ds.cph){ S.phOpen = ds.cph; S.confirm = null; rerender(); return true; }
+    if (ds.cphdel){
+      if (S.confirm !== 'phdel:' + ds.cphdel){ S.confirm = 'phdel:' + ds.cphdel; rerender(); return true; }
+      S.confirm = null; var pid = ds.cphdel;
+      call('c_deletePhoto', [S.pin, pid, S.who], function(){ Object.keys(S.ph).forEach(function(t){ var before = S.ph[t].length; S.ph[t] = S.ph[t].filter(function(x){ return x.id !== pid; }); if (S.data.photos && before !== S.ph[t].length) S.data.photos[t] = Math.max(0, (S.data.photos[t] || 1) - 1); }); S.phOpen = ''; toast('Photo deleted'); rerender(); },
+        function(){ toast('Couldn’t delete it. Try again.'); });
+      return true;
+    }
+    if (ds.plink){ var tt = ds.plink; if (S.parent[tt]) copyText(S.parent[tt], 'Parent link copied'); else getParentLink(tt, function(u){ copyText(u, 'Parent link copied'); }); return true; }
+    if (ds.avsign){
+      var pa = ds.avsign.split('|'), pg = find(pa[0]), on = pa[2] === '1';
+      if (!pg) return true;
+      S.data.advanced = S.data.advanced || {};
+      var ag = S.data.advanced[pg.t] || (S.data.advanced[pg.t] = {}), cur = ag[pa[1]] || (ag[pa[1]] = { done: false, sign: '' }), was = cur.sign;
+      cur.sign = on ? (S.who || 'Counsellor') + ' · today' : ''; rerender();
+      call('c_advSign', [S.pin, pg.t, pa[1], on, S.who], function(res){ cur.sign = res.sign; toast(on ? 'Signed off' : 'Sign-off removed'); rerender(); }, function(){ cur.sign = was; rerender(); toast('Couldn’t save that. Try again.'); });
+      return true;
+    }
+    if (ds.pfcode){ if (S.pf){ S.pf.codes[ds.pfcode] = !S.pf.codes[ds.pfcode]; rerender(); } return true; }
+    if (ds.pfedit){ var it = (S.prog || []).filter(function(x){ return x.id === ds.pfedit; })[0]; if (it){ pfStart(it); rerender(); } return true; }
+    if (ds.pflog){
+      var it2 = (S.prog || []).filter(function(x){ return x.id === ds.pflog; })[0];
+      if (it2){ var sel = {}; it2.codes.forEach(function(c){ if (REQ[c]) sel[c] = true; }); S.mf = { date: it2.date, title: it2.title, codes: sel, present: {}, tick: true, notes: '', saving: false }; rerender();
+        var el = document.getElementById('logmeeting'); if (el) el.scrollIntoView({ block: 'start' }); toast('Tick who came, then save.'); }
+      return true;
+    }
+    if (ds.pfdel){
+      if (S.confirm !== 'pfdel:' + ds.pfdel){ S.confirm = 'pfdel:' + ds.pfdel; rerender(); return true; }
+      S.confirm = null;
+      call('c_deleteProgramme', [S.pin, ds.pfdel, S.who], function(){ toast('Removed from the programme'); loadProgramme(); }, function(){ toast('Couldn’t delete it. Try again.'); rerender(); });
+      return true;
+    }
+    if (ds.mfcode){ var f = mfInit(); f.codes[ds.mfcode] = !f.codes[ds.mfcode]; rerender(); return true; }
+    if (ds.mfall !== undefined){ var f2 = mfInit(); S.data.pathfinders.forEach(function(p){ f2.present[p.t] = ds.mfall === '1'; }); rerender(); return true; }
+    if (ds.mdel){
+      if (S.confirm !== 'mdel:' + ds.mdel){ S.confirm = 'mdel:' + ds.mdel; rerender(); return true; }
+      S.confirm = null;
+      call('c_deleteMeeting', [S.pin, ds.mdel, S.who], function(){ toast('Meeting deleted. Ticks stay as they are.'); loadMeetings(); loadOverview(true); }, function(){ toast('Couldn’t delete it. Try again.'); rerender(); });
+      return true;
+    }
+    if (ds.notesave){
+      var t = ds.notesave, ne = document.getElementById('xn-' + t), nv = ne ? ne.value : '';
+      call('c_saveExtras', [S.pin, t, { note: nv }, S.who], function(res){ delete S.noteDraft[t]; S.data.extras = S.data.extras || {}; if (res && res.extra) S.data.extras[t] = res.extra; toast('Notes saved'); rerender(); },
+        function(){ toast('Couldn’t save the notes. Try again.'); });
+      return true;
+    }
+    var act = ds.act;
+    if (act === 'pfnew'){ pfStart(null); rerender(); return true; }
+    if (act === 'pfcancel'){ S.pf = null; rerender(); return true; }
+    if (act === 'pfsave'){ savePlan(); return true; }
+    if (act === 'aiplan'){
+      S.tab = 'ai'; S.open = null; S.ai.draft = LESSON_PROMPT; render(); window.scrollTo(0, 0);
+      if (S.ai.status && S.ai.status.ready && !S.ai.busy && !S.ai.setup) aiSend(LESSON_PROMPT);
+      return true;
+    }
+    if (act === 'mfsave'){ saveMeeting(); return true; }
+    if (act === 'evalsave' || act === 'evalclear'){
+      var dv = act === 'evalclear' ? '' : ((document.getElementById('evaldate') || {}).value || '');
+      if (act === 'evalsave' && !ymdDate(dv)){ toast('Pick the date first.'); return true; }
+      call('c_setEvalDate', [S.pin, dv, S.who], function(res){ S.data.evalDate = res.evalDate; toast(dv ? 'Evaluation date saved' : 'Evaluation date cleared'); rerender(); }, function(){ toast('Couldn’t save the date. Try again.'); });
+      return true;
+    }
+    if (act === 'repcopy'){ copyText(reportText(), 'Report copied'); return true; }
+    if (act === 'recjump'){ var rj = document.getElementById('records'); if (rj) rj.scrollIntoView({ block: 'start' }); return true; }
+    if (act === 'recopen'){ openRecord((document.getElementById('recwho') || {}).value || '', !!(document.getElementById('recph') || {}).checked); return true; }
+    if (act === 'recclose'){ S.print = null; render(); var rp = document.getElementById('records'); if (rp) rp.scrollIntoView({ block: 'start' }); return true; }
+    if (act === 'recprint'){ window.print(); return true; }
+    if (act === 'rssave'){
+      var club = (document.getElementById('rs-club') || {}).value || '', titles = String((document.getElementById('rs-titles') || {}).value || '').split('\n');
+      call('c_setRecordSettings', [S.pin, { club: club, titles: titles }, S.who], function(res){ S.data.record = res; toast('Settings saved'); rerender(); }, function(){ toast('Couldn’t save the settings.'); });
+      return true;
+    }
+    return false;
+  }
+  app.addEventListener('input', function(e){
+    var t = e.target; if (!t || !t.id) return;
+    if (t.id === 'mf-title') mfInit().title = t.value;
+    else if (t.id === 'mf-notes') mfInit().notes = t.value;
+    else if (t.id === 'mf-date') mfInit().date = t.value;
+    else if (t.id.indexOf('pf-') === 0 && S.pf) S.pf[t.id.slice(3)] = t.value;
+    else if (t.id.indexOf('xn-') === 0) S.noteDraft[t.id.slice(3)] = t.value;
+  });
+  app.addEventListener('change', function(e){
+    var t = e.target; if (!t) return;
+    if (t.dataset && t.dataset.mfp){ mfInit().present[t.dataset.mfp] = t.checked; rerender(); }
+    else if (t.dataset && t.dataset.cphadd){ var code = (document.getElementById('cph-code') || {}).value || ''; uploadCPhoto(t.dataset.cphadd, code, t.files && t.files[0]); t.value = ''; }
+    else if (t.id === 'mf-tick'){ mfInit().tick = t.checked; rerender(); }
+    else if (t.id === 'mf-date') mfInit().date = t.value;
+    else if (t.id === 'pf-date' && S.pf) S.pf.date = t.value;
+  });
+  app.addEventListener('click', function(e){ if (e.target && e.target.dataset && e.target.dataset.phclose && !e.target.closest('button')){ S.phOpen = ''; S.confirm = null; rerender(); } });
+
+  app.addEventListener('submit', function(e){ e.preventDefault(); submitLogin(); });
+  app.addEventListener('click', function(e){
+    var b = e.target.closest('button');
+    if (!b || !app.contains(b)) return;
+    var ds = b.dataset;
+    if (b.type === 'submit' && b.closest('form')) return;
+    if (aiClick(ds)) return;
+    if (xClick(ds)) return;
+    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
+    if (ds.ltopic){ S.labTopic = ds.ltopic; S.labOpen = null; rerender(); return; }
+    if (ds.lopen !== undefined){ S.labOpen = ds.lopen || null; render(); window.scrollTo(0,0); var lt = labTopic(); if (S.labOpen && lt) loadLabAttempts(S.labOpen, lt.id); return; }
+    if (ds.qtopic){ if (ds.qtopic !== S.qTopic){ S.qTopic = ds.qtopic; S.qs = null; S.qEdit = null; S.qConfirm = null; rerender(); loadQuestions(); } return; }
+    if (ds.sopen !== undefined){ S.sanctOpen = ds.sopen || null; render(); window.scrollTo(0,0); if (S.sanctOpen) loadAttempts(S.sanctOpen); return; }
+    if (ds.mark){
+      var mk = ds.mark.split('|'), aid = mk[0], qi = +mk[1], want = mk[2] === '1';
+      var at = findAttempt(aid); if (!at) return;
+      var an = at.answers[qi]; if (!an) return;
+      var val = an.right === want ? null : want;
+      var prev = an.override; an.override = val; at.marked = effScore(at.answers); rerender();
+      call('c_mark', [S.pin, aid, qi, val, S.who], function(res){ at.answers = res.answers; at.marked = res.marked; rerender(); loadOverview(true); },
+        function(){ an.override = prev; at.marked = effScore(at.answers); rerender(); toast('Couldn’t save that mark. Try again.'); });
+      return;
+    }
+    if (ds.qedit !== undefined){ S.qEdit = ds.qedit || 'new'; S.qConfirm = null; render(); var qf = document.getElementById('qf-q'); if (qf){ qf.focus(); qf.scrollIntoView({block:'center'}); } return; }
+    if (ds.qtoggle){
+      var qq = findQ(ds.qtoggle); if (!qq) return;
+      qq.active = !qq.active; rerender();
+      call('c_setQuestionActive', [S.pin, qq.id, qq.active], null, function(){ qq.active = !qq.active; rerender(); toast('Couldn’t change that question.'); });
+      return;
+    }
+    if (ds.qdel){
+      if (S.qConfirm !== 'del:' + ds.qdel){ S.qConfirm = 'del:' + ds.qdel; rerender(); return; }
+      S.qConfirm = null;
+      call('c_deleteQuestion', [S.pin, ds.qdel, S.who], function(){ toast('Question deleted'); loadQuestions(); }, function(){ toast('Couldn’t delete it. Try again.'); rerender(); });
+      return;
+    }
+    if (ds.view){ S.view = ds.view; rerender(); return; }
+    if (ds.open){ S.open = ds.open; S.confirm = null; render(); window.scrollTo(0,0); return; }
+    if (ds.back){ S.open = null; S.confirm = null; render(); window.scrollTo(0,0); return; }
+    if (ds.copy !== undefined){ copy(ds.copy); return; }
+    if (ds.tog){
+      var parts = ds.tog.split('|'), p = find(parts[0]), i = idx(parts[1]);
+      if (!p || i < 0) return;
+      var val = !p.done[i]; p.done[i] = val; rerender();
+      call('c_toggle', [S.pin, p.t, parts[1], val, S.who], null, function(code){ p.done[i] = !val; rerender(); toast(code === 'not-found' ? ERR['not-found'] : 'Couldn’t save that tick. Try again.'); if (code === 'not-found') loadOverview(false); });
+      return;
+    }
+    if (ds.sign){
+      var sp = ds.sign.split('|'), pp = find(S.open), on = sp[1] === '1', mid = sp[0];
+      if (!pp) return;
+      var before = pp.signs[mid];
+      if (on) pp.signs[mid] = (S.who || 'Counsellor') + ' · today'; else delete pp.signs[mid];
+      rerender();
+      call('c_sign', [S.pin, pp.t, mid, on, S.who], function(res){ if (on && res && res.text) pp.signs[mid] = res.text; rerender(); toast(on ? 'Signed off' : 'Sign-off removed'); },
+        function(){ if (before) pp.signs[mid] = before; else delete pp.signs[mid]; rerender(); toast('Couldn’t save the sign-off. Try again.'); });
+      return;
+    }
+    var act = ds.act;
+    if (act === 'qcancel'){ S.qEdit = null; rerender(); return; }
+    if (act === 'qsave'){ saveQuestionForm(); return; }
+    if (act === 'qreset'){
+      if (S.qConfirm !== 'reset'){ S.qConfirm = 'reset'; rerender(); return; }
+      S.qConfirm = null;
+      call('c_resetQuestions', [S.pin, S.who, S.qTopic], function(){ toast('Default questions restored'); loadQuestions(); }, function(){ toast('Couldn’t reset. Try again.'); rerender(); });
+      return;
+    }
+    if (act === 'lock'){ lockOut(''); try { localStorage.removeItem(KEY); } catch(err){} return; }
+    if (act === 'answers'){
+      var pa = find(S.open); if (!pa) return;
+      call('c_answers', [S.pin, pa.t], function(res){ S.answers[pa.t] = res || []; rerender(); }, function(){ toast('Couldn’t load answers.'); });
+      return;
+    }
+    if (act === 'newlink'){
+      var pn = find(S.open); if (!pn) return;
+      if (S.confirm !== 'new'){ S.confirm = 'new'; rerender(); return; }
+      S.confirm = null;
+      call('c_newlink', [S.pin, pn.t, S.who], function(res){ var old = pn.t; pn.t = res.t; S.open = res.t; if (S.answers[old]){ S.answers[res.t] = S.answers[old]; delete S.answers[old]; } if (S.data.extras && S.data.extras[old]){ S.data.extras[res.t] = S.data.extras[old]; delete S.data.extras[old]; } if (S.noteDraft[old] != null){ S.noteDraft[res.t] = S.noteDraft[old]; delete S.noteDraft[old]; } if (S.data.attend && S.data.attend[old]){ S.data.attend[res.t] = S.data.attend[old]; delete S.data.attend[old]; } S.meets = null; rerender(); toast('New link made. Their work moved with it. Send it to ' + pn.name + ' again.'); loadOverview(true); },
+        function(){ toast('Couldn’t make a new link.'); rerender(); });
+      return;
+    }
+    if (act === 'remove'){
+      var pr = find(S.open); if (!pr) return;
+      if (S.confirm !== 'remove'){ S.confirm = 'remove'; rerender(); return; }
+      S.confirm = null;
+      call('c_remove', [S.pin, pr.t, S.who], function(){ S.data.pathfinders = S.data.pathfinders.filter(function(x){ return x !== pr; }); S.open = null; render(); toast(pr.name + ' was removed.'); },
+        function(){ toast('Couldn’t remove. Try again.'); rerender(); });
+      return;
+    }
+    if (act === 'add'){
+      var ta = document.getElementById('addnames');
+      var names = (ta && ta.value || '').split(/\r?\n/).map(function(s){ return s.trim(); }).filter(Boolean);
+      if (!names.length){ if (ta) ta.focus(); toast('Type at least one name.'); return; }
+      S.adding = true; rerender();
+      call('c_add', [S.pin, names, S.who], function(res){
+        S.adding = false;
+        toast(res.full ? 'Added ' + res.added + '. The class list is full (150).' : 'Added ' + res.added + ' Pathfinder' + (res.added === 1 ? '' : 's') + '.');
+        var t2 = document.getElementById('addnames'); if (t2) t2.value = '';
+        loadOverview(false);
+      }, function(){ S.adding = false; rerender(); toast('Couldn’t add them. Try again.'); });
+      return;
+    }
+  });
+
+  if (S.pin){
+    call('c_login', [S.pin], function(){ loadOverview(false); }, function(code){ S.pin = ''; S.msg = code === 'no-pin' ? '' : (ERR[code] || ''); if (code === 'no-pin') S.mode = 'create'; render(); });
+    app.innerHTML = '<div class="cwrap"><div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest <small>Counsellors</small></div></div><p class="muted">Opening the dashboard…</p></div>';
+  } else {
+    render();
+    call('c_status', [], function(res){ if (res && !res.hasPin){ S.mode = 'create'; render(); } });
+  }
+})();
+</script>
+
+</body>
+</html>
