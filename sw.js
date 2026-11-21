@@ -1,5 +1,5 @@
 /* Keeps the app on the phone so it opens quickly and with weak signal. The data itself always comes from the Google Sheet. */
-var CACHE = 'gq-1c0b129c45-n', FILES = ["./", "counsellor.html", "gq.js", "icon-192.png", "icon-512.png", "index.html", "learn.html", "manifest.webmanifest", "parent.html", "sanctuary.html"];
+var CACHE = 'gq-2bceec4e21-n', FILES = ["./", "counsellor.html", "gq.js", "icon-192.png", "icon-512.png", "index.html", "learn.html", "manifest.webmanifest", "parent.html", "sanctuary.html"];
 /* One saved copy per page, whatever is after the "?". The newest page is always tried first; the saved copy is used
    when there is no signal, or when the network takes more than 4 seconds. */
 function key(u){ var p = u.pathname; if (/\/$/.test(p)) p += 'index.html'; return u.origin + p; }

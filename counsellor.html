@@ -491,7 +491,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
   function tabs(){
     var t = [['class','Class'],['meet','Meetings & Plan'],['explorers','Explorers'],['report','Report'],['ai','Assistant'],['roster','Links']];
-    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
+    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions','games'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
     return '<div class="tabs" role="tablist">' + t.map(function(x){ return '<button class="tab" role="tab" data-tab="'+(x[0] === 'explorers' ? (S.lastX || 'lab') : x[0])+'" aria-selected="'+(cur === x[0] && !S.open)+'">'+x[1]+'</button>'; }).join('') + '</div>';
   }
 
@@ -844,6 +844,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     else if (S.tab === 'lab') body = xnav() + renderLab();
     else if (S.tab === 'ai') body = renderAI();
     else if (S.tab === 'questions') body = xnav() + renderQuestions();
+    else if (S.tab === 'games') body = xnav() + renderGames();
     else if (S.tab === 'roster') body = renderRoster();
     else body = renderClass();
     app.innerHTML = '<div class="cwrap">' + topbar() + tabs() + body + '</div>';
@@ -1514,8 +1515,31 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   function getParentLink(t, then){
     call('c_parentLink', [S.pin, t, S.who], function(res){ S.parent[t] = res.url; rerender(); then && then(res.url); }, function(){ toast('Couldn’t make the parent link. Try again.'); });
   }
+
+  /* ---------- Games: every Guide's best score in each new game ---------- */
+  var GAME_ICONS = { 'church:ladder':'🪜', 'sanctuary:setup':'⛺', 'fire:build':'🔥', 'lashing:tower':'🗼', 'orienteering:race':'🧭', 'packcamp:pack':'🎒', 'nutrition:run':'🏃', 'fruit:basket':'🧺', 'pioneers:timeline':'📜', 'ecology:creek':'🏞️', 'legion:path':'🛡️' };
+  function loadGames(){
+    S.gamesBusy = true;
+    call('c_games', [S.pin], function(res){ S.games = res || []; S.gamesBusy = false; if (!S.gameSel && S.games.length) { var first = S.games.filter(function(g){ return g.rows.length; })[0]; S.gameSel = (first || S.games[0]).id; } if (S.tab === 'games') rerender(); },
+      function(){ S.gamesBusy = false; S.games = S.games || []; toast('Couldn’t load the game scores.'); if (S.tab === 'games') rerender(); });
+  }
+  function renderGames(){
+    var h = '<section class="panel"><h2>Games · class top scores</h2><p class="muted">Each explorer now has a new game. Guides see the class top 5 when they finish. Here is every Guide’s best score.</p>';
+    if (!S.games) return h + '<p class="muted">Loading…</p></section>';
+    h += '<div class="tchips">' + S.games.map(function(g){ return '<button class="tchip" data-gsel="' + esc(g.id) + '" aria-pressed="' + (g.id === S.gameSel) + '"><span aria-hidden="true">' + (GAME_ICONS[g.id] || '🎮') + '</span>' + esc(g.name.split(' · ')[0]) + ' <small>' + g.rows.length + '</small></button>'; }).join('') + '</div>'
+      + '<button class="btn btn-ghost btn-small" data-grefresh="1" style="margin-top:10px">' + (S.gamesBusy ? 'Loading…' : 'Refresh') + '</button></section>';
+    var g = S.games.filter(function(x){ return x.id === S.gameSel; })[0];
+    if (!g) return h;
+    h += '<section class="panel"><h2>' + (GAME_ICONS[g.id] || '') + ' ' + esc(g.name) + '</h2>';
+    if (!g.rows.length) return h + '<p class="muted">Nobody has played this game yet.</p></section>';
+    h += '<div class="acts">' + g.rows.map(function(r, i){
+      return '<div class="rrow"><span class="nm">' + (i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : (i + 1) + '. ') + esc(r.name) + '</span><span class="sc">best ' + r.best + ' · played ' + r.plays + (r.plays === 1 ? ' time' : ' times') + (r.last ? ' · last ' + esc(r.last) : '') + '</span></div>';
+    }).join('') + '</div></section>';
+    return h;
+  }
+
   function xnav(){
-    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['questions','Questions']].map(function(x){
+    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['questions','Questions']].map(function(x){
       return '<button class="tab" role="tab" data-tab="'+x[0]+'" aria-selected="'+(S.tab === x[0])+'">'+x[1]+'</button>'; }).join('') + '</div>';
   }
 
@@ -1621,7 +1645,9 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     if (b.type === 'submit' && b.closest('form')) return;
     if (aiClick(ds)) return;
     if (xClick(ds)) return;
-    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
+    if (ds.gsel){ S.gameSel = ds.gsel; render(); return; }
+    if (ds.grefresh !== undefined){ loadGames(); return; }
+    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions','games'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'games') loadGames(); if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
     if (ds.ltopic){ S.labTopic = ds.ltopic; S.labOpen = null; rerender(); return; }
     if (ds.lopen !== undefined){ S.labOpen = ds.lopen || null; render(); window.scrollTo(0,0); var lt = labTopic(); if (S.labOpen && lt) loadLabAttempts(S.labOpen, lt.id); return; }
     if (ds.qtopic){ if (ds.qtopic !== S.qTopic){ S.qTopic = ds.qtopic; S.qs = null; S.qEdit = null; S.qConfirm = null; rerender(); loadQuestions(); } return; }
