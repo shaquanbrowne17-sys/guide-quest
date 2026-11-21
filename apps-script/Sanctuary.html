@@ -184,6 +184,91 @@ body.sheet-open .page{padding-block-end:64vh}
   .panel.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;max-height:62vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px max(18px, env(safe-area-inset-left, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-right, 0px));box-shadow:0 -10px 40px rgba(0,0,0,.25)}
   .panel.sheet::before{content:"";display:block;width:44px;height:5px;border-radius:9px;background:var(--line);margin:-6px auto 2px}
 }
+/* ===== Game kit (version 14): every new game is a dark "game screen" in both themes ===== */
+.gk{--g-bg:#121B16;--g-p:#1A2620;--g-p2:#22302A;--g-l:#2E3E35;--g-fg:#EAF1EC;--g-mu:#A3B2A8;--g-mint:#7FD3A2;--g-mint-d:#0F3A24;--g-gold:#E9B649;--g-gold-d:#3B2A06;--g-red:#F08A82;--g-red-d:#3D1714;
+  position:relative;overflow:hidden;background:var(--g-bg);color:var(--g-fg);border-radius:22px;padding:12px;font-family:var(--body);min-height:430px;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.gk *{box-sizing:border-box}
+.gk-hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font:700 17px/1 var(--display);min-height:36px;margin-bottom:8px}
+.gk-score{color:var(--g-gold);font-variant-numeric:tabular-nums}
+.gk-clock{font-variant-numeric:tabular-nums}
+.gk-noheart .gk-hearts{visibility:hidden}
+.gk-btn{font:800 15px/1 var(--body);color:var(--g-fg);background:var(--g-p2);border:1px solid var(--g-l);border-radius:14px;padding:12px 14px;cursor:pointer;touch-action:manipulation}
+.gk-btn:focus-visible{outline:3px solid var(--g-gold);outline-offset:2px}
+.gk-snd{padding:7px 10px;font-size:15px}
+.gk-go{background:var(--g-mint);color:#0B2416;border-color:var(--g-mint)}
+.gk-stage{position:relative}
+.gk-ask{color:var(--g-mu);font-size:15px;margin:0 0 10px;min-height:44px}
+.gk-ask b{color:var(--g-fg)}
+.gk-toast{position:absolute;left:12px;right:12px;top:46px;z-index:30;pointer-events:none;background:var(--g-red-d);border:1px solid var(--g-red);color:#FFD6D2;border-radius:14px;padding:11px 13px;font-size:14.5px;line-height:1.35;animation:gkIn .2s ease}
+.gk-toast.good{background:var(--g-mint-d);border-color:var(--g-mint);color:#D4F5E2}
+.gk-over{position:absolute;inset:0;z-index:40;background:rgba(14,21,17,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:18px;overflow:auto}
+.gk-over h3{font:700 23px/1.2 var(--display);margin:0;color:var(--g-fg)}
+.gk-over p{margin:0;color:var(--g-mu);font-size:15px;max-width:34ch}
+.gk-how{color:var(--g-mu);font-size:15px;max-width:36ch;line-height:1.45}
+.gk-how b{color:var(--g-fg)}
+.gk-big{font-size:52px;line-height:1}
+.gk-play{font-size:17px;padding:14px 26px}
+.gk-stars{font:700 50px/1 var(--display);color:var(--g-gold);letter-spacing:6px}
+.gk-stars s{color:#3A463F;text-decoration:none}
+.gk-pts{color:var(--g-fg)!important;font-weight:800}
+.gk-new{color:var(--g-gold)!important;font-weight:800}
+.gk-mute{color:var(--g-mu)!important;font-size:13.5px!important}
+.gk-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.gk-board{width:100%;max-width:300px;background:var(--g-p);border:1px solid var(--g-l);border-radius:14px;padding:10px 12px;text-align:left}
+.gk-board b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--g-gold);margin-bottom:6px}
+.gk-board ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.gk-board li{display:flex;gap:8px;align-items:center;font-size:14.5px;padding:3px 4px;border-radius:8px}
+.gk-board li.me{background:var(--g-gold-d);color:#F6DFA6}
+.gk-board .rk{width:26px;text-align:center}.gk-board .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gk-board .sc{font-weight:800;font-variant-numeric:tabular-nums}
+.gk-piece{display:inline-flex;align-items:center;gap:8px;font:700 15px/1.1 var(--body);color:var(--g-fg);background:#2A3A30;border:1px solid #3C5244;border-radius:14px;padding:11px 13px;cursor:grab;position:relative;z-index:1;transition:transform .25s ease}
+.gk-piece .ic{font-size:22px;line-height:1}
+.gk-lift{transition:none!important;z-index:20!important;box-shadow:0 10px 24px rgba(0,0,0,.45);cursor:grabbing}
+.gk-picked{outline:3px solid var(--g-mint)}
+.gk-shake{animation:gkShake .4s}
+.gk-hit .gk-hud{animation:gkShake .35s}
+.gk-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;padding:10px;border-radius:16px;background:#0E1612;border:1px solid var(--g-l)}
+.gk-glow{animation:gkGlow .7s ease}
+.gk-conf{position:absolute;top:-10px;width:8px;height:12px;border-radius:2px;z-index:41;animation:gkFall 1.7s linear forwards}
+@keyframes gkIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes gkShake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes gkGlow{0%{box-shadow:0 0 0 0 rgba(233,182,73,.85)}100%{box-shadow:0 0 0 16px rgba(233,182,73,0)}}
+@keyframes gkFall{to{transform:translateY(620px) rotate(540deg);opacity:.2}}
+@keyframes gkBob{50%{transform:translateY(-5px)}}
+@keyframes gkPulse{50%{transform:scale(1.08)}}
+.gk-panelhead{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+.gk-panelhead .eyebrow{color:var(--muted)}
+.gk-new-badge{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#E9B649;color:#3B2A06;border-radius:999px;padding:3px 8px}
+@media (prefers-reduced-motion:reduce){.gk *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ===== Sanctuary set-up game + the priest's walk ===== */
+.gkwrap{max-width:560px;margin:0 auto;width:100%}
+.sg-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--g-l)}
+.sg-svg{display:block;width:100%;height:auto;touch-action:none;max-height:68vh}
+.sg-piece{cursor:grab}
+.sg-piece.drag{cursor:grabbing}
+.sg-piece.drag .sg-art,.sg-piece.sel .sg-art{filter:drop-shadow(0 0 10px #E9B649)}
+.sg-piece.placed{cursor:default}
+.sg-piece.placed .sg-lbl{display:none}
+.sg-lbl{font:800 22px/1 Figtree,Arial,sans-serif;fill:#3A2B1C;paint-order:stroke;stroke:#F2E7CC;stroke-width:5px}
+.sg-film{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--g-l);background:#000}
+.sg-film-svg{display:block;width:100%;aspect-ratio:5/3;height:auto}
+.sg-cap{background:#0E1612;color:#F4EFE2;padding:10px 12px 4px;font-family:var(--scripture);font-size:15px;line-height:1.4;min-height:74px}
+.sg-cap.in{animation:gkIn .35s ease}
+.sg-ctl{display:flex;gap:8px;justify-content:flex-end;padding:8px;background:#0E1612}
+.sg-ctl .gk-btn{padding:8px 12px;font-size:13.5px}
+.sg-priest.walk .leg.l,.sg-man.walk .leg.l{animation:sgStep .5s ease-in-out infinite alternate}
+.sg-priest.walk .leg.r,.sg-man.walk .leg.r{animation:sgStep .5s ease-in-out infinite alternate-reverse}
+.leg{transform-box:fill-box;transform-origin:top center}
+@keyframes sgStep{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
+.sg-flames ellipse{animation:frFlick .4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:bottom center}
+.sg-smoke{animation:sgSmoke 2.4s ease-in-out infinite}
+@keyframes sgSmoke{50%{transform:translateY(-6px)}}
+.sg-fall{animation:sgFall .9s ease-in forwards}
+@keyframes sgFall{to{transform:translateY(32px);opacity:0}}
+.fr-flick{animation:frFlick .5s ease-in-out infinite alternate;transform-origin:0 0}
+@keyframes frFlick{from{transform:scaleY(.92) skewX(-3deg)}to{transform:scaleY(1.06) skewX(3deg)}}
+@media (min-width:900px){.gkwrap .sg-svg{max-height:78vh}}
+
 </style>
 </head>
 <body>
@@ -197,12 +282,14 @@ body.sheet-open .page{padding-block-end:64vh}
     </div>
     <div class="seg" role="tablist" aria-label="Mode">
       <button id="tab-explore" role="tab" aria-selected="true" data-mode="explore">Explore</button>
+      <button id="tab-game" role="tab" aria-selected="false" data-mode="game">Game</button>
       <button id="tab-challenge" role="tab" aria-selected="false" data-mode="challenge">Challenge</button>
     </div>
   </header>
   <div id="whoami" hidden></div>
   <div id="join" class="join" hidden></div>
 
+  <section class="gkwrap" id="gkwrap" hidden></section>
   <div class="layout" id="layout">
     <div class="mapcol">
       <div class="mapframe">
@@ -729,6 +816,8 @@ body.sheet-open .page{padding-block-end:64vh}
   function render(){
     document.getElementById('tab-explore').setAttribute('aria-selected', S.mode === 'explore');
     document.getElementById('tab-challenge').setAttribute('aria-selected', S.mode === 'challenge');
+    document.getElementById('tab-game').setAttribute('aria-selected', S.mode === 'game');
+    if (sanctGameMode()) return;
     layout.classList.toggle('challenge', S.mode === 'challenge');
     var sheet = S.mode === 'explore' && !!S.sel;
     panel.classList.toggle('sheet', sheet && isPhone());
@@ -737,6 +826,381 @@ body.sheet-open .page{padding-block-end:64vh}
     else panel.innerHTML = S.sel ? cardHTML(S.sel) : introHTML();
     paintChips();
     paintMap();
+  }
+
+  /* ======================= GAME KIT (version 14) =======================
+     Shared by every new game: hearts, clock, score, stars, sound, dragging,
+     and the class top-scores board. Each game is one self-contained panel. */
+  var GK_SOUND = true;
+  try { GK_SOUND = localStorage.getItem('gq-sound') !== 'off'; } catch (e) {}
+  var gkAC = null;
+  function gkTone(f1, f2, d, type, vol){
+    if (!GK_SOUND) return;
+    try {
+      gkAC = gkAC || new (window.AudioContext || window.webkitAudioContext)();
+      if (gkAC.state === 'suspended') gkAC.resume();
+      var o = gkAC.createOscillator(), g = gkAC.createGain(), t = gkAC.currentTime;
+      o.type = type || 'triangle'; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(Math.max(30, f2), t + d);
+      g.gain.setValueAtTime(vol || 0.16, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
+      o.connect(g); g.connect(gkAC.destination); o.start(t); o.stop(t + d + 0.02);
+    } catch (e) {}
+  }
+  function gkBuzz(p){ try { if (GK_SOUND && navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
+  var SFX = {
+    good: function(){ gkTone(520, 1040, 0.16); setTimeout(function(){ gkTone(780, 1560, 0.14); }, 80); gkBuzz(18); },
+    bad: function(){ gkTone(230, 110, 0.28, 'sawtooth', 0.12); gkBuzz([40, 40, 40]); },
+    pop: function(){ gkTone(660, 990, 0.08, 'sine', 0.12); },
+    coin: function(){ gkTone(990, 1480, 0.09, 'square', 0.06); },
+    whoosh: function(){ gkTone(300, 90, 0.25, 'sine', 0.1); },
+    splash: function(){ gkTone(900, 200, 0.2, 'sine', 0.08); },
+    win: function(){ [523, 659, 784, 1047].forEach(function(f, i){ setTimeout(function(){ gkTone(f, f * 1.01, 0.22); }, i * 120); }); gkBuzz([30, 50, 30]); },
+    lose: function(){ [392, 330, 262].forEach(function(f, i){ setTimeout(function(){ gkTone(f, f * 0.98, 0.25, 'triangle'); }, i * 160); }); }
+  };
+
+  /* One animation loop for every running game. A game pauses by itself when it is off screen. */
+  var GK_LIVE = [];
+  var gkLast = 0;
+  function gkFrame(now){
+    requestAnimationFrame(gkFrame);
+    var dt = gkLast ? Math.min(0.05, (now - gkLast) / 1000) : 0; gkLast = now;
+    GK_LIVE = GK_LIVE.filter(function(g){ return !g.dead; });
+    GK_LIVE.forEach(function(g){
+      if (!g.ticks.length || g.st.done || !g.st.running || document.hidden || !document.body.contains(g.el)) return;
+      g.st.time += dt;
+      g.ticks.forEach(function(f){ try { f(dt, g.st.time); } catch (e) { if (window.console) console.error(e); } });
+    });
+  }
+  requestAnimationFrame(gkFrame);
+
+  function gkEl(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function gkFmt(s){ s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function gkBoardHTML(top, note){
+    if (!top || !top.length) return '<div class="gk-board"><b>🏆 Class top scores</b><p class="gk-mute">No scores yet. Be the first!</p>' + (note || '') + '</div>';
+    return '<div class="gk-board"><b>🏆 Class top scores</b><ol>' + top.map(function(r){
+      return '<li class="' + (r.me ? 'me' : '') + '"><span class="rk">' + (r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : r.rank) + '</span><span class="nm">' + esc(r.name) + (r.me ? ' (you)' : '') + '</span><span class="sc">' + r.score + '</span></li>';
+    }).join('') + '</ol>' + (note || '') + '</div>';
+  }
+  function gkJoinNote(){ return '<p class="gk-mute">Type your name at the top of the page to get on the class board.</p>'; }
+
+  /* GK(o): o.gid ('church:ladder'), o.title, o.how (html), o.hearts (default 3), o.timer (seconds, counts down) or none,
+     o.build(api) sets up a round, o.levels (optional names). */
+  function GK(o){
+    var el = gkEl('div', 'gk');
+    el.innerHTML = '<div class="gk-hud"><span class="gk-hearts" aria-label="Lives"></span><span class="gk-clock">0:00</span><span class="gk-score">0</span>'
+      + '<button type="button" class="gk-btn gk-snd" aria-label="Sound on or off"></button></div>'
+      + '<div class="gk-stage"></div><div class="gk-toast" role="status" hidden></div>'
+      + '<div class="gk-over gk-start"></div><div class="gk-over gk-end" hidden></div>';
+    var q = function(s){ return el.querySelector(s); };
+    var stage = q('.gk-stage'), toastEl = q('.gk-toast'), startEl = q('.gk-start'), endEl = q('.gk-end');
+    var api = { el: el, stage: stage, o: o, ticks: [], st: { hearts: 3, score: 0, time: 0, running: false, done: false, level: 1 } };
+    GK_LIVE.push(api);
+    function paint(){
+      var h = o.hearts === 0 ? '' : '❤️'.repeat(Math.max(0, api.st.hearts)) + '🤍'.repeat(Math.max(0, (o.hearts || 3) - api.st.hearts));
+      q('.gk-hearts').textContent = h;
+      q('.gk-clock').textContent = o.clockFn ? o.clockFn(api) : o.timer ? gkFmt(o.timer - api.st.time) : gkFmt(api.st.time);
+      q('.gk-score').textContent = api.st.score;
+      q('.gk-snd').textContent = GK_SOUND ? '🔈' : '🔇';
+    }
+    api.paint = paint;
+    var clockTick = 0;
+    api.ticks.push(function(dt, t){
+      clockTick += dt; if (clockTick > 0.25){ clockTick = 0; paint(); }
+      if (o.timer && t >= o.timer && !api.st.done){ api.st.time = o.timer; if (o.onTimeUp) o.onTimeUp(api); else api.finish(false, { title: 'Time’s up!' }); }
+    });
+    q('.gk-snd').addEventListener('click', function(){ GK_SOUND = !GK_SOUND; try { localStorage.setItem('gq-sound', GK_SOUND ? 'on' : 'off'); } catch (e) {} paint(); });
+    api.tick = function(f){ api.ticks.push(f); };
+    api.addScore = function(n){ api.st.score = Math.max(0, api.st.score + n); paint(); };
+    var tt = 0;
+    api.toast = function(msg, good, ms){
+      toastEl.innerHTML = msg; toastEl.className = 'gk-toast' + (good ? ' good' : ''); toastEl.hidden = false;
+      clearTimeout(tt); tt = setTimeout(function(){ toastEl.hidden = true; }, ms || (good ? 1500 : 2800));
+    };
+    api.hideToast = function(){ toastEl.hidden = true; };
+    api.loseHeart = function(msg){
+      if (api.st.done) return true;
+      api.st.hearts--; SFX.bad(); paint();
+      el.classList.remove('gk-hit'); void el.offsetWidth; el.classList.add('gk-hit');
+      if (msg) api.toast(msg, false);
+      if (api.st.hearts <= 0){ setTimeout(function(){ api.finish(false, { title: 'Out of hearts', summary: 'Each mistake costs a heart. Read the hints, then try again.' }); }, 900); return true; }
+      return false;
+    };
+    api.good = function(points, msg){ SFX.good(); if (points) api.addScore(points); if (msg) api.toast(msg, true); };
+    api.elapsed = function(){ return api.st.time; };
+    api.begin = function(level){
+      api.st = { hearts: o.hearts || 3, score: 0, time: 0, running: true, done: false, level: level || 1 };
+      api.ticks.length = 1; stage.innerHTML = ''; endEl.hidden = true; startEl.hidden = true; toastEl.hidden = true;
+      el.classList.toggle('gk-noheart', o.hearts === 0);
+      o.build(api, api.st.level); paint();
+      try { if (gkAC && gkAC.state === 'suspended') gkAC.resume(); } catch (e) {}
+    };
+    api.finish = function(won, x){
+      if (api.st.done) return; x = x || {};
+      api.st.done = true; api.st.running = false; paint();
+      var stars = won ? (x.stars || 1) : 0;
+      if (won) { SFX.win(); gkConfetti(el); } else SFX.lose();
+      var btns = (x.buttons || []).map(function(b, i){ return '<button type="button" class="gk-btn gk-go" data-gx="' + i + '">' + esc(b.label) + '</button>'; }).join('');
+      endEl.innerHTML = (won ? '<div class="gk-stars">' + '★'.repeat(stars) + '<s>' + '★'.repeat(3 - stars) + '</s></div>' : '<div class="gk-big">' + (x.icon || '😮') + '</div>')
+        + '<h3>' + esc(x.title || (won ? 'Well done!' : 'Try again')) + '</h3>'
+        + (x.summary ? '<p>' + x.summary + '</p>' : '')
+        + (won ? '<p class="gk-pts">' + api.st.score + ' points · ' + (o.clockFn ? o.clockFn(api) : gkFmt(api.st.time)) + '</p>' : '')
+        + '<div class="gk-saved"></div>'
+        + '<div class="gk-btns"><button type="button" class="gk-btn' + (btns ? '' : ' gk-go') + '" data-gx="again">' + (won ? 'Play again' : 'Try again') + '</button>' + btns + '</div>';
+      endEl.hidden = false;
+      endEl.querySelector('[data-gx="again"]').onclick = function(){ api.begin(x.againLevel || api.st.level); };
+      (x.buttons || []).forEach(function(b, i){ endEl.querySelector('[data-gx="' + i + '"]').onclick = b.fn; });
+      var saved = endEl.querySelector('.gk-saved');
+      if (!won || !o.gid) return;
+      if (!hasRun()) { saved.innerHTML = '<p class="gk-mute">Scores are saved from the class link.</p>'; return; }
+      if (TOKEN) {
+        saved.innerHTML = '<p class="gk-mute">Saving your score…</p>';
+        google.script.run.withSuccessHandler(function(r){
+          saved.innerHTML = (r.newBest ? '<p class="gk-new">New best score!</p>' : '<p class="gk-mute">Your best: ' + r.best + '</p>') + gkBoardHTML(r.top);
+        }).withFailureHandler(function(){ saved.innerHTML = '<p class="gk-mute">Couldn’t save the score. Check your internet.</p>'; }).l_game(TOKEN, o.gid, api.st.score);
+      } else {
+        google.script.run.withSuccessHandler(function(r){ saved.innerHTML = gkBoardHTML(r.top, gkJoinNote()); }).withFailureHandler(function(){}).l_top(o.gid, '');
+      }
+    };
+    startEl.innerHTML = '<div class="gk-big">' + (o.icon || '🎮') + '</div><h3>' + esc(o.title) + '</h3><div class="gk-how">' + (o.how || '') + '</div>'
+      + '<button type="button" class="gk-btn gk-go gk-play">▶ Play</button><div class="gk-top"></div>';
+    startEl.querySelector('.gk-play').onclick = function(){ api.begin(1); };
+    if (o.gid && hasRun()) {
+      google.script.run.withSuccessHandler(function(r){ var t = startEl.querySelector('.gk-top'); if (t) t.innerHTML = gkBoardHTML(r.top, TOKEN ? (r.best ? '<p class="gk-mute">Your best: ' + r.best + '</p>' : '') : gkJoinNote()); })
+        .withFailureHandler(function(){}).l_top(o.gid, TOKEN || '');
+    }
+    paint();
+    return api;
+  }
+  function gkConfetti(host){
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cols = ['#E9B649', '#7FD3A2', '#8DB8F0', '#F08A82', '#FFFFFF'];
+    for (var i = 0; i < 36; i++) {
+      var c = gkEl('i', 'gk-conf'); c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length];
+      c.style.animationDelay = (Math.random() * 0.5) + 's'; host.appendChild(c);
+      setTimeout(function(x){ return function(){ x.remove(); }; }(c), 2400);
+    }
+  }
+  /* Drag with a finger or mouse. opt.drop(x, y) returns true when the drop was accepted.
+     A tap (no movement) calls opt.tap(). */
+  function gkDrag(node, opt){
+    var d = null;
+    node.style.touchAction = 'none';
+    node.addEventListener('pointerdown', function(e){
+      if (opt.can && !opt.can()) return;
+      e.preventDefault(); try { node.setPointerCapture(e.pointerId); } catch (er) {}
+      d = { x: e.clientX, y: e.clientY, moved: false };
+    });
+    node.addEventListener('pointermove', function(e){
+      if (!d) return;
+      var dx = e.clientX - d.x, dy = e.clientY - d.y;
+      if (!d.moved && Math.abs(dx) + Math.abs(dy) < 8) return;
+      if (!d.moved && opt.start) opt.start();
+      d.moved = true; node.classList.add('gk-lift');
+      node.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.06)';
+      if (opt.move) opt.move(e.clientX, e.clientY);
+    });
+    function end(e, cancel){
+      if (!d) return; var moved = d.moved; d = null;
+      node.classList.remove('gk-lift');
+      if (!moved) { node.style.transform = ''; if (opt.tap) opt.tap(); return; }
+      var ok = !cancel && opt.drop && opt.drop(e.clientX, e.clientY);
+      if (!ok) node.style.transform = '';
+      if (opt.after) opt.after(ok);
+    }
+    node.addEventListener('pointerup', function(e){ end(e, false); });
+    node.addEventListener('pointercancel', function(e){ end(e, true); });
+  }
+  function gkHit(node, x, y, pad){ var r = node.getBoundingClientRect(); pad = pad || 0; return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad; }
+  function gkShuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function gkStars(mistakes, secs, fast){ return mistakes === 0 && secs <= fast ? 3 : mistakes <= 1 ? 2 : 1; }
+
+  /* ======================= GAME: Set up the sanctuary + the priest's walk ======================= */
+  var SG_ART = {
+    altar: '<rect x="258" y="803" width="84" height="84" rx="3" fill="#A35F2A" stroke="#6E3D17" stroke-width="2"/><rect x="272" y="817" width="56" height="56" fill="#4E2E14"/><rect x="251" y="796" width="17" height="17" rx="3" fill="#C9844A"/><rect x="332" y="796" width="17" height="17" rx="3" fill="#C9844A"/><rect x="251" y="877" width="17" height="17" rx="3" fill="#C9844A"/><rect x="332" y="877" width="17" height="17" rx="3" fill="#C9844A"/><path d="M300 820C312 834 319 846 311 859C306 867 293 867 289 859C283 848 290 840 296 831C296 842 302 846 305 840C307 834 304 827 300 820Z" fill="#F28C28"/>',
+    laver: '<circle cx="300" cy="725" r="34" fill="#A35F2A" stroke="#6E3D17" stroke-width="2"/><circle cx="300" cy="725" r="26" fill="#7CC3DD"/><ellipse cx="291" cy="716" rx="9" ry="4.5" fill="#E2F6FC" opacity=".85"/>',
+    lampstand: '<g transform="translate(235,505)" fill="none" stroke="#E2B12E" stroke-linecap="round"><path d="M0 32V-26" stroke-width="5"/><path d="M-30 -26Q-30 12 0 12Q30 12 30 -26" stroke-width="4"/><path d="M-20 -26Q-20 4 0 4Q20 4 20 -26" stroke-width="4"/><path d="M-10 -26Q-10 -4 0 -4Q10 -4 10 -26" stroke-width="4"/><path d="M-15 34H15" stroke-width="7"/></g><g fill="#FFB547"><ellipse cx="205" cy="475" rx="3.6" ry="6"/><ellipse cx="215" cy="475" rx="3.6" ry="6"/><ellipse cx="225" cy="475" rx="3.6" ry="6"/><ellipse cx="235" cy="475" rx="3.6" ry="6"/><ellipse cx="245" cy="475" rx="3.6" ry="6"/><ellipse cx="255" cy="475" rx="3.6" ry="6"/><ellipse cx="265" cy="475" rx="3.6" ry="6"/></g>',
+    table: '<rect x="340" y="458" width="50" height="84" rx="3" fill="#D9A520" stroke="#8A6512" stroke-width="2"/><g fill="#F3D9A4" stroke="#C79A55"><rect x="345" y="465" width="18" height="10" rx="4"/><rect x="367" y="465" width="18" height="10" rx="4"/><rect x="345" y="483" width="18" height="10" rx="4"/><rect x="367" y="483" width="18" height="10" rx="4"/><rect x="345" y="501" width="18" height="10" rx="4"/><rect x="367" y="501" width="18" height="10" rx="4"/><rect x="345" y="519" width="18" height="10" rx="4"/><rect x="367" y="519" width="18" height="10" rx="4"/></g>',
+    incense: '<rect x="282" y="366" width="36" height="36" rx="3" fill="#D9A520" stroke="#8A6512" stroke-width="2"/><rect x="289" y="373" width="22" height="22" rx="2" fill="#F2CB5A"/><path d="M300 364C290 355 311 349 300 340C292 333 306 328 300 321" fill="none" stroke="#EFE8D8" stroke-width="3" stroke-linecap="round"/>',
+    ark: '<rect x="234" y="191" width="132" height="7" rx="3.5" fill="#A97B0F"/><rect x="256" y="170" width="88" height="50" rx="4" fill="#D9A520" stroke="#8A6512" stroke-width="2"/><rect x="252" y="166" width="96" height="10" rx="3" fill="#F2CB5A"/><path d="M262 170C266 142 292 139 298 163M338 170C334 142 308 139 302 163" fill="none" stroke="#FFF1C4" stroke-width="5" stroke-linecap="round"/>'
+  };
+  var SG = [
+    { id: 'altar', short: 'Altar', name: 'Altar of burnt offering', x: 300, y: 845, hint: 'The altar is the first thing inside the gate.' },
+    { id: 'laver', short: 'Laver', name: 'Laver', x: 300, y: 725, hint: 'The laver stands between the altar and the tent.' },
+    { id: 'lampstand', short: 'Lampstand', name: 'Golden lampstand', x: 235, y: 510, hint: 'The lampstand is in the Holy Place, on the south side (left on this map).' },
+    { id: 'table', short: 'Showbread', name: 'Table of showbread', x: 365, y: 510, hint: 'The table is in the Holy Place, on the north side (right on this map).' },
+    { id: 'incense', short: 'Incense', name: 'Altar of incense', x: 300, y: 384, hint: 'The altar of incense stands right in front of the veil.' },
+    { id: 'ark', short: 'Ark', name: 'Ark of the covenant', x: 300, y: 200, hint: 'The ark is in the Most Holy Place, behind the veil.' }
+  ];
+  var SG_STEP = { altar: 0, laver: 1, lampstand: 2, table: 2, incense: 4, ark: 5 };
+  var SG_HOME = [[30, 250], [30, 520], [30, 790], [570, 300], [570, 570], [570, 840]];
+  function sgPlan(){
+    return '<rect x="-60" y="0" width="720" height="1000" fill="#E2D0A8"/>'
+      + '<rect x="120" y="40" width="360" height="940" fill="#F2E7CC" stroke="#FFFDF6" stroke-width="9"/>'
+      + '<rect x="185" y="85" width="230" height="235" fill="#1F2754"/><rect x="185" y="325" width="230" height="315" fill="#3A2F1C"/>'
+      + '<path d="M180 640V80H420V640" fill="none" stroke="#D9A520" stroke-width="10"/>'
+      + '<rect x="185" y="314" width="230" height="14" fill="#6B2D6B"/><rect x="185" y="314" width="230" height="5" fill="#2B4C8C"/><rect x="185" y="323" width="230" height="5" fill="#B3202A"/>'
+      + '<rect x="200" y="962" width="200" height="16" fill="#6B2D6B"/><rect x="200" y="962" width="200" height="5" fill="#2B4C8C"/>'
+      + '<text x="300" y="118" text-anchor="middle" font-family="Figtree,Arial" font-weight="800" font-size="20" fill="#C9D3F2">MOST HOLY PLACE</text>'
+      + '<text x="300" y="620" text-anchor="middle" font-family="Figtree,Arial" font-weight="800" font-size="20" fill="#E9D49A">HOLY PLACE</text>'
+      + '<text x="300" y="948" text-anchor="middle" font-family="Figtree,Arial" font-weight="800" font-size="20" fill="#8C7444">GATE (EAST)</text>'
+      + '<text x="150" y="700" font-family="Figtree,Arial" font-weight="800" font-size="20" fill="#8C7444" transform="rotate(-90 150 700)">COURTYARD</text>';
+  }
+  function sanctSetup(api){
+    var placed = {}, step = 0, mistakes = 0, picked = null;
+    var ask = gkEl('p', 'gk-ask', 'All the furniture is outside! Drag each piece to its place, <b>in the order the priest meets it</b> as he walks in from the gate.');
+    var wrap = gkEl('div', 'sg-wrap');
+    wrap.innerHTML = '<svg class="sg-svg" viewBox="-60 0 720 1000" aria-label="Sanctuary floor plan">' + sgPlan() + '<polyline class="sg-path" points="300,990" fill="none" stroke="#E9B649" stroke-width="6" stroke-dasharray="4 12" stroke-linecap="round"/><g class="sg-pieces"></g></svg>';
+    api.stage.appendChild(ask); api.stage.appendChild(wrap);
+    var svg = wrap.querySelector('svg'), layer = wrap.querySelector('.sg-pieces'), pathEl = wrap.querySelector('.sg-path'), trail = [[300, 990]];
+    function toSvg(cx, cy){ var p = svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(svg.getScreenCTM().inverse()); }
+    var homes = gkShuffle(SG_HOME);
+    SG.forEach(function(it, i){
+      var g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('class', 'sg-piece'); g.setAttribute('tabindex', '0');
+      g.innerHTML = '<circle class="sg-hit" cx="' + it.x + '" cy="' + it.y + '" r="64" fill="transparent"/><g class="sg-art">' + SG_ART[it.id] + '</g><text class="sg-lbl" x="' + it.x + '" y="' + (it.y + 70) + '" text-anchor="middle">' + esc(it.short) + '</text>';
+      it.hx = homes[i][0]; it.hy = homes[i][1]; it.g = g; layer.appendChild(g); setPos(it, it.hx, it.hy);
+      var d = null;
+      g.addEventListener('pointerdown', function(e){ if (placed[it.id] || api.st.done) return; e.preventDefault(); try { g.setPointerCapture(e.pointerId); } catch (er) {} var p = toSvg(e.clientX, e.clientY); d = { sx: p.x, sy: p.y, ox: it.cx, oy: it.cy, moved: false }; });
+      g.addEventListener('pointermove', function(e){ if (!d) return; var p = toSvg(e.clientX, e.clientY); if (!d.moved && Math.abs(p.x - d.sx) + Math.abs(p.y - d.sy) < 10) return; d.moved = true; g.classList.add('drag'); setPos(it, d.ox + p.x - d.sx, d.oy + p.y - d.sy); });
+      function up(e, cancel){ if (!d) return; var moved = d.moved; d = null; g.classList.remove('drag');
+        if (!moved) { if (picked) picked.g.classList.remove('sel'); picked = picked === it ? null : it; if (picked) { g.classList.add('sel'); ask.innerHTML = 'Now tap the place where the <b>' + esc(it.name.toLowerCase()) + '</b> belongs.'; } return; }
+        if (cancel) { setPos(it, it.hx, it.hy); return; } tryPlace(it, it.cx, it.cy); }
+      g.addEventListener('pointerup', function(e){ up(e, false); }); g.addEventListener('pointercancel', function(e){ up(e, true); });
+    });
+    svg.addEventListener('click', function(e){
+      if (!picked || e.target.closest('.sg-piece')) return;
+      var p = toSvg(e.clientX, e.clientY), it = picked; picked.g.classList.remove('sel'); picked = null; tryPlace(it, p.x, p.y);
+    });
+    function setPos(it, x, y){ it.cx = x; it.cy = y; var sc = placed[it.id] ? 1 : 0.9; it.g.setAttribute('transform', 'translate(' + x + ' ' + y + ') scale(' + sc + ') translate(' + (-it.x) + ' ' + (-it.y) + ')'); }
+    function nearest(x, y){ var best = null, bd = 1e9; SG.forEach(function(s){ var dd = Math.hypot(s.x - x, s.y - y); if (dd < bd) { bd = dd; best = s; } }); return { s: best, d: bd }; }
+    function tryPlace(it, x, y){
+      var inside = x > 120 && x < 480 && y > 40 && y < 980;
+      if (!inside) { setPos(it, it.hx, it.hy); api.toast('Drop it inside the sanctuary, where it belongs.', false, 1500); return; }
+      var dist = Math.hypot(it.x - x, it.y - y);
+      if (dist > 70) { setPos(it, it.hx, it.hy); mistakes++; api.addScore(-25); api.loseHeart('Not there. ' + esc(it.hint)); return; }
+      if (SG_STEP[it.id] !== step && !(SG_STEP[it.id] === 2 && step === 3)) {
+        setPos(it, it.hx, it.hy); mistakes++; api.addScore(-25);
+        var want = SG.filter(function(s){ return !placed[s.id] && (SG_STEP[s.id] === step || (step === 3 && SG_STEP[s.id] === 2)); }).map(function(s){ return s.name.toLowerCase(); });
+        api.loseHeart('Right place, but not yet! Walking in from the gate, the priest comes to the ' + esc(want.join(' or the ')) + ' first.'); return;
+      }
+      placed[it.id] = true; step++; setPos(it, it.x, it.y); it.g.classList.add('placed'); SFX.good(); api.addScore(100);
+      api.toast('✓ ' + esc(it.name), true, 1200);
+      trail.push([it.x, it.y]); pathEl.setAttribute('points', trail.map(function(p){ return p.join(','); }).join(' '));
+      if (step >= SG.length) {
+        var secs = Math.round(api.elapsed()); api.addScore(Math.max(0, 90 - secs) * 5);
+        ask.innerHTML = '<b>Perfect!</b> Now walk with the priest…';
+        setTimeout(function(){ sgWalk(api, mistakes); }, 1100);
+      }
+    }
+  }
+
+  /* ----- The priest's walk: a short animated film (side view) ----- */
+  function sgFig(robe, head, cap, extra){
+    return '<g class="leg l"><line x1="-4" y1="-22" x2="-6" y2="0" stroke="#5A3A22" stroke-width="5" stroke-linecap="round"/></g><g class="leg r"><line x1="4" y1="-22" x2="6" y2="0" stroke="#5A3A22" stroke-width="5" stroke-linecap="round"/></g>'
+      + '<path d="M-13 -20L-9 -58H9L13 -20Z" fill="' + robe + '" stroke="rgba(0,0,0,.25)"/><circle cy="-66" r="9" fill="' + head + '"/>' + cap + (extra || '');
+  }
+  function sgWalk(api, mistakes){
+    var CAP = [[0, 'God told Moses: “Let them make me a sanctuary; that I may dwell among them.” (Exodus 25:8)'],
+      [3, 'A man brings a lamb through the gate, as an offering for his sin.'],
+      [7, 'He lays his hand on the lamb’s head and confesses his sin (Leviticus 4:29).'],
+      [10, 'The lamb dies in his place. The priest takes some of its blood.'],
+      [13, 'At the laver, the priest washes his hands and feet (Exodus 30:19).'],
+      [17.5, 'Inside the Holy Place: the lampstand gives light, and the bread is on the table.'],
+      [22.5, 'He burns incense, and sprinkles the blood before the veil (Leviticus 4:6).'],
+      [26.5, 'Once a year, on the Day of Atonement, only the high priest went behind the veil (Leviticus 16).'],
+      [31, 'He sprinkles the blood on the mercy seat (Leviticus 16:14).'],
+      [35, 'God’s glory shone above the mercy seat.'],
+      [40, 'Jesus is our High Priest in heaven: “We have such an high priest… a minister of the sanctuary.” (Hebrews 8:1–2)']];
+    var CAM = [[0, 0, 0, 1000], [3, 0, 0, 1000], [5, -10, 132, 360], [8, 90, 141, 340], [12, 90, 141, 340], [14, 210, 150, 320], [17, 230, 150, 320], [19, 420, 122, 380], [22, 500, 132, 360], [25, 590, 141, 340], [28, 630, 141, 340], [31, 690, 160, 300], [34, 640, 105, 400], [36, 560, 90, 450], [39, 805, 212, 150], [44, 805, 212, 150], [46.5, 0, 0, 1000]];
+    var WX = [[0, 270], [12.5, 270], [13, 285], [15, 345], [16.6, 345], [18, 480], [19.4, 560], [20.4, 560], [21.4, 650], [22.2, 650], [23.2, 742], [26.8, 742], [29.2, 826], [46.5, 826]];
+    var IX = [[0, -70], [3, -70], [7, 196], [46.5, 196]];
+    var END = 46.5, t = 0, playing = true, last = 0;
+    var film = gkEl('div', 'sg-film');
+    film.innerHTML = '<svg class="sg-film-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-label="Animated walk through the sanctuary"><defs><linearGradient id="sgsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8EC3EA"/><stop offset="1" stop-color="#F4E1B5"/></linearGradient>'
+      + '<radialGradient id="sgglow"><stop offset="0" stop-color="#FFF8DC" stop-opacity="1"/><stop offset=".5" stop-color="#FFE7A0" stop-opacity=".6"/><stop offset="1" stop-color="#FFE7A0" stop-opacity="0"/></radialGradient></defs>'
+      + '<rect x="-200" y="-200" width="1400" height="800" fill="url(#sgsky)"/><path d="M-200 300Q100 230 300 270T800 250T1200 280V600H-200Z" fill="#E2C48A" opacity=".7"/><rect x="-200" y="300" width="1400" height="300" fill="#D8BC84"/>'
+      // tent
+      + '<rect x="470" y="150" width="490" height="150" fill="#3A2F1C"/><rect x="800" y="150" width="160" height="150" fill="#1F2754"/>'
+      + '<path d="M460 150H970L940 118H490Z" fill="#5A4632"/><rect x="466" y="150" width="8" height="150" fill="#D9A520"/><rect x="956" y="150" width="8" height="150" fill="#D9A520"/>'
+      + '<circle class="sg-glow" cx="880" cy="215" r="90" fill="url(#sgglow)" opacity=".25"/>'
+      // lampstand
+      + '<g transform="translate(560 300)" stroke="#E2B12E" fill="none" stroke-linecap="round"><path d="M0 0V-70" stroke-width="5"/><path d="M-24 -70Q-24 -40 0 -40Q24 -40 24 -70M-14 -70Q-14 -50 0 -50Q14 -50 14 -70" stroke-width="3.5"/><path d="M-12 0H12" stroke-width="6"/></g>'
+      + '<g class="sg-flames">' + [-24, -14, -6, 0, 6, 14, 24].map(function(x){ return '<ellipse cx="' + (560 + x) + '" cy="' + (x === 0 ? 223 : 225) + '" rx="3" ry="6" fill="#FFB547"/>'; }).join('') + '</g>'
+      // table
+      + '<rect x="620" y="262" width="62" height="6" fill="#D9A520"/><path d="M626 268V300M676 268V300" stroke="#B8860B" stroke-width="4"/>' + [0, 1, 2, 3, 4, 5].map(function(i){ return '<ellipse cx="' + (636 + (i % 2) * 28) + '" cy="' + (258 - Math.floor(i / 2) * 7) + '" rx="12" ry="4" fill="#F3D9A4" stroke="#C79A55"/>'; }).join('')
+      // incense altar
+      + '<rect x="728" y="262" width="30" height="38" fill="#D9A520" stroke="#8A6512"/><g class="sg-smoke"><path d="M743 258C733 245 753 236 743 222C735 211 749 203 743 190" fill="none" stroke="#EFE8D8" stroke-width="4" stroke-linecap="round" opacity=".8"/></g>'
+      // veil
+      + '<g class="sg-veil"><rect x="796" y="150" width="12" height="150" fill="#6B2D6B"/><rect x="796" y="150" width="4" height="150" fill="#2B4C8C"/><rect x="804" y="150" width="4" height="150" fill="#B3202A"/></g>'
+      // ark
+      + '<rect x="850" y="262" width="62" height="38" rx="3" fill="#D9A520" stroke="#8A6512" stroke-width="2"/><rect x="846" y="256" width="70" height="8" rx="3" fill="#F2CB5A"/><path d="M856 256C860 228 876 226 878 248M906 256C902 228 886 226 884 248" fill="none" stroke="#FFF1C4" stroke-width="5" stroke-linecap="round"/>'
+      // fence (cut away, see-through)
+      + '<g opacity=".5"><rect x="40" y="246" width="420" height="44" fill="#FFFDF6"/>' + [40, 100, 160, 220, 280, 340, 400, 460].map(function(x){ return '<rect x="' + (x - 2) + '" y="240" width="5" height="60" fill="#B9B3A4"/>'; }).join('') + '</g>'
+      + '<rect x="60" y="244" width="60" height="48" fill="#6B2D6B" opacity=".75"/><rect x="60" y="244" width="60" height="14" fill="#2B4C8C" opacity=".75"/>'
+      // altar + fire
+      + '<rect x="230" y="256" width="72" height="44" fill="#A35F2A" stroke="#6E3D17" stroke-width="2"/><rect x="226" y="250" width="10" height="10" fill="#C9844A"/><rect x="296" y="250" width="10" height="10" fill="#C9844A"/>'
+      + '<g class="sg-fire" transform="translate(266 254)"><path d="M0 0C-16 0 -20 -14 -14 -26 -10 -34 -8 -40 -2 -52 0 -40 6 -36 10 -30 16 -20 14 0 0 0z" fill="#E8541E"/><path d="M0 0C-10 0 -12 -10 -8 -18 -5 -24 -2 -28 0 -37 2 -28 6 -24 8 -18 11 -10 9 0 0 0z" fill="#F7A21B"/></g>'
+      // laver
+      + '<path d="M350 300V276M370 300V276" stroke="#8A5A2B" stroke-width="5"/><ellipse cx="360" cy="272" rx="26" ry="8" fill="#A35F2A"/><ellipse cx="360" cy="270" rx="20" ry="5" fill="#7CC3DD"/><g class="sg-drops"></g>'
+      // people
+      + '<g class="sg-man">' + sgFig('#8A5A3A', '#C68B59', '<path d="M-10 -70Q0 -84 10 -70L12 -60H-12Z" fill="#E6D2A8"/>', '<g class="sg-hand"><line x1="8" y1="-50" x2="26" y2="-40" stroke="#C68B59" stroke-width="5" stroke-linecap="round"/></g>') + '</g>'
+      + '<g class="sg-lamb"><ellipse cx="0" cy="-16" rx="16" ry="11" fill="#FFFFFF" stroke="#DDD"/><circle cx="15" cy="-22" r="7" fill="#FFFFFF" stroke="#DDD"/><path d="M-9 -6V0M9 -6V0" stroke="#5A4A3A" stroke-width="3"/></g>'
+      + '<g class="sg-priest">' + sgFig('#FBFAF5', '#C68B59', '<path d="M-10 -72Q0 -82 10 -72V-66H-10Z" fill="#FFFFFF" stroke="#CCC"/>', '<g class="sg-bowl" opacity="0"><ellipse cx="14" cy="-44" rx="7" ry="3.5" fill="#B3202A"/><line x1="6" y1="-50" x2="13" y2="-45" stroke="#C68B59" stroke-width="4" stroke-linecap="round"/></g>') + '</g>'
+      + '<g class="sg-blood"></g></svg>'
+      + '<div class="sg-cap" aria-live="polite"></div><div class="sg-ctl"><button type="button" class="gk-btn" data-f="pause">⏸ Pause</button><button type="button" class="gk-btn" data-f="skip">Skip ⏭</button></div>';
+    api.stage.innerHTML = ''; api.stage.appendChild(film);
+    var svg = film.querySelector('svg'), capEl = film.querySelector('.sg-cap'), man = svg.querySelector('.sg-man'), lamb = svg.querySelector('.sg-lamb'), priest = svg.querySelector('.sg-priest');
+    var bowl = svg.querySelector('.sg-bowl'), fire = svg.querySelector('.sg-fire'), glow = svg.querySelector('.sg-glow'), drops = svg.querySelector('.sg-drops'), blood = svg.querySelector('.sg-blood'), veil = svg.querySelector('.sg-veil'), smoke = svg.querySelector('.sg-smoke'), hand = svg.querySelector('.sg-hand');
+    function lerpKeys(K, tt){ if (tt <= K[0][0]) return K[0].slice(1); for (var i = 1; i < K.length; i++) if (tt <= K[i][0]) { var a = K[i - 1], b = K[i], k = (tt - a[0]) / (b[0] - a[0]); k = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; return a.slice(1).map(function(v, j){ return v + (b[j + 1] - v) * k; }); } return K[K.length - 1].slice(1); }
+    function lin(K, tt){ if (tt <= K[0][0]) return K[0][1]; for (var i = 1; i < K.length; i++) if (tt <= K[i][0]) { var a = K[i - 1], b = K[i]; return a[1] + (b[1] - a[1]) * (tt - a[0]) / (b[0] - a[0]); } return K[K.length - 1][1]; }
+    function win(a, b){ return t >= a && t < b; }
+    var capI = -1, bloodDone = 0, mercyDone = 0, dropDone = 0;
+    function frame(now){
+      if (!document.body.contains(film)) return;
+      var dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
+      if (playing) t += dt;
+      if (t >= END) { t = END; done(); return; }
+      var c = lerpKeys(CAM, t), w = c[2], h = w * 0.6; svg.setAttribute('viewBox', c[0] + ' ' + c[1] + ' ' + w + ' ' + h);
+      var px = lin(WX, t), walking = Math.abs(lin(WX, t + 0.05) - px) > 0.2;
+      priest.setAttribute('transform', 'translate(' + px + ' 300)'); priest.classList.toggle('walk', walking && playing);
+      var mx = lin(IX, t), mw = Math.abs(lin(IX, t + 0.05) - mx) > 0.2;
+      man.setAttribute('transform', 'translate(' + mx + ' 300)'); man.classList.toggle('walk', mw && playing);
+      lamb.setAttribute('transform', 'translate(' + (mx + 34) + ' 300)'); lamb.setAttribute('opacity', t < 10.5 ? 1 : Math.max(0, 1 - (t - 10.5)));
+      hand.setAttribute('transform', win(7.5, 10.5) ? 'translate(4 10) rotate(20)' : '');
+      var fs = win(10, 12.5) ? 1.6 : 1; fire.setAttribute('transform', 'translate(266 254) scale(' + (fs * (0.92 + Math.sin(t * 18) * 0.08)).toFixed(3) + ')');
+      bowl.setAttribute('opacity', win(11.2, 33.5) ? 1 : 0);
+      if (win(14.4, 16.6) && t - dropDone > 0.18) { dropDone = t; drops.insertAdjacentHTML('beforeend', '<circle cx="' + (345 + Math.random() * 12) + '" cy="262" r="2.5" fill="#7CC3DD" class="sg-fall"/>'); }
+      if (win(23.8, 25.6) && bloodDone < 7 && t - 23.8 > bloodDone * 0.25) { bloodDone++; blood.insertAdjacentHTML('beforeend', '<circle cx="' + (782 + bloodDone * 2) + '" cy="262" r="2.6" fill="#B3202A" class="sg-fall"/>'); }
+      if (win(31.6, 33.4) && mercyDone < 7 && t - 31.6 > mercyDone * 0.25) { mercyDone++; blood.insertAdjacentHTML('beforeend', '<circle cx="' + (868 + mercyDone * 4) + '" cy="252" r="2.6" fill="#B3202A" class="sg-fall"/>'); }
+      veil.setAttribute('opacity', t > 26.8 && t < 44 ? 0.35 : 1);
+      smoke.setAttribute('opacity', win(22.5, 26.5) ? 1 : 0.55);
+      var gl = t < 27 ? 0.25 : t < 33 ? 0.25 + (t - 27) / 6 * 0.65 : 0.9 + Math.sin(t * 3) * 0.1; glow.setAttribute('opacity', gl.toFixed(2)); glow.setAttribute('r', t > 35 ? 120 : 90);
+      for (var i = CAP.length - 1; i >= 0; i--) if (t >= CAP[i][0]) { if (capI !== i) { capI = i; capEl.textContent = CAP[i][1]; capEl.classList.remove('in'); void capEl.offsetWidth; capEl.classList.add('in'); } break; }
+      requestAnimationFrame(frame);
+    }
+    film.querySelector('.sg-ctl').onclick = function(e){
+      var b = e.target.closest('[data-f]'); if (!b) return;
+      if (b.getAttribute('data-f') === 'pause') { playing = !playing; b.textContent = playing ? '⏸ Pause' : '▶ Play'; }
+      else { t = END - 0.01; }
+    };
+    function done(){
+      film.querySelector('.sg-ctl').innerHTML = '<button type="button" class="gk-btn" data-w="again">↺ Watch again</button>';
+      film.querySelector('[data-w="again"]').onclick = function(){ api.stage.innerHTML = ''; sgWalk(api, mistakes); };
+      api.finish(true, { stars: mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1, title: 'The sanctuary is ready!', summary: 'Gate, altar, laver, lampstand and table, incense, veil, ark. Every step of the way points to Jesus.',
+        buttons: [{ label: '↺ Watch the walk again', fn: function(){ var end = api.el.querySelector('.gk-end'); end.hidden = true; api.st.done = false; api.st.running = false; api.stage.innerHTML = ''; sgWalk(api, mistakes); } }] });
+    }
+    requestAnimationFrame(frame);
+  }
+  var SGI = null;
+  function sanctGameMode(){
+    var wrap = document.getElementById('gkwrap'), game = S.mode === 'game';
+    wrap.hidden = !game; layout.hidden = game;
+    if (!game) return false;
+    panel.classList.remove('sheet'); document.body.classList.remove('sheet-open');
+    if (!SGI) {
+      SGI = GK({ gid: 'sanctuary:setup', icon: '⛺', title: 'Set up the sanctuary', build: sanctSetup,
+        how: 'All the furniture has been carried outside! Drag each piece to its right place, <b>in the order the priest meets it</b> as he walks in from the gate. Get it all right, and then walk through the sanctuary with the priest.' });
+      wrap.innerHTML = ''; wrap.appendChild(SGI.el);
+    }
+    return true;
   }
 
   /* ---------- events ---------- */

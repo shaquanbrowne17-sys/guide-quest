@@ -256,6 +256,338 @@ body.lock{overflow:hidden}
 @keyframes growx{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .shead .ticon{display:inline-flex;vertical-align:-4px;margin-right:10px;font-size:.9em}
 .shead .ticon svg{width:1.1em;height:1.1em}
+/* ===== Game kit (version 14): every new game is a dark "game screen" in both themes ===== */
+.gk{--g-bg:#121B16;--g-p:#1A2620;--g-p2:#22302A;--g-l:#2E3E35;--g-fg:#EAF1EC;--g-mu:#A3B2A8;--g-mint:#7FD3A2;--g-mint-d:#0F3A24;--g-gold:#E9B649;--g-gold-d:#3B2A06;--g-red:#F08A82;--g-red-d:#3D1714;
+  position:relative;overflow:hidden;background:var(--g-bg);color:var(--g-fg);border-radius:22px;padding:12px;font-family:var(--body);min-height:430px;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.gk *{box-sizing:border-box}
+.gk-hud{display:flex;align-items:center;justify-content:space-between;gap:8px;font:700 17px/1 var(--display);min-height:36px;margin-bottom:8px}
+.gk-score{color:var(--g-gold);font-variant-numeric:tabular-nums}
+.gk-clock{font-variant-numeric:tabular-nums}
+.gk-noheart .gk-hearts{visibility:hidden}
+.gk-btn{font:800 15px/1 var(--body);color:var(--g-fg);background:var(--g-p2);border:1px solid var(--g-l);border-radius:14px;padding:12px 14px;cursor:pointer;touch-action:manipulation}
+.gk-btn:focus-visible{outline:3px solid var(--g-gold);outline-offset:2px}
+.gk-snd{padding:7px 10px;font-size:15px}
+.gk-go{background:var(--g-mint);color:#0B2416;border-color:var(--g-mint)}
+.gk-stage{position:relative}
+.gk-ask{color:var(--g-mu);font-size:15px;margin:0 0 10px;min-height:44px}
+.gk-ask b{color:var(--g-fg)}
+.gk-toast{position:absolute;left:12px;right:12px;top:46px;z-index:30;pointer-events:none;background:var(--g-red-d);border:1px solid var(--g-red);color:#FFD6D2;border-radius:14px;padding:11px 13px;font-size:14.5px;line-height:1.35;animation:gkIn .2s ease}
+.gk-toast.good{background:var(--g-mint-d);border-color:var(--g-mint);color:#D4F5E2}
+.gk-over{position:absolute;inset:0;z-index:40;background:rgba(14,21,17,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:18px;overflow:auto}
+.gk-over h3{font:700 23px/1.2 var(--display);margin:0;color:var(--g-fg)}
+.gk-over p{margin:0;color:var(--g-mu);font-size:15px;max-width:34ch}
+.gk-how{color:var(--g-mu);font-size:15px;max-width:36ch;line-height:1.45}
+.gk-how b{color:var(--g-fg)}
+.gk-big{font-size:52px;line-height:1}
+.gk-play{font-size:17px;padding:14px 26px}
+.gk-stars{font:700 50px/1 var(--display);color:var(--g-gold);letter-spacing:6px}
+.gk-stars s{color:#3A463F;text-decoration:none}
+.gk-pts{color:var(--g-fg)!important;font-weight:800}
+.gk-new{color:var(--g-gold)!important;font-weight:800}
+.gk-mute{color:var(--g-mu)!important;font-size:13.5px!important}
+.gk-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.gk-board{width:100%;max-width:300px;background:var(--g-p);border:1px solid var(--g-l);border-radius:14px;padding:10px 12px;text-align:left}
+.gk-board b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--g-gold);margin-bottom:6px}
+.gk-board ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.gk-board li{display:flex;gap:8px;align-items:center;font-size:14.5px;padding:3px 4px;border-radius:8px}
+.gk-board li.me{background:var(--g-gold-d);color:#F6DFA6}
+.gk-board .rk{width:26px;text-align:center}.gk-board .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gk-board .sc{font-weight:800;font-variant-numeric:tabular-nums}
+.gk-piece{display:inline-flex;align-items:center;gap:8px;font:700 15px/1.1 var(--body);color:var(--g-fg);background:#2A3A30;border:1px solid #3C5244;border-radius:14px;padding:11px 13px;cursor:grab;position:relative;z-index:1;transition:transform .25s ease}
+.gk-piece .ic{font-size:22px;line-height:1}
+.gk-lift{transition:none!important;z-index:20!important;box-shadow:0 10px 24px rgba(0,0,0,.45);cursor:grabbing}
+.gk-picked{outline:3px solid var(--g-mint)}
+.gk-shake{animation:gkShake .4s}
+.gk-hit .gk-hud{animation:gkShake .35s}
+.gk-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;padding:10px;border-radius:16px;background:#0E1612;border:1px solid var(--g-l)}
+.gk-glow{animation:gkGlow .7s ease}
+.gk-conf{position:absolute;top:-10px;width:8px;height:12px;border-radius:2px;z-index:41;animation:gkFall 1.7s linear forwards}
+@keyframes gkIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes gkShake{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes gkGlow{0%{box-shadow:0 0 0 0 rgba(233,182,73,.85)}100%{box-shadow:0 0 0 16px rgba(233,182,73,0)}}
+@keyframes gkFall{to{transform:translateY(620px) rotate(540deg);opacity:.2}}
+@keyframes gkBob{50%{transform:translateY(-5px)}}
+@keyframes gkPulse{50%{transform:scale(1.08)}}
+.gk-panelhead{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+.gk-panelhead .eyebrow{color:var(--muted)}
+.gk-new-badge{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#E9B649;color:#3B2A06;border-radius:999px;padding:3px 8px}
+@media (prefers-reduced-motion:reduce){.gk *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* ===== Story cards (What to know, one fact per card) ===== */
+.stc{background:#16201A;color:#EAF1EC;border:1px solid #2B3A31;border-radius:20px;padding:14px;margin-top:8px}
+.st-bars{display:flex;gap:4px;margin-bottom:12px}
+.st-bars i{flex:1;height:4px;border-radius:4px;background:#2B3A31;overflow:hidden}
+.st-bars i b{display:block;height:100%;width:0;background:#E9B649;transition:width .35s}
+.st-bars i.on b{width:100%}
+.st-card{min-height:290px;display:flex}
+.st-in{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:4px;animation:stIn .35s ease}
+@keyframes stIn{from{opacity:.2;transform:translateX(14px)}to{opacity:1;transform:none}}
+.st-line{font:700 19px/1.35 var(--body);max-width:30ch;text-wrap:balance;margin:0;color:#EAF1EC}
+.st-gold{color:#E9B649}
+.st-small{color:#A3B2A8;font-size:14.5px;margin:0;max-width:34ch}
+.st-big{font:800 64px/1 var(--display);color:#E9B649;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.st-big.st-mid{font-size:42px}
+.st-emo{font-size:58px;line-height:1;animation:gkBob 2s ease-in-out infinite}
+.st-nav{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-top:10px}
+.st-b{font:800 15px/1 var(--body);color:#EAF1EC;background:#1D2922;border:1px solid #2B3A31;border-radius:14px;padding:12px 14px;cursor:pointer}
+.st-go{background:#7FD3A2;color:#0B2416;border-color:#7FD3A2}
+.st-gather{position:relative;width:200px;height:150px}
+.st-gather span{position:absolute;left:50%;top:50%;font-size:28px;margin:-18px 0 0 -18px;animation:stGather 2.6s ease-in-out infinite alternate}
+.st-gather .hub{font-size:46px;margin:-30px 0 0 -30px;animation:stPulse 2.6s ease-in-out infinite alternate}
+@keyframes stGather{from{transform:translate(var(--x),var(--y))}to{transform:translate(calc(var(--x)*.42),calc(var(--y)*.42))}}
+@keyframes stPulse{from{transform:scale(.9)}to{transform:scale(1.12)}}
+.st-tl{display:flex;align-items:flex-start;justify-content:space-between;width:100%;max-width:330px;position:relative}
+.st-tl:before{content:"";position:absolute;left:12%;right:12%;top:13px;height:3px;background:#2B3A31}
+.st-tl div{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:33%;font-size:13px;color:#A3B2A8;line-height:1.3}
+.st-tl div b{width:28px;height:28px;border-radius:50%;background:#1D2922;border:3px solid #E9B649;display:grid;place-items:center;font-size:13px}
+.st-tl div strong{font:800 17px/1 var(--display);color:#EAF1EC}
+.st-tl div.hot b{background:#E9B649}
+.st-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;width:100%}
+.st-tiles div{background:#1D2922;border:1px solid #2B3A31;border-radius:14px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13.5px;line-height:1.25;color:#EAF1EC}
+.st-tiles div span{font-size:30px;animation:gkBob 1.8s ease-in-out infinite}
+.st-tiles div:nth-child(2) span{animation-delay:.3s}.st-tiles div:nth-child(3) span{animation-delay:.6s}.st-tiles div:nth-child(4) span{animation-delay:.9s}
+.st-vote{font-size:58px;position:relative;height:80px;width:90px;line-height:1.2}
+.st-vote i{position:absolute;left:31px;top:-6px;font-style:normal;font-size:26px;animation:stDrop 1.6s ease-in infinite}
+@keyframes stDrop{0%{transform:translateY(-14px);opacity:0}30%{opacity:1}80%{transform:translateY(26px);opacity:1}100%{transform:translateY(30px);opacity:0}}
+.st-steps{display:flex;align-items:flex-end;gap:6px;height:130px}
+.st-steps span{font-size:28px;display:flex;align-items:flex-start;justify-content:center;width:44px;height:calc(36px + var(--i) * 22px);background:#2A2412;border-top:4px solid #E9B649;border-radius:8px 8px 0 0;padding-top:4px;animation:stRise .6s ease backwards;animation-delay:calc(var(--i) * .15s)}
+@keyframes stRise{from{height:20px;opacity:0}}
+.st-nest{position:relative;width:150px;height:150px}
+.st-nest i{position:absolute;left:50%;top:50%;border:2px solid #E9B649;border-radius:50%;font-style:normal;font-size:18px;display:flex;justify-content:center;padding-top:2px;transform:translate(-50%,-50%)}
+.st-nest i:nth-child(1){width:150px;height:150px}.st-nest i:nth-child(2){width:120px;height:120px;border-color:#C99A38}.st-nest i:nth-child(3){width:90px;height:90px;border-color:#A97E2C}.st-nest i:nth-child(4){width:62px;height:62px;border-color:#7FD3A2}.st-nest i:nth-child(5){width:34px;height:34px;border-color:#7FD3A2;align-items:center;padding:0}
+.st-ch{display:flex;flex-direction:column;gap:8px;width:100%}
+.st-opt{text-align:left;padding:14px;font:700 15px/1.2 var(--body);color:#EAF1EC;background:#1D2922;border:1px solid #2B3A31;border-radius:14px;cursor:pointer}
+.st-opt.right{background:#0F3A24;border-color:#7FD3A2;color:#7FD3A2}
+.st-opt.wrong{background:#3D1714;border-color:#F08A82;color:#F08A82;animation:gkShake .35s}
+.st-fb{min-height:22px;font-size:14px;color:#7FD3A2;margin:0}
+/* ===== Church ladder game ===== */
+.lad{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.lad-row{margin-left:calc(var(--i) * 8%);width:68%}
+.lad-slot{min-height:52px;border:2px dashed #3E5246;border-bottom:6px solid #4A3A14;border-radius:14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;padding:6px 10px;color:#A3B2A8;font-size:13px;transition:background .15s,border-color .15s}
+.lad-slot .lvl{display:flex;align-items:center;gap:6px;color:#EAF1EC;font-weight:700;font-size:13.5px}
+.lad-slot.hover{border-color:#E9B649;background:#2A2412}
+.lad-slot.filled{border-style:solid;border-color:#E9B649;background:#3B2A06;color:#F6DFA6}
+.lad-slot .gk-piece{background:transparent;border:0;padding:0;color:#F6DFA6}
+
+/* ===== Fire ===== */
+.fr-pic{border-radius:16px;overflow:hidden;border:1px solid var(--g-l);margin-bottom:10px;background:#0E1612}
+.fr-pic svg{display:block;width:100%;height:auto}
+.fr-gust svg{animation:gkShake .4s}
+.fr-flick{animation:frFlick .5s ease-in-out infinite alternate;transform-origin:0 0}
+@keyframes frFlick{from{transform:scaleY(.92) skewX(-3deg)}to{transform:scaleY(1.06) skewX(3deg)}}
+.fr-wind{animation:frWind 1.6s linear infinite}
+@keyframes frWind{from{transform:translateX(-60px)}to{transform:translateX(380px)}}
+.fr-q{font-weight:800;margin:0 0 8px;color:var(--g-fg)}
+.fr-lays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fr-lay{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px}
+.fr-lay svg{width:100%;max-width:150px;height:60px}
+.fr-lay.ok{border-color:var(--g-mint);background:var(--g-mint-d)}
+.fr-lay.no{border-color:var(--g-red);background:var(--g-red-d)}
+.gk-piece.used{opacity:.35}
+.fr-bars{display:flex;flex-direction:column;gap:8px;margin:4px 0 10px}
+.fr-bars div{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.fr-bars span{width:84px}
+.fr-bars i{flex:1;height:14px;background:#0E1612;border:1px solid var(--g-l);border-radius:8px;overflow:hidden}
+.fr-bars b{display:block;height:100%;width:0;background:linear-gradient(90deg,#E8541E,#FFC23C);border-radius:8px}
+.fr-bars .fr-b{background:#8DB8F0}
+.fr-blow{width:100%;font-size:18px;padding:18px;touch-action:none}
+.fr-blow.on{background:#E9B649;border-color:#E9B649;transform:scale(.98)}
+.fr-fig{animation:frShiver .25s ease-in-out infinite alternate}
+@keyframes frShiver{from{transform:translateX(-1px)}to{transform:translateX(1px)}}
+/* ===== Lashings tower ===== */
+.lt-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--g-l);margin-bottom:10px}
+.lt-svg{display:block;width:100%;height:auto;max-height:46vh}
+.lt-tower{transform-origin:150px 312px}
+.lt-ring{animation:gkPulse 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.lt-wobble{animation:ltWobble .7s ease}
+@keyframes ltWobble{25%{transform:rotate(-4deg)}50%{transform:rotate(3deg)}75%{transform:rotate(-2deg)}}
+.lt-fall{animation:ltFall 1.1s ease-in forwards!important}
+@keyframes ltFall{to{transform:rotate(-70deg) translateY(40px);opacity:.4}}
+.lt-sway{animation:ltSway 1.6s ease-in-out}
+@keyframes ltSway{25%{transform:rotate(2.5deg)}50%{transform:rotate(-2deg)}75%{transform:rotate(1.2deg)}}
+.lt-flag{animation:ltFlag .9s ease-out}
+@keyframes ltFlag{from{transform:translateY(60px);opacity:0}}
+.lt-gust{animation:frWind 1.3s linear infinite}
+.lt-card{flex-direction:column;gap:2px;padding:6px 10px;font-size:13.5px}
+.lt-bonus{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.lt-bonus p{margin:0;color:var(--g-fg)}
+.lt-bonus .ok{border-color:var(--g-mint);background:var(--g-mint-d)}
+.lt-bonus .no{border-color:var(--g-red);background:var(--g-red-d)}
+/* ===== Orienteering ===== */
+.or-clue{background:var(--g-p);border:1px solid var(--g-l);border-radius:14px;padding:10px 12px;font-size:14.5px;line-height:1.45;margin-bottom:8px;color:var(--g-mu)}
+.or-clue b{color:var(--g-fg)}
+.or-map{border-radius:12px;overflow:hidden;border:3px solid #E8E2D0;margin:0 auto 10px;max-width:340px}
+.or-map svg{display:block;width:100%;height:auto;cursor:pointer}
+.or-me{transition:transform .17s ease}
+.or-rose{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-width:300px;margin:0 auto 10px}
+.or-dir{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px}
+.or-dir b{font-size:16px}.or-dir small{color:var(--g-mu);font-size:12px}
+.or-mid{display:grid;place-items:center;font-size:30px}
+.or-key{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 10px;font-size:12.5px;color:var(--g-mu)}
+.or-key span{display:flex;align-items:center;gap:6px}
+.or-key i{width:16px;height:12px;border-radius:3px;border:1px solid #555;flex:none}
+/* ===== Pack camp ===== */
+.pk-top{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px}
+.pk-count{font-size:13px;color:var(--g-mu);font-weight:700}
+.pk-slot{min-height:58px;display:flex;align-items:center;justify-content:center}
+.pk-card{font-size:16px;padding:12px 16px;background:#34493B;animation:gkIn .25s ease}
+.pk-card .ic{font-size:30px}
+.pk-time{width:100%;max-width:300px;height:8px;background:#0E1612;border-radius:6px;overflow:hidden;border:1px solid var(--g-l)}
+.pk-time b{display:block;height:100%;width:100%;background:var(--g-gold)}
+.pk-area{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:8px;align-items:stretch}
+.pk-bag{position:relative;display:flex;flex-direction:column;gap:5px;background:#4A6A3A;border:3px solid #2E4A23;border-radius:26px 26px 18px 18px;padding:18px 8px 8px}
+.pk-strap{position:absolute;left:30%;right:30%;top:-12px;height:16px;border:4px solid #2E4A23;border-bottom:0;border-radius:12px 12px 0 0}
+.pk-zone{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-height:70px;text-align:left;padding:8px;border-radius:12px;border:2px dashed rgba(255,255,255,.35);background:rgba(0,0,0,.18);color:#EAF1EC;cursor:pointer;font:700 12.5px/1.2 var(--body)}
+.pk-zone b{font-size:12.5px}
+.pk-zone.hover{border-color:var(--g-gold);background:rgba(233,182,73,.25)}
+.pk-in{display:flex;flex-wrap:wrap;gap:2px;font-size:18px}
+.pk-in i{font-style:normal}
+.pk-home{background:#2A2330;border-color:#6A5A78;min-height:100%}
+.pk-meter{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;font-weight:700;color:var(--g-mu)}
+.pk-meter i{flex:1;height:10px;background:#0E1612;border:1px solid var(--g-l);border-radius:6px;overflow:hidden}
+.pk-meter b{display:block;height:100%;width:0;background:var(--g-mint);transition:width .3s}
+.pk-meter em{font-style:normal;color:var(--g-fg);min-width:52px;text-align:right}
+/* ===== Nutrition runner ===== */
+.nu-bars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-bottom:8px}
+.nu-bars div{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:18px}
+.nu-bars i{width:100%;height:9px;background:#0E1612;border:1px solid var(--g-l);border-radius:6px;overflow:hidden}
+.nu-bars b{display:block;height:100%;width:0;background:var(--g-mint);transition:width .25s}
+.nu-bars .full b{background:var(--g-gold)}
+.nu-road{position:relative;height:380px;border-radius:16px;overflow:hidden;background:#3A3F45;touch-action:none;border:1px solid var(--g-l)}
+.nu-lines{position:absolute;inset:0;background:linear-gradient(90deg,transparent calc(33.3% - 2px),rgba(255,255,255,.55) calc(33.3% - 2px),rgba(255,255,255,.55) calc(33.3% + 2px),transparent calc(33.3% + 2px),transparent calc(66.6% - 2px),rgba(255,255,255,.55) calc(66.6% - 2px),rgba(255,255,255,.55) calc(66.6% + 2px),transparent calc(66.6% + 2px));-webkit-mask:repeating-linear-gradient(180deg,#000 0 22px,transparent 22px 40px);mask:repeating-linear-gradient(180deg,#000 0 22px,transparent 22px 40px)}
+.nu-side{position:absolute;top:30%;font-size:26px;opacity:.6}.nu-side.l{left:-6px}.nu-side.r{right:-6px}
+.nu-me{position:absolute;bottom:22px;font-size:42px;transform:translateX(-50%) scaleX(-1);transition:left .12s ease;z-index:3}
+.nu-yum{animation:nuYum .3s ease}
+@keyframes nuYum{50%{transform:translateX(-50%) scaleX(-1) scale(1.25)}}
+.nu-thing{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;z-index:2;pointer-events:none}
+.nu-thing span{font-size:34px;line-height:1;width:50px;height:50px;display:grid;place-items:center;border-radius:50%;background:rgba(127,211,162,.22);border:2px solid rgba(127,211,162,.7)}
+.nu-thing small{font-size:10.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.5);border-radius:6px;padding:1px 5px;margin-top:2px;white-space:nowrap}
+.nu-thing.bad span{background:rgba(240,138,130,.25);border-color:#F08A82}
+.nu-thing.full span{background:rgba(160,160,160,.2);border-color:#9AA;filter:grayscale(.7)}
+.nu-thing.full small:after{content:" · full";color:#E9B649}
+.nu-pad{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:13px;color:var(--g-mu)}
+.nu-pad .gk-btn{font-size:20px;padding:12px 22px}
+.pk-fb{margin:0;font-size:14px;line-height:1.35;text-align:center;border-radius:12px;padding:8px 10px;max-width:320px;animation:gkIn .2s ease}
+.pk-fb.ok{background:var(--g-mint-d);color:#D4F5E2}.pk-fb.no{background:var(--g-red-d);color:#FFD6D2}
+.nu-msg{margin:0 0 8px;min-height:40px;font-size:13.5px;line-height:1.35;color:var(--g-mu);border-radius:10px;padding:6px 9px;background:var(--g-p)}
+.nu-msg.ok{color:#D4F5E2;background:var(--g-mint-d)}.nu-msg.no{color:#FFD6D2;background:var(--g-red-d)}
+/* ===== Fruit basket ===== */
+.fb-verse{font-family:var(--scripture);font-size:14.5px;line-height:1.5;color:var(--g-mu);margin:0 0 6px}
+.fb-verse b{color:var(--g-gold)}.fb-verse cite{display:block;font-style:normal;font-family:var(--body);font-size:12px;margin-top:2px}
+.fb-blank{color:#4A5C51;letter-spacing:1px}
+.fb-want{font-size:15px;margin-bottom:6px;color:var(--g-fg)}
+.fb-ic{font-size:20px}
+.fb-field{position:relative;height:360px;border-radius:16px;overflow:hidden;background:linear-gradient(#244E7A,#3F7C5A 70%,#5B8A3A);touch-action:none;border:1px solid var(--g-l);cursor:pointer}
+.fb-tree{position:absolute;left:50%;top:-34px;transform:translateX(-50%);font-size:110px;opacity:.85;pointer-events:none}
+.fb-basket{position:absolute;bottom:8px;transform:translateX(-50%);font-size:46px;transition:left .06s linear;z-index:3;pointer-events:none}
+.fb-drop{position:absolute;top:0;display:flex;flex-direction:column;align-items:center;pointer-events:none;z-index:2}
+.fb-drop span{font-size:28px;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.6)}
+.fb-drop small{font-size:10.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 5px;margin-top:2px;white-space:nowrap}
+.fb-drop.flesh span{background:rgba(60,10,10,.6);border-color:#F08A82}
+/* ===== Pioneers ===== */
+.pi-line{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;position:relative;padding-left:14px;border-left:3px solid var(--g-gold)}
+.pi-slot{display:grid;grid-template-columns:62px minmax(0,1fr) auto;align-items:center;gap:8px;min-height:50px;padding:6px 8px;border:2px dashed #3E5246;border-radius:12px;font-size:13.5px;line-height:1.25;position:relative}
+.pi-slot:before{content:"";position:absolute;left:-22px;top:50%;width:11px;height:11px;margin-top:-6px;border-radius:50%;background:var(--g-gold)}
+.pi-slot.hover{border-color:var(--g-gold);background:#2A2412}
+.pi-slot.filled{border-style:solid;border-color:var(--g-gold);background:var(--g-gold-d)}
+.pi-yr{font:800 13px/1.1 var(--display);color:var(--g-gold)}
+.pi-ev{color:var(--g-fg)}
+.pi-drop{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.pi-face img,.pi-face .ini{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:top;display:grid;place-items:center;background:#33443A;color:#fff;font-size:12px;border:2px solid #E9B649}
+.pi-card{padding:6px 10px;font-size:13px}
+.pi-drop .pi-nm{display:none}
+.pi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pi-mem{position:relative;min-height:96px;border-radius:14px;border:1px solid var(--g-l);background:#2A3A30;color:var(--g-fg);cursor:pointer;padding:6px;font:700 12px/1.25 var(--body)}
+.pi-mem .front{display:none;flex-direction:column;align-items:center;gap:4px}
+.pi-mem .back{font-size:30px}
+.pi-mem.up .front{display:flex}.pi-mem.up .back{display:none}
+.pi-mem.up{background:#33443A;animation:piFlip .25s ease}
+.pi-mem.done{background:var(--g-mint-d);border-color:var(--g-mint)}
+.pi-mem .pi-face img,.pi-mem .pi-face .ini{width:42px;height:42px}
+.pi-fact{font-size:12px}
+@keyframes piFlip{from{transform:rotateY(90deg)}to{transform:none}}
+/* ===== Ecology ===== */
+.ec-meter{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;margin-bottom:8px}
+.ec-meter i{flex:1;height:12px;background:#0E1612;border:1px solid var(--g-l);border-radius:7px;overflow:hidden}
+.ec-meter b{display:block;height:100%;width:0;background:linear-gradient(90deg,#5DADE2,#7FD3A2);transition:width .3s}
+.ec-meter.low b{background:#B5651D}
+.ec-meter em{font-style:normal;min-width:40px;text-align:right}
+.ec-creek{position:relative;height:250px;border-radius:16px;overflow:hidden;background:#5B8A3A;border:1px solid var(--g-l);margin-bottom:8px}
+.ec-water{position:absolute;left:0;right:0;top:12px;height:170px;background:repeating-linear-gradient(100deg,#2F6E9E 0 26px,#3A7FB2 26px 52px);animation:ecFlow 4s linear infinite}
+@keyframes ecFlow{from{background-position:0 0}to{background-position:104px 0}}
+.ec-life{position:absolute;left:0;right:0;bottom:4px;height:56px}
+.ec-ani{position:absolute;bottom:6px;font-size:30px;animation:gkBob 1.6s ease-in-out infinite}
+.ec-thing{position:absolute;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:0;cursor:grab;z-index:2;transform-origin:center}
+.ec-thing span{font-size:30px;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.55)}
+.ec-thing small{font-size:10.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 5px;margin-top:2px;white-space:nowrap}
+.ec-thing.gk-picked span{outline:3px solid var(--g-gold)}
+.ec-bins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ec-bin{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;border-radius:14px;border:2px solid var(--g-l);background:var(--g-p2);color:var(--g-fg);font:800 12px/1.15 var(--body);cursor:pointer}
+.ec-bin span{font-size:26px}
+.ec-bin.hover{border-color:var(--g-gold);background:#2A2412}
+/* ===== Legion ===== */
+.lg-path{position:relative;height:64px;border-radius:14px;background:linear-gradient(#7DB7E8,#CDE6F7 60%,#6B8A3A 60%);margin-bottom:10px;overflow:hidden}
+.lg-path:after{content:"";position:absolute;left:0;right:0;bottom:10px;border-bottom:3px dashed rgba(255,255,255,.7)}
+.lg-stop{position:absolute;bottom:14px;font-size:22px;filter:grayscale(.6);opacity:.8}
+.lg-stop:nth-child(1){left:8%}.lg-stop:nth-child(2){left:24.5%}.lg-stop:nth-child(3){left:41%}.lg-stop:nth-child(4){left:57.5%}.lg-stop:nth-child(5){left:74%}.lg-stop:nth-child(6){left:90.5%}
+.lg-stop.won{filter:none;opacity:1}
+.lg-me{position:absolute;bottom:20px;font-size:28px;transform:translateX(-30%);transition:left .9s ease;z-index:2;animation:gkBob .5s ease-in-out infinite}
+.lg-card{background:var(--g-p);border:1px solid var(--g-l);border-radius:16px;padding:12px;animation:gkIn .25s ease}
+.lg-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.lg-part{font-size:24px}
+.lg-timer{flex:1;height:8px;background:#0E1612;border-radius:6px;overflow:hidden}.lg-timer i{display:block;height:100%;background:var(--g-gold)}
+.lg-sit{margin:0 0 10px;font-size:16px;line-height:1.4;color:var(--g-fg);font-weight:600}
+.lg-opts{display:flex;flex-direction:column;gap:8px}
+.lg-opt{text-align:left;line-height:1.3}
+.lg-opt.ok{border-color:var(--g-mint);background:var(--g-mint-d);color:#D4F5E2}
+.lg-opt.no{border-color:var(--g-red);background:var(--g-red-d);color:#FFD6D2}
+.lg-why{margin:10px 0 0;font-size:14px;line-height:1.4}.lg-why.ok{color:#B9EBCF}.lg-why.no{color:#FFC9C3}
+.lg-next{margin-top:10px;width:100%}
+.lg-pledge{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+.lg-pl{margin:0;font-family:var(--scripture);font-size:14px;color:var(--g-gold);animation:gkIn .3s ease}
+.lg-pl.dim{color:var(--g-mu)}
+
+/* ===== What to know: flip cards (nutrition) ===== */
+.fl-hint{font-size:13.5px;color:var(--muted);margin:4px 0 8px}
+.fl-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fl-card{position:relative;min-height:132px;border:0;padding:0;background:none;cursor:pointer;perspective:700px;font:inherit;color:inherit;text-align:center}
+.fl-in{position:absolute;inset:0;transition:transform .45s ease;transform-style:preserve-3d}
+.fl-card.on .fl-in{transform:rotateY(180deg)}
+.fl-front,.fl-back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:16px;-webkit-backface-visibility:hidden;backface-visibility:hidden;font-size:14.5px;line-height:1.3}
+.fl-front{background:#2E6A3E;color:#fff;font-weight:800;box-shadow:inset 0 -5px 0 rgba(0,0,0,.18)}
+.fl-front i{font-style:normal;font-size:32px}
+.fl-back{background:var(--surface);color:var(--ink);border:2px solid #2E6A3E;transform:rotateY(180deg);font-size:14px}
+.fl-card:nth-child(2) .fl-front{background:#B5651D}.fl-card:nth-child(3) .fl-front{background:#2B6CA3}.fl-card:nth-child(4) .fl-front{background:#7A3E8E}
+.fl-card:nth-child(2) .fl-back{border-color:#B5651D}.fl-card:nth-child(3) .fl-back{border-color:#2B6CA3}.fl-card:nth-child(4) .fl-back{border-color:#7A3E8E}
+/* ===== What to know: chat (pioneers) ===== */
+.ch-box{background:#E9E2D6;border-radius:18px;overflow:hidden;margin-top:6px;border:1px solid var(--line)}
+.ch-top{display:flex;align-items:center;gap:10px;background:#5B3A1A;color:#fff;padding:9px 12px}
+.ch-top small{margin-left:auto;opacity:.8}
+.ch-av{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid #E9B649}
+.ch-top .ini{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#7A4A12}
+.ch-msgs{display:flex;flex-direction:column;gap:6px;padding:12px}
+.ch-me,.ch-them{margin:0;max-width:82%;padding:8px 11px;border-radius:14px;font-size:15px;line-height:1.4;color:#1D1B2B}
+.ch-me{align-self:flex-end;background:#D7F5C9;border-bottom-right-radius:4px}
+.ch-them{align-self:flex-start;background:#FFFFFF;border-bottom-left-radius:4px}
+.ch-them.new{animation:chPop .45s ease}
+@keyframes chPop{0%{opacity:0;transform:translateY(6px) scale(.96)}60%{opacity:1}100%{transform:none}}
+.ch-ask{display:flex;align-items:center;gap:8px;padding:0 12px 12px;flex-wrap:wrap;color:#5C596D;font-size:13px;font-weight:800}
+.ch-q{font:800 14.5px/1.2 var(--body);background:#25683A;color:#fff;border:0;border-radius:999px;padding:10px 14px;cursor:pointer}
+.ch-end{margin:0;padding:0 12px 12px;font-size:13.5px;color:#5C596D}
+/* ===== What to know: checklist (pack camp) ===== */
+.ck-paper{background:#FFF8E1;color:#3B2F1C;border-radius:14px;padding:10px 12px;border:1px solid #E8D9A8;margin-top:6px}
+.ck-row+.ck-row{border-top:1px dashed #E0D2A6}
+.ck-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;font-size:14px}
+.ck-head span{color:#7A6640;font-weight:700}
+.ck-row{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;background:none;border:0;padding:8px 2px;cursor:pointer;font:inherit;color:inherit}
+.ck-box{flex:none;width:26px;height:26px;border:2.5px solid #3A5BA0;border-radius:6px;display:grid;place-items:center;color:#2346A0;font:900 20px/1 var(--display);background:#fff}
+.ck-row.on .ck-box{animation:gkPulse .3s ease}
+.ck-ic{font-size:22px;line-height:1.1}
+.ck-t{display:flex;flex-direction:column;gap:1px;font-size:15px;line-height:1.3}
+.ck-t small{color:#7A6640;font-size:13px}
+.ck-row.on .ck-t b{text-decoration:line-through;text-decoration-color:#2346A0;text-decoration-thickness:2px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ch-box{background:#2A2520}}
+:root[data-theme="dark"] .ch-box{background:#2A2520}
+
 </style>
 </head>
 <body>
@@ -812,7 +1144,7 @@ body.lock{overflow:hidden}
     h += stageHTML(k, c);
     h += '<div class="shead"><h2>'+(k === 'pioneers' ? '' : '<span class="ticon" aria-hidden="true">'+tagIcon(k, c.id)+'</span>')+esc(c.t)+'</h2>' + (c.lead ? '<p class="lead">'+esc(c.lead)+'</p>' : '') + (c.kjv ? '<p class="kjv">The King James Version says “'+esc(c.kjv)+'”.</p>' : '') + '</div>';
     if (x && k !== 'pioneers') h += '<div class="sblock">' + x + '</div>';
-    h += '<section class="sblock"><span class="eyebrow">What to know</span>' + (k === 'pioneers' && x ? x : '') + '<ul>' + c.p.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('') + '</ul></section>';
+    h += wtkHTML(k, c, x);
     if (c.m) h += '<div class="tipbox"><span>Remember it</span>'+esc(c.m)+'</div>';
     var vs = []; if (c.f) vs.push(GAL); if (c.v) vs.push(c.v); if (c.v2) vs.push(c.v2);
     if (vs.length) h += '<section class="vbox"><span class="eyebrow">The Bible says</span>' + vs.map(verseHTML).join('') + '</section>';
@@ -869,6 +1201,7 @@ body.lock{overflow:hidden}
       h += sceneHTML(k, 'learn') + '<p class="taphint">Tap a picture to open it big.</p>';
       h += '<div class="btnrow"><button class="btn btn-ghost btn-grow" data-tab="game">Play the game</button><button class="btn btn-primary btn-grow" data-tab="challenge">Take the challenge</button></div>';
     } else if (S.tab === 'game'){
+      h += gamePanelHTML(k);
       h += '<section class="panel" style="--c:'+T.c+'">'+findHTML(k)+'</section>';
       if (k === 'pioneers') h += '<section class="panel" style="--c:'+T.c+'">'+faceHTML()+'</section>';
       h += '<section class="panel" style="--c:'+T.c+'"><span class="eyebrow">'+(k === 'pioneers' ? 'One more game' : 'Bonus game')+'</span>'+gameHTML(k)+'</section>';
@@ -1016,10 +1349,1200 @@ body.lock{overflow:hidden}
       .l_submit(TOKEN, ch.topic, { answers: ch.log });
   }
 
+  /* ======================= GAME KIT (version 14) =======================
+     Shared by every new game: hearts, clock, score, stars, sound, dragging,
+     and the class top-scores board. Each game is one self-contained panel. */
+  var GK_SOUND = true;
+  try { GK_SOUND = localStorage.getItem('gq-sound') !== 'off'; } catch (e) {}
+  var gkAC = null;
+  function gkTone(f1, f2, d, type, vol){
+    if (!GK_SOUND) return;
+    try {
+      gkAC = gkAC || new (window.AudioContext || window.webkitAudioContext)();
+      if (gkAC.state === 'suspended') gkAC.resume();
+      var o = gkAC.createOscillator(), g = gkAC.createGain(), t = gkAC.currentTime;
+      o.type = type || 'triangle'; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(Math.max(30, f2), t + d);
+      g.gain.setValueAtTime(vol || 0.16, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
+      o.connect(g); g.connect(gkAC.destination); o.start(t); o.stop(t + d + 0.02);
+    } catch (e) {}
+  }
+  function gkBuzz(p){ try { if (GK_SOUND && navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
+  var SFX = {
+    good: function(){ gkTone(520, 1040, 0.16); setTimeout(function(){ gkTone(780, 1560, 0.14); }, 80); gkBuzz(18); },
+    bad: function(){ gkTone(230, 110, 0.28, 'sawtooth', 0.12); gkBuzz([40, 40, 40]); },
+    pop: function(){ gkTone(660, 990, 0.08, 'sine', 0.12); },
+    coin: function(){ gkTone(990, 1480, 0.09, 'square', 0.06); },
+    whoosh: function(){ gkTone(300, 90, 0.25, 'sine', 0.1); },
+    splash: function(){ gkTone(900, 200, 0.2, 'sine', 0.08); },
+    win: function(){ [523, 659, 784, 1047].forEach(function(f, i){ setTimeout(function(){ gkTone(f, f * 1.01, 0.22); }, i * 120); }); gkBuzz([30, 50, 30]); },
+    lose: function(){ [392, 330, 262].forEach(function(f, i){ setTimeout(function(){ gkTone(f, f * 0.98, 0.25, 'triangle'); }, i * 160); }); }
+  };
+
+  /* One animation loop for every running game. A game pauses by itself when it is off screen. */
+  var GK_LIVE = [];
+  var gkLast = 0;
+  function gkFrame(now){
+    requestAnimationFrame(gkFrame);
+    var dt = gkLast ? Math.min(0.05, (now - gkLast) / 1000) : 0; gkLast = now;
+    GK_LIVE = GK_LIVE.filter(function(g){ return !g.dead; });
+    GK_LIVE.forEach(function(g){
+      if (!g.ticks.length || g.st.done || !g.st.running || document.hidden || !document.body.contains(g.el)) return;
+      g.st.time += dt;
+      g.ticks.forEach(function(f){ try { f(dt, g.st.time); } catch (e) { if (window.console) console.error(e); } });
+    });
+  }
+  requestAnimationFrame(gkFrame);
+
+  function gkEl(tag, cls, html){ var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function gkFmt(s){ s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function gkBoardHTML(top, note){
+    if (!top || !top.length) return '<div class="gk-board"><b>🏆 Class top scores</b><p class="gk-mute">No scores yet. Be the first!</p>' + (note || '') + '</div>';
+    return '<div class="gk-board"><b>🏆 Class top scores</b><ol>' + top.map(function(r){
+      return '<li class="' + (r.me ? 'me' : '') + '"><span class="rk">' + (r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : r.rank) + '</span><span class="nm">' + esc(r.name) + (r.me ? ' (you)' : '') + '</span><span class="sc">' + r.score + '</span></li>';
+    }).join('') + '</ol>' + (note || '') + '</div>';
+  }
+  function gkJoinNote(){ return '<p class="gk-mute">Type your name at the top of the page to get on the class board.</p>'; }
+
+  /* GK(o): o.gid ('church:ladder'), o.title, o.how (html), o.hearts (default 3), o.timer (seconds, counts down) or none,
+     o.build(api) sets up a round, o.levels (optional names). */
+  function GK(o){
+    var el = gkEl('div', 'gk');
+    el.innerHTML = '<div class="gk-hud"><span class="gk-hearts" aria-label="Lives"></span><span class="gk-clock">0:00</span><span class="gk-score">0</span>'
+      + '<button type="button" class="gk-btn gk-snd" aria-label="Sound on or off"></button></div>'
+      + '<div class="gk-stage"></div><div class="gk-toast" role="status" hidden></div>'
+      + '<div class="gk-over gk-start"></div><div class="gk-over gk-end" hidden></div>';
+    var q = function(s){ return el.querySelector(s); };
+    var stage = q('.gk-stage'), toastEl = q('.gk-toast'), startEl = q('.gk-start'), endEl = q('.gk-end');
+    var api = { el: el, stage: stage, o: o, ticks: [], st: { hearts: 3, score: 0, time: 0, running: false, done: false, level: 1 } };
+    GK_LIVE.push(api);
+    function paint(){
+      var h = o.hearts === 0 ? '' : '❤️'.repeat(Math.max(0, api.st.hearts)) + '🤍'.repeat(Math.max(0, (o.hearts || 3) - api.st.hearts));
+      q('.gk-hearts').textContent = h;
+      q('.gk-clock').textContent = o.clockFn ? o.clockFn(api) : o.timer ? gkFmt(o.timer - api.st.time) : gkFmt(api.st.time);
+      q('.gk-score').textContent = api.st.score;
+      q('.gk-snd').textContent = GK_SOUND ? '🔈' : '🔇';
+    }
+    api.paint = paint;
+    var clockTick = 0;
+    api.ticks.push(function(dt, t){
+      clockTick += dt; if (clockTick > 0.25){ clockTick = 0; paint(); }
+      if (o.timer && t >= o.timer && !api.st.done){ api.st.time = o.timer; if (o.onTimeUp) o.onTimeUp(api); else api.finish(false, { title: 'Time’s up!' }); }
+    });
+    q('.gk-snd').addEventListener('click', function(){ GK_SOUND = !GK_SOUND; try { localStorage.setItem('gq-sound', GK_SOUND ? 'on' : 'off'); } catch (e) {} paint(); });
+    api.tick = function(f){ api.ticks.push(f); };
+    api.addScore = function(n){ api.st.score = Math.max(0, api.st.score + n); paint(); };
+    var tt = 0;
+    api.toast = function(msg, good, ms){
+      toastEl.innerHTML = msg; toastEl.className = 'gk-toast' + (good ? ' good' : ''); toastEl.hidden = false;
+      clearTimeout(tt); tt = setTimeout(function(){ toastEl.hidden = true; }, ms || (good ? 1500 : 2800));
+    };
+    api.hideToast = function(){ toastEl.hidden = true; };
+    api.loseHeart = function(msg){
+      if (api.st.done) return true;
+      api.st.hearts--; SFX.bad(); paint();
+      el.classList.remove('gk-hit'); void el.offsetWidth; el.classList.add('gk-hit');
+      if (msg) api.toast(msg, false);
+      if (api.st.hearts <= 0){ setTimeout(function(){ api.finish(false, { title: 'Out of hearts', summary: 'Each mistake costs a heart. Read the hints, then try again.' }); }, 900); return true; }
+      return false;
+    };
+    api.good = function(points, msg){ SFX.good(); if (points) api.addScore(points); if (msg) api.toast(msg, true); };
+    api.elapsed = function(){ return api.st.time; };
+    api.begin = function(level){
+      api.st = { hearts: o.hearts || 3, score: 0, time: 0, running: true, done: false, level: level || 1 };
+      api.ticks.length = 1; stage.innerHTML = ''; endEl.hidden = true; startEl.hidden = true; toastEl.hidden = true;
+      el.classList.toggle('gk-noheart', o.hearts === 0);
+      o.build(api, api.st.level); paint();
+      try { if (gkAC && gkAC.state === 'suspended') gkAC.resume(); } catch (e) {}
+    };
+    api.finish = function(won, x){
+      if (api.st.done) return; x = x || {};
+      api.st.done = true; api.st.running = false; paint();
+      var stars = won ? (x.stars || 1) : 0;
+      if (won) { SFX.win(); gkConfetti(el); } else SFX.lose();
+      var btns = (x.buttons || []).map(function(b, i){ return '<button type="button" class="gk-btn gk-go" data-gx="' + i + '">' + esc(b.label) + '</button>'; }).join('');
+      endEl.innerHTML = (won ? '<div class="gk-stars">' + '★'.repeat(stars) + '<s>' + '★'.repeat(3 - stars) + '</s></div>' : '<div class="gk-big">' + (x.icon || '😮') + '</div>')
+        + '<h3>' + esc(x.title || (won ? 'Well done!' : 'Try again')) + '</h3>'
+        + (x.summary ? '<p>' + x.summary + '</p>' : '')
+        + (won ? '<p class="gk-pts">' + api.st.score + ' points · ' + (o.clockFn ? o.clockFn(api) : gkFmt(api.st.time)) + '</p>' : '')
+        + '<div class="gk-saved"></div>'
+        + '<div class="gk-btns"><button type="button" class="gk-btn' + (btns ? '' : ' gk-go') + '" data-gx="again">' + (won ? 'Play again' : 'Try again') + '</button>' + btns + '</div>';
+      endEl.hidden = false;
+      endEl.querySelector('[data-gx="again"]').onclick = function(){ api.begin(x.againLevel || api.st.level); };
+      (x.buttons || []).forEach(function(b, i){ endEl.querySelector('[data-gx="' + i + '"]').onclick = b.fn; });
+      var saved = endEl.querySelector('.gk-saved');
+      if (!won || !o.gid) return;
+      if (!hasRun()) { saved.innerHTML = '<p class="gk-mute">Scores are saved from the class link.</p>'; return; }
+      if (TOKEN) {
+        saved.innerHTML = '<p class="gk-mute">Saving your score…</p>';
+        google.script.run.withSuccessHandler(function(r){
+          saved.innerHTML = (r.newBest ? '<p class="gk-new">New best score!</p>' : '<p class="gk-mute">Your best: ' + r.best + '</p>') + gkBoardHTML(r.top);
+        }).withFailureHandler(function(){ saved.innerHTML = '<p class="gk-mute">Couldn’t save the score. Check your internet.</p>'; }).l_game(TOKEN, o.gid, api.st.score);
+      } else {
+        google.script.run.withSuccessHandler(function(r){ saved.innerHTML = gkBoardHTML(r.top, gkJoinNote()); }).withFailureHandler(function(){}).l_top(o.gid, '');
+      }
+    };
+    startEl.innerHTML = '<div class="gk-big">' + (o.icon || '🎮') + '</div><h3>' + esc(o.title) + '</h3><div class="gk-how">' + (o.how || '') + '</div>'
+      + '<button type="button" class="gk-btn gk-go gk-play">▶ Play</button><div class="gk-top"></div>';
+    startEl.querySelector('.gk-play').onclick = function(){ api.begin(1); };
+    if (o.gid && hasRun()) {
+      google.script.run.withSuccessHandler(function(r){ var t = startEl.querySelector('.gk-top'); if (t) t.innerHTML = gkBoardHTML(r.top, TOKEN ? (r.best ? '<p class="gk-mute">Your best: ' + r.best + '</p>' : '') : gkJoinNote()); })
+        .withFailureHandler(function(){}).l_top(o.gid, TOKEN || '');
+    }
+    paint();
+    return api;
+  }
+  function gkConfetti(host){
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cols = ['#E9B649', '#7FD3A2', '#8DB8F0', '#F08A82', '#FFFFFF'];
+    for (var i = 0; i < 36; i++) {
+      var c = gkEl('i', 'gk-conf'); c.style.left = Math.random() * 100 + '%'; c.style.background = cols[i % cols.length];
+      c.style.animationDelay = (Math.random() * 0.5) + 's'; host.appendChild(c);
+      setTimeout(function(x){ return function(){ x.remove(); }; }(c), 2400);
+    }
+  }
+  /* Drag with a finger or mouse. opt.drop(x, y) returns true when the drop was accepted.
+     A tap (no movement) calls opt.tap(). */
+  function gkDrag(node, opt){
+    var d = null;
+    node.style.touchAction = 'none';
+    node.addEventListener('pointerdown', function(e){
+      if (opt.can && !opt.can()) return;
+      e.preventDefault(); try { node.setPointerCapture(e.pointerId); } catch (er) {}
+      d = { x: e.clientX, y: e.clientY, moved: false };
+    });
+    node.addEventListener('pointermove', function(e){
+      if (!d) return;
+      var dx = e.clientX - d.x, dy = e.clientY - d.y;
+      if (!d.moved && Math.abs(dx) + Math.abs(dy) < 8) return;
+      if (!d.moved && opt.start) opt.start();
+      d.moved = true; node.classList.add('gk-lift');
+      node.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.06)';
+      if (opt.move) opt.move(e.clientX, e.clientY);
+    });
+    function end(e, cancel){
+      if (!d) return; var moved = d.moved; d = null;
+      node.classList.remove('gk-lift');
+      if (!moved) { node.style.transform = ''; if (opt.tap) opt.tap(); return; }
+      var ok = !cancel && opt.drop && opt.drop(e.clientX, e.clientY);
+      if (!ok) node.style.transform = '';
+      if (opt.after) opt.after(ok);
+    }
+    node.addEventListener('pointerup', function(e){ end(e, false); });
+    node.addEventListener('pointercancel', function(e){ end(e, true); });
+  }
+  function gkHit(node, x, y, pad){ var r = node.getBoundingClientRect(); pad = pad || 0; return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad; }
+  function gkShuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function gkStars(mistakes, secs, fast){ return mistakes === 0 && secs <= fast ? 3 : mistakes <= 1 ? 2 : 1; }
+
+  /* ======================= STORY CARDS ("What to know", one fact per card) ======================= */
+  function stGather(icon, hub){ return '<div class="st-gather" aria-hidden="true">' + [[-80,-50],[80,-50],[-95,25],[95,25],[-35,62],[35,62]].map(function(p){ return '<span style="--x:' + p[0] + 'px;--y:' + p[1] + 'px">' + icon + '</span>'; }).join('') + '<span class="hub">' + hub + '</span></div>'; }
+  function stTiles(a){ return '<div class="st-tiles">' + a.map(function(t){ return '<div><span>' + t[0] + '</span>' + esc(t[1]) + '</div>'; }).join('') + '</div>'; }
+  function stTl(a){ return '<div class="st-tl" aria-hidden="true">' + a.map(function(t, i){ return '<div class="' + (t[3] ? 'hot' : '') + '"><b>' + t[0] + '</b><strong>' + esc(t[1]) + '</strong>' + esc(t[2]) + '</div>'; }).join('') + '</div>'; }
+  var ST_VOTE = '<div class="st-vote" aria-hidden="true">🗳️<i>📄</i></div>';
+  function stEmo(e){ return '<div class="st-emo" aria-hidden="true">' + e + '</div>'; }
+  function stSteps(a){ return '<div class="st-steps" aria-hidden="true">' + a.map(function(e, i){ return '<span style="--i:' + i + '">' + e + '</span>'; }).join('') + '</div>'; }
+
+  var STORY = { church: {
+    levels: [
+      { v: stSteps(['⛪','🏘️','🏝️','🌎','🌐']), line: 'The Adventist Church is organised in 5 levels, like the steps of a stair.', say: 'The Adventist Church is organised in five levels, like the steps of a stair.' },
+      { v: '<div class="st-nest" aria-hidden="true"><i>🌐</i><i>🌎</i><i>🏝️</i><i>🏘️</i><i>⛪</i></div>', line: 'Each level is made of the ones below it.', small: 'Churches make a conference, conferences make a union, unions make a division.', say: 'Each level is made of the ones below it. Churches make a conference, conferences make a union, and unions make a division.' },
+      { big: 200, plus: '+', line: 'countries where the church is at work today', small: 'Guyana is one of them.', say: 'The church is at work in more than 200 countries today. Guyana is one of them.' },
+      { v: ST_VOTE, line: 'At every level, leaders are chosen by vote.', small: 'No one person runs the church. Delegates decide together.', say: 'At every level, leaders are chosen by vote. No one person runs the church. Delegates decide together.' },
+      { q: 'Which level is just above your local church?', opts: ['The union', 'The conference', 'The division'], a: 1, ok: 'Yes. Local churches together make the conference.' }
+    ],
+    local: [
+      { v: stGather('🙂', '⛪'), line: 'Your local church is the people: every member, young and old.', say: 'Your local church is the people: every member, young and old.' },
+      { line: 'Who leads it?', v: stTiles([['👔','The pastor, who often cares for a few churches (a district)'], ['🧓','The elders, who lead when the pastor is away'], ['🪑','The church board, which plans and decides']]), say: 'Who leads it? The pastor, who often cares for a few churches called a district. The elders, who lead when the pastor is away. And the church board, which plans and decides.' },
+      { v: ST_VOTE, line: 'Members vote at business meetings.', small: 'They also choose delegates to go to the conference session.', say: 'Members vote at business meetings. They also choose delegates to go to the conference session.' },
+      { line: 'Ministries for every age', v: stTiles([['🧭','Pathfinders'], ['🐝','Adventurers'], ['📖','Sabbath School']]), small: 'Plus the youth (AY), music, health and community work.', say: 'Your church has ministries for every age: Pathfinders, Adventurers, Sabbath School, the youth, music, health and community work.' },
+      { v: stEmo('🙌'), line: 'You don’t have to wait to grow up. You can serve in your church now.', small: '“Let no man despise thy youth.” 1 Timothy 4:12', say: 'You don’t have to wait to grow up. You can serve in your church now. Let no man despise thy youth. First Timothy, chapter 4, verse 12.' },
+      { q: 'Who is the church?', opts: ['Only the pastor', 'All the members', 'Only the church board'], a: 1, ok: 'Yes. The church is all of its members, you included.' }
+    ],
+    conf: [
+      { v: stGather('⛪', '🏘️'), line: 'A conference is all the Adventist churches in one country or region, working together.', say: 'A conference is all the Adventist churches in one country or region, working together.' },
+      { big: 200, plus: '+', line: 'churches and groups in the Guyana Conference', small: 'Yours is one of them.', say: 'The Guyana Conference has more than 200 churches and groups. Yours is one of them.' },
+      { big: 65000, line: 'Adventist members in Guyana, about', small: 'You’re part of this big family.', say: 'About 65,000 Adventists in Guyana belong to it. You are part of this big family.' },
+      { v: stTl([['📚','1883','Books arrive'], ['⛪','1887','First church: Central, Georgetown', 1], ['🇬🇾','Today','200+ churches']]), line: 'It started with books, and then one church in Georgetown.', say: 'Adventist books reached Guyana in 1883. The first Adventist church, Central, opened in Georgetown in 1887.' },
+      { line: 'What does the conference do?', v: stTiles([['👔','Sends pastors to the churches'], ['💰','Receives the churches’ tithe'], ['🏕️','Runs camporees and youth events']]), say: 'What does the conference do? It sends pastors to the churches. The churches send their tithe to it. And it runs camporees and youth events, like Pathfinder camporees.' },
+      { v: ST_VOTE, big: 4, pre: 'Every ', post: ' years', line: 'delegates from the churches meet and vote for the leaders.', small: 'April 2023: about 400 delegates met at Central church.', say: 'Every four years, delegates from the churches meet at a session and vote for the leaders. In April 2023 about 400 delegates met at Central church.' },
+      { v: stEmo('📍'), line: 'Office: Queenstown, Georgetown', line2: 'Leader: the conference president', small: 'In 2026: Pastor Exton Clarke', say: 'The conference office is in Queenstown, Georgetown. Its leader is the conference president. In 2026 that is Pastor Exton Clarke.' },
+      { q: 'Who sends the pastor to your church?', opts: ['The local church board', 'The conference', 'The General Conference'], a: 1, ok: 'Yes. The conference sends pastors to its churches.' }
+    ],
+    union: [
+      { v: stGather('🏘️', '🏝️'), line: 'A union is a group of conferences and missions working together.', say: 'A union is a group of conferences and missions working together.' },
+      { big: 100, line: 'years old in 2026', small: 'The Caribbean Union Conference was set up in 1926.', say: 'The Caribbean Union Conference is 100 years old in 2026. It was set up in 1926.' },
+      { big: 200000, plus: '+', line: 'members in the Caribbean Union', small: 'It joins Guyana with islands such as Trinidad and Tobago, Barbados and Grenada.', say: 'The Caribbean Union has more than 200,000 members. It joins Guyana with islands such as Trinidad and Tobago, Barbados and Grenada.' },
+      { line: 'What does the union do?', v: stTiles([['🧭','Guides its conferences and missions'], ['🎓','Runs USC, the Adventist university in Trinidad'], ['🏕️','Holds big camporees for the Caribbean']]), say: 'What does the union do? It guides its conferences and missions. It runs USC, the University of the Southern Caribbean, in Trinidad. And it holds big camporees for the whole Caribbean.' },
+      { v: stEmo('📍'), line: 'Office: Trinidad', say: 'The Caribbean Union office is in Trinidad.' },
+      { q: 'What is a union made of?', opts: ['Local churches', 'Conferences and missions', 'Divisions'], a: 1, ok: 'Yes. A union is a group of conferences and missions.' }
+    ],
+    div: [
+      { v: stGather('🏝️', '🌎'), line: 'A division is a big part of the world: a group of unions.', say: 'A division is a big part of the world: a group of unions.' },
+      { big: 13, line: 'divisions in the whole world church', small: 'Each one is a regional office of the General Conference.', say: 'There are 13 divisions in the whole world church. Each one is a regional office of the General Conference.' },
+      { big: 3700000, plus: '+', line: 'members in the Inter-American Division (2025)', small: 'In 42 countries and islands, from Mexico to Guyana.', say: 'The Inter-American Division has more than 3.7 million members, in 42 countries and islands, from Mexico to Guyana.' },
+      { line: 'Four main languages', v: stTiles([['🇬🇧','English'], ['🇪🇸','Spanish'], ['🇫🇷','French'], ['🇳🇱','Dutch']]), say: 'It works in four main languages: English, Spanish, French and Dutch.' },
+      { v: stEmo('📍'), line: 'Office: Miami, Florida, USA', small: 'The only division office outside its own territory.', say: 'The Inter-American Division office is in Miami, Florida. It is the only division office outside its own territory.' },
+      { q: 'Our division is called the…', opts: ['North American Division', 'Inter-American Division', 'South American Division'], a: 1, ok: 'Yes. Guyana is in the Inter-American Division.' }
+    ],
+    gc: [
+      { v: stTl([['📛','1860','The name chosen'], ['🏛️','1863','GC organised, Battle Creek', 1], ['📍','Today','Silver Spring, USA']]), line: 'The General Conference was organised in 1863.', say: 'The name Seventh-day Adventist was chosen in 1860. The General Conference was organised in 1863 in Battle Creek, Michigan. Today its headquarters is in Silver Spring, Maryland.' },
+      { big: 23000000, plus: '+', line: 'members around the world (2025)', small: 'One big world family.', say: 'The church has more than 23 million members around the world.' },
+      { v: ST_VOTE, big: 5, pre: 'Every ', post: ' years', line: 'delegates from all over the world meet at a General Conference Session.', small: 'The 62nd Session met in St. Louis, USA, in 2025.', say: 'Every five years, delegates from all over the world meet at a General Conference Session. The 62nd Session met in St. Louis in 2025.' },
+      { v: stEmo('🌐'), line: 'Leader: the General Conference president', small: 'Elected in 2025: Pastor Erton Köhler', say: 'The world church is led by the General Conference president. In 2025 the delegates elected Pastor Erton Köhler.' },
+      { q: 'How often is there a General Conference Session?', opts: ['Every year', 'Every 5 years', 'Every 10 years'], a: 1, ok: 'Yes. Every five years.' }
+    ]
+  } };
+
+  var STI = {};
+  function stCount(el){
+    var to = +el.getAttribute('data-n'), plus = el.getAttribute('data-plus') || '', t0 = performance.now(), dur = 900;
+    (function step(now){ var k = Math.min(1, (now - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - k, 3)));
+      el.textContent = v.toLocaleString('en-US') + (k === 1 ? plus : ''); if (k < 1 && document.body.contains(el)) requestAnimationFrame(step); })(t0);
+  }
+  function stStop(){ try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {} }
+  function stMount(n, slides, key){
+    var st = STI[key] || (STI[key] = { i: 0 });
+    var canSay = 'speechSynthesis' in window;
+    n.innerHTML = '<div class="st-bars">' + slides.map(function(){ return '<i><b></b></i>'; }).join('') + '</div><div class="st-card"></div>'
+      + '<div class="st-nav"><button type="button" class="st-b" data-st="prev">Back</button>' + (canSay ? '<button type="button" class="st-b" data-st="say" aria-label="Read this card aloud">🔊 Listen</button>' : '<span></span>') + '<button type="button" class="st-b st-go" data-st="next">Next</button></div>';
+    var card = n.querySelector('.st-card');
+    function show(){
+      var s = slides[st.i], h = '';
+      if (s.q) {
+        h = '<p class="st-line">Quick check: ' + esc(s.q) + '</p><div class="st-ch">' + s.opts.map(function(o, i){ return '<button type="button" class="st-opt" data-sq="' + i + '">' + esc(o) + '</button>'; }).join('') + '</div><p class="st-fb" aria-live="polite"></p>';
+      } else {
+        if (s.v) h += s.v;
+        if (s.big != null) h += '<div class="st-big' + (s.pre ? ' st-mid' : '') + '">' + (s.pre ? esc(s.pre) : '') + '<span data-n="' + s.big + '" data-plus="' + (s.plus || '') + '">0</span>' + (s.post ? esc(s.post) : '') + '</div>';
+        if (s.line) h += '<p class="st-line">' + esc(s.line) + '</p>';
+        if (s.line2) h += '<p class="st-line st-gold">' + esc(s.line2) + '</p>';
+        if (s.small) h += '<p class="st-small">' + esc(s.small) + '</p>';
+      }
+      card.innerHTML = '<div class="st-in">' + h + '</div>';
+      [].forEach.call(n.querySelectorAll('.st-bars i'), function(b, j){ b.className = j <= st.i ? 'on' : ''; });
+      n.querySelector('[data-st="prev"]').style.visibility = st.i ? 'visible' : 'hidden';
+      n.querySelector('[data-st="next"]').textContent = st.i === slides.length - 1 ? 'Start over' : 'Next';
+      [].forEach.call(card.querySelectorAll('[data-n]'), stCount);
+      stStop();
+    }
+    n.onclick = function(e){
+      var b = e.target.closest('button'); if (!b || !n.contains(b)) return;
+      if (b.hasAttribute('data-sq')) {
+        var s = slides[st.i], fb = card.querySelector('.st-fb');
+        if (+b.getAttribute('data-sq') === s.a) { b.classList.add('right'); fb.textContent = s.ok; SFX.good(); }
+        else { b.classList.add('wrong'); fb.textContent = 'Not that one. Try again.'; SFX.bad(); }
+        return;
+      }
+      var a = b.getAttribute('data-st');
+      if (a === 'next') { st.i = st.i === slides.length - 1 ? 0 : st.i + 1; show(); }
+      else if (a === 'prev') { if (st.i) { st.i--; show(); } }
+      else if (a === 'say') {
+        var s2 = slides[st.i], text = s2.say || (s2.q ? 'Quick check. ' + s2.q + ' ' + s2.opts.join('? ') + '?' : [s2.line, s2.line2, s2.small].filter(Boolean).join('. '));
+        try { stStop(); var u = new SpeechSynthesisUtterance(text); u.rate = 0.95; speechSynthesis.speak(u); } catch (er) {}
+      }
+    };
+    show();
+  }
+
+  /* ======================= GAME: Climb the church ladder ======================= */
+  var LADDER = [
+    { id:'local', icon:'⛪', name:'Local church', hint:'Your local church is where it all starts: the bottom step.' },
+    { id:'conf', icon:'🏘️', name:'Guyana Conference', hint:'A conference is a group of local churches, so it sits just above the local church.' },
+    { id:'union', icon:'🏝️', name:'Caribbean Union', hint:'A union is a group of conferences.' },
+    { id:'div', icon:'🌎', name:'Inter-American Division', hint:'A division is a group of unions: a whole part of the world.' },
+    { id:'gc', icon:'🌐', name:'General Conference', hint:'The General Conference is the whole world church, at the very top.' }
+  ];
+  var LADDER_PINS = [
+    { icon:'📍', name:'Georgetown', slot:1, hint:'The Guyana Conference office is in Queenstown, Georgetown.' },
+    { icon:'📍', name:'Trinidad', slot:2, hint:'The Caribbean Union office is in Trinidad.' },
+    { icon:'📍', name:'Miami, USA', slot:3, hint:'The Inter-American Division office is in Miami, Florida.' },
+    { icon:'📍', name:'Silver Spring, USA', slot:4, hint:'The General Conference office is in Silver Spring, Maryland.' }
+  ];
+  function ladderBuild(api, level){
+    var st = { placed: 0, mistakes: 0, picked: null };
+    var ask = gkEl('p', 'gk-ask', level === 1 ? 'Drag each block onto its step, from your own church at the bottom up to the world church at the top.' : '<b>Level 2:</b> where is each office? Drag each pin onto the right step.');
+    var lad = gkEl('div', 'lad'), tray = gkEl('div', 'gk-tray');
+    api.stage.appendChild(ask); api.stage.appendChild(lad); api.stage.appendChild(tray);
+    var slots = [];
+    for (var i = 4; i >= 0; i--) {
+      var row = gkEl('div', 'lad-row'); row.style.setProperty('--i', i);
+      var slot = gkEl('div', 'lad-slot'); slot.setAttribute('data-slot', i);
+      if (level === 1) slot.innerHTML = '<span>' + (i === 0 ? 'Bottom step' : i === 4 ? 'Top step' : 'Step ' + (i + 1)) + '</span>';
+      else { slot.innerHTML = '<span class="lvl">' + LADDER[i].icon + ' ' + LADDER[i].name + '</span>'; if (i === 0) { slot.classList.add('filled'); slot.insertAdjacentHTML('beforeend', '<span>📍 your town</span>'); } }
+      slot.addEventListener('click', function(e){ var s = e.currentTarget; if (st.picked && !s.classList.contains('filled')) { var p = st.picked; p.classList.remove('gk-picked'); st.picked = null; place(p, s); } });
+      row.appendChild(slot); lad.appendChild(row); slots[i] = slot;
+    }
+    var items = level === 1 ? LADDER.map(function(l, i){ return { icon: l.icon, name: l.name, slot: i, hint: l.hint }; }) : LADDER_PINS;
+    function slotAt(x, y){ for (var j = 0; j < 5; j++) if (gkHit(slots[j], x, y, 6)) return slots[j]; return null; }
+    gkShuffle(items).forEach(function(it){
+      var p = gkEl('button', 'gk-piece', '<span class="ic">' + it.icon + '</span>' + esc(it.name)); p.type = 'button'; p._it = it;
+      gkDrag(p, {
+        can: function(){ return !api.st.done && !p.disabled; },
+        move: function(x, y){ var s = slotAt(x, y); slots.forEach(function(z){ z.classList.toggle('hover', z === s && !z.classList.contains('filled')); }); },
+        drop: function(x, y){ slots.forEach(function(z){ z.classList.remove('hover'); }); var s = slotAt(x, y); if (s && !s.classList.contains('filled')) return place(p, s); return false; },
+        tap: function(){ if (st.picked) st.picked.classList.remove('gk-picked'); st.picked = st.picked === p ? null : p; if (st.picked) { p.classList.add('gk-picked'); ask.innerHTML = 'Now tap the step where <b>' + esc(it.name) + '</b> belongs.'; } }
+      });
+      tray.appendChild(p);
+    });
+    function place(p, s){
+      var it = p._it;
+      if (+s.getAttribute('data-slot') === it.slot) {
+        p.style.transform = ''; p.disabled = true; s.classList.add('filled', 'gk-glow');
+        if (level === 1) s.innerHTML = '';
+        s.appendChild(p); st.placed++;
+        api.good(100, '✓ ' + (level === 1 ? esc(it.name) : esc(it.hint)));
+        if (st.placed === items.length) {
+          var secs = Math.round(api.elapsed()); api.addScore(Math.max(0, 60 - secs) * 5);
+          setTimeout(function(){ api.finish(true, { stars: gkStars(st.mistakes, secs, 30), title: level === 1 ? 'You climbed the ladder!' : 'You found every office!',
+            summary: st.mistakes + (st.mistakes === 1 ? ' mistake' : ' mistakes'), againLevel: level,
+            buttons: level === 1 ? [{ label: 'Level 2: find the offices', fn: function(){ api.begin(2); } }] : [{ label: 'Back to level 1', fn: function(){ api.begin(1); } }] }); }, 500);
+        }
+        return true;
+      }
+      p.classList.add('gk-shake'); setTimeout(function(){ p.classList.remove('gk-shake'); }, 420);
+      st.mistakes++; api.addScore(-25);
+      api.loseHeart((+s.getAttribute('data-slot') < it.slot ? 'Higher! ' : 'Lower! ') + esc(it.hint));
+      return false;
+    }
+  }
+  var NGAMES = {};
+  NGAMES.church = function(){ return GK({ gid: 'church:ladder', icon: '🪜', title: 'Climb the church ladder', build: ladderBuild,
+    how: 'Drag each block onto its step, from your own church at the bottom to the world church at the top. You can also tap a block, then tap its step. Wrong steps cost a heart.<br><b>Level 2:</b> find where each office is.' }); };
+
+  /* ======================= GAME: Build the right fire ======================= */
+  var FIRE_SIT = [
+    { lay: 'leanto', icon: '🌬️', sky: 'wind', fig: ['🥶', '🥶'], text: 'It’s windy on the savannah and your patrol is shivering. Build a fire that the wind won’t blow out.', why: 'A lean-to fire: the big log blocks the wind.' },
+    { lay: 'teepee', icon: '🫖', sky: 'day', fig: ['😋', '🫖'], text: 'Everyone wants hot cocoa, fast. You need to boil a pot of water quickly.', why: 'A teepee fire burns fast and hot, good for boiling.' },
+    { lay: 'cabin', icon: '🍳', sky: 'dusk', fig: ['🍲', '😋'], text: 'Time to cook dinner for the patrol, with a pot and a pan.', why: 'A log cabin fire gives steady heat and coals for cooking, and the pot sits steady on top.' },
+    { lay: 'star', icon: '🌙', sky: 'night', fig: ['🎸', '😊'], text: 'A long evening campfire with stories, but there isn’t much wood.', why: 'A star fire burns slowly and saves wood. Push the logs in as they burn.' }
+  ];
+  var FIRE_LAYS = { teepee: 'Teepee', cabin: 'Log cabin', leanto: 'Lean-to', star: 'Star' };
+  var FIRE_ORDER = { teepee: ['tinder', 'kindling', 'match', 'fuel'], cabin: ['tinder', 'kindling', 'fuel', 'match'], leanto: ['biglog', 'tinder', 'kindling', 'match'], star: ['tinder', 'kindling', 'match', 'fuel'] };
+  var FIRE_HOW = {
+    teepee: 'Tinder first, then lean kindling around it like a cone. Light it, then add bigger fuel slowly.',
+    cabin: 'Start with a small teepee (tinder, then kindling). Stack fuel sticks around it in a square, then light it.',
+    leanto: 'Lay the big log on the windy side first. Put tinder next to it, lean kindling over it, then light it.',
+    star: 'Start a small fire in the centre: tinder, kindling, light it. Then lay the logs pointing in like a star.'
+  };
+  var FIRE_ITEMS = { tinder: ['🌾', 'Tinder'], kindling: ['🥢', 'Kindling'], fuel: ['🪵', 'Fuel wood'], biglog: ['🪵', 'Big log'], match: ['🔥', 'Match'] };
+  function fireLaySVG(lay, steps){
+    var h = '', has = function(s){ return steps.indexOf(s) > -1; };
+    var stick = function(x1, y1, x2, y2, w, c){ return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + (c || '#9A6B3A') + '" stroke-width="' + (w || 4) + '" stroke-linecap="round"/>'; };
+    if (has('biglog')) h += '<rect x="96" y="118" width="128" height="22" rx="11" fill="#8A5A2B" stroke="#5E3A17" stroke-width="2"/><circle cx="107" cy="129" r="9" fill="#C99A62"/>';
+    if (has('tinder')) h += '<g><ellipse cx="160" cy="150" rx="20" ry="7" fill="#D9B35A"/><path d="M146 150l5-12 4 11 5-14 4 13 5-10 3 12" fill="none" stroke="#EBCB72" stroke-width="2"/></g>';
+    if (has('kindling')) {
+      if (lay === 'leanto') for (var i = 0; i < 6; i++) h += stick(132 + i * 11, 156, 150 + i * 9, 122, 3, '#B07A44');
+      else for (var j = 0; j < 7; j++) { var a = -60 + j * 20; h += stick(160 + Math.sin(a * Math.PI / 180) * 30, 156, 160, 112, 3, '#B07A44'); }
+    }
+    if (has('fuel')) {
+      if (lay === 'cabin') for (var k = 0; k < 4; k++) { var y = 156 - k * 11; h += k % 2 ? '<circle cx="122" cy="' + y + '" r="6" fill="#C99A62" stroke="#7A4E22" stroke-width="2"/><circle cx="198" cy="' + y + '" r="6" fill="#C99A62" stroke="#7A4E22" stroke-width="2"/>' : '<rect x="114" y="' + (y - 5) + '" width="92" height="10" rx="5" fill="#9A6B3A" stroke="#6B4423" stroke-width="2"/>'; }
+      else if (lay === 'star') for (var m = 0; m < 5; m++) { var an = (-90 + m * 72) * Math.PI / 180; h += stick(160 + Math.cos(an) * 26, 150 + Math.sin(an) * 9, 160 + Math.cos(an) * 92, 150 + Math.sin(an) * 32, 9, '#8A5A2B'); }
+      else for (var n = 0; n < 5; n++) { var b = -50 + n * 25; h += stick(160 + Math.sin(b * Math.PI / 180) * 44, 158, 160 + Math.sin(b * Math.PI / 180) * 6, 104, 7, '#8A5A2B'); }
+    }
+    return h;
+  }
+  function fireFlame(scale){
+    if (scale <= 0) return '';
+    return '<g transform="translate(160 150) scale(' + scale.toFixed(2) + ')"><g class="fr-flick"><path d="M0 0C-16 0 -20 -14 -14 -26 -10 -34 -8 -40 -2 -52 0 -40 6 -36 10 -30 16 -20 14 0 0 0z" fill="#E8541E"/><path d="M0 0C-10 0 -12 -10 -8 -18 -5 -24 -2 -28 0 -37 2 -28 6 -24 8 -18 11 -10 9 0 0 0z" fill="#F7A21B"/><path d="M0 0C-5 0 -6 -6 -4 -10 -2 -14 0 -16 0 -21 1 -16 3 -14 4 -10 6 -6 5 0 0 0z" fill="#FFE27A"/></g></g>';
+  }
+  function fireScene(sit, inner, flame, wind){
+    var sky = { wind: ['#6A8FB3', '#B9CFE0'], day: ['#7DB7E8', '#CDE6F7'], dusk: ['#E58B4D', '#F6C98B'], night: ['#141B38', '#3B2D5C'] }[sit.sky];
+    var h = '<svg class="fr-svg" viewBox="0 0 320 200" aria-hidden="true"><defs><linearGradient id="frsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sky[0] + '"/><stop offset="1" stop-color="' + sky[1] + '"/></linearGradient></defs>'
+      + '<rect width="320" height="200" fill="url(#frsky)"/><path d="M0 150Q160 132 320 150V200H0z" fill="' + (sit.sky === 'night' ? '#2E2418' : '#6B8A3A') + '"/>'
+      + '<ellipse cx="160" cy="156" rx="92" ry="20" fill="' + (sit.sky === 'night' ? '#3A2B1C' : '#7A5A34') + '"/>';
+    for (var i = 0; i < 12; i++) { var a = i / 12 * Math.PI * 2, x = 160 + Math.cos(a) * 84, y = 156 + Math.sin(a) * 18; if (Math.sin(a) > -0.3) h += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="9" ry="5" fill="#8F8F98" stroke="#5F5F68" stroke-width="1.2"/>'; }
+    if (sit.sky === 'night') h += '<circle cx="270" cy="34" r="12" fill="#F4F1DA"/>';
+    if (sit.fig) h += '<text x="34" y="150" font-size="26" class="fr-fig">' + sit.fig[0] + '</text><text x="262" y="150" font-size="26" class="fr-fig">' + sit.fig[1] + '</text>';
+    if (wind) h += '<g class="fr-wind"><path d="M-40 60h90M-60 84h120M-30 104h70" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".75"/></g>';
+    return h + inner + (flame || '') + '</svg>';
+  }
+  function fireBuild(api){
+    var rounds = gkShuffle(FIRE_SIT).slice(0, 3), r = 0, mistakes = 0;
+    function round(){
+      var sit = rounds[r]; api.stage.innerHTML = '';
+      var head = gkEl('p', 'gk-ask', '<b>Fire ' + (r + 1) + ' of 3.</b> ' + esc(sit.text));
+      var pic = gkEl('div', 'fr-pic', fireScene(sit, '', '', sit.sky === 'wind'));
+      var ask = gkEl('p', 'fr-q', 'Which fire should you build?');
+      var lays = gkEl('div', 'fr-lays');
+      gkShuffle(Object.keys(FIRE_LAYS)).forEach(function(k){
+        var b = gkEl('button', 'gk-btn fr-lay', '<svg viewBox="80 90 160 80" aria-hidden="true">' + fireLaySVG(k, ['biglog', 'tinder', 'kindling', 'fuel'].filter(function(s){ return k === 'leanto' || s !== 'biglog'; })) + '</svg><span>' + FIRE_LAYS[k] + '</span>');
+        b.type = 'button';
+        b.onclick = function(){
+          if (api.st.done || lays.dataset.done) return;
+          if (k === sit.lay) { lays.dataset.done = '1'; b.classList.add('ok'); api.good(100, '✓ ' + esc(sit.why)); setTimeout(build, 1300); }
+          else { b.classList.add('gk-shake', 'no'); mistakes++; api.loseHeart('Not the best one here. Think about what this fire needs to do.'); }
+        };
+        lays.appendChild(b);
+      });
+      [head, pic, ask, lays].forEach(function(e){ api.stage.appendChild(e); });
+      function build(){
+        if (api.st.done) return;
+        var order = FIRE_ORDER[sit.lay], done = [];
+        ask.innerHTML = 'Build a <b>' + FIRE_LAYS[sit.lay].toLowerCase() + ' fire</b>. Drag each thing into the fire ring in the right order.';
+        lays.remove();
+        var tray = gkEl('div', 'gk-tray'); api.stage.appendChild(tray);
+        function draw(){ pic.innerHTML = fireScene(sit, fireLaySVG(sit.lay, done), done.indexOf('match') > -1 ? fireFlame(0.35) : '', sit.sky === 'wind'); }
+        draw();
+        gkShuffle(Object.keys(FIRE_ITEMS)).forEach(function(id){
+          var p = gkEl('button', 'gk-piece', '<span class="ic">' + FIRE_ITEMS[id][0] + '</span>' + FIRE_ITEMS[id][1]); p.type = 'button';
+          function use(){
+            if (api.st.done || p.disabled) return false;
+            var need = order[done.length];
+            if (id === need) { done.push(id); p.disabled = true; p.classList.add('used'); draw(); api.good(25); SFX.pop();
+              if (done.length === order.length) { tray.remove(); setTimeout(blow, 700); }
+              return true; }
+            mistakes++; p.classList.add('gk-shake'); setTimeout(function(){ p.classList.remove('gk-shake'); }, 420);
+            api.loseHeart(order.indexOf(id) < 0 ? 'A ' + FIRE_LAYS[sit.lay].toLowerCase() + ' fire doesn’t need that. ' + FIRE_HOW[sit.lay] : 'Not yet. ' + FIRE_HOW[sit.lay]);
+            return false;
+          }
+          gkDrag(p, { can: function(){ return !p.disabled && !api.st.done; }, drop: function(x, y){ return gkHit(pic, x, y) ? use() : false; }, tap: use });
+          tray.appendChild(p);
+        });
+      }
+      function blow(){
+        if (api.st.done) return;
+        var flame = 15, breath = 100, holding = false, gust = 2.5 + Math.random(), tLeft = 12, over = false;
+        ask.innerHTML = '<b>Blow gently!</b> Hold the button to blow. Let go to take a breath. Get the fire roaring before it dies.';
+        var bars = gkEl('div', 'fr-bars', '<div><span>🔥 Fire</span><i><b class="fr-f"></b></i></div><div><span>🫁 Breath</span><i><b class="fr-b"></b></i></div>');
+        var btn = gkEl('button', 'gk-btn gk-go fr-blow', '💨 Hold to blow'); btn.type = 'button';
+        api.stage.appendChild(bars); api.stage.appendChild(btn);
+        var down = function(e){ e.preventDefault(); holding = true; btn.classList.add('on'); }, up = function(){ holding = false; btn.classList.remove('on'); };
+        btn.addEventListener('pointerdown', down); btn.addEventListener('pointerup', up); btn.addEventListener('pointerleave', up); btn.addEventListener('pointercancel', up);
+        btn.addEventListener('keydown', function(e){ if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); holding = true; } });
+        btn.addEventListener('keyup', function(){ holding = false; });
+        var fEl = bars.querySelector('.fr-f'), bEl = bars.querySelector('.fr-b'), last = -1;
+        api.tick(function(dt){
+          if (over) return;
+          if (holding && breath > 0) { flame += 24 * dt; breath -= 38 * dt; if (Math.random() < dt * 3) SFX.whoosh(); }
+          else { breath = Math.min(100, breath + 34 * dt); flame -= 5 * dt; }
+          if (breath <= 0 && holding) { holding = false; btn.classList.remove('on'); api.toast('Out of breath! Let go and breathe in.', false, 1200); }
+          gust -= dt;
+          if (gust <= 0) { gust = 2.2 + Math.random() * 1.6; var hit = sit.lay === 'leanto' ? 4 : sit.sky === 'wind' ? 14 : 8; flame -= hit; pic.classList.remove('fr-gust'); void pic.offsetWidth; pic.classList.add('fr-gust'); }
+          tLeft -= dt; flame = Math.max(0, Math.min(100, flame));
+          fEl.style.width = flame + '%'; bEl.style.width = Math.max(0, breath) + '%';
+          var sc = Math.round((0.35 + flame / 100 * 0.9) * 20) / 20;
+          if (sc !== last) { last = sc; pic.innerHTML = fireScene(sit, fireLaySVG(sit.lay, FIRE_ORDER[sit.lay]), fireFlame(sc), sit.sky === 'wind'); }
+          if (flame >= 100) { over = true; btn.remove(); api.good(100 + Math.round(tLeft) * 10, '🔥 It’s roaring!'); next(); }
+          else if (flame <= 0 || tLeft <= 0) {
+            over = true; btn.remove(); mistakes++;
+            if (!api.loseHeart(flame <= 0 ? 'The fire went out. Blow steadily, and breathe between blows.' : 'Too slow. The fire died down.')) setTimeout(blow2, 1200);
+          }
+        });
+        function blow2(){ bars.remove(); blow(); }
+      }
+      function next(){
+        r++;
+        if (r >= rounds.length) { setTimeout(function(){ api.finish(true, { stars: mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1, title: 'Three fires lit!', summary: mistakes + (mistakes === 1 ? ' mistake' : ' mistakes') + '. Drown, stir and feel before you leave a fire.' }); }, 1200); }
+        else setTimeout(round, 1500);
+      }
+    }
+    round();
+  }
+  NGAMES.fire = function(){ return GK({ gid: 'fire:build', icon: '🔥', title: 'Build the right fire', build: fireBuild,
+    how: 'Three situations. For each one: <b>choose</b> the right fire, <b>build</b> it in the right order, then <b>hold to blow</b> until it roars. Wind gusts knock the fire down, and every mistake costs a heart.' }); };
+
+  /* ======================= GAME: Build the tower (lashings) ======================= */
+  var LT_KINDS = {
+    square: ['Square', '<path d="M8 20H40M24 4V36" stroke="#C99A62" stroke-width="5" stroke-linecap="round"/><path d="M17 13l14 14M31 13L17 27" stroke="#F3E3B5" stroke-width="2.5"/>'],
+    diagonal: ['Diagonal', '<path d="M8 6L40 34M40 6L8 34" stroke="#C99A62" stroke-width="5" stroke-linecap="round"/><path d="M19 20h10M24 15v10" stroke="#F3E3B5" stroke-width="2.5"/>'],
+    shear: ['Shear', '<path d="M18 4V36M30 4V36" stroke="#C99A62" stroke-width="5" stroke-linecap="round"/><path d="M14 14h20M14 18h20M14 22h20" stroke="#F3E3B5" stroke-width="2"/>'],
+    tripod: ['Tripod', '<path d="M24 6L10 36M24 6V36M24 6L38 36" stroke="#C99A62" stroke-width="4.5" stroke-linecap="round"/><path d="M18 11h12M18 15h12" stroke="#F3E3B5" stroke-width="2"/>'],
+    round: ['Round', '<path d="M21 2V24M27 16V38" stroke="#C99A62" stroke-width="5" stroke-linecap="round"/><path d="M17 17h14M17 21h14" stroke="#F3E3B5" stroke-width="2"/>']
+  };
+  var LT_JOINTS = [
+    { kind: 'shear', x: 150, y: 46, ask: 'Two poles laid side by side, then opened out into an A-frame.', hint: 'Shear lashing: loose wraps around two poles side by side, so the legs can open into an A-frame.' },
+    { kind: 'square', x: 114, y: 200, ask: 'The crossbar meets the left leg, crossing it.', hint: 'Square lashing joins two poles that cross each other, like a crossbar on a leg.' },
+    { kind: 'square', x: 186, y: 200, ask: 'The crossbar meets the right leg.', hint: 'Same as the other side: a square lashing for poles that cross.' },
+    { kind: 'diagonal', x: 150, y: 256, ask: 'An X-brace whose poles want to spring apart.', hint: 'Diagonal lashing pulls together poles that cross at an angle and want to spring apart.',
+      bonus: { q: 'Bonus: which knot starts the diagonal lashing?', opts: ['Clove hitch', 'Timber hitch', 'Square knot'], a: 1, ok: 'Yes! The timber hitch grips both poles diagonally.' } },
+    { kind: 'round', x: 150, y: -8, ask: 'Make the flagpole longer by joining a second pole.', hint: 'Round lashing joins two poles side by side to make one longer pole. Always use two.' },
+    { kind: 'tripod', x: 262, y: 222, ask: 'Three poles for a cooking stand next to the tower.', hint: 'Tripod lashing weaves over and under three poles, then the legs spread.',
+      bonus: { q: 'Bonus: which knot starts and finishes most lashings?', opts: ['Square knot', 'Timber hitch', 'Clove hitch'], a: 2, ok: 'Yes! Clove hitch to start and stop.' } }
+  ];
+  function ltPoles(done){
+    var on = function(i){ return done > i; };
+    var pole = function(x1, y1, x2, y2, live){ return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + (live ? '#B07A44' : '#3E5246') + '" stroke-width="' + (live ? 9 : 6) + '" stroke-linecap="round"' + (live ? '' : ' stroke-dasharray="2 9"') + '/>'; };
+    var h = '';
+    h += pole(90, 312, 156, 34, on(0)) + pole(210, 312, 144, 34, on(0));
+    h += pole(66, 200, 234, 200, on(2));
+    h += pole(110, 300, 190, 212, on(3)) + pole(190, 300, 110, 212, on(3));
+    h += pole(147, 40, 147, -26, on(4)) + pole(153, 6, 153, -64, on(4));
+    h += pole(262, 214, 238, 312, on(5)) + pole(262, 214, 262, 312, on(5)) + pole(262, 214, 286, 312, on(5));
+    if (on(5)) h += '<path d="M248 270h28" stroke="#5F5F68" stroke-width="2"/><ellipse cx="262" cy="292" rx="13" ry="9" fill="#3A3A44"/>';
+    return h;
+  }
+  function ltWraps(done){
+    var h = '';
+    for (var i = 0; i < done; i++) { var j = LT_JOINTS[i]; h += '<g transform="translate(' + j.x + ' ' + j.y + ')"><circle r="11" fill="none" stroke="#F3E3B5" stroke-width="4"/><circle r="11" fill="none" stroke="#7A5B22" stroke-width="1" stroke-dasharray="3 3"/></g>'; }
+    return h;
+  }
+  function lashBuild(api){
+    var done = 0, mistakes = 0, busy = false;
+    var ask = gkEl('p', 'gk-ask'), wrap = gkEl('div', 'lt-wrap'), tray = gkEl('div', 'gk-tray lt-tray');
+    api.stage.appendChild(ask); api.stage.appendChild(wrap); api.stage.appendChild(tray);
+    function draw(extra){
+      var j = LT_JOINTS[done];
+      wrap.innerHTML = '<svg class="lt-svg" viewBox="0 -80 300 400" aria-hidden="true"><rect x="0" y="-80" width="300" height="400" fill="#1B2A3A"/><g class="lt-storm"></g>'
+        + '<rect x="0" y="312" width="300" height="8" fill="#3B2F22"/><g class="lt-tower">' + ltPoles(done) + ltWraps(done)
+        + (j && !extra ? '<g transform="translate(' + j.x + ' ' + j.y + ')"><circle class="lt-ring" r="16" fill="none" stroke="#E9B649" stroke-width="4"/></g>' : '')
+        + (extra || '') + '</g></svg>';
+      if (j) ask.innerHTML = '<b>Joint ' + (done + 1) + ' of ' + LT_JOINTS.length + ':</b> ' + esc(j.ask) + ' Which lashing?';
+    }
+    function stormLevel(){ var sv = wrap.querySelector('.lt-storm'); if (!sv) return; var lv = Math.min(5, Math.floor(api.elapsed() / 15)); if (sv.childNodes.length !== lv) { var h = ''; for (var i = 0; i < lv; i++) h += '<path class="lt-gust" style="animation-delay:' + (i * 0.3) + 's" d="M-60 ' + (-40 + i * 60) + 'h70" stroke="#9FB8D0" stroke-width="3" stroke-linecap="round"/>'; sv.innerHTML = h; } }
+    api.tick(function(){ stormLevel(); });
+    draw();
+    Object.keys(LT_KINDS).forEach(function(k){
+      var p = gkEl('button', 'gk-piece lt-card', '<svg viewBox="0 0 48 40" width="44" height="36" aria-hidden="true">' + LT_KINDS[k][1] + '</svg>' + LT_KINDS[k][0]); p.type = 'button';
+      function use(){
+        if (busy || api.st.done || done >= LT_JOINTS.length) return false;
+        var j = LT_JOINTS[done];
+        if (k === j.kind) {
+          done++; draw(); api.good(100, '✓ ' + esc(j.hint));
+          if (j.bonus) { busy = true; setTimeout(function(){ bonus(j.bonus); }, 700); } else after();
+          return false;
+        }
+        mistakes++;
+        var tw = wrap.querySelector('.lt-tower'); tw.classList.remove('lt-wobble'); void tw.getBoundingClientRect(); tw.classList.add('lt-wobble');
+        if (api.st.hearts <= 1) tw.classList.add('lt-fall');
+        api.loseHeart('The tower wobbles! ' + esc(j.hint));
+        return false;
+      }
+      gkDrag(p, { can: function(){ return !busy && !api.st.done; }, drop: function(x, y){ if (gkHit(wrap, x, y)) use(); return false; }, tap: use });
+      tray.appendChild(p);
+    });
+    function bonus(b){
+      var box = gkEl('div', 'lt-bonus', '<p><b>' + esc(b.q) + '</b></p>' + b.opts.map(function(o, i){ return '<button type="button" class="gk-btn" data-b="' + i + '">' + esc(o) + '</button>'; }).join(''));
+      api.stage.insertBefore(box, tray); tray.style.display = 'none';
+      box.onclick = function(e){
+        var bt = e.target.closest('button'); if (!bt || box.dataset.done) return; box.dataset.done = '1';
+        if (+bt.getAttribute('data-b') === b.a) { bt.classList.add('ok'); api.good(50, esc(b.ok)); }
+        else { bt.classList.add('no'); SFX.bad(); api.toast('Not quite: ' + esc(b.opts[b.a]) + '. ' + esc(b.ok.replace(/^Yes! /, '')), false); }
+        setTimeout(function(){ box.remove(); tray.style.display = ''; busy = false; after(); }, 1500);
+      };
+    }
+    function after(){
+      if (done < LT_JOINTS.length) return;
+      tray.remove(); ask.innerHTML = '<b>Test it!</b> Here comes the wind…';
+      draw('<g class="lt-flag"><path d="M153 -64v4h40l-10 12 10 12h-40" fill="#C0392B"/></g>');
+      setTimeout(function(){
+        var tw = wrap.querySelector('.lt-tower'); tw.classList.add('lt-sway'); SFX.whoosh();
+        setTimeout(function(){
+          var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 - secs)) * 3);
+          api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: 'Your tower stands!', summary: 'Every joint lashed. ' + mistakes + (mistakes === 1 ? ' wobble' : ' wobbles') + '. Test it before you trust it.' });
+        }, 1800);
+      }, 900);
+    }
+  }
+  NGAMES.lashing = function(){ return GK({ gid: 'lashing:tower', icon: '🗼', title: 'Build the tower', build: lashBuild, timer: 90,
+    onTimeUp: function(api){ var tw = api.stage.querySelector('.lt-tower'); if (tw) tw.classList.add('lt-fall'); api.finish(false, { icon: '⛈️', title: 'The storm came!', summary: 'Your tower wasn’t finished in time. Try again, a little faster.' }); },
+    how: 'Lash each joint of a signal tower before the storm comes in <b>90 seconds</b>. Drag the right lashing onto the glowing joint, or tap it. A wrong lashing makes the tower wobble and costs a heart.' }); };
+
+  /* ======================= GAME: Orienteering map race ======================= */
+  var OR_MAP = ['...yy.gg.', '.pppppgg.', '.p...p...', 'gp.bb..h.', 'gp.bb.hhh', '.p.....h.', '.prr.gg..', '.p...gg.y', '.pppppppy', 'y.......y', 'yyy...yyy'];
+  var OR_COST = { '.': 8, y: 6, p: 5, h: 14, g: 20 };
+  var OR_COL = { '.': '#FFFFFF', y: '#F7D76A', p: '#FFFFFF', h: '#FFFFFF', g: '#5FB85F', b: '#5DADE2', r: '#FFFFFF' };
+  var OR_COURSE = [{ x: 4, y: 10, t: 'start' }, { x: 1, y: 6, t: 'on the path bend' }, { x: 4, y: 2, t: 'north of the pond' }, { x: 7, y: 4, t: 'on the hilltop' }, { x: 3, y: 9, t: 'finish' }];
+  var OR_DIRS = [[0, -1, 0, 'N'], [1, -1, 45, 'NE'], [1, 0, 90, 'E'], [1, 1, 135, 'SE'], [0, 1, 180, 'S'], [-1, 1, 225, 'SW'], [-1, 0, 270, 'W'], [-1, -1, 315, 'NW']];
+  function orCell(x, y){ return (OR_MAP[y] || '').charAt(x) || ''; }
+  function orPar(){
+    var total = 0;
+    for (var leg = 0; leg < OR_COURSE.length - 1; leg++) {
+      var a = OR_COURSE[leg], b = OR_COURSE[leg + 1], dist = {}, q = [[0, a.x, a.y]], k = function(x, y){ return x + ',' + y; };
+      dist[k(a.x, a.y)] = 0;
+      while (q.length) {
+        q.sort(function(m, n){ return m[0] - n[0]; }); var c = q.shift();
+        if (c[1] === b.x && c[2] === b.y) { total += c[0]; break; }
+        OR_DIRS.forEach(function(d){ var nx = c[1] + d[0], ny = c[2] + d[1], t = orCell(nx, ny); if (!OR_COST[t]) return; var nd = c[0] + OR_COST[t]; if (dist[k(nx, ny)] == null || nd < dist[k(nx, ny)]) { dist[k(nx, ny)] = nd; q.push([nd, nx, ny]); } });
+      }
+    }
+    return total;
+  }
+  function orBearing(a, b){ var deg = Math.atan2(b.x - a.x, -(b.y - a.y)) * 180 / Math.PI; deg = (Math.round(((deg + 360) % 360) / 45) * 45) % 360; return deg; }
+  function orMapSVG(){
+    var h = '', C = 40;
+    for (var y = 0; y < OR_MAP.length; y++) for (var x = 0; x < 9; x++) {
+      var t = orCell(x, y);
+      h += '<rect x="' + x * C + '" y="' + y * C + '" width="' + C + '" height="' + C + '" fill="' + OR_COL[t] + '"/>';
+      if (t === 'g') h += '<path d="M' + (x * C + 6) + ' ' + (y * C + 30) + 'l6-10 6 10M' + (x * C + 22) + ' ' + (y * C + 18) + 'l6-10 6 10" fill="none" stroke="#2E7D32" stroke-width="2"/>';
+      if (t === 'r') h += '<path d="M' + (x * C + 4) + ' ' + (y * C + 30) + 'l10-18 8 10 6-8 8 16z" fill="#2B2B2B"/>';
+    }
+    h += '<g fill="none" stroke="#8B5A2B" stroke-width="2"><ellipse cx="300" cy="185" rx="22" ry="16"/><ellipse cx="300" cy="185" rx="44" ry="30"/><ellipse cx="300" cy="185" rx="66" ry="44"/></g>';
+    h += '<path d="M60 340V60H220V100M220 60" fill="none" stroke="#1A1A1A" stroke-width="4" stroke-dasharray="9 5"/><path d="M60 340H300" fill="none" stroke="#1A1A1A" stroke-width="4" stroke-dasharray="9 5"/>';
+    for (var nx = 0; nx <= 360; nx += 120) h += '<line x1="' + nx + '" y1="0" x2="' + nx + '" y2="440" stroke="#3B6FD1" stroke-width="1" opacity=".5"/>';
+    var P = '#B0277F', pts = OR_COURSE.map(function(c){ return [c.x * C + 20, c.y * C + 20]; });
+    for (var i = 0; i < pts.length - 1; i++) h += '<line x1="' + pts[i][0] + '" y1="' + pts[i][1] + '" x2="' + pts[i + 1][0] + '" y2="' + pts[i + 1][1] + '" stroke="' + P + '" stroke-width="2.5" opacity=".85"/>';
+    h += '<path d="M' + pts[0][0] + ' ' + (pts[0][1] - 15) + 'l13 23h-26z" fill="none" stroke="' + P + '" stroke-width="3"/>';
+    for (var j = 1; j < pts.length - 1; j++) h += '<circle class="or-ctl" data-c="' + j + '" cx="' + pts[j][0] + '" cy="' + pts[j][1] + '" r="15" fill="none" stroke="' + P + '" stroke-width="3"/><text x="' + (pts[j][0] + 16) + '" y="' + (pts[j][1] - 12) + '" font-family="Figtree,Arial" font-weight="800" font-size="15" fill="' + P + '">' + j + '</text>';
+    var f = pts[pts.length - 1]; h += '<circle cx="' + f[0] + '" cy="' + f[1] + '" r="11" fill="none" stroke="' + P + '" stroke-width="3"/><circle cx="' + f[0] + '" cy="' + f[1] + '" r="17" fill="none" stroke="' + P + '" stroke-width="3"/>';
+    h += '<g transform="translate(338 22)"><path d="M0 -14l6 14h-12z" fill="#1A1A1A"/><text y="16" text-anchor="middle" font-family="Figtree,Arial" font-weight="800" font-size="12" fill="#1A1A1A">N</text></g>';
+    return h;
+  }
+  function orientBuild(api){
+    var par = orPar(), race = 0, pos = { x: OR_COURSE[0].x, y: OR_COURSE[0].y }, next = 1, moving = false;
+    api.race = function(){ return race; };
+    var clue = gkEl('div', 'or-clue'), map = gkEl('div', 'or-map'), rose = gkEl('div', 'or-rose'), key = gkEl('div', 'or-key');
+    map.innerHTML = '<svg viewBox="0 0 360 440" aria-label="Orienteering map">' + orMapSVG() + '<g class="or-me" style="transform:translate(' + (pos.x * 40) + 'px,' + (pos.y * 40) + 'px)"><circle cx="20" cy="20" r="15" fill="#E9B649" stroke="#3B2A06" stroke-width="2"/><text x="20" y="27" text-anchor="middle" font-size="18">🏃</text></g></svg>';
+    key.innerHTML = [['#FFFFFF', 'Open forest: run'], ['#F7D76A', 'Open land: fastest'], ['#5FB85F', 'Thick bush: slow'], ['#5DADE2', 'Water: no way through'], ['#8B5A2B', 'Brown lines: hill, slow'], ['#1A1A1A', 'Black dashes: path, fast']].map(function(k){ return '<span><i style="background:' + k[0] + '"></i>' + k[1] + '</span>'; }).join('');
+    rose.innerHTML = [7, 0, 1, 6, -1, 2, 5, 4, 3].map(function(i){
+      if (i < 0) return '<div class="or-mid">🧭</div>';
+      var d = OR_DIRS[i]; return '<button type="button" class="gk-btn or-dir" data-d="' + i + '"><b>' + d[3] + '</b><small>' + d[2] + '°</small></button>';
+    }).join('');
+    [clue, map, rose, key].forEach(function(e){ api.stage.appendChild(e); });
+    var me = map.querySelector('.or-me');
+    function showClue(){
+      var a = OR_COURSE[next - 1], b = OR_COURSE[next], brg = orBearing(a, b), dist = Math.max(Math.abs(b.x - a.x), Math.abs(b.y - a.y));
+      var name = OR_DIRS.filter(function(d){ return d[2] === brg; })[0][3];
+      clue.innerHTML = (b.t === 'finish' ? '<b>To the finish</b>' : '<b>Control ' + next + '</b> · ' + esc(b.t)) + '<br>Bearing <b>' + brg + '° (' + name + ')</b> · about ' + dist + ' squares (' + dist * 50 + ' m) · race time <b>' + gkFmt(race) + '</b>';
+    }
+    function step(i){
+      if (moving || api.st.done) return;
+      var d = OR_DIRS[i], nx = pos.x + d[0], ny = pos.y + d[1], t = orCell(nx, ny);
+      if (!t) { SFX.bad(); api.toast('That’s the edge of the map.', false, 1200); return; }
+      if (t === 'b') { race += 5; SFX.splash(); api.toast('Splash! You can’t cross the water. Go around it. (+5 s)', false); showClue(); api.paint(); return; }
+      if (t === 'r') { race += 5; SFX.bad(); api.toast('A cliff! Black rock means go around. (+5 s)', false); showClue(); api.paint(); return; }
+      pos = { x: nx, y: ny }; race += OR_COST[t]; moving = true;
+      me.style.transform = 'translate(' + (nx * 40) + 'px,' + (ny * 40) + 'px)';
+      if (t === 'g') api.toast('Thick bush: slow going (+20 s).', false, 1100);
+      setTimeout(function(){ moving = false; }, 170);
+      var b = OR_COURSE[next];
+      if (nx === b.x && ny === b.y) {
+        if (b.t === 'finish') {
+          SFX.coin(); showClue(); api.paint();
+          var ratio = race / par; api.addScore(Math.round(1000 * par / race) + 300);
+          setTimeout(function(){ api.finish(true, { stars: ratio <= 1.12 ? 3 : ratio <= 1.4 ? 2 : 1, title: 'Finished in ' + gkFmt(race) + '!',
+            summary: 'The best possible route takes ' + gkFmt(par) + '. Paths and open land are fast; thick bush and hills slow you down.' }); }, 500);
+          return;
+        }
+        SFX.coin(); api.addScore(100); api.toast('🟧 Punch! Control ' + next + ' found.', true);
+        var c = map.querySelector('.or-ctl[data-c="' + next + '"]'); if (c) c.setAttribute('fill', 'rgba(233,182,73,.55)');
+        next++;
+      }
+      showClue(); api.paint();
+    }
+    rose.onclick = function(e){ var b = e.target.closest('[data-d]'); if (b) step(+b.getAttribute('data-d')); };
+    map.querySelector('svg').addEventListener('click', function(e){
+      var r = this.getBoundingClientRect(), cx = Math.floor((e.clientX - r.left) / r.width * 9), cy = Math.floor((e.clientY - r.top) / r.height * 11);
+      var dx = cx - pos.x, dy = cy - pos.y; if (!dx && !dy) return; if (Math.abs(dx) > 1 || Math.abs(dy) > 1) { api.toast('Tap a square next to you, or use the compass buttons.', false, 1400); return; }
+      OR_DIRS.forEach(function(d, i){ if (d[0] === dx && d[1] === dy) step(i); });
+    });
+    showClue();
+  }
+  NGAMES.orienteering = function(){ return GK({ gid: 'orienteering:race', icon: '🧭', title: 'Map race', build: orientBuild, hearts: 0,
+    clockFn: function(api){ return api.race ? gkFmt(api.race()) : '0:00'; },
+    how: 'Run the course printed in purple: start ▲, controls 1, 2, 3, then the finish ◎. Move with the compass buttons (or tap a square next to you). Each square costs race time: <b>paths and open land are fast</b>, thick bush and hills are slow, and you can’t cross water. Find the fastest route!' }); };
+
+  /* ======================= GAME: Pack the backpack ======================= */
+  var PK_GOOD = [
+    ['🛏️', 'Sleeping bag', 'bottom', 1.2, 'Light and bulky: it goes at the bottom.'],
+    ['🪢', 'Hammock and mosquito net', 'bottom', 1.0, 'Light and bulky: bottom of the pack.'],
+    ['👕', 'Spare clothes in a plastic bag', 'bottom', 0.8, 'Soft and light: bottom. The bag keeps them dry.'],
+    ['🥫', 'Food for two nights', 'middle', 2.0, 'Heavy: in the middle, close to your back.'],
+    ['💧', 'Two litres of water', 'middle', 2.0, 'Heavy: in the middle, close to your back.'],
+    ['🍲', 'Cooking pot', 'middle', 0.7, 'Heavy and hard: middle, close to your back.'],
+    ['⛺', 'Tent', 'middle', 1.8, 'Heavy: middle, close to your back.'],
+    ['🧥', 'Rain jacket', 'top', 0.4, 'You need it fast when the rain comes: on top.'],
+    ['🔦', 'Flashlight', 'top', 0.2, 'Quick to grab in the dark: top or a pocket.'],
+    ['🩹', 'First-aid kit', 'top', 0.3, 'You might need it fast: on top.'],
+    ['🍪', 'Trail snacks', 'top', 0.3, 'On top, for a quick boost on the trail.'],
+    ['🧭', 'Map and compass', 'top', 0.1, 'In a pocket: you check them often.'],
+    ['🦟', 'Insect repellent', 'top', 0.1, 'In a pocket, ready for the evening mosquitoes.'],
+    ['🔥', 'Matches in a waterproof bag', 'top', 0.05, 'In a pocket, kept dry.'],
+    ['📖', 'Bible', 'top', 0.3, 'On top, ready for worship.']
+  ];
+  var PK_FUN = [
+    ['🎮', 'PS5', 4.5, 'No plugs in the forest, and it weighs 4.5 kg!'],
+    ['💻', 'Laptop', 2.0, 'Leave it home. This weekend the forest is your screen.'],
+    ['🌀', 'Big standing fan', 6.0, 'Where will you plug it in? A tree?'],
+    ['🧀', 'A whole bag of cheese', 3.0, 'In Guyana heat, it will melt by lunchtime.'],
+    ['🥖', 'Twenty tennis rolls', 2.0, 'They’ll be squashed flat. Plan your meals instead.'],
+    ['💨', 'Hair dryer', 0.8, 'There’s no socket in the bush.'],
+    ['🔊', 'Big speaker', 3.0, 'Let the birds do the music.'],
+    ['🍯', 'Glass jar of jam', 0.6, 'Glass breaks. Use a plastic tub.'],
+    ['👠', 'Fancy shoes', 0.9, 'Sturdy shoes only on a pack camp.'],
+    ['🛋️', 'Giant pillow', 2.5, 'Too bulky. Stuff a jacket into a bag for a pillow.'],
+    ['📱', 'Phone for games', 0.2, 'Leaders carry a phone for emergencies. Unplug and enjoy creation.']
+  ];
+  var PK_ZONES = { top: 'Top and pockets', middle: 'Middle, close to your back', bottom: 'Bottom', home: 'Leave at home' };
+  function packBuild(api){
+    var items = gkShuffle(gkShuffle(PK_GOOD).slice(0, 10).map(function(g){ return { icon: g[0], name: g[1], zone: g[2], kg: g[3], note: g[4] }; })
+      .concat(gkShuffle(PK_FUN).slice(0, 6).map(function(f){ return { icon: f[0], name: f[1], zone: 'home', kg: f[2], note: f[3] }; })));
+    var i = 0, kg = 0, streak = 0, mistakes = 0, limit = 7, left = 7, cur = null, lock = false;
+    var top = gkEl('div', 'pk-top'), bag = gkEl('div', 'pk-area');
+    top.innerHTML = '<div class="pk-count"></div><div class="pk-slot"></div><div class="pk-time"><b></b></div>';
+    bag.innerHTML = '<div class="pk-bag"><div class="pk-strap"></div>'
+      + ['top', 'middle', 'bottom'].map(function(z){ return '<button type="button" class="pk-zone" data-z="' + z + '"><b>' + PK_ZONES[z] + '</b><span class="pk-in"></span></button>'; }).join('')
+      + '</div><button type="button" class="pk-zone pk-home" data-z="home"><b>🏠 ' + PK_ZONES.home + '</b><span class="pk-in"></span></button>';
+    var meter = gkEl('div', 'pk-meter', '<span>🎒 Pack weight</span><i><b></b></i><em>0 kg</em>');
+    [top, bag, meter].forEach(function(e){ api.stage.appendChild(e); });
+    var slot = top.querySelector('.pk-slot'), timeBar = top.querySelector('.pk-time b');
+    function fb(m, ok){ slot.innerHTML = '<p class="pk-fb ' + (ok ? 'ok' : 'no') + '">' + m + '</p>'; }
+    function zoneAt(x, y){ var z = null; [].forEach.call(bag.querySelectorAll('.pk-zone'), function(n){ if (gkHit(n, x, y, 4)) z = n; }); return z; }
+    function paintMeter(){ meter.querySelector('b').style.width = Math.min(100, kg / 10 * 100) + '%'; meter.querySelector('em').textContent = kg.toFixed(1) + ' kg'; }
+    function nextItem(){
+      if (api.st.done) return;
+      if (i >= items.length) {
+        var secs = api.elapsed();
+        api.finish(true, { stars: mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1, title: 'Packed and ready!', summary: 'Your pack weighs ' + kg.toFixed(1) + ' kg. Keep it under about a fifth of your body weight (10 kg for a 50 kg Guide). Light low, heavy close, quick on top.' });
+        return;
+      }
+      cur = items[i]; i++; lock = false;
+      limit = Math.max(4.2, 7 - i * 0.18); left = limit;
+      top.querySelector('.pk-count').textContent = 'Item ' + i + ' of ' + items.length;
+      slot.innerHTML = '';
+      var card = gkEl('div', 'gk-piece pk-card', '<span class="ic">' + cur.icon + '</span>' + esc(cur.name));
+      slot.appendChild(card);
+      gkDrag(card, {
+        can: function(){ return !lock && !api.st.done; },
+        move: function(x, y){ var z = zoneAt(x, y); [].forEach.call(bag.querySelectorAll('.pk-zone'), function(n){ n.classList.toggle('hover', n === z); }); },
+        drop: function(x, y){ [].forEach.call(bag.querySelectorAll('.pk-zone'), function(n){ n.classList.remove('hover'); }); var z = zoneAt(x, y); if (z) { choose(z.getAttribute('data-z')); return true; } return false; }
+      });
+    }
+    function choose(z){
+      if (lock || api.st.done || !cur) return; lock = true;
+      var it = cur, ok = z === it.zone, zoneEl = bag.querySelector('[data-z="' + it.zone + '"]');
+      if (ok) {
+        streak++; api.good(50 + streak * 10 + Math.round(left * 5)); fb((it.zone === 'home' ? '😄 ' : '✓ ') + esc(it.note), true);
+        if (it.zone !== 'home') { kg += it.kg; paintMeter(); }
+      } else {
+        streak = 0; mistakes++;
+        fb((it.zone === 'home' ? '🙅 ' : 'Not there. ') + esc(it.note) + (it.zone !== 'home' ? ' (' + PK_ZONES[it.zone] + ')' : ''), false);
+        var dead = api.loseHeart();
+        if (dead) return;
+        if (it.zone !== 'home') { kg += it.kg; paintMeter(); }
+      }
+      zoneEl.querySelector('.pk-in').insertAdjacentHTML('beforeend', '<i title="' + esc(it.name) + '">' + it.icon + '</i>');
+      zoneEl.classList.remove('gk-glow'); void zoneEl.offsetWidth; zoneEl.classList.add('gk-glow');
+      cur = null;
+      setTimeout(nextItem, ok ? 1100 : 1900);
+    }
+    bag.addEventListener('click', function(e){ var b = e.target.closest('[data-z]'); if (b) choose(b.getAttribute('data-z')); });
+    api.tick(function(dt){
+      if (!cur || lock) return;
+      left -= dt; timeBar.style.width = Math.max(0, left / limit * 100) + '%';
+      if (left <= 0) {
+        lock = true; streak = 0; var it = cur; api.addScore(-20); SFX.bad();
+        fb('⏰ Too slow! ' + esc(it.name) + ': ' + esc(it.note), false);
+        if (it.zone !== 'home') { kg += it.kg; paintMeter(); }
+        bag.querySelector('[data-z="' + it.zone + '"] .pk-in').insertAdjacentHTML('beforeend', '<i>' + it.icon + '</i>');
+        cur = null; setTimeout(nextItem, 1900);
+      }
+    });
+    paintMeter(); nextItem();
+  }
+  NGAMES.packcamp = function(){ return GK({ gid: 'packcamp:pack', icon: '🎒', title: 'Pack the backpack', build: packBuild,
+    how: 'Things come at you one at a time for a two-night pack camp. Drag each one to the right part of the backpack, or tap the right spot. <b>Light and bulky at the bottom, heavy in the middle by your back, quick things on top.</b> Some things should stay at home! Be quick: the timer bar runs out.' }); };
+
+  /* ======================= GAME: Healthy run (lane runner) ======================= */
+  var NU_BARS = [['carb', '⚡', 'Energy (carbs)'], ['prot', '💪', 'Builders (protein)'], ['fat', '🥑', 'Good fats'], ['vit', '🌈', 'Vitamins and minerals'], ['water', '💧', 'Water']];
+  var NU_FOOD = {
+    carb: [['🍚', 'Brown rice'], ['🍠', 'Sweet potato'], ['🍌', 'Plantain'], ['🌽', 'Corn'], ['🍞', 'Whole-wheat bread']],
+    prot: [['🫘', 'Red beans'], ['🥜', 'Peanuts'], ['🍲', 'Dhal'], ['🥚', 'Egg'], ['🍛', 'Channa']],
+    fat: [['🥑', 'Avocado (pear)'], ['🥥', 'Coconut'], ['🫒', 'Olive oil'], ['🌰', 'Nuts and seeds']],
+    vit: [['🥕', 'Carrot'], ['🥬', 'Callaloo'], ['🍊', 'Orange'], ['🥭', 'Mango'], ['🎃', 'Pumpkin']],
+    water: [['💧', 'Water'], ['🚰', 'Water']]
+  };
+  var NU_BAD = [['🥤', 'Soda', 'Soda is mostly sugar.'], ['🍬', 'Candy', 'Candy is empty sugar.'], ['🍟', 'Greasy fries', 'Deep-fried junk.'], ['🚬', 'Cigarette', 'Tobacco harms your lungs and heart.'], ['🍺', 'Alcohol', 'Alcohol harms your brain and body.'], ['🥫', 'Energy drink', 'Full of caffeine and sugar.']];
+  var NU_NEED = 3;
+  function nutriBuild(api){
+    var have = { carb: 0, prot: 0, fat: 0, vit: 0, water: 0 }, lane = 1, things = [], spawn = 0.6, speed = 150, mistakes = 0, H = 380;
+    var bars = gkEl('div', 'nu-bars', NU_BARS.map(function(b){ return '<div data-b="' + b[0] + '"><span>' + b[1] + '</span><i><b></b></i></div>'; }).join(''));
+    var msg = gkEl('p', 'nu-msg', 'Catch healthy food. Dodge the junk!');
+    var road = gkEl('div', 'nu-road', '<div class="nu-lines"></div><div class="nu-side l">🌴</div><div class="nu-side r">🌴</div><div class="nu-me">🏃</div>');
+    var pad = gkEl('div', 'nu-pad', '<button type="button" class="gk-btn" data-mv="-1" aria-label="Move left">◀</button><span>Swipe or tap the sides</span><button type="button" class="gk-btn" data-mv="1" aria-label="Move right">▶</button>');
+    [bars, msg, road, pad].forEach(function(e){ api.stage.appendChild(e); });
+    var me = road.querySelector('.nu-me'), lines = road.querySelector('.nu-lines'), off = 0;
+    function laneX(l){ return (l * 2 + 1) / 6 * 100; }
+    function setLane(l){ lane = Math.max(0, Math.min(2, l)); me.style.left = laneX(lane) + '%'; }
+    setLane(1);
+    pad.onclick = function(e){ var b = e.target.closest('[data-mv]'); if (b) setLane(lane + (+b.getAttribute('data-mv'))); };
+    var sx = null;
+    road.addEventListener('pointerdown', function(e){ sx = e.clientX; });
+    road.addEventListener('pointerup', function(e){
+      if (sx == null) return; var dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 25) setLane(lane + (dx > 0 ? 1 : -1));
+      else { var r = road.getBoundingClientRect(); setLane(lane + (e.clientX - r.left < r.width / 2 ? -1 : 1)); }
+    });
+    function onKey(e){ if (api.st.done || !document.body.contains(road)) return; if (e.key === 'ArrowLeft') setLane(lane - 1); if (e.key === 'ArrowRight') setLane(lane + 1); }
+    if (api._nuKey) document.removeEventListener('keydown', api._nuKey);
+    api._nuKey = onKey; document.addEventListener('keydown', onKey);
+    function paintBars(){ NU_BARS.forEach(function(b){ var n = bars.querySelector('[data-b="' + b[0] + '"]'); n.querySelector('b').style.width = Math.min(100, have[b[0]] / NU_NEED * 100) + '%'; n.classList.toggle('full', have[b[0]] >= NU_NEED); }); }
+    paintBars();
+    function full(k){ return have[k] >= NU_NEED; }
+    function make(){
+      var need = NU_BARS.map(function(b){ return b[0]; }).filter(function(k){ return !full(k); }), r = Math.random(), it;
+      if (r < 0.28) { var bd = NU_BAD[Math.floor(Math.random() * NU_BAD.length)]; it = { bad: 1, icon: bd[0], name: bd[1], why: bd[2] }; }
+      else { var pool = r < 0.82 && need.length ? need : Object.keys(NU_FOOD), k = pool[Math.floor(Math.random() * pool.length)], f = NU_FOOD[k][Math.floor(Math.random() * NU_FOOD[k].length)]; it = { k: k, icon: f[0], name: f[1] }; }
+      it.lane = Math.floor(Math.random() * 3); it.y = -40;
+      it.el = gkEl('div', 'nu-thing' + (it.bad ? ' bad' : it.k && full(it.k) ? ' full' : ''), '<span>' + it.icon + '</span><small>' + esc(it.name) + '</small>');
+      it.el.style.left = laneX(it.lane) + '%'; road.appendChild(it.el); things.push(it);
+    }
+    api.tick(function(dt, t){
+      speed = 150 + t * 3.2; spawn -= dt;
+      if (spawn <= 0) { make(); spawn = Math.max(0.45, 0.95 - t * 0.012); }
+      off = (off + speed * dt) % 40; lines.style.backgroundPositionY = off + 'px';
+      things = things.filter(function(it){
+        it.y += speed * dt; it.el.style.transform = 'translate(-50%,' + it.y + 'px)';
+        if (it.k && full(it.k) && !it.el.classList.contains('full')) it.el.classList.add('full');
+        if (!it.hit && it.y > H - 96 && it.y < H - 40 && it.lane === lane) { it.hit = true; eat(it); it.el.remove(); return false; }
+        if (it.y > H + 10) { it.el.remove(); return false; }
+        return true;
+      });
+    });
+    function say(m, ok){ msg.innerHTML = m; msg.className = 'nu-msg ' + (ok ? 'ok' : 'no'); }
+    function eat(it){
+      if (it.bad) { mistakes++; say('🚫 ' + esc(it.name) + '! ' + esc(it.why) + ' Dodge it.', false); api.loseHeart(); return; }
+      if (full(it.k)) { SFX.bad(); api.addScore(-20); say('Too much! The ' + esc(NU_BARS.filter(function(b){ return b[0] === it.k; })[0][2].toLowerCase()) + ' bar is full. Enough is enough.', false); return; }
+      say('✓ ' + esc(it.name), true);
+      have[it.k]++; SFX.coin(); api.addScore(30); paintBars();
+      me.classList.remove('nu-yum'); void me.offsetWidth; me.classList.add('nu-yum');
+      if (NU_BARS.every(function(b){ return full(b[0]); })) {
+        things.forEach(function(x){ x.el.remove(); }); things = [];
+        var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 - secs)) * 5);
+        document.removeEventListener('keydown', onKey);
+        api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: 'A balanced day!', summary: 'All five bars full. Eat a mix of foods, and stop when you’ve had enough.' });
+      }
+    }
+  }
+  NGAMES.nutrition = function(){ return GK({ gid: 'nutrition:run', icon: '🏃', title: 'Healthy run', build: nutriBuild,
+    how: 'Run and catch healthy food to fill all five bars: energy, builders, good fats, vitamins and water. <b>Dodge</b> soda, candy, junk, alcohol and tobacco: they cost a heart. When a bar is full, dodge that kind of food too. Too much of a good thing isn’t good!' }); };
+
+  /* ======================= GAME: Fruit basket (Galatians 5:22–23 in order) ======================= */
+  var FB_FRUIT = [['❤️', 'love', ''], ['😊', 'joy', ''], ['🕊️', 'peace', ''], ['⏳', 'longsuffering', 'patience'], ['🤲', 'gentleness', 'kindness'], ['⭐', 'goodness', ''], ['⚓', 'faith', 'faithfulness'], ['🐑', 'meekness', 'gentleness'], ['🛑', 'temperance', 'self-control']];
+  var FB_FLESH = [['💢', 'Wrath', 'anger', '20'], ['😠', 'Hatred', '', '20'], ['🥊', 'Strife', 'fighting', '20'], ['😒', 'Envyings', 'jealousy', '21'], ['🗯️', 'Variance', 'quarrelling', '20']];
+  function fruitBuild(api){
+    var next = 0, drops = [], spawn = 0.4, mistakes = 0, W = 0, H = 360, bx = 0.5;
+    var verse = gkEl('p', 'fb-verse'), msg = gkEl('p', 'nu-msg', 'Catch the fruits in the order of the verse. Dodge the works of the flesh!');
+    var field = gkEl('div', 'fb-field', '<div class="fb-tree">🌳</div><div class="fb-basket"><span>🧺</span></div>');
+    var want = gkEl('div', 'fb-want');
+    [verse, want, msg, field].forEach(function(e){ api.stage.appendChild(e); });
+    var basket = field.querySelector('.fb-basket');
+    function paintVerse(){
+      verse.innerHTML = '“But the fruit of the Spirit is ' + FB_FRUIT.map(function(f, i){ return i < next ? '<b>' + f[1] + '</b>' : '<span class="fb-blank">' + '_'.repeat(Math.max(3, Math.round(f[1].length * 0.7))) + '</span>'; }).join(', ') + ': against such there is no law.” <cite>Galatians 5:22–23</cite>';
+      var f = FB_FRUIT[next]; want.innerHTML = f ? 'Catch next: <span class="fb-ic">' + f[0] + '</span> <b>' + f[1] + '</b>' + (f[2] ? ' (' + f[2] + ')' : '') : '';
+    }
+    paintVerse();
+    function moveTo(clientX){ var r = field.getBoundingClientRect(); bx = Math.max(0.08, Math.min(0.92, (clientX - r.left) / r.width)); basket.style.left = (bx * 100) + '%'; }
+    moveTo(field.getBoundingClientRect().left + field.getBoundingClientRect().width / 2);
+    field.addEventListener('pointerdown', function(e){ e.preventDefault(); try { field.setPointerCapture(e.pointerId); } catch (er) {} moveTo(e.clientX); });
+    field.addEventListener('pointermove', function(e){ if (e.buttons || e.pointerType !== 'mouse') moveTo(e.clientX); });
+    function onKey(e){ if (api.st.done || !document.body.contains(field)) return; var r = field.getBoundingClientRect(); if (e.key === 'ArrowLeft') moveTo(r.left + (bx - 0.12) * r.width); if (e.key === 'ArrowRight') moveTo(r.left + (bx + 0.12) * r.width); }
+    if (api._fbKey) document.removeEventListener('keydown', api._fbKey);
+    api._fbKey = onKey; document.addEventListener('keydown', onKey);
+    function say(m, ok){ msg.innerHTML = m; msg.className = 'nu-msg ' + (ok ? 'ok' : 'no'); }
+    function make(){
+      var r = Math.random(), d;
+      if (r < 0.45 && next < FB_FRUIT.length) d = { kind: 'want', f: FB_FRUIT[next], i: next };
+      else if (r < 0.72) { var j = Math.floor(Math.random() * FB_FRUIT.length); d = { kind: j === next ? 'want' : 'fruit', f: FB_FRUIT[j], i: j }; }
+      else d = { kind: 'flesh', f: FB_FLESH[Math.floor(Math.random() * FB_FLESH.length)] };
+      d.x = 0.1 + Math.random() * 0.8; d.y = 40; d.v = 95 + Math.random() * 40 + next * 7;
+      d.el = gkEl('div', 'fb-drop ' + (d.kind === 'flesh' ? 'flesh' : 'fruit'), '<span>' + d.f[0] + '</span><small>' + esc(d.kind === 'flesh' ? d.f[1] : d.f[1]) + '</small>');
+      d.el.style.left = (d.x * 100) + '%'; field.appendChild(d.el); drops.push(d);
+    }
+    api.tick(function(dt){
+      spawn -= dt; if (spawn <= 0) { make(); spawn = Math.max(0.55, 1.05 - next * 0.05); }
+      W = field.clientWidth || 300;
+      drops = drops.filter(function(d){
+        d.y += d.v * dt; d.el.style.transform = 'translate(-50%,' + d.y + 'px)';
+        if (d.y > H - 78 && d.y < H - 30 && Math.abs(d.x - bx) * W < 44) { catchIt(d); d.el.remove(); return false; }
+        if (d.y > H + 20) { d.el.remove(); return false; }
+        return true;
+      });
+    });
+    function catchIt(d){
+      if (api.st.done) return;
+      if (d.kind === 'flesh') { mistakes++; say('🚫 ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : '') + ' is a work of the flesh (Galatians 5:' + d.f[3] + '). Dodge it!', false); api.loseHeart(); return; }
+      if (d.i === next) {
+        next++; SFX.coin(); api.addScore(100); basket.classList.remove('nu-yum'); void basket.offsetWidth; basket.classList.add('nu-yum');
+        say('✓ ' + d.f[0] + ' ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : ''), true); paintVerse();
+        if (next >= FB_FRUIT.length) {
+          drops.forEach(function(x){ x.el.remove(); }); drops = [];
+          var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 - secs)) * 5);
+          api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: 'All nine fruits!', summary: 'Love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance. Can you say the verse without looking?' });
+        }
+        return;
+      }
+      if (d.i < next) { say('You already have ' + d.f[1] + '. Look for ' + FB_FRUIT[next][1] + '.', false); return; }
+      api.addScore(-20); SFX.bad(); say('Not yet! The verse says <b>' + FB_FRUIT[next][1] + '</b> next.', false);
+    }
+  }
+  NGAMES.fruit = function(){ return GK({ gid: 'fruit:basket', icon: '🧺', title: 'Fruit basket', build: fruitBuild,
+    how: 'Move the basket by sliding your finger. Catch the nine fruits <b>in the order of Galatians 5:22–23</b>: love, joy, peace, longsuffering… The verse fills in as you go. Dodge the works of the flesh, like wrath and strife: they cost a heart.' }); };
+
+  /* ======================= GAME: Timeline and memory (pioneers) ======================= */
+  var PIO_EVENTS = [['miller', 'Oct 1844', 'The Great Disappointment'], ['edson', 'Oct 1844', 'The cornfield: the sanctuary is in heaven'], ['ellen', 'Dec 1844', 'First vision, aged 17'],
+    ['bates', '1846', 'Writes a tract about the Sabbath'], ['james', '1849', 'Starts the paper Present Truth'], ['org', '1863', 'First General Conference president'], ['andrews', '1874', 'Sails to Switzerland as a missionary']];
+  var PIO_FACTS = { miller: 'Preached the 2300 days of Daniel 8:14', edson: 'Understood the heavenly sanctuary in a cornfield', bates: 'Sea captain who kept the Sabbath', ellen: 'Wrote Steps to Christ', james: 'Publisher who started Present Truth', org: 'First president of the General Conference', andrews: 'First official overseas missionary' };
+  function pioFace(id){ var p = PN[id]; return '<span class="pi-face">' + pimg(id) + '</span><span class="pi-nm">' + esc(p[0]) + '</span>'; }
+  function pioBuild(api, level){
+    var mistakes = 0;
+    if (level === 2) return memory();
+    var ask = gkEl('p', 'gk-ask', '<b>Part 1 of 2:</b> drag each pioneer onto what they did. Tap a pioneer, then tap the event, if you like.');
+    var line = gkEl('div', 'pi-line'), tray = gkEl('div', 'gk-tray pi-tray'), picked = null, placed = 0;
+    PIO_EVENTS.forEach(function(e){ line.insertAdjacentHTML('beforeend', '<div class="pi-slot" data-id="' + e[0] + '"><span class="pi-yr">' + e[1] + '</span><span class="pi-ev">' + esc(e[2]) + '</span><span class="pi-drop"></span></div>'); });
+    [ask, line, tray].forEach(function(x){ api.stage.appendChild(x); });
+    var slots = [].slice.call(line.querySelectorAll('.pi-slot'));
+    function slotAt(x, y){ for (var i = 0; i < slots.length; i++) if (gkHit(slots[i], x, y, 2)) return slots[i]; return null; }
+    gkShuffle(PIO_EVENTS.map(function(e){ return e[0]; })).forEach(function(id){
+      var p = gkEl('button', 'gk-piece pi-card', pioFace(id)); p.type = 'button';
+      gkDrag(p, { can: function(){ return !p.disabled && !api.st.done; },
+        move: function(x, y){ var s = slotAt(x, y); slots.forEach(function(z){ z.classList.toggle('hover', z === s); }); },
+        drop: function(x, y){ slots.forEach(function(z){ z.classList.remove('hover'); }); var s = slotAt(x, y); return s ? place(p, id, s) : false; },
+        tap: function(){ if (picked) picked.classList.remove('gk-picked'); picked = picked === p ? null : p; if (picked) p.classList.add('gk-picked'); } });
+      p._id = id; tray.appendChild(p);
+    });
+    line.addEventListener('click', function(e){ var s = e.target.closest('.pi-slot'); if (s && picked && !s.classList.contains('filled')) { var p = picked; picked.classList.remove('gk-picked'); picked = null; place(p, p._id, s); } });
+    function place(p, id, s){
+      if (s.classList.contains('filled')) return false;
+      if (s.getAttribute('data-id') === id) {
+        p.disabled = true; p.style.transform = ''; s.classList.add('filled', 'gk-glow'); s.querySelector('.pi-drop').innerHTML = pioFace(id); p.remove(); placed++;
+        api.good(100, '✓ ' + esc(PN[id][0]) + ': ' + esc(PIO_EVENTS.filter(function(e){ return e[0] === id; })[0][2]));
+        if (placed === PIO_EVENTS.length) setTimeout(function(){ api.stage.innerHTML = ''; memory(); }, 1000);
+        return true;
+      }
+      mistakes++; p.classList.add('gk-shake'); setTimeout(function(){ p.classList.remove('gk-shake'); }, 420);
+      var real = PIO_EVENTS.filter(function(e){ return e[0] === s.getAttribute('data-id'); })[0];
+      api.loseHeart('Not ' + esc(PN[id][0]) + '. Hint: ' + esc(PIO_FACTS[real[0]]) + '.');
+      return false;
+    }
+    function memory(){
+      var ids = gkShuffle(Object.keys(PIO_FACTS)).slice(0, 6), cards = [], open = [], matched = 0, moves = 0;
+      ids.forEach(function(id){ cards.push({ id: id, face: 1 }, { id: id, face: 0 }); });
+      cards = gkShuffle(cards);
+      var ask2 = gkEl('p', 'gk-ask', '<b>Part 2 of 2:</b> memory match. Flip two cards: find each pioneer and what they did.');
+      var grid = gkEl('div', 'pi-grid');
+      cards.forEach(function(c, i){
+        var b = gkEl('button', 'pi-mem', '<span class="back">📜</span><span class="front">' + (c.face ? pioFace(c.id) : '<span class="pi-fact">' + esc(PIO_FACTS[c.id]) + '</span>') + '</span>'); b.type = 'button';
+        b.onclick = function(){
+          if (api.st.done || b.classList.contains('up') || open.length === 2) return;
+          b.classList.add('up'); SFX.pop(); open.push([c, b]);
+          if (open.length === 2) {
+            moves++;
+            var a = open[0], z = open[1];
+            if (a[0].id === z[0].id && a[0].face !== z[0].face) { setTimeout(function(){ a[1].classList.add('done'); z[1].classList.add('done'); open = []; matched++; api.good(80, '✓ ' + esc(PN[a[0].id][0]));
+              if (matched === ids.length) { var bonus = Math.max(0, 14 - moves) * 25; api.addScore(bonus);
+                api.finish(true, { stars: mistakes === 0 && moves <= 9 ? 3 : mistakes <= 1 && moves <= 12 ? 2 : 1, title: 'Pioneer expert!', summary: 'Timeline done and ' + ids.length + ' pairs matched in ' + moves + ' turns.' }); } }, 450); }
+            else setTimeout(function(){ a[1].classList.remove('up'); z[1].classList.remove('up'); open = []; }, 1100);
+          }
+        };
+        grid.appendChild(b);
+      });
+      api.stage.appendChild(ask2); api.stage.appendChild(grid);
+    }
+  }
+  NGAMES.pioneers = function(){ return GK({ gid: 'pioneers:timeline', icon: '📜', title: 'Timeline and memory', build: pioBuild,
+    how: '<b>Part 1:</b> put each pioneer on the timeline, next to what they did. <b>Part 2:</b> a memory match: flip cards to pair each pioneer with a fact. Fewer turns, more points.' }); };
+
+  /* ======================= GAME: Save the creek ======================= */
+  var EC_BINS = { rec: ['♻️', 'Recycle'], comp: ['🌱', 'Compost'], trash: ['🗑️', 'Rubbish'], danger: ['☠️', 'Danger drop-off'] };
+  var EC_LITTER = [
+    ['🧴', 'Plastic bottle', 'rec', 'Clean plastic bottles can be recycled.'], ['🥫', 'Drink can', 'rec', 'Cans are metal: recycle them.'], ['🍾', 'Glass bottle', 'rec', 'Glass can be recycled again and again.'], ['📦', 'Cardboard box', 'rec', 'Cardboard and paper go to recycling.'],
+    ['🍌', 'Banana peel', 'comp', 'Peels rot into good soil: compost.'], ['🥥', 'Coconut husk', 'comp', 'Husks break down naturally: compost.'], ['🥬', 'Vegetable scraps', 'comp', 'Food scraps make compost for the garden.'],
+    ['🥡', 'Styrofoam box', 'trash', 'Styrofoam can’t be recycled here: rubbish bin.'], ['🍿', 'Snack packet', 'trash', 'Shiny snack packets can’t be recycled: rubbish bin.'], ['🪥', 'Old toothbrush', 'trash', 'Mixed plastic and bristles: rubbish bin.'],
+    ['🔋', 'Battery', 'danger', 'Batteries leak poison into water. Take them to a special drop-off.'], ['🛢️', 'Used engine oil', 'danger', 'One litre of oil can poison a huge amount of water. Special drop-off.'], ['🧪', 'Mercury', 'danger', 'Mercury from mining poisons fish and people. Never in the river!']
+  ];
+  var EC_ANIMALS = [[20, '🐟', 'Fish'], [40, '🐸', 'Frogs'], [60, '🐢', 'River turtle'], [80, '🦦', 'Giant otter'], [100, '🐦', 'Canje pheasant (hoatzin)']];
+  function ecoBuild(api){
+    var health = 40, things = [], spawn = 0.5, mistakes = 0, picked = null, seen = 0;
+    var meter = gkEl('div', 'ec-meter', '<span>Creek health</span><i><b></b></i><em></em>');
+    var creek = gkEl('div', 'ec-creek', '<div class="ec-water"></div><div class="ec-life"></div>');
+    var bins = gkEl('div', 'ec-bins', Object.keys(EC_BINS).map(function(k){ return '<button type="button" class="ec-bin" data-bin="' + k + '"><span>' + EC_BINS[k][0] + '</span>' + EC_BINS[k][1] + '</button>'; }).join(''));
+    var msg = gkEl('p', 'nu-msg', 'Litter is floating down the creek. Drag each piece into the right bin, or tap it, then tap a bin.');
+    [meter, msg, creek, bins].forEach(function(e){ api.stage.appendChild(e); });
+    var life = creek.querySelector('.ec-life');
+    function say(m, ok){ msg.innerHTML = m; msg.className = 'nu-msg ' + (ok ? 'ok' : 'no'); }
+    function paint(){
+      health = Math.max(0, Math.min(100, health));
+      meter.querySelector('b').style.width = health + '%'; meter.querySelector('em').textContent = Math.round(health) + '%';
+      meter.classList.toggle('low', health < 25);
+      life.innerHTML = EC_ANIMALS.filter(function(a){ return health >= a[0]; }).map(function(a, i){ return '<span class="ec-ani" style="left:' + (8 + i * 19) + '%" title="' + a[2] + '">' + a[1] + '</span>'; }).join('');
+      var n = EC_ANIMALS.filter(function(a){ return health >= a[0]; }).length;
+      if (n > seen) { var a = EC_ANIMALS[n - 1]; seen = n; if (n < EC_ANIMALS.length) say('🎉 The ' + a[2].toLowerCase() + ' came back to the creek!', true); }
+    }
+    paint();
+    function binAt(x, y){ var hit = null; [].forEach.call(bins.querySelectorAll('.ec-bin'), function(b){ if (gkHit(b, x, y, 4)) hit = b; }); return hit; }
+    function make(){
+      var L = EC_LITTER[Math.floor(Math.random() * EC_LITTER.length)], t = { L: L, x: -14, y: 18 + Math.random() * 120, v: 5 + Math.random() * 3 + api.elapsed() * 0.05 };
+      t.el = gkEl('button', 'ec-thing', '<span>' + L[0] + '</span><small>' + esc(L[1]) + '</small>'); t.el.type = 'button';
+      t.el.style.top = t.y + 'px'; creek.appendChild(t.el); things.push(t);
+      gkDrag(t.el, { can: function(){ return !api.st.done && !t.gone; },
+        start: function(){ t.held = true; },
+        move: function(x, y){ var b = binAt(x, y); [].forEach.call(bins.querySelectorAll('.ec-bin'), function(z){ z.classList.toggle('hover', z === b); }); },
+        drop: function(x, y){ [].forEach.call(bins.querySelectorAll('.ec-bin'), function(z){ z.classList.remove('hover'); }); var b = binAt(x, y); if (b) { sort(t, b.getAttribute('data-bin')); return true; } return false; },
+        after: function(){ t.held = false; },
+        tap: function(){ if (picked && picked.el) picked.el.classList.remove('gk-picked'); picked = picked === t ? null : t; if (picked) t.el.classList.add('gk-picked'); } });
+    }
+    bins.addEventListener('click', function(e){ var b = e.target.closest('[data-bin]'); if (b && picked && !picked.gone) { var t = picked; picked = null; t.el.classList.remove('gk-picked'); sort(t, b.getAttribute('data-bin')); } });
+    function sort(t, bin){
+      if (t.gone || api.st.done) return; t.gone = true; t.el.remove();
+      if (bin === t.L[2]) { health += 8; api.good(40); say('✓ ' + esc(t.L[1]) + ': ' + esc(t.L[3]), true); }
+      else { mistakes++; health -= 4; say('Wrong bin! ' + esc(t.L[1]) + ': ' + esc(t.L[3]), false); api.loseHeart(); }
+      paint();
+      if (health >= 100) win();
+    }
+    function win(){
+      things.forEach(function(x){ x.el.remove(); }); things = [];
+      var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 - secs)) * 5);
+      api.finish(true, { stars: mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1, title: 'The creek is alive again!', summary: 'Fish, frogs, a turtle, a giant otter and a Canje pheasant came back. God made it, we keep it.' });
+    }
+    api.tick(function(dt){
+      spawn -= dt; if (spawn <= 0) { make(); spawn = Math.max(1.4, 2.6 - api.elapsed() * 0.015); }
+      var W = creek.clientWidth || 320;
+      things = things.filter(function(t){
+        if (t.gone) return false;
+        if (!t.held) { t.x += t.v * dt; t.el.style.left = t.x + '%'; }
+        if (t.x > 104) { t.gone = true; t.el.remove(); health -= 4; say('😢 The ' + esc(t.L[1].toLowerCase()) + ' floated away downstream, towards the sea.', false); SFX.bad(); paint(); return false; }
+        return true;
+      });
+    });
+  }
+  NGAMES.ecology = function(){ return GK({ gid: 'ecology:creek', icon: '🏞️', title: 'Save the creek', build: ecoBuild, timer: 120,
+    onTimeUp: function(api){ api.finish(false, { icon: '🏞️', title: 'Time’s up!', summary: 'The creek isn’t clean yet. Sort faster, and catch the litter before it floats away.' }); },
+    how: 'Litter is floating down a creek in Guyana. Drag each piece into the right bin: <b>recycle, compost, rubbish or danger</b>. Each right answer makes the creek healthier, and the animals come back. Don’t let litter float away!' }); };
+
+  /* ======================= GAME: Choose your path (Legion of Honour) ======================= */
+  var LG_STOPS = [
+    { part: '👀', place: '🛌', line: 'I will honour Christ in that which I choose to behold.', sit: 'At a sleepover, your friends put on a horror movie full of blood and bad language.',
+      opts: [['Watch it so you fit in', 0], ['Suggest another movie, or play a game instead', 1], ['Watch it with your eyes half closed', 0]], why: 'What we look at shapes what we become. You can suggest something better.' },
+    { part: '👂', place: '🎧', line: 'I will honour Christ in that to which I choose to listen.', sit: 'A song full of bad words is trending, and everyone at school is singing it.',
+      opts: [['Learn every word so you can join in', 0], ['Turn it up louder', 0], ['Skip it and play music that lifts you up', 1]], why: 'Music goes deep into our minds. Choose music that lifts you up.' },
+    { part: '👣', place: '🎉', line: 'I will honour Christ in the choice of places to which I go.', sit: 'You’re invited to a party with no adults, where people will be drinking.',
+      opts: [['Say no, and invite friends to do something else', 1], ['Go, but promise yourself you won’t drink', 0], ['Go and see what happens', 0]], why: 'Ask: would I be comfortable bringing Jesus there? Plan something better with friends.' },
+    { part: '🤝', place: '🏫', line: 'I will honour Christ in the choice of my associates.', sit: 'A popular group says you can join them if you help them cheat on a test.',
+      opts: [['Help them just this once', 0], ['Say no, and spend time with friends who help you grow', 1], ['Pretend to help them', 0]], why: 'Friends shape our choices. Choose friends who help you grow.' },
+    { part: '💬', place: '📱', line: 'I will honour Christ in that which I choose to speak.', sit: 'Someone posts a mean rumour about a classmate, and your group chat is laughing.',
+      opts: [['Add a funny comment', 0], ['Forward it to one friend only', 0], ['Don’t share it, and say something kind about them', 1]], why: 'Words can build up or tear down. Kind, true words honour Christ.' },
+    { part: '💪', place: '🏀', line: 'I will honour Christ in the care I give my body temple.', sit: 'After the game, an older teen offers you a vape and says it’s harmless.',
+      opts: [['Say no thanks: my body is God’s temple', 1], ['Try it once', 0], ['Take it but don’t use it', 0]], why: 'Vapes contain nicotine, which is addictive and harms your body. Your body is God’s temple (1 Corinthians 6:19).' }
+  ];
+  function legionBuild(api){
+    var i = 0, mistakes = 0, tLeft = 12, live = false;
+    var path = gkEl('div', 'lg-path', LG_STOPS.map(function(s, j){ return '<span class="lg-stop" data-j="' + j + '">' + s.place + '</span>'; }).join('') + '<span class="lg-me">🧒</span>');
+    var card = gkEl('div', 'lg-card'), pledge = gkEl('div', 'lg-pledge');
+    [path, card, pledge].forEach(function(e){ api.stage.appendChild(e); });
+    var me = path.querySelector('.lg-me');
+    function stop(){
+      if (api.st.done) return;
+      var s = LG_STOPS[i]; tLeft = 12; live = true;
+      me.style.left = (8 + i * 16.5) + '%';
+      card.innerHTML = '<div class="lg-head"><span class="lg-part">' + s.part + '</span><b>Stop ' + (i + 1) + ' of 6</b><span class="lg-timer"><i></i></span></div><p class="lg-sit">' + esc(s.sit) + '</p><div class="lg-opts">'
+        + gkShuffle(s.opts).map(function(o){ return '<button type="button" class="gk-btn lg-opt" data-ok="' + o[1] + '">' + esc(o[0]) + '</button>'; }).join('') + '</div><p class="lg-why"></p>';
+      card.querySelector('.lg-opts').onclick = function(e){
+        var b = e.target.closest('.lg-opt'); if (!b || !live) return; live = false;
+        var why = card.querySelector('.lg-why');
+        if (b.getAttribute('data-ok') === '1') {
+          b.classList.add('ok'); api.good(100 + Math.round(tLeft) * 10); why.innerHTML = '✓ ' + esc(s.why); why.className = 'lg-why ok';
+          path.querySelector('[data-j="' + i + '"]').classList.add('won');
+          pledge.insertAdjacentHTML('beforeend', '<p class="lg-pl">' + esc(s.line) + '</p>');
+        } else {
+          b.classList.add('no'); mistakes++; why.innerHTML = esc(s.why); why.className = 'lg-why no';
+          [].forEach.call(card.querySelectorAll('.lg-opt'), function(x){ if (x.getAttribute('data-ok') === '1') x.classList.add('ok'); });
+          pledge.insertAdjacentHTML('beforeend', '<p class="lg-pl dim">' + esc(s.line) + '</p>');
+          if (api.loseHeart()) return;
+        }
+        var nb = gkEl('button', 'gk-btn gk-go lg-next', i === LG_STOPS.length - 1 ? 'Finish' : 'Walk on'); nb.type = 'button';
+        nb.onclick = function(){ i++; if (i >= LG_STOPS.length) end(); else stop(); };
+        card.appendChild(nb);
+      };
+    }
+    api.tick(function(dt){ if (!live) return; tLeft = Math.max(0, tLeft - dt); var t = card.querySelector('.lg-timer i'); if (t) t.style.width = (tLeft / 12 * 100) + '%'; });
+    function end(){
+      me.style.left = '96%';
+      api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: 'You walked with honour!', summary: 'Six choices: eyes, ears, feet, friends, mouth and body. Can you say the whole pledge now?' });
+    }
+    stop();
+  }
+  NGAMES.legion = function(){ return GK({ gid: 'legion:path', icon: '🛡️', title: 'Choose your path', build: legionBuild,
+    how: 'Walk through a week of real choices. At each stop, choose what honours Christ. Quick answers score more, and each good choice adds a line of the pledge. A wrong choice costs a heart.' }); };
+
+  /* ======================= WHAT TO KNOW, in different styles ======================= */
+  /* Nutrition: flip cards.  Pioneers: a chat with each pioneer.  Pack camp: a tick-off checklist. */
+  var FLIP = {
+    six: [['🍽️', 'How many nutrients?', 'Six: carbohydrates, proteins, fats, vitamins, minerals and water.'], ['🥘', 'Is any food just one nutrient?', 'No. Every food is a mix. Beans give protein and carbs; avocado gives fat and vitamins.'], ['🌈', 'How do I get them all?', 'Eat a variety: different colours and kinds of food every day.'], ['🍬', 'What are “empty calories”?', 'Foods like soda and candy that give energy but almost nothing else.']],
+    carb: [['⛽', 'What do carbs do?', 'They are your body’s main fuel, for your brain and your muscles.'], ['🍠', 'Where do I get them?', 'Brown rice, oats, whole-wheat bread, cassava, sweet potato and plantain.'], ['🌾', 'What is fibre?', 'The part of plants your body can’t digest. It keeps your gut healthy and keeps you full longer.'], ['📉', 'Whole or sugary?', 'Whole foods give steady energy. Sugary drinks and sweets give a quick rush, then a crash.']],
+    prot: [['💪', 'What does protein do?', 'It builds and repairs your muscles, skin, blood and every cell.'], ['🫘', 'Plant sources?', 'Beans, peas, lentils, dhal, channa, peanuts, nuts, seeds and soy.'], ['🥚', 'Other sources?', 'Eggs and milk also give protein.'], ['🍛', 'A smart mix', 'Rice with dhal or beans gives your body all the building blocks it needs.']],
+    fat: [['🔋', 'What do fats do?', 'Store energy, protect your organs and help your body use vitamins A, D, E and K.'], ['🥑', 'Which fats are best?', 'Plant fats: avocado (pear), nuts, seeds and olive oil.'], ['🍟', 'Go easy on…', 'Deep-fried foods, and lots of butter or lard.'], ['🧠', 'Is all fat bad?', 'No! Your brain and nerves need fat to work. Eat a little good fat every day.']],
+    vit: [['🍊', 'Vitamin C', 'Guava, oranges, limes and cherries. It fights infection and heals cuts.'], ['🥕', 'Vitamin A', 'Carrots, pumpkin, mango and callaloo. It helps you see well.'], ['🥬', 'Iron', 'Callaloo, spinach and beans. It keeps your blood healthy.'], ['🦴', 'Calcium', 'Milk, fortified soy milk and dark greens. It builds strong bones and teeth.']],
+    water: [['💧', 'How much of me is water?', 'Over half of your body is water.'], ['🚚', 'What does water do?', 'It carries nutrients, cools you down and removes waste.'], ['🥵', 'In Guyana’s heat?', 'You lose water when you sweat, so drink often, especially on hikes and camps.'], ['🥤', 'The best drink?', 'Plain water. Sodas and many juices add lots of sugar.']],
+    plate: [['🥗', 'Half the plate', 'Fruits and vegetables: as many colours as you can.'], ['🍚', 'A quarter', 'Whole grains or starches: brown rice, ground provisions, whole-wheat roti.'], ['🫘', 'The other quarter', 'Protein: beans, peas, dhal or eggs.'], ['💧', 'And to drink?', 'Water, instead of sugary drinks.']],
+    label: [['🔍', 'Where do I start?', 'Check the serving size first. All the numbers are for one serving.'], ['🧂', 'What should I watch?', 'Sugar and salt (sodium). Less is better.'], ['📝', 'The ingredients list', 'It goes from most to least. If sugar is first, the food is mostly sugar.'], ['🕵️', 'Hidden sugar', 'Sugar hides under names like syrup, glucose and words ending in “-ose”.']]
+  };
+  var CHAT = {
+    miller: [['Who are you?', 'I’m William Miller, a Baptist farmer from New York. I was born in 1782.'], ['What did you study?', 'I studied the Bible verse by verse. Daniel 8:14 says: “Unto two thousand and three hundred days; then shall the sanctuary be cleansed.”'], ['What did you preach?', 'I believed the 2300 days ended around 1844, and that Jesus would come then. Thousands believed it too.'], ['What happened?', 'On 22 October 1844 Jesus did not come. It was called the Great Disappointment. But I never stopped looking for His coming.']],
+    edson: [['Who are you?', 'I’m Hiram Edson, a farmer in Port Gibson, New York. I believed Jesus would come on 22 October 1844.'], ['What happened that night?', 'He didn’t come. “We wept, and wept, till the day dawn.”'], ['And the next morning?', 'On 23 October I crossed a cornfield with a friend to encourage the believers. Suddenly I understood something new.'], ['What did you understand?', 'The sanctuary in Daniel 8:14 is in heaven. Jesus didn’t come to earth; He began a new work in the Most Holy Place, as our High Priest (Hebrews 8–9).']],
+    bates: [['Who are you?', 'I’m Joseph Bates. I went to sea as a boy and became a ship’s captain.'], ['What made you different?', 'I gave up alcohol and tobacco long before most people did, and later tea and coffee too.'], ['How did you find the Sabbath?', 'In 1845 I read about the seventh-day Sabbath in the Bible, and I kept it from then on.'], ['What did you do next?', 'In 1846 I wrote a tract about the Sabbath, and I spent my savings spreading the message.']],
+    ellen: [['Who are you?', 'I’m Ellen Harmon, later Ellen G. White. I was born in Gorham, Maine, in 1827, and I had a twin sister.'], ['When did God call you?', 'In December 1844, when I was only 17, God gave me my first vision.'], ['What did you do?', 'For 70 years God used me as a messenger to guide the young church.'], ['What did you write?', 'Many books, like Steps to Christ and The Desire of Ages. Steps to Christ is read in many languages around the world.']],
+    james: [['Who are you?', 'I’m James White, Ellen’s husband, a preacher and publisher. We married in 1846.'], ['What did you start?', 'In 1849 I printed our first paper, Present Truth. Then came the Review and Herald.'], ['How did you lead?', 'I helped organise the church, and I served as General Conference president three times.']],
+    org: [['Who are you?', 'I’m John Byington, a farmer and preacher from New York.'], ['What happened in 1860?', 'The believers chose a name: Seventh-day Adventist.'], ['And in 1863?', 'The General Conference was organised in Battle Creek, Michigan, and I was chosen as its first president.']],
+    andrews: [['Who are you?', 'I’m John Nevins Andrews, a Bible scholar.'], ['Where did you go?', 'In 1874 I sailed to Switzerland with my son and daughter, as the church’s first official overseas missionary.'], ['Why does it matter?', 'Others followed. Today the church is in more than 200 countries, including Guyana.'], ['Is anything named after you?', 'Yes: Andrews University in Michigan, USA.']]
+  };
+  var CKLIST = {
+    plan: [['🗺️', 'Where, how long, and what weather', 'So you pack the right things.'], ['👥', 'Split group gear and personal gear', 'Tents, pots and the first-aid kit are shared.'], ['🏠', 'Tell someone at home your plan', 'Where you’re going and when you’ll be back.']],
+    ten: [['🧭', 'Map and compass', 'To find your way.'], ['🔦', 'Flashlight and spare batteries', 'Night comes fast in the bush.'], ['🩹', 'First-aid kit', 'For cuts, stings and blisters.'], ['🔪', 'Knife or multi-tool', 'For rope and food. Use it carefully.'], ['🔥', 'Matches in a waterproof bag', 'So you can light a fire even after rain.'], ['🍪', 'Extra food and water', 'In case you’re out longer than planned.'], ['🧥', 'Rain jacket', 'Tropical rain comes suddenly.'], ['🧢', 'Sun hat and sunscreen', 'The sun is strong near the equator.'], ['🔔', 'Whistle', 'Three blasts means “I need help”.']],
+    sleep: [['⛺', 'Tent, or hammock with a tarp', 'To keep you dry.'], ['🟫', 'Ground sheet', 'Keeps the damp of the ground away.'], ['🛏️', 'Sleeping bag or sheet', 'Nights can be cool.'], ['🦟', 'Mosquito net', 'A must in Guyana: it keeps off bites, and mosquitoes can carry malaria in the interior.']],
+    clothes: [['👕', 'Quick-dry clothes', 'Wet cotton stays wet and cold.'], ['👖', 'Long sleeves and trousers', 'For sun, insects and scratches.'], ['🥾', 'Sturdy shoes and spare socks', 'Dry feet, happy camper.'], ['🧣', 'Something warm for the night', 'It gets cooler after dark.'], ['🛍️', 'A bag for wet things', 'Keeps your dry clothes dry.']],
+    pack: [['⬇️', 'Light, bulky things at the bottom', 'Like your sleeping bag.'], ['🎯', 'Heavy things in the middle, close to your back', 'Food, water and pots: it keeps you balanced.'], ['⬆️', 'Quick things on top or in pockets', 'Rain jacket, snacks, first aid, flashlight.'], ['⚖️', 'No more than about a fifth of your body weight', 'A 50 kg Guide carries 10 kg or less.']],
+    water: [['🥫', 'Food for two nights that won’t spoil', 'Dry and canned foods travel well.'], ['🔥', 'Boil your water', 'A rolling boil makes it safe.'], ['🧪', 'Or filter it, or use purifying tablets', 'Follow the instructions on the pack.'], ['⚠️', 'Clear water can still carry germs', 'Always treat it.']],
+    lnt: [['🏕️', 'Camp on hard ground', 'It protects the plants.'], ['🗑️', 'Carry out all your rubbish', 'Leave it cleaner than you found it.'], ['🦜', 'Leave plants and animals alone', 'Look, don’t take.'], ['🔥', 'Keep fires small and put them right out', 'Drown, stir, feel.'], ['👫', 'Use the buddy system', 'Never wander off alone.']]
+  };
+  var WTKS = { flip: {}, chat: {}, check: {} };
+  try { WTKS.check = JSON.parse(localStorage.getItem('gq-wtk-check') || '{}') || {}; } catch (e) {}
+  var WTK = {
+    nutrition: { has: function(c){ return !!FLIP[c.id]; }, html: function(c){
+      var st = WTKS.flip[c.id] || {};
+      return '<p class="fl-hint">Tap a card to flip it.</p><div class="fl-grid">' + FLIP[c.id].map(function(f, i){
+        return '<button type="button" class="fl-card' + (st[i] ? ' on' : '') + '" data-fl="' + c.id + ':' + i + '" aria-pressed="' + !!st[i] + '"><span class="fl-in"><span class="fl-front"><i>' + f[0] + '</i>' + esc(f[1]) + '</span><span class="fl-back">' + esc(f[2]) + '</span></span></button>';
+      }).join('') + '</div>'; } },
+    pioneers: { has: function(c){ return !!CHAT[c.id]; }, html: function(c, x){ return (x || '') + '<div class="wtk-x" data-wk="pioneers:' + c.id + '">' + WTK.pioneers.inner(c) + '</div>'; }, inner: function(c){
+      var n = WTKS.chat[c.id] || 1, list = CHAT[c.id], p = PN[c.id];
+      var h = '<div class="ch-box"><div class="ch-top">' + pimg(c.id, 'ch-av') + '<b>' + esc(p[0]) + '</b><small>' + p[1] + '–' + p[2] + '</small></div><div class="ch-msgs">';
+      for (var i = 0; i < Math.min(n, list.length); i++) h += '<p class="ch-me">' + esc(list[i][0]) + '</p><p class="ch-them' + (i === n - 1 ? ' new' : '') + '">' + esc(list[i][1]) + '</p>';
+      h += '</div>' + (n < list.length ? '<div class="ch-ask"><span>Ask:</span><button type="button" class="ch-q" data-chq="' + c.id + '">' + esc(list[n][0]) + '</button></div>' : '<p class="ch-end">That’s ' + esc(p[0].split(' ')[0] === 'J.' ? 'J. N. Andrews' : p[0].split(' ')[0]) + '’s story. Tap Next to meet the next pioneer.</p>') + '</div>';
+      return h; } },
+    packcamp: { has: function(c){ return !!CKLIST[c.id]; }, html: function(c){ return '<div class="wtk-x" data-wk="packcamp:' + c.id + '">' + WTK.packcamp.inner(c) + '</div>'; }, inner: function(c){
+      var st = WTKS.check[c.id] || {}, list = CKLIST[c.id], done = list.filter(function(_, i){ return st[i]; }).length;
+      return '<div class="ck-paper"><div class="ck-head"><b>📋 Checklist</b><span>' + done + ' of ' + list.length + ' ticked</span></div>' + list.map(function(r, i){
+        return '<button type="button" class="ck-row' + (st[i] ? ' on' : '') + '" data-ck="' + c.id + ':' + i + '" aria-pressed="' + !!st[i] + '"><span class="ck-box">' + (st[i] ? '✓' : '') + '</span><span class="ck-ic">' + r[0] + '</span><span class="ck-t"><b>' + esc(r[1]) + '</b><small>' + esc(r[2]) + '</small></span></button>';
+      }).join('') + '</div>'; } }
+  };
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-fl],[data-chq],[data-ck]'); if (!b) return;
+    if (b.hasAttribute('data-fl')) { var f = b.getAttribute('data-fl').split(':'), s = WTKS.flip[f[0]] || (WTKS.flip[f[0]] = {}); s[f[1]] = !s[f[1]]; b.classList.toggle('on', !!s[f[1]]); b.setAttribute('aria-pressed', !!s[f[1]]); SFX.pop(); return; }
+    if (b.hasAttribute('data-chq')) { var id = b.getAttribute('data-chq'); WTKS.chat[id] = (WTKS.chat[id] || 1) + 1; SFX.pop(); wtkRedraw(b, 'pioneers', id); return; }
+    if (b.hasAttribute('data-ck')) { var k = b.getAttribute('data-ck').split(':'), t = WTKS.check[k[0]] || (WTKS.check[k[0]] = {}); t[k[1]] = !t[k[1]]; if (t[k[1]]) SFX.coin();
+      try { localStorage.setItem('gq-wtk-check', JSON.stringify(WTKS.check)); } catch (er) {} wtkRedraw(b, 'packcamp', k[0]); }
+  });
+  function wtkRedraw(from, k, id){
+    var box = from.closest('.wtk-x'), c = L[k].cards.filter(function(x){ return x.id === id; })[0];
+    if (box && c) box.innerHTML = WTK[k].inner(c);
+  }
+
+  /* ======================= HOOKS: What to know + new games ======================= */
+  var GKI = {};
+  function wtkHTML(k, c, x){
+    var head = '<section class="sblock"><span class="eyebrow">What to know</span>';
+    if (STORY[k] && STORY[k][c.id]) return head + '<div class="stc" data-stk="' + k + '" data-sti="' + c.id + '"></div></section>';
+    if (typeof WTK !== 'undefined' && WTK[k] && WTK[k].has(c)) return head + WTK[k].html(c, x) + '</section>';
+    return head + (k === 'pioneers' && x ? x : '') + '<ul>' + c.p.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></section>';
+  }
+  function gamePanelHTML(k){
+    if (!NGAMES[k]) return '';
+    return '<section class="panel gkpanel" style="--c:' + L[k].c + '"><div class="gk-panelhead"><span class="gk-new-badge">New game</span></div><div id="gkhost"></div></section>';
+  }
+  function afterRender(){
+    [].forEach.call(app.querySelectorAll('.stc[data-stk]'), function(n){ var k = n.getAttribute('data-stk'), id = n.getAttribute('data-sti'); stMount(n, STORY[k][id], k + ':' + id); });
+    if (typeof WTK !== 'undefined') Object.keys(WTK).forEach(function(k){ if (WTK[k].mount) WTK[k].mount(app); });
+    var host = document.getElementById('gkhost');
+    if (host && S.topic && NGAMES[S.topic]) {
+      var g = GKI[S.topic] || (GKI[S.topic] = NGAMES[S.topic]());
+      host.appendChild(g.el);
+    }
+    if (!(S.topic && S.big)) stStop();
+  }
+
   /* ======================= RENDER + EVENTS ======================= */
   function render(){
     app.innerHTML = S.topic ? topicHTML(S.topic) : hubHTML();
     document.body.classList.toggle('lock', !!(S.topic && S.big && S.tab === 'learn'));
+    afterRender();
   }
   function goTopic(k){ S.topic = k; S.tab = 'learn'; S.sel = ''; S.big = false; S.viaHub = true; render(); window.scrollTo(0, 0); }
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && S.big){ S.big = false; render(); } });

@@ -2056,7 +2056,7 @@ var SHEET_EV = 'Evidence', SHEET_DATES = 'Completed dates', SHEET_PROG = 'Progra
 
 /* ---------- the website's connection ---------- */
 var API_FNS = { getQuest: 1, sync: 1, s_join: 1, s_whoami: 1, s_visit: 1, s_submit: 1, l_whoami: 1, l_join: 1, l_visit: 1, l_submit: 1,
-  api_boot: 1, p_photos: 1, p_photo: 1, p_addPhoto: 1, p_deletePhoto: 1, parent_view: 1, parent_photo: 1 };
+  api_boot: 1, p_photos: 1, p_photo: 1, p_addPhoto: 1, p_deletePhoto: 1, parent_view: 1, parent_photo: 1, l_game: 1, l_top: 1 };
 
 function apiGlobal_() { return typeof globalThis !== 'undefined' ? globalThis : this; }
 
@@ -2575,7 +2575,7 @@ function c_saveExtras(pin, t, patch, who) {
 /** A new personal link keeps everything the Guide has done: answers, scores, photos, dates, notes, parent link and attendance follow it. */
 function retoken_(old, tok) {
   if (!old || !tok) return;
-  var cols = [[SHEET_ANS, 6], [SHEET_CH, 8], [SHEET_EV, 9], [SHEET_DATES, 5], [SHEET_PAR, 4]];
+  var cols = [[SHEET_ANS, 6], [SHEET_CH, 8], [SHEET_EV, 9], [SHEET_DATES, 5], [SHEET_PAR, 4], [SHEET_GAME, 6]];
   var xs = sheetIf_(SHEET_XTRA);
   if (xs && xs.getLastRow() >= 2) { var xc = xtCols_(xs); if (xc.token) cols.push([SHEET_XTRA, xc.token]); }
   cols.forEach(function (x) {
@@ -2597,4 +2597,100 @@ function advText_(a) {
   var signed = ADVC.filter(function (c) { return a[c] && a[c].sign; }), ready = ADVC.filter(function (c) { return a[c] && a[c].done && !a[c].sign; });
   return signed.length + ' of 6 signed off' + (signed.length ? ' (' + signed.map(function (c) { return ADV_INFO[c].name; }).join(', ') + ')' : '')
     + (ready.length ? '; marked done and waiting for sign-off: ' + ready.map(function (c) { return ADV_INFO[c].name; }).join(', ') : '');
+}
+
+/* =====================================================================
+   GAMES (version 14): each Guide's best score in each new game, and the
+   class top-scores board.
+   ===================================================================== */
+var SHEET_GAME = 'Game scores';
+var GAME_IDS = {
+  'church:ladder': 'Church Map · Climb the church ladder',
+  'sanctuary:setup': 'Sanctuary · Set up the sanctuary',
+  'fire:build': 'Fire · Build the right fire',
+  'lashing:tower': 'Knots and Lashings · Build the tower',
+  'orienteering:race': 'Orienteering · Map race',
+  'packcamp:pack': 'Pack Camp · Pack the backpack',
+  'nutrition:run': 'Nutrition · Healthy run',
+  'fruit:basket': 'Fruit of the Spirit · Fruit basket',
+  'pioneers:timeline': 'Adventist Pioneers · Timeline and memory',
+  'ecology:creek': 'Ecology · Save the creek',
+  'legion:path': 'Legion of Honour · Choose your path'
+};
+
+function setupGames_() {
+  var sh = sheet_(SHEET_GAME);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(['Guide', 'Game', 'Best score', 'Times played', 'Last played', 'Token']);
+    sh.setFrozenRows(1);
+    sh.getRange(1, 1, 1, 6).setFontWeight('bold');
+    sh.setColumnWidth(1, 180); sh.setColumnWidth(2, 260);
+  }
+  return sh;
+}
+function gameRows_() {
+  var sh = sheetIf_(SHEET_GAME);
+  if (!sh || sh.getLastRow() < 2) return [];
+  return sh.getRange(2, 1, sh.getLastRow() - 1, 6).getValues().map(function (r, i) {
+    return { row: i + 2, name: String(r[0]), game: String(r[1]), best: Number(r[2]) || 0, plays: Number(r[3]) || 0, last: r[4], t: String(r[5]) };
+  });
+}
+/** "Ann Smith" -> "Ann S." so the class board shows first names only. */
+function boardName_(n) {
+  var p = String(n || '').trim().split(/\s+/);
+  return p.length > 1 ? p[0] + ' ' + p[p.length - 1].charAt(0).toUpperCase() + '.' : (p[0] || 'Guide');
+}
+function gameTop_(rows, game, n, t) {
+  var list = rows.filter(function (x) { return x.game === game && x.best > 0; })
+    .sort(function (a, b) { return b.best - a.best || (a.last < b.last ? -1 : 1); });
+  var out = list.slice(0, n).map(function (x, i) { return { rank: i + 1, name: boardName_(x.name), score: x.best, me: !!t && x.t === t }; });
+  if (t && !out.some(function (x) { return x.me; })) {
+    for (var i = n; i < list.length; i++) if (list[i].t === t) { out.push({ rank: i + 1, name: boardName_(list[i].name), score: list[i].best, me: true }); break; }
+  }
+  return out;
+}
+function cleanGame_(game) {
+  game = String(game || '');
+  if (!GAME_IDS[game]) throw new Error('bad-request');
+  return game;
+}
+
+/** A finished game. Keeps the Guide's best and returns the class top 5. */
+function l_game(t, game, score) {
+  t = cleanToken_(t); game = cleanGame_(game);
+  score = Math.round(Number(score));
+  if (!(score >= 0 && score <= 100000)) throw new Error('bad-request');
+  var g = guideByToken_(t);
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var sh = setupGames_(), rows = gameRows_(), mine = rows.filter(function (x) { return x.t === g.t && x.game === GAME_IDS[game]; })[0];
+    var best = score, now = new Date(), prev = mine ? mine.best : 0;
+    if (mine) {
+      best = Math.max(mine.best, score);
+      sh.getRange(mine.row, 1, 1, 5).setValues([[safe_(g.name), GAME_IDS[game], best, mine.plays + 1, now]]);
+      mine.best = best; mine.plays++; mine.last = now; mine.name = g.name;
+    } else {
+      sh.appendRow([safe_(g.name), GAME_IDS[game], best, 1, now, g.t]);
+      rows.push({ row: sh.getLastRow(), name: g.name, game: GAME_IDS[game], best: best, plays: 1, last: now, t: g.t });
+    }
+    return { best: best, newBest: score > prev, top: gameTop_(rows, GAME_IDS[game], 5, g.t) };
+  } finally { lock.releaseLock(); }
+}
+/** The class board for one game, for anyone with the class link. */
+function l_top(game, t) {
+  game = cleanGame_(game); t = cleanToken_(t);
+  var rows = gameRows_(), mine = t ? rows.filter(function (x) { return x.t === t && x.game === GAME_IDS[game]; })[0] : null;
+  return { best: mine ? mine.best : 0, top: gameTop_(rows, GAME_IDS[game], 5, t) };
+}
+/** Dashboard: every game with every Guide's best. */
+function c_games(pin) {
+  checkPin_(pin);
+  var rows = gameRows_();
+  return Object.keys(GAME_IDS).map(function (id) {
+    var name = GAME_IDS[id];
+    var list = rows.filter(function (x) { return x.game === name; }).sort(function (a, b) { return b.best - a.best; })
+      .map(function (x) { return { name: x.name, t: x.t, best: x.best, plays: x.plays, last: x.last ? Utilities.formatDate(new Date(x.last), Session.getScriptTimeZone(), 'd MMM') : '' }; });
+    return { id: id, name: name, rows: list };
+  });
 }
