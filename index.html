@@ -1,1 +1,1224 @@
-<!doctype html><meta charset="utf-8"><title>Guide Quest</title><p>Guide Quest is being set up. Check back soon.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guide Quest</title>
+<meta name="theme-color" content="#1F4D3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#F2F4EC; --surface:#FFFFFF; --surface2:#E6EBDF; --ink:#17231C; --muted:#526057; --line:#D2D9CA;
+  --pine:#1F4D3A; --pine-ink:#FFFFFF; --gold:#E9A91C; --gold-ink:#17231C;
+  --good:#1E7A46; --good-ink:#FFFFFF; --good-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FBE4E1;
+  --m1:#C4452C; --m1-ink:#FFFFFF; --m1-text:#A63A24; --m1-soft:#F8E3DC;
+  --m2:#0E7373; --m2-ink:#FFFFFF; --m2-text:#0A5E5E; --m2-soft:#D9EEEC;
+  --m3:#6A3D9A; --m3-ink:#FFFFFF; --m3-text:#5A3188; --m3-soft:#ECE3F5;
+  --m4:#2E6A3E; --m4-ink:#FFFFFF; --m4-text:#245633; --m4-soft:#DDEBDD;
+  --m5:#E9A91C; --m5-ink:#17231C; --m5-text:#7A5300; --m5-soft:#FBEFCB;
+  --base:#24407A; --base-ink:#FFFFFF; --base-text:#24407A; --base-soft:#DFE6F5;
+  --shadow:0 1px 2px rgba(23,35,28,.07), 0 6px 18px rgba(23,35,28,.06);
+  --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+    --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+    --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+    --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+    --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+    --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+    --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+    --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+    --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+  --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+  --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+  --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+  --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+  --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+  --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+  --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+  --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+  --shadow:0 1px 2px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:580px;margin:0 auto;padding-inline:16px;padding-block:10px 56px;display:flex;flex-direction:column;gap:18px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+.wordmark{font-family:var(--display);font-weight:800;font-size:22px;color:var(--pine);display:flex;align-items:center;gap:8px}
+.wordmark svg{flex-shrink:0}
+.who{display:flex;align-items:center;gap:8px;min-height:44px;padding:4px 14px 4px 4px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700;font-size:14px;max-width:60%}
+.who span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--pine);color:var(--pine-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.back{min-height:44px;padding:0 14px 0 8px;border-radius:12px;border:none;background:transparent;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
+
+/* buttons */
+.btn{min-height:46px;white-space:nowrap;border-radius:12px;padding:0 18px;font-weight:800;font-size:15px;border:2px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--pine);color:var(--pine-ink)}
+.btn-ghost{background:transparent;border-color:var(--line)}
+.btn-block{width:100%}
+.btn-small{min-height:40px;font-size:14px;padding:0 14px}
+
+/* hero */
+.hero{background:var(--surface);border-radius:22px;padding:20px;display:flex;gap:18px;align-items:center;box-shadow:var(--shadow)}
+.hero-text{display:flex;flex-direction:column;gap:8px;min-width:0}
+.hero h1{font-size:28px;line-height:1.05}
+.ring{flex-shrink:0}
+.ring-track{stroke:var(--surface2)}
+.ring-val{stroke:var(--gold);transition:stroke-dashoffset .5s ease}
+.ring-num{font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink)}
+.ring-sub{font-family:var(--body);font-weight:700;font-size:12px;fill:var(--muted)}
+.namecard{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.namecard h1{font-size:30px;line-height:1.05;color:var(--pine)}
+.nudge{color:var(--bad);font-weight:700;font-size:14px}
+
+/* trail of missions */
+.trail{position:relative;display:flex;flex-direction:column;gap:14px}
+.trail::before{content:"";position:absolute;left:43px;top:40px;bottom:40px;border-left:3px dashed var(--line);z-index:0}
+.mcard{position:relative;z-index:1;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;cursor:pointer}
+.mcard:hover{border-color:var(--c)}
+.medal{width:56px;height:56px;border-radius:50%;background:var(--c);color:var(--ci);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:26px;box-shadow:0 0 0 4px var(--surface)}
+.mbody{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mname{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.15}
+.mblurb{font-size:14px;color:var(--muted)}
+.mcodes{font-size:12px;font-weight:800;color:var(--ct);letter-spacing:.03em}
+.bar{display:block;height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:4px}
+.bar>span{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .4s ease}
+.mstat{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.mstat small{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
+.mapbtn{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--pine);color:var(--pine-ink);border:none;border-radius:18px;padding:16px 18px;cursor:pointer}
+.mapbtn b{font-family:var(--display);font-size:19px;display:block}
+.mapbtn span{font-size:14px;opacity:.92}
+.note{font-size:13px;color:var(--muted);text-align:center}
+.note.warn{color:var(--bad);font-weight:700}
+
+/* mission view */
+.mhead{background:var(--c);color:var(--ci);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.mhead-top{display:flex;align-items:center;gap:14px}
+.mhead .medal{background:transparent;color:var(--ci);border:3px dashed var(--ci);box-shadow:none;width:64px;height:64px;font-size:30px;flex-shrink:0}
+.mhead h1{font-size:30px;line-height:1.05}
+.mhead p{font-size:15px}
+.covers{display:flex;flex-wrap:wrap;gap:6px}
+.covers span{background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.covers b{color:var(--ct)}
+.mprog{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px}
+.tasks{display:flex;flex-direction:column;gap:14px}
+.task{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
+.task.is-done{border-color:var(--good)}
+.task-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.task-top h2{font-size:19px;line-height:1.2;flex:1 1 180px}
+.code{background:var(--cs);color:var(--ct);border-radius:8px;padding:3px 8px;font-size:13px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+.ok-pill{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-size:13px;font-weight:800}
+.how{font-size:15px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field>span,.flabel{font-size:14px;font-weight:700}
+input[type=text],select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:10px 12px;font:16px var(--body)}
+input[type=text]::placeholder{color:var(--muted);opacity:.8}
+input[type=text]:focus,select:focus{border-color:var(--c);outline:none;box-shadow:0 0 0 3px var(--cs)}
+input.ok,select.ok{border-color:var(--good);background:var(--good-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--c);color:var(--ci);border-color:var(--c)}
+.chip.wrong[aria-pressed="true"]{background:var(--bad-soft);color:var(--bad);border-color:var(--bad);text-decoration:line-through}
+.rows{display:flex;flex-direction:column;gap:8px}
+.rowline{display:grid;grid-template-columns:auto minmax(0,1fr) 90px;gap:8px;align-items:center}
+.rowline.two{grid-template-columns:auto minmax(0,1fr) minmax(0,1.3fr)}
+.rowlabel{font-size:13px;font-weight:800;color:var(--ct);width:56px}
+.fb{font-size:14px;font-weight:800;color:var(--muted);display:flex;align-items:center;gap:6px}
+.fb.ok{color:var(--good)}
+.game{display:flex;flex-direction:column;gap:10px;background:var(--cs);border-radius:14px;padding:14px}
+.gline{display:flex;flex-direction:column;gap:5px}
+.gline>span{font-size:14px;font-weight:600}
+.gline>span b{color:var(--ct)}
+.ns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ns label{display:flex;align-items:center;gap:8px}
+.ns .letter{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:var(--c);color:var(--ci);font-family:var(--display);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center}
+details.hint summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--ct);min-height:32px;display:flex;align-items:center}
+details.hint p{font-size:14px;margin-top:4px}
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.flow .lvl{display:flex;flex-direction:column;gap:5px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.flow .lvl>span{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ct)}
+.flow .arrow{display:flex;justify-content:center;height:22px;color:var(--muted)}
+.donebtn{width:100%;min-height:50px;border-radius:14px;border:2px dashed var(--c);background:transparent;color:var(--ct);font-weight:800;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.task.is-done .donebtn{background:var(--good);border:2px solid var(--good);color:var(--good-ink)}
+.sign{background:var(--surface);border:2px dashed var(--c);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sign h3{font-size:18px}
+.signrow{display:flex;gap:8px}
+.signrow input{flex:1 1 auto;min-width:0}
+.signed{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--good)}
+
+/* quest map */
+.maphead{background:var(--surface);border-radius:22px;padding:20px;display:flex;gap:18px;align-items:center;box-shadow:var(--shadow)}
+.maphead h1{font-size:30px;line-height:1.05;color:var(--pine)}
+.section{background:var(--surface);border-radius:18px;padding:6px 16px 8px;border:1.5px solid var(--line)}
+.section h2{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 0 4px}
+.qrow{display:grid;grid-template-columns:26px 44px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--line);padding:11px 0;cursor:pointer;min-height:48px}
+.section h2+.qrow{border-top:none}
+.qdot{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center}
+.qdot.on{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.qcode{font-weight:800;font-size:13px;white-space:nowrap}
+.qtext{font-size:14px;line-height:1.3}
+.qtag{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--c);color:var(--ci);white-space:nowrap}
+.signs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.stile{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.stile b{font-size:14px}
+.stile span{font-size:13px;color:var(--muted)}
+.stile.on span{color:var(--good);font-weight:700}
+
+/* sheet */
+.backdrop{position:fixed;inset:0;background:rgba(10,16,12,.5);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--surface);border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:85%;overflow:auto}
+.sheet-in{max-width:580px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.sheet h2{font-size:22px}
+.plist{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;gap:8px;align-items:center}
+.pbtn{flex:1;display:flex;align-items:center;gap:10px;min-height:52px;border-radius:14px;border:1.5px solid var(--line);background:var(--ground);padding:6px 12px;cursor:pointer;text-align:left;font-weight:700}
+.pbtn[aria-current="true"]{border-color:var(--pine);box-shadow:0 0 0 2px var(--pine)}
+.pbtn small{margin-left:auto;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.xbtn{min-height:52px;min-width:52px;border-radius:14px;border:1.5px solid var(--line);background:transparent;cursor:pointer;color:var(--muted);font-weight:700;font-size:13px;padding:0 10px}
+.xbtn.confirm{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+@media (max-width:380px){.hero,.maphead{flex-direction:column;align-items:flex-start}.ns{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.mapbtn.sanct{background:#2B4C8C;color:#FFFFFF;text-decoration:none}
+a.btn{text-decoration:none;color:var(--ink)}
+.savepill{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.savepill.saving{color:var(--pine)}
+.savepill.retry,.savepill.badlink{color:var(--bad);border-color:var(--bad)}
+.lab{display:flex;flex-direction:column;gap:10px}
+.labhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.labhead h2{font-size:22px}
+.labhead a{font-weight:800;font-size:14px;color:var(--pine)}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.labtile{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;line-height:1.2}
+.labtile .li{font-size:22px;flex-shrink:0}
+.labtile small{display:block;color:var(--muted);font-size:12px;font-weight:700}
+.labbtn .li{font-size:20px}
+
+/* Version 13: Advanced, photos, joining */
+.small{font-size:13px}
+textarea{width:100%;max-width:100%;min-height:120px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:10px 12px;font:16px/1.5 var(--body);resize:vertical}
+textarea:focus,input[type=number]:focus{border-color:var(--c,var(--pine));outline:none}
+input[type=number]{width:100%;min-height:42px;border:1.5px solid var(--line);border-radius:10px;background:var(--ground);color:var(--ink);padding:6px 10px;font:16px var(--body)}
+.wc{font-size:13px;font-weight:800;color:var(--muted);align-self:flex-end}
+.wc.ok{color:var(--good)}
+.advreq{font-size:14px;background:var(--surface2);border-radius:12px;padding:10px 12px}
+.mapbtn.adv{background:var(--base);color:var(--base-ink)}
+.mapbtn .star{font-size:24px;line-height:1}
+.checks{display:flex;flex-direction:column;gap:6px}
+.chk{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;min-height:44px;padding:9px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:14px;line-height:1.35;cursor:pointer}
+.chkbox{flex:0 0 22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.chk[aria-pressed="true"]{border-color:var(--c,var(--good))}
+.chk[aria-pressed="true"] .chkbox{background:var(--c,var(--good));border-color:var(--c,var(--good));color:var(--ci,#fff)}
+.qz{display:flex;flex-direction:column;gap:6px;padding:8px 0;border-top:1px solid var(--line)}
+.qz:first-of-type{border-top:none}
+.qopts{display:flex;flex-direction:column;gap:6px}
+.qopt{text-align:left;min-height:42px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);font-size:14px;cursor:pointer}
+.qopt.right{border-color:var(--good);background:var(--good-soft);font-weight:700}
+.qopt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tcday{background:var(--surface);border-radius:12px;padding:10px 12px}
+.tcday summary{display:flex;justify-content:space-between;gap:10px;cursor:pointer;min-height:32px;align-items:center}
+.tctot{font-weight:800;font-size:13px;color:var(--muted)}
+.tctot.ok{color:var(--good)}
+.tcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:8px}
+.tcgrid label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.tcbar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:10px;background:var(--surface2)}
+.tcbar span{background:var(--c,var(--pine));border-right:1px solid var(--surface)}
+.tcbar span:nth-child(odd){opacity:.7}
+.stcrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.stcrow>div{display:flex;flex-direction:column;gap:6px;flex:1}
+.stcbox{flex:0 0 34px;height:34px;border-radius:9px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
+.stcbox[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.lesson section{display:flex;flex-direction:column;gap:4px;padding:8px 0;border-top:1px solid var(--line)}
+.lesson section:first-child{border-top:none}
+.lesson h3{font-size:17px}
+.vref{font-size:12.5px;font-weight:800;color:var(--ct,var(--muted))}
+.invite{text-align:left;font-weight:600;font-size:14px;line-height:1.4;white-space:normal;height:auto;padding:10px 14px}
+.timer{font-family:var(--display);font-size:44px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}
+.timer.ok{color:var(--good)}
+.btnrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ev{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:10px}
+.evh{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.evgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.evthumb{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);overflow:hidden;padding:0;cursor:pointer}
+.evthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.evload{display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--surface2),var(--surface),var(--surface2));background-size:200% 100%;animation:shim 1.2s infinite}
+@keyframes shim{to{background-position:-200% 0}}
+.evadd{aspect-ratio:1;border-radius:12px;border:2px dashed var(--c,var(--pine));display:grid;place-items:center;text-align:center;font-weight:800;font-size:13px;color:var(--ct,var(--pine));cursor:pointer;padding:6px;position:relative}
+.evadd input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.evadd.busy{opacity:.6}
+.phview{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:21;width:min(94vw,640px);max-height:92vh;overflow:auto;background:var(--surface);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.phview img{width:100%;border-radius:12px;display:block}
+.phbar{display:flex;justify-content:space-between;align-items:center}
+.linkbtn{border:none;background:none;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;min-height:36px;align-self:center}
+@media (prefers-reduced-motion:reduce){.evload{animation:none}}
+</style>
+<style>
+.gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
+.gq-load b{font-size:20px;color:#17231C}
+.gq-load button{min-height:44px;padding:0 20px;border-radius:12px;border:none;background:#1F4D3A;color:#fff;font:800 15px Figtree,system-ui,sans-serif;cursor:pointer}
+.gq-spin{width:34px;height:34px;border-radius:50%;border:4px solid #D2D9CA;border-top-color:#1F4D3A;animation:gqspin 0.9s linear infinite}
+@keyframes gqspin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){.gq-load{color:#A7B4AA}.gq-load b{color:#E9EFE6}.gq-load button{background:#86CFA0;color:#0E1612}.gq-spin{border-color:#2E3D34;border-top-color:#86CFA0}}
+</style>
+</head>
+<body>
+<script>
+(function(){
+  var p = new URLSearchParams(location.search), to = '';
+  if (p.has('c')) to = 'counsellor.html';
+  else if (p.get('p') === 'learn') to = 'learn.html';
+  else if (p.get('p') === 's') to = 'sanctuary.html';
+  else if (p.has('parent')) to = 'parent.html';
+  if (to) { window.__gqRouted = true; location.replace(to + location.search + location.hash); }
+})();
+</script>
+<script src="gq.js"></script>
+
+<div id="app"></div>
+<script type="text/gq">
+var BOOT = window.__GQBOOT;
+(function(){
+  var TOKEN = BOOT.token;
+  var G = BOOT.data;
+  var SANCT = BOOT.base && TOKEN ? BOOT.base + '?t=' + TOKEN + '&p=s' : '';
+  var LAB = BOOT.base && TOKEN ? BOOT.base + '?t=' + TOKEN + '&p=learn' : '';
+  var LAB_TOPICS = BOOT.topics || [{id:'sanctuary', name:'Sanctuary Explorer', code:'SD2'}];
+  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭'};
+  var LAB_BY_CODE = {}; LAB_TOPICS.forEach(function(t){ LAB_BY_CODE[t.code] = t; });
+  function labHref(t, from, code){ return (t.id === 'sanctuary' ? SANCT : LAB + '&k=' + t.id) + '&from=' + from + (code ? '&f=' + code : ''); }
+  var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var FLAG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
+  var ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>';
+  var BACK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+  var TENT = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-6h4v6"/></svg>';
+  var COMPASS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>';
+
+  var SECTIONS = [['G','General'],['SD','Spiritual Discovery'],['CO','Community Outreach'],['FD','Friendship Development'],['HF','Health and Fitness'],['OL','Organisation and Leadership'],['NS','Nature Study'],['OD','Outdoor Living'],['LE','Lifestyle Enrichment']];
+  var REQ = {
+    G1:'Be 15 years old and/or in Year 11 or equivalent',
+    G2:'Know and understand the AY Legion of Honour',
+    G3:'Be an active member of the Pathfinder Club',
+    G4:'Read a Teen Book Club book and a local church history book',
+    SD1:'Discuss the gifts of the Spirit from Galatians',
+    SD2:'How the sanctuary service points to the cross and Jesus',
+    SD3:'Outline and tell 3 Adventist pioneer stories at worship',
+    SD4:'Have a current Memory Gem Certificate',
+    CO1:'Friendship visit to a shut-in, or adopt a family in need',
+    CO2:'Discuss witnessing to teens and put it into practice',
+    FD1:'Examine your attitudes on two life topics',
+    HF1:'Present the laws of good health to a younger group',
+    HF2:'Fun Run with a recorded training programme',
+    HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
+    OL1:'Flow chart of church organisation, with your Division',
+    OL2:'Attend a Basic Pathfinder Staff Training Course',
+    OL3:'Plan and teach 2 honour requirements to Juniors',
+    NS1:'Desire of Ages ch. 7 and an original nature parable',
+    NS2:'Ecology or Environmental Conservation Honour',
+    OD1:'Two-night pack camp, and discuss the equipment',
+    OD2:'Plan and cook a three-course meal on an open fire',
+    OD3:'Complete an object of lashing or rope work',
+    OD4:'New honour toward a Master award',
+    LE1:'New honour in a lifestyle area'
+  };
+  var CODES = Object.keys(REQ);
+  var TOTAL = CODES.length;
+
+  var MISSIONS = [
+    {id:'m1', n:1, name:'Hands of Jesus', short:'Serve, sing, pray and share your story',
+      blurb:'Visit a shut-in or help a family in need, and bring a teen friend. While you are there, help with a real job, sing together, pray, and share your testimony.', tasks:['CO1','CO2']},
+    {id:'m2', n:2, name:'Guide for a Day', short:'Lead one Junior Pathfinder meeting',
+      blurb:'Take charge of one Junior meeting: open with your nature parable, give a health talk, then teach two requirements of an honour.', tasks:['NS1','HF1','OL3']},
+    {id:'m3', n:3, name:'Worship Takeover', short:'Your class runs one worship service',
+      blurb:'Open with the whole class reciting the Legion of Honour, tell three pioneer stories, then show how the sanctuary points to Jesus.', tasks:['G2','SD2','SD3']},
+    {id:'m4', n:4, name:'Two-Night Trek', short:'One camp-out, six requirements',
+      blurb:'Go on a two-night pack camp. Talk through the gear, cook a three-course fire meal, lash a gadget, run a sunrise Fun Run, and hold two campfire talks.', tasks:['OD1','OD2','OD3','HF2','SD1','FD1']},
+    {id:'m5', n:5, name:'Church Map', short:'From the world church down to yours',
+      blurb:'After a class talk on how the Adventist church is organised, map it from the General Conference down to your own church.', tasks:['OL1']},
+    {id:'base', n:0, name:'Base Camp', short:'Records and honours you already have',
+      blurb:'Things you have already done or earned. Fill in the details, tick each one, and your counsellor will sign them off.', tasks:['G1','G3','G4','SD4','OL2','HF3','NS2','OD4','LE1']}
+  ];
+  var MBY = {}; MISSIONS.forEach(function(m){ MBY[m.id] = m; });
+  function missionOf(code){ for (var i=0;i<MISSIONS.length;i++){ if (MISSIONS[i].tasks.indexOf(code) > -1) return MISSIONS[i]; } return null; }
+
+  var TASKS = {
+    CO1:{title:'Serve someone in need', how:'As a class, make a friendship visit to a shut-in, or adopt a person or family and help them.', fields:[
+      {t:'text',k:'date',label:'Date and place'},
+      {t:'text',k:'who',label:'Who we served'},
+      {t:'chips',k:'helped',label:'We helped by…',opts:['Cleaning or yard work','Food hamper','Cooking a meal','Small repairs','Reading and visiting','Something else']},
+      {t:'text',k:'song',label:'Song we sang together'}]},
+    CO2:{title:'Share Jesus with a teen', how:'Talk as a class about witnessing to other teenagers. Then bring a teen friend on the visit and share your testimony in three short beats.', fields:[
+      {t:'text',k:'t1',label:'1 · Before I knew Jesus…'},
+      {t:'text',k:'t2',label:'2 · How Jesus met me…'},
+      {t:'text',k:'t3',label:'3 · My life now…'},
+      {t:'text',k:'tip',label:'A witnessing tip from our class talk'},
+      {t:'text',k:'friend',label:'I used it with (friend’s first name) and…'}]},
+    NS1:{title:'Tell a nature parable', how:'Read <i>The Desire of Ages</i>, chapter 7 (“As a Child”). Find your own lesson in nature and tell it to the Juniors.', fields:[
+      {t:'text',k:'learned',label:'In chapter 7, Jesus learned from…'},
+      {t:'text',k:'saw',label:'In nature I observed…'},
+      {t:'text',k:'lesson',label:'It teaches me that God…'},
+      {t:'text',k:'text',label:'Bible text'}]},
+    HF1:{title:'Teach the 8 laws of health', how:'Fill in the NEWSTART laws, then teach them to the Juniors in a short, fun talk.', fields:[
+      {t:'game',game:'newstart'},
+      {t:'text',k:'when',label:'Taught to (group) on (date)'}]},
+    OL3:{title:'Teach an honour to Juniors', how:'Plan and teach at least two requirements of any honour.', fields:[
+      {t:'text',k:'honour',label:'Honour'},
+      {t:'text',k:'r1',label:'Requirement I taught'},
+      {t:'text',k:'r2',label:'Second requirement I taught'},
+      {t:'chips',k:'method',label:'How I taught it',opts:['Demo','Game','Hands-on','Quiz']}]},
+    G2:{title:'AY Legion of Honour', how:'Say it together as a class. Then pick the missing word for each line.', fields:[
+      {t:'game',game:'loh'},
+      {t:'text',k:'meaning',label:'In my own words, it means…'}]},
+    SD2:{title:'The sanctuary points to Jesus', how:'Match each piece of sanctuary furniture to what it shows us about Jesus.', fields:[
+      {t:'game',game:'sanctuary'}]},
+    SD3:{title:'Tell 3 pioneer stories', how:'Pick three Adventist pioneers, jot one key point for each, then tell their stories at worship.', fields:[
+      {t:'rows',k:'p',n:3,cols:['Pioneer','Key point'],rowlabel:'Story'},
+      {t:'text',k:'where',label:'Told at (worship and date)'}]},
+    OD1:{title:'Pack for two nights', how:'Go on a two-night pack camp. Before you go, talk through what to bring.', fields:[
+      {t:'text',k:'site',label:'Camp site and dates'},
+      {t:'chips',k:'gear',label:'Gear we talked through',opts:['Tent or tarp','Sleeping bag','Flashlight','Water bottle','First-aid kit','Rain gear','Mess kit','Matches','Rope','Bible']}]},
+    OD2:{title:'Fire feast', how:'Plan and cook a three-course meal on an open fire.', fields:[
+      {t:'text',k:'starter',label:'Starter'},
+      {t:'text',k:'main',label:'Main'},
+      {t:'text',k:'dessert',label:'Dessert'}]},
+    OD3:{title:'Lash a camp gadget', how:'Build something useful with lashings or rope work.', fields:[
+      {t:'text',k:'built',label:'We built a…'},
+      {t:'chips',k:'lash',label:'Lashings we used',opts:['Square','Diagonal','Shear','Tripod','Round']}]},
+    HF2:{title:'Sunrise Fun Run', how:'Train for three weeks, then run it together at camp.', fields:[
+      {t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true},
+      {t:'text',k:'run',label:'Run day: distance and time'}]},
+    SD1:{title:'Fruit of the Spirit', how:'Read Galatians 5:22–23 around the campfire and talk about how the Spirit grows these in us. Tap the nine fruits.', fields:[
+      {t:'game',game:'fruit'},
+      {t:'text',k:'grow',label:'The fruit I want God to grow in me'}]},
+    FD1:{title:'Campfire talk', how:'Discuss two of these topics as a group, then think about your own attitude.', fields:[
+      {t:'chips',k:'topics',label:'Pick the two topics you discussed',max:2,opts:['Choosing a career','Moral behaviour','Sex and dating','Choosing a life partner']},
+      {t:'text',k:'decided',label:'One thing I decided'}]},
+    OL1:{title:'Map the church', how:'Pick the right name for each level, then add your own church.', fields:[
+      {t:'game',game:'church'},
+      {t:'text',k:'hq',label:'Our Division’s headquarters are in…'}]},
+    G1:{title:'Age and grade', fields:[{t:'text',k:'age',label:'My age, and grade or year'}]},
+    G3:{title:'Active club member', how:'Dues paid, and at 75% or more of club activities.'},
+    G4:{title:'Two books', fields:[
+      {t:'text',k:'b1',label:'Teen Book Club book'},
+      {t:'text',k:'b2',label:'Local church history book'}]},
+    SD4:{title:'Memory Gem Certificate', fields:[{t:'text',k:'date',label:'Date received'}]},
+    OL2:{title:'Staff Training Course', how:'The conference-run Basic Pathfinder Staff Training Course.', fields:[{t:'text',k:'where',label:'Where and when'}]},
+    HF3:{title:'Health honour', how:'Nutrition Honour, or lead a group through the Physical Fitness Honour.', fields:[{t:'text',k:'h',label:'Which one, and when'}]},
+    NS2:{title:'Nature honour', how:'Ecology Honour or Environmental Conservation Honour.', fields:[{t:'text',k:'h',label:'Which one, and when'}]},
+    OD4:{title:'Honour toward a Master', how:'A new honour that counts toward the Aquatic, Sportsman, Recreation or Wilderness Master.', fields:[{t:'text',k:'h',label:'Honour and date'}]},
+    LE1:{title:'Lifestyle honour', how:'A new honour in Outreach Ministries, Outdoor Industries, Vocational, Health and Science, or Household Arts.', fields:[{t:'text',k:'h',label:'Honour and date'}]}
+  };
+
+  var GAME_KEYS = {loh:'G2.loh', sanctuary:'SD2.match', church:'OL1.map', newstart:'HF1.ns', fruit:'SD1.fruit'};
+  var GAME_LABELS = {'G2.loh':'Legion of Honour game','SD2.match':'Sanctuary match game','OL1.map':'Church map game','HF1.ns':'NEWSTART game','SD1.fruit':'Fruits of the Spirit tapped'};
+  var LOH_LINES = ['that which I choose to','that to which I choose to','the choice of places to which I','the choice of','that which I choose to','the care I give my'];
+  var LOH_KEY = ['BEHOLD','LISTEN','GO','ASSOCIATES','SPEAK','BODY TEMPLE'];
+  var LOH_OPTS = ['SPEAK','GO','BEHOLD','BODY TEMPLE','LISTEN','ASSOCIATES'];
+  var FURN = ['Altar of burnt offering','Laver (wash basin)','Table of showbread','Golden lampstand','Altar of incense','Ark of the covenant'];
+  var FURN_KEY = ['C','E','A','F','B','D'];
+  var MEAN = {A:'Jesus, the Bread of Life (John 6:35)',B:'Jesus prays for us (Hebrews 7:25)',C:'The Lamb of God who died for us (John 1:29)',D:'God’s law and His mercy (Hebrews 4:16)',E:'He washes us clean (Titus 3:5)',F:'The Light of the World (John 8:12)'};
+  var NS_LETTERS = ['N','E','W','S','T','A','R','T'];
+  var NS_ANS = [['nutrition'],['exercise'],['water'],['sunlight','sunshine','sun'],['temperance'],['air','fresh air'],['rest'],['trust','trust in god','faith']];
+  var FRUIT_OPTS = ['Love','Pride','Joy','Peace','Envy','Patience','Kindness','Goodness','Anger','Faithfulness','Gentleness','Self-control'];
+  var FRUITS = ['Love','Joy','Peace','Patience','Kindness','Goodness','Faithfulness','Gentleness','Self-control'];
+  var CH_LEVELS = ['World church','Division','Union','Conference'];
+  var CH_OPTS = ['Guyana Conference','General Conference','Caribbean Union Conference','Inter-American Division'];
+  var CH_KEY = ['General Conference','Inter-American Division','Caribbean Union Conference','Guyana Conference'];
+
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]; }); }
+  function fmt(c){ return c.replace(/^([A-Z]+)(\d+)$/, '$1 $2'); }
+  function mvars(id){ return '--c:var(--'+id+');--ci:var(--'+id+'-ink);--ct:var(--'+id+'-text);--cs:var(--'+id+'-soft)'; }
+  function initials(name){ var p = String(name||'').trim().split(/\s+/); return esc(((p[0]||'')[0]||'?').toUpperCase() + ((p[1]||'')[0]||'').toUpperCase()); }
+  function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').trim(); }
+  function arr(k){ var v = G.f[k]; return Array.isArray(v) ? v.slice() : []; }
+  function doneCount(){ var n=0; CODES.forEach(function(c){ if (G.done[c]) n++; }); return n; }
+  function mdone(m){ return m.tasks.filter(function(c){ return G.done[c]; }).length; }
+
+  function ring(n, total){
+    var r = 36, c = 2*Math.PI*r, p = total ? n/total : 0;
+    return '<svg class="ring" width="92" height="92" viewBox="0 0 88 88" role="img" aria-label="'+n+' of '+total+' requirements complete">'
+      + '<circle cx="44" cy="44" r="'+r+'" class="ring-track" fill="none" stroke-width="9"/>'
+      + '<circle cx="44" cy="44" r="'+r+'" class="ring-val" fill="none" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(2)+'" stroke-dashoffset="'+(c*(1-p)).toFixed(2)+'" transform="rotate(-90 44 44)"/>'
+      + '<text x="44" y="46" text-anchor="middle" class="ring-num">'+n+'</text>'
+      + '<text x="44" y="62" text-anchor="middle" class="ring-sub">of '+total+'</text></svg>';
+  }
+
+  /* ---------- saving to the Google Sheet ---------- */
+  var pending = {}, order = [], inflight = false, timer = null, status = 'saved', sending = { ids: [], ops: [] };
+  var STATUS_TEXT = {saved:'Saved', saving:'Saving…', retry:'Offline · retrying', badlink:'Link no longer works'};
+  function setStatus(s){
+    status = s;
+    var el = document.getElementById('savepill');
+    if (el){ el.textContent = STATUS_TEXT[s]; el.className = 'savepill ' + s; }
+  }
+  function queue(id, op){
+    if (!(id in pending)) order.push(id);
+    pending[id] = op;
+    setStatus('saving');
+    schedule(700);
+    savePending();
+  }
+  function schedule(ms){ clearTimeout(timer); timer = setTimeout(flush, ms); }
+  function flush(){
+    if (inflight || !order.length) return;
+    var ids = order.slice(), ops = ids.map(function(id){ return pending[id]; });
+    pending = {}; order = []; inflight = true; sending = { ids: ids, ops: ops };
+    google.script.run
+      .withSuccessHandler(function(res){
+        inflight = false; sending = { ids: [], ops: [] };
+        if (res) applyServer(res);
+        if (order.length) schedule(0); else setStatus('saved');
+        savePending();
+      })
+      .withFailureHandler(function(err){
+        inflight = false; sending = { ids: [], ops: [] };
+        var back = [];
+        ids.forEach(function(id, i){ if (!(id in pending)){ pending[id] = ops[i]; back.push(id); } });
+        order = back.concat(order);
+        savePending();
+        if (String(err && err.message || err).indexOf('link-not-found') > -1){ setStatus('badlink'); return; }
+        setStatus('retry'); schedule(5000);
+      })
+      .sync(TOKEN, ops);
+  }
+  function applyServer(res){
+    var changed = false;
+    if (res.signs && JSON.stringify(res.signs) !== JSON.stringify(G.signs)){ G.signs = res.signs; changed = true; }
+    if (res.done){
+      CODES.forEach(function(c){
+        if (('d:'+c) in pending) return;
+        var v = !!res.done[c];
+        if (v !== !!G.done[c]){ G.done[c] = v; changed = true; }
+      });
+    }
+    var a = document.activeElement;
+    var typing = a && (a.tagName === 'INPUT' || a.tagName === 'SELECT');
+    if (changed && !typing) rerender();
+  }
+  setInterval(function(){
+    if (!TOKEN || inflight || order.length || document.hidden || status === 'badlink') return;
+    google.script.run.withSuccessHandler(function(res){ if (res && !order.length) applyServer(res); })
+      .withFailureHandler(function(){}).getQuest(TOKEN);
+  }, 45000);
+  document.addEventListener('visibilitychange', function(){ if (document.hidden && order.length){ clearTimeout(timer); flush(); } });
+  window.addEventListener('beforeunload', function(e){ if (order.length || inflight){ flush(); e.preventDefault(); e.returnValue = ''; } });
+
+  function saveField(key, value, label){ G.f[key] = value; queue('a:'+key, {k:'a', key:key, value:value, label:label || GAME_LABELS[key] || key}); }
+
+  /* ---------- views ---------- */
+  var view = (BOOT.view === 'map' || BOOT.view === 'adv' || MBY[BOOT.view]) ? BOOT.view : 'home';
+
+  function topbar(showBack){
+    var left = showBack
+      ? '<button class="back" data-go="home">'+BACK+'Missions</button>'
+      : '<div class="wordmark">'+COMPASS+'Guide Quest</div>';
+    return '<div class="topbar">'+left+'<span id="savepill" class="savepill '+status+'" role="status" aria-live="polite">'+STATUS_TEXT[status]+'</span></div>';
+  }
+
+  function renderHome(){
+    var n = doneCount(), h = topbar(false);
+    var msg = n === TOTAL ? 'Every requirement is complete. Show your Quest Map to your counsellor.' : (TOTAL-n)+' requirement'+(TOTAL-n===1?'':'s')+' to go. Pick a mission below.';
+    h += '<section class="hero">'+ring(n,TOTAL)+'<div class="hero-text"><span class="eyebrow muted">Pathfinder Guide class</span><h1>Hi, '+esc(G.name)+'</h1><p class="muted">'+msg+'</p></div></section>';
+    h += '<div class="trail">';
+    MISSIONS.forEach(function(m){
+      var tot = m.tasks.length, d = mdone(m), pct = Math.round(100*d/tot), signed = G.signs[m.id];
+      h += '<button class="mcard" data-go="'+m.id+'" style="'+mvars(m.id)+'">'
+        + '<span class="medal">'+(m.n || FLAG)+'</span>'
+        + '<span class="mbody"><span class="mname">'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</span><span class="mblurb">'+esc(m.short)+'</span>'
+        + '<span class="mcodes">'+m.tasks.map(fmt).join(' · ')+'</span><span class="bar"><span style="width:'+pct+'%"></span></span></span>'
+        + '<span class="mstat">'+d+'/'+tot+(signed ? '<small>Signed</small>' : '')+'</span></button>';
+    });
+    h += '</div>';
+    h += '<button class="mapbtn" data-go="map">'+COMPASS+'<span><b>Quest Map</b><span>All 24 requirements on one screen</span></span></button>';
+    var advS = ADVC.filter(advSign).length, advD = ADVC.filter(advDone).length;
+    h += '<button class="mapbtn adv" data-go="adv"><span class="star" aria-hidden="true">★</span><span><b>Advanced (optional)</b><span>'+(advS ? advS+' of 6 signed off' : advD ? advD+' of 6 done' : 'Go further in six parts of the class')+'</span></span></button>';
+    var labs = LAB_TOPICS.filter(function(t){ return t.id === 'sanctuary' ? !!SANCT : true; }).sort(function(a, b){ return (a.id === 'sanctuary' ? 0 : 1) - (b.id === 'sanctuary' ? 0 : 1); });
+    if (LAB && labs.length){
+      h += '<section class="lab"><div class="labhead"><h2>Learning Lab</h2><a href="'+esc(LAB + '&from=home')+'">See all explorers</a></div>'
+        + '<p class="muted" style="font-size:14px">Learn each topic, play the game, then take the challenge.</p><div class="labgrid">'
+        + labs.map(function(t){ return '<a class="labtile" href="'+esc(labHref(t, 'home'))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS[t.id] || '')+'</span><span>'+esc(t.name)+'<small>'+fmt(t.code)+'</small></span></a>'; }).join('')
+        + '</div></section>';
+    }
+    h += '<p class="note">Everything you type saves to your club’s Guide Quest record. Keep this link to yourself.</p>';
+    h += '<button class="linkbtn" data-notme="1">Not '+esc(String(G.name).split(' ')[0])+'? Switch person</button>';
+    return '<div class="wrap">'+h+'</div>';
+  }
+
+  function fieldHTML(code, fd){
+    var k = code+'.'+fd.k;
+    if (fd.t === 'text'){
+      return '<label class="field"><span>'+esc(fd.label)+'</span><input type="text" id="f-'+k+'" data-k="'+k+'" data-label="'+esc(fd.label)+'" value="'+esc(G.f[k] || '')+'" autocomplete="off" maxlength="600"></label>';
+    }
+    if (fd.t === 'chips'){
+      var sel = arr(k);
+      return '<div class="field"><span class="flabel">'+esc(fd.label)+'</span><div class="chips">'
+        + fd.opts.map(function(o, i){ var on = sel.indexOf(o) > -1; return '<button class="chip" id="c-'+k+'-'+i+'" data-chip="'+k+'" data-label="'+esc(fd.label)+'" data-max="'+(fd.max||0)+'" data-val="'+esc(o)+'" aria-pressed="'+on+'">'+(on?CHECK:'')+esc(o)+'</button>'; }).join('')
+        + '</div></div>';
+    }
+    if (fd.t === 'rows'){
+      var out = '<div class="field"><div class="rows">';
+      for (var i=0;i<fd.n;i++){
+        out += '<div class="rowline'+(fd.narrow?'':' two')+'"><span class="rowlabel">'+esc(fd.rowlabel)+' '+(i+1)+'</span>';
+        fd.cols.forEach(function(col, j){ var kk = k+'.'+i+'.'+j, lb = fd.rowlabel+' '+(i+1)+' · '+col; out += '<input type="text" id="f-'+kk+'" data-k="'+kk+'" data-label="'+esc(lb)+'" value="'+esc(G.f[kk]||'')+'" placeholder="'+esc(col)+'" aria-label="'+esc(lb)+'" autocomplete="off" maxlength="300">'; });
+        out += '</div>';
+      }
+      return out + '</div></div>';
+    }
+    if (fd.t === 'area'){
+      var tv = String(G.f[k] || ''), wc = words(tv);
+      return '<label class="field"><span>'+esc(fd.label)+'</span><textarea id="f-'+k+'" data-k="'+k+'" data-label="'+esc(fd.label)+'" data-wc="'+(fd.target||0)+'" rows="'+(fd.target >= 300 ? 10 : 5)+'" maxlength="12000">'+esc(tv)+'</textarea>'
+        + (fd.target ? '<span class="wc'+(wc >= fd.target ? ' ok' : '')+'" id="wc-'+k+'">'+wc+' of '+fd.target+' words</span>' : '') + '</label>';
+    }
+    if (fd.t === 'checks'){
+      var sel2 = arr(k);
+      return '<div class="field"><span class="flabel">'+esc(fd.label)+'</span><div class="checks">' + fd.opts.map(function(o, i){
+        var val = fd.vals ? fd.vals[i] : o, on = sel2.indexOf(val) > -1;
+        return '<button class="chk" id="c-'+k+'-'+i+'" data-chip="'+k+'" data-label="'+esc(fd.label)+'" data-max="0" data-val="'+esc(val)+'" aria-pressed="'+on+'"><span class="chkbox">'+(on?CHECK:'')+'</span><span>'+esc(o)+'</span></button>'; }).join('') + '</div></div>';
+    }
+    if (fd.t === 'game') return GAMES[fd.game]();
+    return '';
+  }
+
+  function fb(n, total, doneMsg, id){
+    var ok = n === total;
+    return '<p class="fb'+(ok?' ok':'')+'"'+(id?' id="'+id+'"':'')+'>'+(ok ? CHECK+esc(doneMsg) : n+' of '+total+' correct')+'</p>';
+  }
+  function lohCorrect(a, i){
+    var v = a[i];
+    if (!v) return false;
+    if (i === 0 || i === 4){ var other = a[i === 0 ? 4 : 0]; return (v === 'BEHOLD' || v === 'SPEAK') && v !== other; }
+    return v === LOH_KEY[i];
+  }
+  function nsOk(v, i){ v = norm(v); if (!v) return false; return NS_ANS[i].some(function(a){ return v === a || v.indexOf(a) === 0; }); }
+
+  var GAMES = {
+    loh: function(){
+      var a = arr('G2.loh'), n = 0, h = '';
+      LOH_LINES.forEach(function(line, i){
+        var ok = lohCorrect(a, i); if (ok) n++;
+        h += '<label class="gline"><span><b>'+(i+1)+'</b> · I will honour Christ in '+esc(line)+'…</span><select id="g-loh-'+i+'" data-game="loh" data-i="'+i+'" class="'+(ok?'ok':'')+'"><option value="">Choose a word</option>'
+          + LOH_OPTS.map(function(o){ return '<option'+(a[i]===o?' selected':'')+'>'+o+'</option>'; }).join('') + '</select></label>';
+      });
+      return '<div class="game">'+h+fb(n,6,'All six lines correct')+'</div>';
+    },
+    sanctuary: function(){
+      var a = arr('SD2.match'), n = 0, h = '';
+      FURN.forEach(function(f, i){
+        var ok = a[i] === FURN_KEY[i]; if (ok) n++;
+        h += '<label class="gline"><span><b>'+(i+1)+'</b> · '+esc(f)+'</span><select id="g-san-'+i+'" data-game="sanctuary" data-i="'+i+'" class="'+(ok?'ok':'')+'"><option value="">It points to…</option>'
+          + 'ABCDEF'.split('').map(function(L){ return '<option value="'+L+'"'+(a[i]===L?' selected':'')+'>'+esc(MEAN[L])+'</option>'; }).join('') + '</select></label>';
+      });
+      return '<div class="game">'+h+fb(n,6,'Every piece points to Jesus')+'</div>';
+    },
+    newstart: function(){
+      var a = arr('HF1.ns'), n = 0, h = '<div class="ns">';
+      NS_LETTERS.forEach(function(L, i){
+        var ok = nsOk(a[i], i); if (ok) n++;
+        h += '<label><span class="letter" aria-hidden="true">'+L+'</span><input type="text" id="g-ns-'+i+'" data-ns="'+i+'" value="'+esc(a[i]||'')+'" class="'+(ok?'ok':'')+'" aria-label="Law of health starting with '+L+'" autocomplete="off" maxlength="40"></label>';
+      });
+      h += '</div>';
+      return '<div class="game">'+h+'<p class="fb'+(n===8?' ok':'')+'" id="fb-ns">'+(n===8 ? CHECK+'All eight laws in place' : n+' of 8 correct')+'</p>'
+        + '<details class="hint"><summary>Need a hint?</summary><p>Air · Exercise · Nutrition · Rest · Sunlight · Temperance · Trust in God · Water</p></details></div>';
+    },
+    fruit: function(){
+      var sel = arr('SD1.fruit'), found = 0;
+      var h = '<div class="chips">' + FRUIT_OPTS.map(function(o, i){
+        var on = sel.indexOf(o) > -1, real = FRUITS.indexOf(o) > -1; if (on && real) found++;
+        return '<button class="chip'+(real?'':' wrong')+'" id="g-fr-'+i+'" data-fruit="'+esc(o)+'" aria-pressed="'+on+'">'+(on && real ? CHECK : '')+esc(o)+'</button>';
+      }).join('') + '</div>';
+      var wrong = sel.filter(function(o){ return FRUITS.indexOf(o) < 0; }).length;
+      var ok = found === 9 && !wrong;
+      var msg = ok ? CHECK+'All nine fruits found' : found+' of 9 found'+(wrong ? ' · '+wrong+' of your picks is not a fruit' : '');
+      return '<div class="game">'+h+'<p class="fb'+(ok?' ok':'')+'">'+msg+'</p></div>';
+    },
+    church: function(){
+      var a = arr('OL1.map'), n = 0, h = '<div class="flow">';
+      CH_LEVELS.forEach(function(L, i){
+        var ok = a[i] === CH_KEY[i]; if (ok) n++;
+        h += '<label class="lvl"><span>'+esc(L)+'</span><select id="g-ch-'+i+'" data-game="church" data-i="'+i+'" class="'+(ok?'ok':'')+'"><option value="">Choose…</option>'
+          + CH_OPTS.map(function(o){ return '<option'+(a[i]===o?' selected':'')+'>'+esc(o)+'</option>'; }).join('') + '</select></label><div class="arrow">'+ARROW+'</div>';
+      });
+      h += '<label class="lvl"><span>Local church</span><input type="text" id="f-OL1.church" data-k="OL1.church" data-label="Local church" value="'+esc(G.f['OL1.church']||'')+'" placeholder="Our church’s name" autocomplete="off" maxlength="120"></label></div>';
+      return '<div class="game">'+h+'<p class="fb'+(n===4?' ok':'')+'">'+(n===4 ? CHECK+'Church map complete' : n+' of 4 levels correct')+'</p></div>';
+    }
+  };
+
+  function taskHTML(code){
+    var t = TASKS[code], d = !!G.done[code];
+    var h = '<article class="task'+(d?' is-done':'')+'" id="task-'+code+'">'
+      + '<div class="task-top"><span class="code">'+fmt(code)+'</span><h2>'+esc(t.title)+'</h2>'+(d ? '<span class="ok-pill">'+CHECK+'Done</span>' : '')+'</div>';
+    if (t.how) h += '<p class="how">'+t.how+'</p>';
+    (t.fields || []).forEach(function(fd){ h += fieldHTML(code, fd); });
+    var lt = LAB_BY_CODE[code];
+    if (lt && (lt.id === 'sanctuary' ? SANCT : LAB)){
+      h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(labHref(lt, view, code))+'">'
+        + (lt.id === 'sanctuary' ? TENT : '<span class="li" aria-hidden="true">'+(LAB_ICONS[lt.id] || '')+'</span>')
+        + 'Open the '+esc(lt.name)+(/Explorer$/.test(lt.name) ? '' : ' explorer')+'</a>';
+    }
+    if (TOKEN) h += photosHTML(code);
+    h += '<button class="donebtn" id="done-'+code+'" data-done="'+code+'" aria-pressed="'+d+'">'+(d ? CHECK+'Completed · tap to undo' : 'Mark '+fmt(code)+' complete')+'</button></article>';
+    return h;
+  }
+
+  function renderMission(mid){
+    var m = MBY[mid], tot = m.tasks.length, d = mdone(m), s = G.signs[mid];
+    var h = topbar(true);
+    h += '<header class="mhead"><div class="mhead-top"><span class="medal">'+(m.n || FLAG)+'</span><div><span class="eyebrow">'+(m.n ? 'Mission '+m.n : 'Records and honours')+'</span><h1>'+esc(m.name)+'</h1></div></div>'
+      + '<p>'+esc(m.blurb)+'</p><div class="covers">'+m.tasks.map(function(c){ return '<span><b>'+fmt(c)+'</b></span>'; }).join('')+'</div></header>';
+    h += '<div class="mprog"><span>'+d+' of '+tot+' complete</span><span class="bar"><span style="width:'+Math.round(100*d/tot)+'%"></span></span></div>';
+    h += '<div class="tasks">'+m.tasks.map(taskHTML).join('')+'</div>';
+    h += '<section class="sign"><h3>Counsellor sign-off</h3>'
+      + (s ? '<p class="signed">'+CHECK+'Signed off · '+esc(s)+'</p>' : '<p class="muted">When every part is done, your counsellor will check it and sign it off.</p>')
+      + '</section>';
+    var idx = MISSIONS.indexOf(m), next = MISSIONS[idx+1];
+    h += next ? '<button class="btn btn-ghost btn-block" data-go="'+next.id+'">Next: '+(next.n ? 'Mission '+next.n+' · ' : '')+esc(next.name)+'</button>'
+              : '<button class="btn btn-primary btn-block" data-go="map">See my Quest Map</button>';
+    return '<div class="wrap" style="'+mvars(mid)+'">'+h+'</div>';
+  }
+
+  function renderMap(){
+    var n = doneCount(), h = topbar(true);
+    h += '<section class="maphead">'+ring(n,TOTAL)+'<div class="hero-text"><span class="eyebrow muted">Quest Map</span><h1>'+esc(G.name)+'</h1><p class="muted">'+(n===TOTAL ? 'All 24 Guide requirements complete.' : n+' of 24 Guide requirements complete. Tap any row to go to it.')+'</p></div></section>';
+    SECTIONS.forEach(function(sec){
+      var codes = CODES.filter(function(c){ return c.replace(/\d+$/,'') === sec[0]; });
+      h += '<section class="section"><h2>'+esc(sec[1])+'</h2>';
+      codes.forEach(function(c){
+        var m = missionOf(c), on = !!G.done[c];
+        h += '<button class="qrow" data-go="'+m.id+'" data-focus="'+c+'"><span class="qdot'+(on?' on':'')+'">'+(on?CHECK:'')+'</span><span class="qcode">'+fmt(c)+'</span><span class="qtext">'+esc(REQ[c])+'</span><span class="qtag" style="'+mvars(m.id)+'">'+(m.n ? 'Mission '+m.n : 'Base Camp')+'</span></button>';
+      });
+      h += '</section>';
+    });
+    h += '<h2 style="font-size:20px">Counsellor sign-offs</h2><div class="signs">';
+    MISSIONS.forEach(function(m){ var s = G.signs[m.id]; h += '<div class="stile'+(s?' on':'')+'"><b>'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</b><span>'+(s ? 'Signed · '+esc(s) : 'Not signed yet')+'</span></div>'; });
+    h += '</div>';
+    h += '<h2 style="font-size:20px">Advanced (optional)</h2><div class="signs">' + ADVC.map(function(c){ var s2 = advSign(c), d2 = advDone(c); return '<button class="stile'+(s2?' on':'')+'" data-go="adv-'+c+'" style="text-align:left;cursor:pointer"><b>'+esc(ADV[c].title)+'</b><span>'+(s2 ? 'Signed · '+esc(s2) : d2 ? 'Done · waiting for sign-off' : 'Not done yet')+'</span></button>'; }).join('') + '</div>';
+    return '<div class="wrap">'+h+'</div>';
+  }
+
+  function renderBadLink(){
+    return '<div class="wrap"><div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest</div></div>'
+      + '<section class="namecard"><span class="eyebrow muted">Pathfinder Guide class</span><h1>This link doesn’t open a quest.</h1>'
+      + '<p class="muted">Guide Quest works from the personal link your counsellor sends you. Ask them to send it again. If you were sent a new link, use that one.</p></section></div>';
+  }
+
+  /* ======================= VERSION 13: Advanced, photos, one class link ======================= */
+  var IS_STATIC = !!window.GQ_STATIC;
+  var JOINKEY = 'gq-sanct-me';
+  function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k, v){ try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch(e){} }
+  function run(fn, args, ok, fail){
+    var r = google.script.run.withSuccessHandler(function(res){ ok && ok(res); }).withFailureHandler(function(err){ fail && fail(String(err && err.message || err)); });
+    r[fn].apply(r, args);
+  }
+  if (G && TOKEN) lsSet(JOINKEY, TOKEN);
+
+  /* ---------- Advanced ---------- */
+  var ADVC = ['AV1','AV2','AV3','AV4','AV5','AV6'];
+  var TC_CATS = ['Work for pay','Family time','Personal devotions','Public worship','Family worship','Fun','Reading','Television','Meals','Sleep','Personal needs','Class time','School study','Travel','Music lessons','Music practice','Home chores','Shopping'];
+  var BUD_CATS = ['Clothes','Entertainment','Eating out','Gifts','Toiletries','School supplies','Tithe and offerings','Transportation'];
+  var STEW_Q = [
+    ['Psalm 24:1','Who owns the earth and everything in it?',['Whoever buys it','The Lord','Nobody'],1],
+    ['Genesis 1:26','What job did God give people over the earth?',['To rule it and care for it for Him','To leave it alone','Nothing at all'],0],
+    ['1 Corinthians 6:19–20','Why should we care for our bodies?',['To look good for others','It doesn’t really matter','The body is the Holy Spirit’s temple and belongs to God'],2],
+    ['Matthew 25:15','How did the master give out the talents?',['To each according to his ability','Everyone got the same','Only to the rich servant'],0],
+    ['Colossians 4:5','What does it say about our time?',['Rest as much as possible','Redeem the time: use every opportunity well','Time is not important'],1],
+    ['Proverbs 3:9','What should we honour the Lord with?',['Whatever is left over','Our wealth and the firstfruits of all we earn','Only our singing'],1],
+    ['Genesis 28:22','What did Jacob promise to give God?',['A tenth of everything God gave him','Half of his sheep','Nothing'],0],
+    ['Leviticus 27:30','Whose is the tithe?',['Ours to keep','The church board’s','The Lord’s: it is holy to Him'],2],
+    ['Malachi 3:8','How does this verse say people rob God?',['In tithes and offerings','By missing Sabbath school','By singing off key'],0],
+    ['1 Corinthians 9:13–14','What is the tithe used for?',['Church parties','Supporting those who preach the gospel','Buying land'],1],
+    ['2 Corinthians 9:7','What kind of giver does God love?',['A rich giver','A cheerful giver','A secret giver'],1],
+    ['Malachi 3:10','What does God promise when we bring the whole tithe?',['To open the windows of heaven and pour out a blessing','Fame','Nothing'],0]
+  ];
+  var STC = [
+    ['God’s Love for Man','According to this chapter, what do nature and the Bible both tell us about God?',['That He is far away','His love','His anger'],1],
+    ['The Sinner’s Need of Christ','Can education or willpower alone change a sinful heart?',['No: only Christ can change the heart','Yes, if we try hard enough','Only when we are older'],0],
+    ['Repentance','Where does true repentance come from?',['Feeling bad enough','Doing good works first','Christ, who draws us to Him and gives repentance'],2],
+    ['Confession','What kind of confession does the chapter call true confession?',['A general “forgive all my sins”','Specific: naming the actual sins','Only in front of the church'],1],
+    ['Consecration','What does the chapter say we must give to God?',['Our will: our power of choice','Only our money','Our feelings'],0],
+    ['Faith and Acceptance','After asking God to forgive you, how do you know you are forgiven?',['When you feel happy','When others tell you','Because God has promised: believe it'],2],
+    ['The Test of Discipleship','What shows that someone has really become a follower of Jesus?',['Never making a mistake','A changed life and new motives','Knowing many Bible texts'],1],
+    ['Growing Up Into Christ','The chapter compares growing as a Christian to…',['A plant that grows by taking in what God gives it','A race we win by our own strength','A test we pass once'],0],
+    ['The Work and the Life','What does a person who knows Jesus’ love want to do?',['Keep it to themselves','Wait until they are older','Share it with others'],2],
+    ['A Knowledge of God','How does God speak to us, according to this chapter?',['Through nature, His Word, and His leading and Spirit','Only through dreams','Only through preachers'],0],
+    ['The Privilege of Prayer','How does the chapter describe prayer?',['Saying the right words','Opening the heart to God as to a friend','Something only for emergencies'],1],
+    ['What to Do With Doubt','What does God give before He asks us to believe?',['Answers to every question','Nothing','Enough evidence to base our faith on'],2],
+    ['Rejoicing in the Lord','What does the chapter encourage us to talk about?',['God’s goodness and love, with thankfulness','Our troubles and complaints','Other people’s mistakes'],0]
+  ];
+  var FRIEND_Q = [
+    ['A new student sits alone at lunch every day.',['Wait for them to talk first','Sit with them and ask about themselves','Tell your friends to stay away'],1,'A friend shows himself friendly first (Proverbs 18:24).'],
+    ['A friend tells you a secret that is not dangerous.',['Keep it: trust grows when secrets are kept','Tell one other friend','Post a hint online'],0,'A faithful friend keeps a matter private (Proverbs 11:13). If a secret means someone is in danger, tell a trusted adult.'],
+    ['A friend wants you to skip Pathfinders to go somewhere you know is wrong.',['Go, so you don’t lose them','Never speak to them again','Say no kindly, and invite them to something good instead'],2,'“Evil company corrupts good habits” (1 Corinthians 15:33), but you can still be kind.'],
+    ['You hurt a friend’s feelings by mistake.',['Say sorry quickly and mean it','Pretend it didn’t happen','Wait for them to say sorry'],0,'Make things right with your brother first (Matthew 5:23–24).'],
+    ['Your friend is going through a hard time at home.',['Change the subject','Listen, pray with them, and tell a trusted adult if they could be in danger','Tell everyone so they can help'],1,'Carry each other’s burdens (Galatians 6:2).'],
+    ['Everyone is laughing at a joke about someone in your class.',['Laugh so you fit in','Add your own joke','Don’t join in, and be kind to that person'],2,'Let no unkind word come out of your mouth (Ephesians 4:29).'],
+    ['A friend belongs to a different church or religion.',['Respect them, be a true friend, and show Jesus by how you live','Avoid them','Argue until they agree'],0,'Let your light shine so they see your good works (Matthew 5:16).'],
+    ['You and a friend disagree about something small.',['Stop being friends','Talk it out calmly and listen to their side','Talk about them behind their back'],1,'As far as it depends on you, live at peace with everyone (Romans 12:18).']
+  ];
+  var WILD = ['Backpacking','Camp Craft','Camp Safety','Camping Skills IV','Cold Weather Survival','Dutch Oven Cooking','Edible Wild Plants','Fire Building & Camp Cookery','Hiking','Knot Tying','Orienteering','Outdoor Leadership','Pioneering','Tents','Wilderness Leadership','Wilderness Living','Winter Camping','Camping Skills III (South Pacific list)'];
+  var ADV = {
+    AV1:{sec:'General', icon:'🪙', title:'Stewardship Honour', req:'Complete the Stewardship Honour.',
+      how:'Stewardship means looking after what God has given you: your body, time, talents and money. Work through the eight parts below with your counsellor or pastor.',
+      fields:[
+        {t:'checks',k:'steps',label:'The eight parts of the honour (tick each one you finish)',vals:['Part 1','Part 2','Part 3','Part 4','Part 5','Part 6','Part 7','Part 8'],opts:[
+          '1 · Answer the Bible questions on stewardship (try the verse game below)',
+          '2 · Read and discuss Counsels on Stewardship (Section IV, pp. 111–130; p. 14, paragraphs 1–2; p. 66, paragraph 1) with your counsellor or pastor',
+          '3 · Learn how tithe is used by your local church, conference, union and the General Conference',
+          '4 · Learn about your church budget and each line on the tithe and offering envelope (ask your pastor, treasurer or an elder)',
+          '5 · Keep a 24-hour time chart for one weekday and one weekend day, then talk it over',
+          '6 · List one month of your spending, or plan a $50 monthly budget',
+          '7 · Find what the Bible and Ellen White say about talents',
+          '8 · Do a talent project (new to you, helps others, at least 5 hours) and report on it']},
+        {t:'game',game:'stewquiz'},
+        {t:'text',k:'tithe',label:'How tithe is used: local church, conference, union, General Conference'},
+        {t:'game',game:'timechart'},
+        {t:'game',game:'budget'},
+        {t:'text',k:'talents',label:'My three talents or skills'},
+        {t:'text',k:'chosen',label:'The one I chose to develop, and my project'},
+        {t:'area',k:'project',label:'My talent project report: what I did, who it helped, and how many hours',target:120,unit:'words'}]},
+    AV2:{sec:'Spiritual Discovery', icon:'📖', title:'Steps to Christ', req:'Read Steps to Christ and write a one-page report or essay.',
+      how:'<i>Steps to Christ</i> by Ellen G. White has 13 short chapters. Read them free at <a href="https://egwwritings.org" target="_blank" rel="noopener">egwwritings.org</a> or in the EGW Writings app. Tick each chapter as you finish it and answer its question, then write your report.',
+      fields:[{t:'game',game:'stc'},{t:'area',k:'report',label:'My one-page report (about 300 words): what the book is about, what helped me most, and one change I will make',target:300,unit:'words'}]},
+    AV3:{sec:'Community Outreach', icon:'🤝', title:'Outreach', req:'Bring 2 friends to at least 2 meetings sponsored by your church, or help plan and take part in at least 4 youth evangelism (or similar) meetings.',
+      how:'Pick one option. Use what your class learned about witnessing to teens (CO 2). Write down each meeting as you go.',
+      fields:[
+        {t:'chips',k:'opt',label:'My option',max:1,opts:['Bring 2 friends to 2 church meetings','Help plan and take part in 4 youth meetings']},
+        {t:'rows',k:'log',n:4,rowlabel:'Meeting',cols:['Date and meeting','Friends who came, or my part']},
+        {t:'game',game:'outreach'},
+        {t:'game',game:'invite'}]},
+    AV4:{sec:'Friendship Development', icon:'💬', title:'Making and keeping friends', req:'Write at least 750 words, or give a talk of at least 10 minutes, on how to make and keep friends.',
+      how:'Start with the Bible. Read <b>Proverbs 18:24</b>, <b>Proverbs 17:17</b>, <b>Ecclesiastes 4:9–10</b>, <b>John 15:13–15</b>, <b>1 Corinthians 15:33</b> and <b>Proverbs 27:17</b>. Play the game, plan your points, then write or give your talk.',
+      fields:[
+        {t:'chips',k:'opt',label:'I will…',max:1,opts:['Write it (750+ words)','Give a talk (10+ minutes)']},
+        {t:'game',game:'friend'},
+        {t:'text',k:'o1',label:'My plan · Opening'},
+        {t:'text',k:'o2',label:'How to make friends'},
+        {t:'text',k:'o3',label:'How to keep friends'},
+        {t:'text',k:'o4',label:'Being a friend like Jesus'},
+        {t:'text',k:'o5',label:'Closing'},
+        {t:'area',k:'essay',label:'My essay (if you are writing it)',target:750,unit:'words'},
+        {t:'game',game:'timer'},
+        {t:'text',k:'talk',label:'If you gave a talk: when, and to whom'}]},
+    AV5:{sec:'Health and Fitness', icon:'💚', title:'God’s plan for sexuality', req:'Take part in a study of God’s plan for sexual behaviour, including the facts about AIDS and other sexually transmitted infections.',
+      how:'Your counsellor leads this as a class session. Read this before or after it. Ask your counsellor, a parent or your pastor anything you want to know.',
+      noPhotos:true,
+      fields:[{t:'game',game:'health'},{t:'text',k:'when',label:'Date of our class session'},{t:'area',k:'reflect',label:'One thing I want to remember (only your counsellors see this)',target:0}]},
+    AV6:{sec:'Outdoor Living', icon:'🏕️', title:'Wilderness Master Award', req:'Complete the Wilderness Master Award.',
+      how:'Earn <b>seven</b> honours from the list below. Your counsellor or club director checks your honour cards. An honour used for another Master Award can’t be counted twice.',
+      fields:[{t:'checks',k:'honours',label:'Honours I have earned',opts:WILD},{t:'game',game:'wild'},{t:'text',k:'notes',label:'Dates, or where my honour cards are kept'}]}
+  };
+  Object.keys(ADV).forEach(function(c){ ADV[c].code = c; });
+  ['AV1.quiz','AV1.tcw','AV1.tce','AV1.bud','AV2.read','AV2.q','AV4.game','AV1.inc'].forEach(function(k){
+    GAME_LABELS[k] = {'AV1.quiz':'Stewardship verse game','AV1.tcw':'Time chart · weekday (hours)','AV1.tce':'Time chart · weekend day (hours)','AV1.bud':'Money · amounts','AV1.inc':'Money · total per month','AV2.read':'Steps to Christ · chapters read','AV2.q':'Steps to Christ · chapter answers','AV4.game':'Friendship game'}[k];
+  });
+  function advDone(c){ return G.f[c + '.done'] === 'yes'; }
+  function advSign(c){ return String(G.f[c + '.sign'] || ''); }
+  function words(s){ s = String(s || '').trim(); return s ? s.split(/\s+/).length : 0; }
+  function nums(k, n){ var a = arr(k); for (var i = 0; i < n; i++) if (a[i] == null) a[i] = ''; return a; }
+  function sum(a){ return a.reduce(function(s, v){ var x = parseFloat(v); return s + (isFinite(x) ? x : 0); }, 0); }
+  function round(x){ return Math.round(x * 100) / 100; }
+
+  GAMES.stewquiz = function(){
+    var a = nums('AV1.quiz', STEW_Q.length), n = 0, h = '<div class="game"><b>Verse game</b><p class="muted small">Pick what each verse teaches.</p>';
+    STEW_Q.forEach(function(q, i){
+      var pick = a[i] === '' ? -1 : +a[i], ok = pick === q[3]; if (ok) n++;
+      h += '<div class="qz"><p><b>'+esc(q[0])+'</b> · '+esc(q[1])+'</p><div class="qopts">' + q[2].map(function(o, j){
+        var cls = pick === j ? (j === q[3] ? ' right' : ' wrong') : '';
+        return '<button class="qopt'+cls+'" data-quiz="AV1.quiz" data-i="'+i+'" data-j="'+j+'" data-n="'+STEW_Q.length+'">'+esc(o)+'</button>'; }).join('') + '</div></div>';
+    });
+    return h + fb(n, STEW_Q.length, 'All verses matched') + '</div>';
+  };
+  var TCOPEN = {};
+  document.addEventListener('toggle', function(e){ var t = e.target; if (t && t.dataset && t.dataset.tc) TCOPEN[t.dataset.tc] = t.open; }, true);
+  GAMES.timechart = function(){
+    function day(k, label){
+      var a = nums(k, TC_CATS.length), tot = round(sum(a)), ok = tot === 24;
+      var h = '<details class="tcday" data-tc="'+k+'"'+(TCOPEN[k] || (tot && !ok) ? ' open' : '')+'><summary><b>'+label+'</b><span class="tctot'+(ok?' ok':'')+'" id="tot-'+k+'">'+tot+' of 24 hours</span></summary><div class="tcgrid">';
+      TC_CATS.forEach(function(c, i){ h += '<label><span>'+esc(c)+'</span><input type="number" inputmode="decimal" min="0" max="24" step="0.25" id="tc-'+k+'-'+i+'" data-num="'+k+'" data-i="'+i+'" data-n="'+TC_CATS.length+'" value="'+esc(a[i])+'" aria-label="'+esc(label+' · '+c)+'"></label>'; });
+      return h + '</div><div class="tcbar" id="bar-'+k+'">' + tcBar(a) + '</div></details>';
+    }
+    return '<div class="game"><b>Time chart</b><p class="muted small">Write the hours you spend on each thing. Each day must add up to 24. Then talk it over with your counsellor or pastor.</p>' + day('AV1.tcw', 'A weekday') + day('AV1.tce', 'A weekend day') + '</div>';
+  };
+  function tcBar(a){ return TC_CATS.map(function(c, i){ var v = parseFloat(a[i]) || 0; return v ? '<span style="flex:'+v+'" title="'+esc(c)+': '+v+' h"></span>' : ''; }).join(''); }
+  function budFb(){
+    var a = nums('AV1.bud', BUD_CATS.length), inc = parseFloat(G.f['AV1.inc']); if (!isFinite(inc) || inc <= 0) inc = 50;
+    var tot = round(sum(a)), tithe = parseFloat(a[6]) || 0, need = round(inc / 10), good = tot === inc && tithe >= need;
+    return { ok: good, html: good ? CHECK+'Balanced, with God first' : 'Planned '+tot+' of '+inc+(tithe < need ? ' · tithe is a tenth: at least '+need+' for tithe and offerings' : '') };
+  }
+  /* Update totals and counts while typing, without redrawing the page (redrawing would lose the box you are typing in). */
+  function liveUpdate(key){
+    if (key === 'AV1.tcw' || key === 'AV1.tce'){
+      var a = nums(key, TC_CATS.length), tot = round(sum(a)), el = document.getElementById('tot-' + key), bar = document.getElementById('bar-' + key);
+      if (el){ el.textContent = tot + ' of 24 hours'; el.className = 'tctot' + (tot === 24 ? ' ok' : ''); }
+      if (bar) bar.innerHTML = tcBar(a);
+    } else if (key === 'AV1.bud' || key === 'AV1.inc'){
+      var f = budFb(), fe = document.getElementById('fb-bud'); if (fe){ fe.className = 'fb' + (f.ok ? ' ok' : ''); fe.innerHTML = f.html; }
+    } else if (/^AV3\.log\./.test(key) || key === 'AV3.opt'){
+      var o = document.getElementById('fb-out'); if (o) o.outerHTML = GAMES.outreach();
+    } else if (key === 'AV3.event'){
+      var links = document.querySelectorAll('.invite'), msgs = inviteMsgs();
+      [].forEach.call(links, function(l, i){ if (msgs[i]){ l.textContent = msgs[i]; l.href = 'https://wa.me/?text=' + encodeURIComponent(msgs[i]); } });
+    }
+  }
+  function inviteMsgs(){
+    var ev = G.f['AV3.event'] || '';
+    return [
+      'Hi! Our church is having '+(ev || 'a youth meeting')+'. Would you like to come with me? I’ll save you a seat 😊',
+      'Hey, I’d really like you to come with me to '+(ev || 'our church youth programme')+'. There’s music, friends and a good message. Can I meet you there?',
+      'Are you free for '+(ev || 'our youth meeting')+'? I’m going and it would be great to have you with me.'
+    ];
+  }
+  GAMES.budget = function(){
+    var a = nums('AV1.bud', BUD_CATS.length), inc = parseFloat(G.f['AV1.inc']);
+    if (!isFinite(inc) || inc <= 0) inc = 50;
+    var bf = budFb();
+    var h = '<div class="game"><b>Money for one month</b><p class="muted small">Plan how you would spend $50 a month, or change the total to what you really get and list what you spend. Use any currency.</p>'
+      + '<label class="field"><span>Money I get each month</span><input type="number" inputmode="decimal" min="0" step="1" id="f-AV1.inc" data-k="AV1.inc" data-label="Money · total per month" value="'+esc(G.f['AV1.inc'] || '50')+'"></label><div class="tcgrid">';
+    BUD_CATS.forEach(function(c, i){ h += '<label><span>'+esc(c)+'</span><input type="number" inputmode="decimal" min="0" step="0.5" id="bud-'+i+'" data-num="AV1.bud" data-i="'+i+'" data-n="'+BUD_CATS.length+'" value="'+esc(a[i])+'"></label>'; });
+    h += '</div><p class="fb'+(bf.ok ? ' ok' : '')+'" id="fb-bud">'+bf.html+'</p></div>';
+    return h;
+  };
+  GAMES.stc = function(){
+    var read = arr('AV2.read'), q = nums('AV2.q', STC.length), right = 0;
+    var h = '<div class="game"><b>Chapters</b><p class="muted small">Tick each chapter when you finish it, then answer its question.</p>';
+    STC.forEach(function(c, i){
+      var on = read.indexOf(String(i + 1)) > -1, pick = q[i] === '' ? -1 : +q[i];
+      if (pick === c[3]) right++;
+      h += '<div class="stcrow'+(on?' on':'')+'"><button class="stcbox" data-stc="'+(i+1)+'" aria-pressed="'+on+'" aria-label="Chapter '+(i+1)+' read">'+(on?CHECK:'')+'</button><div><b>'+(i+1)+' · '+esc(c[0])+'</b>'
+        + (on ? '<p class="small">'+esc(c[1])+'</p><div class="qopts">' + c[2].map(function(o, j){ var cls = pick === j ? (j === c[3] ? ' right' : ' wrong') : ''; return '<button class="qopt'+cls+'" data-quiz="AV2.q" data-i="'+i+'" data-j="'+j+'" data-n="'+STC.length+'">'+esc(o)+'</button>'; }).join('') + '</div>' : '') + '</div></div>';
+    });
+    return h + '<p class="fb'+(read.length === 13 ? ' ok' : '')+'">'+(read.length === 13 ? CHECK+'All 13 chapters read · '+right+' of 13 questions right' : read.length+' of 13 chapters read')+'</p></div>';
+  };
+  GAMES.outreach = function(){
+    var opt = arr('AV3.opt')[0] || '', n = 0;
+    for (var i = 0; i < 4; i++) if (String(G.f['AV3.log.'+i+'.0'] || '').trim()) n++;
+    var need = /4 youth/.test(opt) ? 4 : 2;
+    return '<p class="fb'+(opt && n >= need ? ' ok' : '')+'" id="fb-out">'+(!opt ? 'Pick your option above.' : n >= need ? CHECK+'Enough meetings recorded' : n+' of '+need+' meetings recorded')+'</p>';
+  };
+  GAMES.invite = function(){
+    var ev = G.f['AV3.event'] || '', msgs = inviteMsgs();
+    return '<div class="game"><b>Invite a friend</b><label class="field"><span>The meeting (name, day and time)</span><input type="text" id="f-AV3.event" data-k="AV3.event" data-label="Meeting to invite friends to" value="'+esc(ev)+'" maxlength="140" autocomplete="off"></label>'
+      + msgs.map(function(m){ return '<a class="btn btn-ghost btn-block invite" href="https://wa.me/?text='+encodeURIComponent(m)+'" target="_blank" rel="noopener">'+esc(m)+'</a>'; }).join('') + '<p class="muted small">Tap a message to send it on WhatsApp. Change it if you like.</p></div>';
+  };
+  GAMES.friend = function(){
+    var a = nums('AV4.game', FRIEND_Q.length), n = 0, h = '<div class="game"><b>What would you do?</b>';
+    FRIEND_Q.forEach(function(q, i){
+      var pick = a[i] === '' ? -1 : +a[i]; if (pick === q[2]) n++;
+      h += '<div class="qz"><p>'+esc(q[0])+'</p><div class="qopts">' + q[1].map(function(o, j){ var cls = pick === j ? (j === q[2] ? ' right' : ' wrong') : ''; return '<button class="qopt'+cls+'" data-quiz="AV4.game" data-i="'+i+'" data-j="'+j+'" data-n="'+FRIEND_Q.length+'">'+esc(o)+'</button>'; }).join('') + '</div>'
+        + (pick > -1 ? '<p class="small muted">'+esc(q[3])+'</p>' : '') + '</div>';
+    });
+    return h + fb(n, FRIEND_Q.length, 'A true friend') + '</div>';
+  };
+  var TIMER = { ms: 0, start: 0, on: false, iv: null };
+  function timerText(){ var ms = TIMER.ms + (TIMER.on ? Date.now() - TIMER.start : 0), s = Math.floor(ms / 1000); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  GAMES.timer = function(){
+    var ms = TIMER.ms + (TIMER.on ? Date.now() - TIMER.start : 0);
+    return '<div class="game"><b>Practise your talk</b><p class="muted small">Aim for at least 10 minutes.</p><div class="timer'+(ms >= 600000 ? ' ok' : '')+'" id="talktime">'+timerText()+'</div>'
+      + '<div class="btnrow"><button class="btn btn-primary btn-small" data-timer="'+(TIMER.on ? 'pause' : 'start')+'">'+(TIMER.on ? 'Pause' : (ms ? 'Continue' : 'Start'))+'</button><button class="btn btn-ghost btn-small" data-timer="reset">Reset</button></div></div>';
+  };
+  GAMES.health = function(){
+    var parts = [
+      ['God made us, and called it very good','Genesis 1:27–28, 31','Our bodies, including our sexuality, are part of God’s good design. It is a gift, not something dirty or shameful.'],
+      ['God’s plan: sex belongs in marriage','Genesis 2:24 · Hebrews 13:4','God gave sex for a husband and wife who have promised their lives to each other. Waiting protects your heart, your future, and the person you will one day marry.'],
+      ['Your body is a temple','1 Corinthians 6:18–20 · 1 Thessalonians 4:3–5 · Psalm 119:9','Purity is about everyday choices: what you watch, who you are alone with, where you go. If you have made mistakes, God forgives and gives a fresh start (1 John 1:9).'],
+      ['Respect and safety','Matthew 18:10 · Psalm 34:18','No one has the right to touch you in a way you don’t want, or to pressure you. If that has happened, it is not your fault. Tell a parent, your counsellor, your pastor or a teacher.'],
+      ['The facts about HIV and other STIs','Learn the facts','HIV is a virus that weakens the body’s defences; without treatment it can lead to AIDS. HIV and other sexually transmitted infections (such as chlamydia, gonorrhoea, syphilis, herpes and HPV) spread mainly through sexual contact. HIV can also spread through shared needles and from a mother to her baby. You cannot get HIV from hugging, sharing cups, toilet seats or mosquitoes. Many STIs show no signs, so only a test can tell. Treatment works: people with HIV who take their medicine can live long, healthy lives. Waiting until marriage, and being faithful in marriage, is the surest way to avoid STIs.'],
+      ['Compassion, not shame','Mark 1:40–42','People living with HIV deserve love and respect. Jesus touched the man everyone else avoided.'],
+      ['Where to get help','You are not alone','A parent, your counsellor, your pastor, or a doctor or nurse at your health centre can answer questions in private.']
+    ];
+    return '<div class="game lesson">' + parts.map(function(p){ return '<section><h3>'+esc(p[0])+'</h3><p class="vref">'+esc(p[1])+'</p><p>'+esc(p[2])+'</p></section>'; }).join('') + '</div>';
+  };
+  GAMES.wild = function(){
+    var n = arr('AV6.honours').length;
+    var links = ['packcamp','fire','lashing','orienteering'].map(function(id){ var t = LAB_TOPICS.filter(function(x){ return x.id === id; })[0]; return t && LAB ? '<a class="labtile" href="'+esc(labHref(t, 'adv'))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS[id] || '')+'</span><span>'+esc(t.name)+'</span></a>' : ''; }).join('');
+    return '<p class="fb'+(n >= 7 ? ' ok' : '')+'" id="fb-wild">'+(n >= 7 ? CHECK+'Seven or more honours: ask your counsellor to check your cards' : n+' of 7 honours')+'</p>'
+      + (links ? '<p class="muted small">These explorers help with several of the honours:</p><div class="labgrid">'+links+'</div>' : '');
+  };
+
+  /* ---------- photo evidence ---------- */
+  var PH = { list: null, data: {}, busy: {}, err: {}, open: '', loading: {} };
+  function loadPhotos(){
+    if (!TOKEN || !G) return;
+    run('p_photos', [TOKEN], function(res){ PH.list = res || []; rerender(); }, function(){ PH.list = PH.list || []; });
+  }
+  function photosHTML(code){
+    var mine = (PH.list || []).filter(function(x){ return x.code === code; });
+    var h = '<div class="ev"><div class="evh"><b>Photos</b><span class="muted small">'+(PH.list === null ? 'Loading…' : mine.length ? mine.length+' added' : 'Add a photo of what you did')+'</span></div><div class="evgrid">';
+    mine.forEach(function(x){ h += '<button class="evthumb" data-ph="'+esc(x.id)+'" aria-label="Open photo">'+(PH.data[x.id] ? '<img src="'+PH.data[x.id]+'" alt="">' : '<span class="evload"></span>')+'</button>'; });
+    h += '<label class="evadd'+(PH.busy[code] ? ' busy' : '')+'"><input type="file" accept="image/*" data-phadd="'+code+'"'+(PH.busy[code] ? ' disabled' : '')+'><span>'+(PH.busy[code] ? 'Uploading…' : '+ Add photo')+'</span></label></div>';
+    if (PH.err[code]) h += '<p class="fb">'+esc(PH.err[code])+'</p>';
+    return h + '</div>';
+  }
+  function fetchThumbs(){
+    if (!PH.list) return;
+    var want = [].slice.call(document.querySelectorAll('[data-ph]')).map(function(b){ return b.getAttribute('data-ph'); })
+      .filter(function(id){ return !PH.data[id] && !PH.loading[id]; });
+    var busy = Object.keys(PH.loading).length;
+    want.slice(0, Math.max(0, 2 - busy)).forEach(function(id){
+      PH.loading[id] = 1;
+      run('p_photo', [TOKEN, id], function(res){ delete PH.loading[id]; PH.data[id] = res.data; PH.url = PH.url || {}; PH.url[id] = res.url; rerender(); },
+        function(){ delete PH.loading[id]; PH.data[id] = 'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10" fill="#ccc"/></svg>'); });
+    });
+  }
+  var PH_ERR = { 'photo-limit':'You can add up to 8 photos for each requirement.', 'too-big':'That photo is too big. Try one under 15 MB.', 'not-a-photo':'That file isn’t a photo.', 'link-not-found':'This link no longer works. Ask your counsellor for your new link.' };
+  function makePreview(dataUrl, done){
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var max = 960, w = img.naturalWidth, h = img.naturalHeight, sc = Math.min(1, max / Math.max(w, h));
+        var cv = document.createElement('canvas'); cv.width = Math.round(w * sc); cv.height = Math.round(h * sc);
+        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+        done(cv.toDataURL('image/jpeg', 0.82));
+      } catch(e){ done(''); }
+    };
+    img.onerror = function(){ done(''); };
+    img.src = dataUrl;
+  }
+  function uploadPhoto(code, file){
+    if (!file) return;
+    if (!/^image\//.test(file.type || 'image/jpeg')){ PH.err[code] = PH_ERR['not-a-photo']; rerender(); return; }
+    if (file.size > 15 * 1024 * 1024){ PH.err[code] = PH_ERR['too-big']; rerender(); return; }
+    PH.busy[code] = true; delete PH.err[code]; rerender();
+    var rd = new FileReader();
+    rd.onload = function(){
+      var orig = String(rd.result);
+      makePreview(orig, function(prev){
+        run('p_addPhoto', [TOKEN, code, { data: orig, mime: file.type || 'image/jpeg', preview: prev }], function(res){
+          PH.busy[code] = false; PH.list = (PH.list || []).concat([res]); if (prev) PH.data[res.id] = prev; rerender();
+        }, function(m){
+          PH.busy[code] = false; var k = (m.match(/photo-limit|too-big|not-a-photo|link-not-found/) || [''])[0];
+          PH.err[code] = PH_ERR[k] || (navigator.onLine === false ? 'No signal. Try again when you’re online.' : 'Couldn’t upload the photo. Try again.'); rerender();
+        });
+      });
+    };
+    rd.onerror = function(){ PH.busy[code] = false; PH.err[code] = 'Couldn’t read that photo.'; rerender(); };
+    rd.readAsDataURL(file);
+  }
+  function viewerHTML(){
+    var x = (PH.list || []).filter(function(p){ return p.id === PH.open; })[0];
+    if (!x) return '';
+    return '<div class="backdrop" data-phclose="1"></div><div class="phview" role="dialog" aria-label="Photo"><div class="phbar"><b>'+esc(fmt(x.code))+'</b><button class="btn btn-ghost btn-small" data-phclose="1">Close</button></div>'
+      + (PH.data[x.id] ? '<img src="'+PH.data[x.id]+'" alt="Photo for '+esc(fmt(x.code))+'">' : '<p class="muted">Loading…</p>')
+      + '<p class="muted small">Added by '+esc(x.by === 'Pathfinder' ? 'you' : x.by)+(x.date ? ' · '+esc(new Date(x.date).toLocaleDateString()) : '')+'</p>'
+      + (x.by === 'Pathfinder' ? '<button class="btn btn-ghost btn-small" data-phdel="'+esc(x.id)+'">'+(PH.confirm === x.id ? 'Tap again to remove this photo' : 'Remove photo')+'</button>' : '') + '</div>';
+  }
+
+  /* ---------- Advanced views ---------- */
+  function advTaskHTML(c){
+    var t = ADV[c], d = advDone(c), s = advSign(c);
+    var h = '<article class="task'+(d?' is-done':'')+'" id="task-'+c+'">'
+      + '<div class="task-top"><span class="code">'+esc(t.sec)+'</span><h2>'+esc(t.title)+'</h2>'+(s ? '<span class="ok-pill">'+CHECK+'Signed</span>' : d ? '<span class="ok-pill">'+CHECK+'Done</span>' : '')+'</div>'
+      + '<p class="advreq"><b>Requirement:</b> '+esc(t.req)+'</p>';
+    if (t.how) h += '<p class="how">'+t.how+'</p>';
+    t.fields.forEach(function(fd){ h += fieldHTML(c, fd); });
+    if (!t.noPhotos && TOKEN) h += photosHTML(c);
+    h += '<button class="donebtn" data-avdone="'+c+'" aria-pressed="'+d+'">'+(d ? CHECK+'Completed · tap to undo' : 'Mark “'+esc(t.title)+'” complete')+'</button>';
+    h += '<p class="'+(s ? 'signed' : 'muted small')+'">'+(s ? CHECK+'Signed off · '+esc(s) : 'When it is done, your counsellor will check it and sign it off.')+'</p></article>';
+    return h;
+  }
+  function advTopbar(back, label){
+    return '<div class="topbar"><button class="back" data-go="'+back+'">'+BACK+esc(label)+'</button><span id="savepill" class="savepill '+status+'" role="status" aria-live="polite">'+STATUS_TEXT[status]+'</span></div>';
+  }
+  function renderAdvList(){
+    var signed = ADVC.filter(advSign).length, done = ADVC.filter(advDone).length;
+    var h = advTopbar('home', 'Missions');
+    h += '<header class="mhead" style="'+mvars('base')+'"><div class="mhead-top"><span class="medal">★</span><div><span class="eyebrow">Optional</span><h1>Advanced</h1></div></div>'
+      + '<p>Want to go further? Advanced has one extra challenge for six parts of the Guide class. Do as many as you like; your counsellor signs each one off.</p></header>';
+    h += '<div class="mprog"><span>'+signed+' of 6 signed off'+(done > signed ? ' · '+(done - signed)+' waiting for sign-off' : '')+'</span><span class="bar"><span style="width:'+Math.round(100*signed/6)+'%"></span></span></div><div class="trail">';
+    ADVC.forEach(function(c){
+      var t = ADV[c], s = advSign(c), d = advDone(c);
+      h += '<button class="mcard" data-go="adv-'+c+'" style="'+mvars('base')+'"><span class="medal" aria-hidden="true">'+t.icon+'</span><span class="mbody"><span class="mname">'+esc(t.title)+'</span><span class="mblurb">'+esc(t.sec)+'</span></span>'
+        + '<span class="mstat">'+(s ? CHECK+'<small>Signed</small>' : d ? '<small>Done</small>' : '<small>Open</small>')+'</span></button>';
+    });
+    return '<div class="wrap">'+h+'</div></div>';
+  }
+  function renderAdvItem(c){
+    var i = ADVC.indexOf(c), next = ADVC[i + 1];
+    var h = advTopbar('adv', 'Advanced') + '<div class="tasks">'+advTaskHTML(c)+'</div>';
+    h += next ? '<button class="btn btn-ghost btn-block" data-go="adv-'+next+'">Next: '+esc(ADV[next].title)+'</button>' : '<button class="btn btn-primary btn-block" data-go="adv">Back to Advanced</button>';
+    return '<div class="wrap" style="'+mvars('base')+'">'+h+'</div>';
+  }
+
+  /* ---------- one class link: type your name once ---------- */
+  var JOIN = { busy: false, msg: '', done: null };
+  var JOIN_ERR = { 'bad-name':'Type your first and last name.', full:'The class list is full. Ask your counsellor.', busy:'Lots of people joined just now. Try again in a few minutes.' };
+  function questUrl(tok){ return (BOOT.base || '') + '?t=' + tok; }
+  function renderJoin(){
+    var remembered = lsGet(JOINKEY);
+    var h = '<div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest</div></div><section class="namecard"><span class="eyebrow muted">Pathfinder Guide class</span>';
+    if (JOIN.done){
+      h += '<h1>Welcome, '+esc(JOIN.done.name)+'!</h1><p class="muted">Your quest is ready. This phone will remember you.</p><a class="btn btn-primary btn-block" href="'+esc(questUrl(JOIN.done.token))+'">Open my quest</a>';
+      return '<div class="wrap">'+h+'</section></div>';
+    }
+    if (BOOT.asked) h += '<h1>This link doesn’t open a quest.</h1><p class="muted">It may be an old link. Ask your counsellor for your new one, or type your name below to join.</p>';
+    else h += '<h1>Welcome to Guide Quest</h1><p class="muted">Type your full name, the same way your counsellor knows you. You only do this once on this phone.</p>';
+    if (remembered && !BOOT.asked) h += '<a class="btn btn-primary btn-block" href="'+esc(questUrl(remembered))+'">Continue my quest</a><p class="muted small">Not you? Type your name below.</p>';
+    h += '<label class="field"><span>Your full name</span><input type="text" id="joinname" autocomplete="name" maxlength="60" placeholder="e.g. Ann Smith"></label>'
+      + '<button class="btn btn-primary btn-block" data-join="1"'+(JOIN.busy ? ' disabled' : '')+'>'+(JOIN.busy ? 'Opening…' : 'Start my quest')+'</button>'
+      + (JOIN.msg ? '<p class="fb">'+esc(JOIN.msg)+'</p>' : '');
+    return '<div class="wrap">'+h+'</section></div>';
+  }
+  function doJoin(){
+    var el = document.getElementById('joinname'), name = el ? el.value.trim() : '';
+    if (name.length < 2){ JOIN.msg = JOIN_ERR['bad-name']; render(); return; }
+    JOIN.busy = true; JOIN.msg = ''; render();
+    run('s_join', [name], function(me){
+      JOIN.busy = false; lsSet(JOINKEY, me.token);
+      if (IS_STATIC){ location.replace(questUrl(me.token)); return; }
+      JOIN.done = me; render();
+    }, function(m){ JOIN.busy = false; var k = (m.match(/bad-name|full|busy/) || [''])[0]; JOIN.msg = JOIN_ERR[k] || 'Couldn’t join. Check your internet and try again.'; render(); });
+  }
+  if (!G && !BOOT.asked && IS_STATIC && lsGet(JOINKEY)) { location.replace(questUrl(lsGet(JOINKEY)) + (BOOT.view ? '&v=' + BOOT.view : '')); }
+
+  /* ---------- keep unsaved work on the phone (no signal, or the app was closed) ---------- */
+  var PENDKEY = 'gq-pending-' + (TOKEN || 'x');
+  function savePending(){
+    if (!TOKEN) return;
+    var o = sending.ids.slice(), p = {};
+    sending.ids.forEach(function(id, i){ p[id] = sending.ops[i]; });
+    order.forEach(function(id){ if (o.indexOf(id) < 0) o.push(id); p[id] = pending[id]; });
+    lsSet(PENDKEY, o.length ? JSON.stringify({ order: o, pending: p }) : null);
+  }
+  (function restorePending(){
+    if (!TOKEN || !G) return;
+    try {
+      var p = JSON.parse(lsGet(PENDKEY) || 'null');
+      if (!p || !Array.isArray(p.order)) return;
+      p.order.forEach(function(id){ var op = p.pending[id]; if (!op) return;
+        if (op.k === 'a') G.f[op.key] = op.value; else if (op.k === 'd') G.done[op.code] = op.value;
+        if (!(id in pending)) order.push(id); pending[id] = op; });
+      if (order.length){ setStatus('saving'); schedule(1500); }
+    } catch(e){}
+  })();
+  window.addEventListener('online', function(){ if (order.length) schedule(0); });
+
+  var app = document.getElementById('app');
+  function render(){
+    if (!G){ app.innerHTML = renderJoin(); return; }
+    if (view === 'map') app.innerHTML = renderMap();
+    else if (view === 'adv') app.innerHTML = renderAdvList();
+    else if (/^adv-AV\d$/.test(view) && ADV[view.slice(4)]) app.innerHTML = renderAdvItem(view.slice(4));
+    else if (MBY[view]) app.innerHTML = renderMission(view);
+    else { view = 'home'; app.innerHTML = renderHome(); }
+    if (PH.open) app.insertAdjacentHTML('beforeend', viewerHTML());
+    fetchThumbs();
+  }
+  function rerender(){
+    var y = window.scrollY, a = document.activeElement, id = a && a.id;
+    render();
+    window.scrollTo(0, y);
+    if (id){ var el = document.getElementById(id); if (el) try { el.focus({preventScroll:true}); } catch(e){ el.focus(); } }
+  }
+  function go(to, focus){
+    view = to; render();
+    if (focus){ var el = document.getElementById('task-'+focus); if (el){ el.scrollIntoView({block:'start'}); return; } }
+    window.scrollTo(0,0);
+  }
+
+  app.addEventListener('click', function(e){
+    if (e.target && e.target.dataset && e.target.dataset.phclose){ PH.open = ''; PH.confirm = ''; render(); return; }
+    var b = e.target.closest('button');
+    if (!b || !app.contains(b)) return;
+    var ds = b.dataset;
+    if (ds.join){ doJoin(); return; }
+    if (!G) return;
+    if (ds.phclose){ PH.open = ''; PH.confirm = ''; render(); return; }
+    if (ds.ph){ PH.open = ds.ph; PH.confirm = ''; render(); return; }
+    if (ds.phdel){
+      if (PH.confirm !== ds.phdel){ PH.confirm = ds.phdel; render(); return; }
+      var pid = ds.phdel;
+      run('p_deletePhoto', [TOKEN, pid], function(){ PH.list = (PH.list || []).filter(function(x){ return x.id !== pid; }); PH.open = ''; PH.confirm = ''; rerender(); },
+        function(){ PH.confirm = ''; alertMsg('Couldn’t remove the photo. Try again.'); });
+      return;
+    }
+    if (ds.notme){ lsSet(JOINKEY, null); location.href = BOOT.base || location.pathname; return; }
+    if (ds.go){ go(ds.go, ds.focus); return; }
+    if (ds.avdone){ var on = !advDone(ds.avdone); saveField(ds.avdone + '.done', on ? 'yes' : '', 'Marked complete'); rerender(); return; }
+    if (ds.quiz){ var qa = nums(ds.quiz, +ds.n); qa[+ds.i] = ds.j; saveField(ds.quiz, qa); rerender(); return; }
+    if (ds.stc){ var ra = arr('AV2.read'), ri = ra.indexOf(ds.stc); if (ri > -1) ra.splice(ri, 1); else ra.push(ds.stc); ra.sort(function(x, y){ return x - y; }); saveField('AV2.read', ra); rerender(); return; }
+    if (ds.timer){
+      if (ds.timer === 'start'){ TIMER.on = true; TIMER.start = Date.now(); clearInterval(TIMER.iv); TIMER.iv = setInterval(function(){ var el = document.getElementById('talktime'); if (el){ el.textContent = timerText(); if (TIMER.ms + Date.now() - TIMER.start >= 600000) el.classList.add('ok'); } }, 1000); }
+      else if (ds.timer === 'pause'){ TIMER.ms += Date.now() - TIMER.start; TIMER.on = false; clearInterval(TIMER.iv); }
+      else { TIMER.ms = 0; TIMER.on = false; clearInterval(TIMER.iv); }
+      rerender(); return;
+    }
+    if (ds.done){
+      var v = !G.done[ds.done]; G.done[ds.done] = v;
+      queue('d:'+ds.done, {k:'d', code:ds.done, value:v}); rerender(); return;
+    }
+    if (ds.chip){
+      var k = ds.chip, val = ds.val, max = +ds.max || 0, a = arr(k), at = a.indexOf(val);
+      if (at > -1) a.splice(at,1); else { a.push(val); if (max && a.length > max) a.shift(); }
+      saveField(k, a, ds.label); rerender(); return;
+    }
+    if (ds.fruit){
+      var fa = arr('SD1.fruit'), fi = fa.indexOf(ds.fruit);
+      if (fi > -1) fa.splice(fi,1); else fa.push(ds.fruit);
+      saveField('SD1.fruit', fa); rerender(); return;
+    }
+  });
+
+  app.addEventListener('input', function(e){
+    var t = e.target;
+    if (!G) return;
+    if (t.dataset.k){
+      saveField(t.dataset.k, t.value, t.dataset.label);
+      if (t.dataset.wc && +t.dataset.wc){ var wel = document.getElementById('wc-' + t.dataset.k), wn = words(t.value); if (wel){ wel.textContent = wn + ' of ' + t.dataset.wc + ' words'; wel.className = 'wc' + (wn >= +t.dataset.wc ? ' ok' : ''); } }
+      liveUpdate(t.dataset.k);
+      return;
+    }
+    if (t.dataset.num){ var na = nums(t.dataset.num, +t.dataset.n); na[+t.dataset.i] = t.value; saveField(t.dataset.num, na); liveUpdate(t.dataset.num); return; }
+    if (t.dataset.ns != null){
+      var a = arr('HF1.ns'), i = +t.dataset.ns;
+      for (var z=0; z<8; z++) if (a[z] == null) a[z] = '';
+      a[i] = t.value; saveField('HF1.ns', a);
+      t.classList.toggle('ok', nsOk(t.value, i));
+      var n = 0; for (var j=0;j<8;j++) if (nsOk(a[j], j)) n++;
+      var el = document.getElementById('fb-ns');
+      if (el){ el.className = 'fb' + (n===8 ? ' ok' : ''); el.innerHTML = n===8 ? CHECK+'All eight laws in place' : n+' of 8 correct'; }
+    }
+  });
+
+  app.addEventListener('change', function(e){
+    var t = e.target;
+    if (G && t.dataset.phadd){ uploadPhoto(t.dataset.phadd, t.files && t.files[0]); t.value = ''; return; }
+    if (!G || !t.dataset.game) return;
+    var key = GAME_KEYS[t.dataset.game], size = t.dataset.game === 'church' ? 4 : 6;
+    var a = arr(key); for (var z=0; z<size; z++) if (a[z] == null) a[z] = '';
+    a[+t.dataset.i] = t.value; saveField(key, a); rerender();
+  });
+
+  function alertMsg(m){ var el = document.getElementById('savepill'); if (el){ el.textContent = m; el.className = 'savepill retry'; setTimeout(function(){ setStatus(status); }, 4000); } }
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && PH.open){ PH.open = ''; render(); } });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Enter' && e.target && e.target.id === 'joinname') doJoin(); });
+  loadPhotos();
+  go(view, CODES.indexOf(BOOT.focus) > -1 ? BOOT.focus : '');
+})();
+</script>
+
+<script>if (!window.__gqRouted) gqStart({});</script>
+</body>
+</html>

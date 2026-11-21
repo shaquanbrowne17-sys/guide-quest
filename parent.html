@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guide Quest · Parents</title>
+<meta name="theme-color" content="#1F4D3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --ground:#F2F4EC; --surface:#FFFFFF; --surface2:#E6EBDF; --ink:#17231C; --muted:#526057; --line:#D2D9CA;
+  --pine:#1F4D3A; --pine-ink:#FFFFFF; --gold:#E9A91C; --gold-ink:#17231C;
+  --good:#1E7A46; --good-ink:#FFFFFF; --good-soft:#DDF0E3; --bad:#B3261E; --bad-soft:#FBE4E1;
+  --m1:#C4452C; --m1-ink:#FFFFFF; --m1-text:#A63A24; --m1-soft:#F8E3DC;
+  --m2:#0E7373; --m2-ink:#FFFFFF; --m2-text:#0A5E5E; --m2-soft:#D9EEEC;
+  --m3:#6A3D9A; --m3-ink:#FFFFFF; --m3-text:#5A3188; --m3-soft:#ECE3F5;
+  --m4:#2E6A3E; --m4-ink:#FFFFFF; --m4-text:#245633; --m4-soft:#DDEBDD;
+  --m5:#E9A91C; --m5-ink:#17231C; --m5-text:#7A5300; --m5-soft:#FBEFCB;
+  --base:#24407A; --base-ink:#FFFFFF; --base-text:#24407A; --base-soft:#DFE6F5;
+  --shadow:0 1px 2px rgba(23,35,28,.07), 0 6px 18px rgba(23,35,28,.06);
+  --display:'Bricolage Grotesque','Figtree',system-ui,sans-serif;
+  --body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+    --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+    --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+    --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+    --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+    --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+    --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+    --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+    --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1612; --surface:#16211B; --surface2:#223029; --ink:#E9EFE6; --muted:#A7B4AA; --line:#2E3D34;
+  --pine:#86CFA0; --pine-ink:#0E1612; --gold:#F2C14E; --gold-ink:#17231C;
+  --good:#62D092; --good-ink:#0E1612; --good-soft:#173826; --bad:#FF8F84; --bad-soft:#3A1A17;
+  --m1:#F0826A; --m1-ink:#1B0E0A; --m1-text:#F59C87; --m1-soft:#3A1F18;
+  --m2:#48C1BD; --m2-ink:#07201F; --m2-text:#6FD0CC; --m2-soft:#12302F;
+  --m3:#B793E6; --m3-ink:#1B1027; --m3-text:#C7A9EE; --m3-soft:#2A2038;
+  --m4:#74C58F; --m4-ink:#0C1F12; --m4-text:#8FD3A6; --m4-soft:#18301F;
+  --m5:#F2C14E; --m5-ink:#1F1600; --m5-text:#F5CD6E; --m5-soft:#3A2F12;
+  --base:#98B2F0; --base-ink:#0D1730; --base-text:#AFC3F4; --base-soft:#1B2540;
+  --shadow:0 1px 2px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:580px;margin:0 auto;padding-inline:16px;padding-block:10px 56px;display:flex;flex-direction:column;gap:18px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px}
+.wordmark{font-family:var(--display);font-weight:800;font-size:22px;color:var(--pine);display:flex;align-items:center;gap:8px}
+.wordmark svg{flex-shrink:0}
+.who{display:flex;align-items:center;gap:8px;min-height:44px;padding:4px 14px 4px 4px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700;font-size:14px;max-width:60%}
+.who span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--pine);color:var(--pine-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.back{min-height:44px;padding:0 14px 0 8px;border-radius:12px;border:none;background:transparent;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
+
+/* buttons */
+.btn{min-height:46px;white-space:nowrap;border-radius:12px;padding:0 18px;font-weight:800;font-size:15px;border:2px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--pine);color:var(--pine-ink)}
+.btn-ghost{background:transparent;border-color:var(--line)}
+.btn-block{width:100%}
+.btn-small{min-height:40px;font-size:14px;padding:0 14px}
+
+/* hero */
+.hero{background:var(--surface);border-radius:22px;padding:20px;display:flex;gap:18px;align-items:center;box-shadow:var(--shadow)}
+.hero-text{display:flex;flex-direction:column;gap:8px;min-width:0}
+.hero h1{font-size:28px;line-height:1.05}
+.ring{flex-shrink:0}
+.ring-track{stroke:var(--surface2)}
+.ring-val{stroke:var(--gold);transition:stroke-dashoffset .5s ease}
+.ring-num{font-family:var(--display);font-weight:800;font-size:28px;fill:var(--ink)}
+.ring-sub{font-family:var(--body);font-weight:700;font-size:12px;fill:var(--muted)}
+.namecard{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.namecard h1{font-size:30px;line-height:1.05;color:var(--pine)}
+.nudge{color:var(--bad);font-weight:700;font-size:14px}
+
+/* trail of missions */
+.trail{position:relative;display:flex;flex-direction:column;gap:14px}
+.trail::before{content:"";position:absolute;left:43px;top:40px;bottom:40px;border-left:3px dashed var(--line);z-index:0}
+.mcard{position:relative;z-index:1;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;cursor:pointer}
+.mcard:hover{border-color:var(--c)}
+.medal{width:56px;height:56px;border-radius:50%;background:var(--c);color:var(--ci);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:26px;box-shadow:0 0 0 4px var(--surface)}
+.mbody{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mname{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.15}
+.mblurb{font-size:14px;color:var(--muted)}
+.mcodes{font-size:12px;font-weight:800;color:var(--ct);letter-spacing:.03em}
+.bar{display:block;height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:4px}
+.bar>span{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .4s ease}
+.mstat{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.mstat small{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
+.mapbtn{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--pine);color:var(--pine-ink);border:none;border-radius:18px;padding:16px 18px;cursor:pointer}
+.mapbtn b{font-family:var(--display);font-size:19px;display:block}
+.mapbtn span{font-size:14px;opacity:.92}
+.note{font-size:13px;color:var(--muted);text-align:center}
+.note.warn{color:var(--bad);font-weight:700}
+
+/* mission view */
+.mhead{background:var(--c);color:var(--ci);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.mhead-top{display:flex;align-items:center;gap:14px}
+.mhead .medal{background:transparent;color:var(--ci);border:3px dashed var(--ci);box-shadow:none;width:64px;height:64px;font-size:30px;flex-shrink:0}
+.mhead h1{font-size:30px;line-height:1.05}
+.mhead p{font-size:15px}
+.covers{display:flex;flex-wrap:wrap;gap:6px}
+.covers span{background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700}
+.covers b{color:var(--ct)}
+.mprog{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px}
+.tasks{display:flex;flex-direction:column;gap:14px}
+.task{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}
+.task.is-done{border-color:var(--good)}
+.task-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.task-top h2{font-size:19px;line-height:1.2;flex:1 1 180px}
+.code{background:var(--cs);color:var(--ct);border-radius:8px;padding:3px 8px;font-size:13px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+.ok-pill{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-size:13px;font-weight:800}
+.how{font-size:15px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field>span,.flabel{font-size:14px;font-weight:700}
+input[type=text],select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:10px 12px;font:16px var(--body)}
+input[type=text]::placeholder{color:var(--muted);opacity:.8}
+input[type=text]:focus,select:focus{border-color:var(--c);outline:none;box-shadow:0 0 0 3px var(--cs)}
+input.ok,select.ok{border-color:var(--good);background:var(--good-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--c);color:var(--ci);border-color:var(--c)}
+.chip.wrong[aria-pressed="true"]{background:var(--bad-soft);color:var(--bad);border-color:var(--bad);text-decoration:line-through}
+.rows{display:flex;flex-direction:column;gap:8px}
+.rowline{display:grid;grid-template-columns:auto minmax(0,1fr) 90px;gap:8px;align-items:center}
+.rowline.two{grid-template-columns:auto minmax(0,1fr) minmax(0,1.3fr)}
+.rowlabel{font-size:13px;font-weight:800;color:var(--ct);width:56px}
+.fb{font-size:14px;font-weight:800;color:var(--muted);display:flex;align-items:center;gap:6px}
+.fb.ok{color:var(--good)}
+.game{display:flex;flex-direction:column;gap:10px;background:var(--cs);border-radius:14px;padding:14px}
+.gline{display:flex;flex-direction:column;gap:5px}
+.gline>span{font-size:14px;font-weight:600}
+.gline>span b{color:var(--ct)}
+.ns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ns label{display:flex;align-items:center;gap:8px}
+.ns .letter{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:var(--c);color:var(--ci);font-family:var(--display);font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center}
+details.hint summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--ct);min-height:32px;display:flex;align-items:center}
+details.hint p{font-size:14px;margin-top:4px}
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:0}
+.flow .lvl{display:flex;flex-direction:column;gap:5px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.flow .lvl>span{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ct)}
+.flow .arrow{display:flex;justify-content:center;height:22px;color:var(--muted)}
+.donebtn{width:100%;min-height:50px;border-radius:14px;border:2px dashed var(--c);background:transparent;color:var(--ct);font-weight:800;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.task.is-done .donebtn{background:var(--good);border:2px solid var(--good);color:var(--good-ink)}
+.sign{background:var(--surface);border:2px dashed var(--c);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sign h3{font-size:18px}
+.signrow{display:flex;gap:8px}
+.signrow input{flex:1 1 auto;min-width:0}
+.signed{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--good)}
+
+/* quest map */
+.maphead{background:var(--surface);border-radius:22px;padding:20px;display:flex;gap:18px;align-items:center;box-shadow:var(--shadow)}
+.maphead h1{font-size:30px;line-height:1.05;color:var(--pine)}
+.section{background:var(--surface);border-radius:18px;padding:6px 16px 8px;border:1.5px solid var(--line)}
+.section h2{font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:10px 0 4px}
+.qrow{display:grid;grid-template-columns:26px 44px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--line);padding:11px 0;cursor:pointer;min-height:48px}
+.section h2+.qrow{border-top:none}
+.qdot{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center}
+.qdot.on{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.qcode{font-weight:800;font-size:13px;white-space:nowrap}
+.qtext{font-size:14px;line-height:1.3}
+.qtag{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:var(--c);color:var(--ci);white-space:nowrap}
+.signs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.stile{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.stile b{font-size:14px}
+.stile span{font-size:13px;color:var(--muted)}
+.stile.on span{color:var(--good);font-weight:700}
+
+/* sheet */
+.backdrop{position:fixed;inset:0;background:rgba(10,16,12,.5);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--surface);border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));max-height:85%;overflow:auto}
+.sheet-in{max-width:580px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.sheet h2{font-size:22px}
+.plist{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;gap:8px;align-items:center}
+.pbtn{flex:1;display:flex;align-items:center;gap:10px;min-height:52px;border-radius:14px;border:1.5px solid var(--line);background:var(--ground);padding:6px 12px;cursor:pointer;text-align:left;font-weight:700}
+.pbtn[aria-current="true"]{border-color:var(--pine);box-shadow:0 0 0 2px var(--pine)}
+.pbtn small{margin-left:auto;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.xbtn{min-height:52px;min-width:52px;border-radius:14px;border:1.5px solid var(--line);background:transparent;cursor:pointer;color:var(--muted);font-weight:700;font-size:13px;padding:0 10px}
+.xbtn.confirm{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+@media (max-width:380px){.hero,.maphead{flex-direction:column;align-items:flex-start}.ns{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.mapbtn.sanct{background:#2B4C8C;color:#FFFFFF;text-decoration:none}
+a.btn{text-decoration:none;color:var(--ink)}
+.savepill{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.savepill.saving{color:var(--pine)}
+.savepill.retry,.savepill.badlink{color:var(--bad);border-color:var(--bad)}
+.lab{display:flex;flex-direction:column;gap:10px}
+.labhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.labhead h2{font-size:22px}
+.labhead a{font-weight:800;font-size:14px;color:var(--pine)}
+.labgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.labtile{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:14px;line-height:1.2}
+.labtile .li{font-size:22px;flex-shrink:0}
+.labtile small{display:block;color:var(--muted);font-size:12px;font-weight:700}
+.labbtn .li{font-size:20px}
+
+/* Version 13: Advanced, photos, joining */
+.small{font-size:13px}
+textarea{width:100%;max-width:100%;min-height:120px;border:1.5px solid var(--line);border-radius:12px;background:var(--ground);color:var(--ink);padding:10px 12px;font:16px/1.5 var(--body);resize:vertical}
+textarea:focus,input[type=number]:focus{border-color:var(--c,var(--pine));outline:none}
+input[type=number]{width:100%;min-height:42px;border:1.5px solid var(--line);border-radius:10px;background:var(--ground);color:var(--ink);padding:6px 10px;font:16px var(--body)}
+.wc{font-size:13px;font-weight:800;color:var(--muted);align-self:flex-end}
+.wc.ok{color:var(--good)}
+.advreq{font-size:14px;background:var(--surface2);border-radius:12px;padding:10px 12px}
+.mapbtn.adv{background:var(--base);color:var(--base-ink)}
+.mapbtn .star{font-size:24px;line-height:1}
+.checks{display:flex;flex-direction:column;gap:6px}
+.chk{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;min-height:44px;padding:9px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:14px;line-height:1.35;cursor:pointer}
+.chkbox{flex:0 0 22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.chk[aria-pressed="true"]{border-color:var(--c,var(--good))}
+.chk[aria-pressed="true"] .chkbox{background:var(--c,var(--good));border-color:var(--c,var(--good));color:var(--ci,#fff)}
+.qz{display:flex;flex-direction:column;gap:6px;padding:8px 0;border-top:1px solid var(--line)}
+.qz:first-of-type{border-top:none}
+.qopts{display:flex;flex-direction:column;gap:6px}
+.qopt{text-align:left;min-height:42px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);font-size:14px;cursor:pointer}
+.qopt.right{border-color:var(--good);background:var(--good-soft);font-weight:700}
+.qopt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tcday{background:var(--surface);border-radius:12px;padding:10px 12px}
+.tcday summary{display:flex;justify-content:space-between;gap:10px;cursor:pointer;min-height:32px;align-items:center}
+.tctot{font-weight:800;font-size:13px;color:var(--muted)}
+.tctot.ok{color:var(--good)}
+.tcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:8px}
+.tcgrid label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.tcbar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin-top:10px;background:var(--surface2)}
+.tcbar span{background:var(--c,var(--pine));border-right:1px solid var(--surface)}
+.tcbar span:nth-child(odd){opacity:.7}
+.stcrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.stcrow>div{display:flex;flex-direction:column;gap:6px;flex:1}
+.stcbox{flex:0 0 34px;height:34px;border-radius:9px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
+.stcbox[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.lesson section{display:flex;flex-direction:column;gap:4px;padding:8px 0;border-top:1px solid var(--line)}
+.lesson section:first-child{border-top:none}
+.lesson h3{font-size:17px}
+.vref{font-size:12.5px;font-weight:800;color:var(--ct,var(--muted))}
+.invite{text-align:left;font-weight:600;font-size:14px;line-height:1.4;white-space:normal;height:auto;padding:10px 14px}
+.timer{font-family:var(--display);font-size:44px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}
+.timer.ok{color:var(--good)}
+.btnrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ev{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:10px}
+.evh{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.evgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.evthumb{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);overflow:hidden;padding:0;cursor:pointer}
+.evthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.evload{display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--surface2),var(--surface),var(--surface2));background-size:200% 100%;animation:shim 1.2s infinite}
+@keyframes shim{to{background-position:-200% 0}}
+.evadd{aspect-ratio:1;border-radius:12px;border:2px dashed var(--c,var(--pine));display:grid;place-items:center;text-align:center;font-weight:800;font-size:13px;color:var(--ct,var(--pine));cursor:pointer;padding:6px;position:relative}
+.evadd input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.evadd.busy{opacity:.6}
+.phview{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:21;width:min(94vw,640px);max-height:92vh;overflow:auto;background:var(--surface);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.phview img{width:100%;border-radius:12px;display:block}
+.phbar{display:flex;justify-content:space-between;align-items:center}
+.linkbtn{border:none;background:none;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;min-height:36px;align-self:center}
+@media (prefers-reduced-motion:reduce){.evload{animation:none}}
+
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pstat{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.pstat b{font-family:var(--display);font-size:24px}
+.pstat span{font-size:12.5px;color:var(--muted);font-weight:700}
+.panel{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.panel h2{font-size:20px}
+.prow2{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line);font-size:14.5px}
+.prow2:first-of-type{border-top:none}
+.pdot{flex:0 0 24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.pdot.on{background:var(--good);border-color:var(--good);color:var(--good-ink)}
+.pcode{font-weight:800;min-width:40px}
+.evalbar{border:1.5px solid var(--gold);background:var(--m5-soft);border-radius:16px;padding:10px 14px;font-size:14.5px}
+.pphotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.pphotos button{aspect-ratio:1;border-radius:12px;border:1.5px solid var(--line);background:var(--surface2);overflow:hidden;padding:0;cursor:pointer}
+.pphotos img{width:100%;height:100%;object-fit:cover;display:block}
+.prog{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.prog:first-of-type{border-top:none}
+.phview{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:21;width:min(94vw,640px);max-height:92vh;overflow:auto;background:var(--surface);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.phview img{width:100%;border-radius:12px}
+</style>
+<title>Guide Quest · Parents</title>
+<style>
+.gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
+.gq-load b{font-size:20px;color:#17231C}
+.gq-load button{min-height:44px;padding:0 20px;border-radius:12px;border:none;background:#1F4D3A;color:#fff;font:800 15px Figtree,system-ui,sans-serif;cursor:pointer}
+.gq-spin{width:34px;height:34px;border-radius:50%;border:4px solid #D2D9CA;border-top-color:#1F4D3A;animation:gqspin 0.9s linear infinite}
+@keyframes gqspin{to{transform:rotate(360deg)}}
+@media (prefers-color-scheme:dark){.gq-load{color:#A7B4AA}.gq-load b{color:#E9EFE6}.gq-load button{background:#86CFA0;color:#0E1612}.gq-spin{border-color:#2E3D34;border-top-color:#86CFA0}}
+</style>
+</head>
+<body>
+<script src="gq.js"></script>
+
+<div id="app"><div class="wrap"><p class="muted">Loading…</p></div></div>
+<script type="text/gq">
+var BOOT = window.__GQBOOT;
+(function(){
+  var KEY = BOOT.key || '';
+  var SECTIONS = [['G','General'],['SD','Spiritual Discovery'],['CO','Community Outreach'],['FD','Friendship Development'],['HF','Health and Fitness'],['OL','Organisation and Leadership'],['NS','Nature Study'],['OD','Outdoor Living'],['LE','Lifestyle Enrichment']];
+  var REQ = {
+    G1:'Be 15 years old and/or in Year 11 or equivalent',
+    G2:'Know and understand the AY Legion of Honour',
+    G3:'Be an active member of the Pathfinder Club',
+    G4:'Read a Teen Book Club book and a local church history book',
+    SD1:'Discuss the gifts of the Spirit from Galatians',
+    SD2:'How the sanctuary service points to the cross and Jesus',
+    SD3:'Outline and tell 3 Adventist pioneer stories at worship',
+    SD4:'Have a current Memory Gem Certificate',
+    CO1:'Friendship visit to a shut-in, or adopt a family in need',
+    CO2:'Discuss witnessing to teens and put it into practice',
+    FD1:'Examine your attitudes on two life topics',
+    HF1:'Present the laws of good health to a younger group',
+    HF2:'Fun Run with a recorded training programme',
+    HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
+    OL1:'Flow chart of church organisation, with your Division',
+    OL2:'Attend a Basic Pathfinder Staff Training Course',
+    OL3:'Plan and teach 2 honour requirements to Juniors',
+    NS1:'Desire of Ages ch. 7 and an original nature parable',
+    NS2:'Ecology or Environmental Conservation Honour',
+    OD1:'Two-night pack camp, and discuss the equipment',
+    OD2:'Plan and cook a three-course meal on an open fire',
+    OD3:'Complete an object of lashing or rope work',
+    OD4:'New honour toward a Master award',
+    LE1:'New honour in a lifestyle area'
+  };
+  var MISSIONS = [
+    {id:'m1', n:1, name:'Hands of Jesus', short:'Serve, sing, pray and share your story',
+      blurb:'Visit a shut-in or help a family in need, and bring a teen friend. While you are there, help with a real job, sing together, pray, and share your testimony.', tasks:['CO1','CO2']},
+    {id:'m2', n:2, name:'Guide for a Day', short:'Lead one Junior Pathfinder meeting',
+      blurb:'Take charge of one Junior meeting: open with your nature parable, give a health talk, then teach two requirements of an honour.', tasks:['NS1','HF1','OL3']},
+    {id:'m3', n:3, name:'Worship Takeover', short:'Your class runs one worship service',
+      blurb:'Open with the whole class reciting the Legion of Honour, tell three pioneer stories, then show how the sanctuary points to Jesus.', tasks:['G2','SD2','SD3']},
+    {id:'m4', n:4, name:'Two-Night Trek', short:'One camp-out, six requirements',
+      blurb:'Go on a two-night pack camp. Talk through the gear, cook a three-course fire meal, lash a gadget, run a sunrise Fun Run, and hold two campfire talks.', tasks:['OD1','OD2','OD3','HF2','SD1','FD1']},
+    {id:'m5', n:5, name:'Church Map', short:'From the world church down to yours',
+      blurb:'After a class talk on how the Adventist church is organised, map it from the General Conference down to your own church.', tasks:['OL1']},
+    {id:'base', n:0, name:'Base Camp', short:'Records and honours you already have',
+      blurb:'Things you have already done or earned. Fill in the details, tick each one, and your counsellor will sign them off.', tasks:['G1','G3','G4','SD4','OL2','HF3','NS2','OD4','LE1']}
+  ];
+  var ADV = [['AV1','General','Stewardship Honour'],['AV2','Spiritual Discovery','Steps to Christ report'],['AV3','Community Outreach','Outreach meetings'],['AV4','Friendship Development','Making and keeping friends'],['AV5','Health and Fitness','God’s plan for sexuality study'],['AV6','Outdoor Living','Wilderness Master Award']];
+  var CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var COMPASS = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>';
+  var app = document.getElementById('app'), D = null, err = '', ph = {}, loading = {}, open = '';
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function fmt(c){ return String(c).replace(/^([A-Z]+)(\d+)$/, '$1 $2'); }
+  function ymd(s){ var m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; }
+  function day(s, long){ var d = ymd(s); if (!d) return String(s || ''); try { return d.toLocaleDateString(undefined, long ? {weekday:'long', day:'numeric', month:'long', year:'numeric'} : {weekday:'short', day:'numeric', month:'short'}); } catch(e){ return s; } }
+  function until(s){ var d = ymd(s), t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate()); if (!d) return ''; var n = Math.round((d - t) / 86400000); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : n > 1 ? 'in ' + n + ' days' : (-n) + ' days ago'; }
+  function run(fn, args, ok, fail){ var r = google.script.run.withSuccessHandler(ok).withFailureHandler(function(e){ fail && fail(String(e && e.message || e)); }); r[fn].apply(r, args); }
+  function ring(n, total){
+    var r = 36, c = 2*Math.PI*r, p = total ? n/total : 0;
+    return '<svg class="ring" width="92" height="92" viewBox="0 0 88 88" role="img" aria-label="'+n+' of '+total+' requirements complete"><circle cx="44" cy="44" r="'+r+'" class="ring-track" fill="none" stroke-width="9"/>'
+      + '<circle cx="44" cy="44" r="'+r+'" class="ring-val" fill="none" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+c.toFixed(2)+'" stroke-dashoffset="'+(c*(1-p)).toFixed(2)+'" transform="rotate(-90 44 44)"/>'
+      + '<text x="44" y="46" text-anchor="middle" class="ring-num">'+n+'</text><text x="44" y="62" text-anchor="middle" class="ring-sub">of '+total+'</text></svg>';
+  }
+  function render(){
+    var h = '<div class="topbar"><div class="wordmark">'+COMPASS+'Guide Quest</div><span class="muted small">For parents</span></div>';
+    if (err) return app.innerHTML = '<div class="wrap">'+h+'<section class="namecard"><h1>This parent link doesn’t work.</h1><p class="muted">Ask the counsellor to send it again.</p></section></div>';
+    if (!D) return app.innerHTML = '<div class="wrap">'+h+'<p class="muted">Loading…</p></div>';
+    var codes = Object.keys(REQ), n = codes.filter(function(c){ return D.done[c]; }).length;
+    var signed = MISSIONS.filter(function(m){ return D.signs[m.id]; }).length, adv = ADV.filter(function(a){ return D.adv[a[0]] && D.adv[a[0]].sign; }).length;
+    h += '<section class="hero">'+ring(n, codes.length)+'<div class="hero-text"><span class="eyebrow muted">'+esc(D.club || 'Pathfinder Guide class')+'</span><h1>'+esc(D.name)+'</h1><p class="muted">'+(n === codes.length ? 'Every Guide requirement is complete.' : (codes.length - n)+' requirements to go.')+'</p></div></section>';
+    if (D.evalDate) h += '<div class="evalbar"><b>Class evaluation:</b> '+esc(day(D.evalDate, true))+' · '+esc(until(D.evalDate))+'</div>';
+    h += '<div class="pstats"><div class="pstat"><b>'+signed+'/6</b><span>Missions signed off</span></div><div class="pstat"><b>'+(D.total ? D.came+'/'+D.total : '–')+'</b><span>Meetings attended</span></div><div class="pstat"><b>'+adv+'/6</b><span>Advanced (optional)</span></div></div>';
+    if (D.programme.length) h += '<section class="panel"><h2>Coming up</h2>' + D.programme.map(function(p){ return '<div class="prog"><b>'+esc(day(p.date))+' · '+esc(p.title)+'</b>'+(p.bring ? '<span class="muted small">Bring: '+esc(p.bring)+'</span>' : '')+'</div>'; }).join('') + '</section>';
+    h += '<section class="panel"><h2>Guide requirements</h2>';
+    SECTIONS.forEach(function(sec){
+      var cs = codes.filter(function(c){ return c.replace(/\d+$/, '') === sec[0]; });
+      if (!cs.length) return;
+      h += '<span class="eyebrow muted" style="margin-top:6px">'+esc(sec[1])+'</span>' + cs.map(function(c){ var on = !!D.done[c]; return '<div class="prow2"><span class="pdot'+(on ? ' on' : '')+'">'+(on ? CHECK : '')+'</span><span class="pcode">'+fmt(c)+'</span><span>'+esc(REQ[c])+'</span></div>'; }).join('');
+    });
+    h += '</section><section class="panel"><h2>Missions signed off</h2>' + MISSIONS.map(function(m){ var s = D.signs[m.id]; return '<div class="prow2"><span class="pdot'+(s ? ' on' : '')+'">'+(s ? CHECK : '')+'</span><span>'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+(s ? ' <span class="muted small">· '+esc(s)+'</span>' : '')+'</span></div>'; }).join('') + '</section>';
+    h += '<section class="panel"><h2>Advanced (optional)</h2>' + ADV.map(function(a){ var x = D.adv[a[0]] || {}; return '<div class="prow2"><span class="pdot'+(x.sign ? ' on' : '')+'">'+(x.sign ? CHECK : '')+'</span><span><b>'+esc(a[2])+'</b> <span class="muted small">· '+esc(a[1])+(x.sign ? ' · signed off' : x.done ? ' · done, waiting for sign-off' : '')+'</span></span></div>'; }).join('') + '</section>';
+    if (D.photos.length) h += '<section class="panel"><h2>Photos</h2><div class="pphotos">' + D.photos.map(function(x){ return '<button data-ph="'+esc(x.id)+'" aria-label="Open photo">'+(ph[x.id] ? '<img src="'+ph[x.id]+'" alt="">' : '')+'</button>'; }).join('') + '</div></section>';
+    h += '<p class="note">This page is view only. Questions? Talk to the Guide class counsellor.</p>';
+    var html = '<div class="wrap">'+h+'</div>';
+    if (open){ var x = D.photos.filter(function(p){ return p.id === open; })[0]; if (x) html += '<div class="backdrop" data-close="1"></div><div class="phview"><div class="phbar" style="display:flex;justify-content:space-between;align-items:center"><b>'+(REQ[x.code] ? fmt(x.code)+' · '+esc(REQ[x.code]) : 'Advanced')+'</b><button class="btn btn-ghost btn-small" data-close="1">Close</button></div>'+(ph[x.id] ? '<img src="'+ph[x.id]+'" alt="">' : '<p class="muted">Loading…</p>')+'</div>'; }
+    app.innerHTML = html;
+    thumbs();
+  }
+  function thumbs(){
+    if (!D) return;
+    var busy = Object.keys(loading).length;
+    D.photos.filter(function(x){ return !ph[x.id] && !loading[x.id]; }).slice(0, Math.max(0, 2 - busy)).forEach(function(x){
+      loading[x.id] = 1;
+      run('parent_photo', [KEY, x.id], function(r){ delete loading[x.id]; ph[x.id] = r.data; render(); }, function(){ delete loading[x.id]; ph[x.id] = 'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10" fill="#ccc"/></svg>'); });
+    });
+  }
+  app.addEventListener('click', function(e){
+    var t = e.target.closest('[data-ph],[data-close]'); if (!t) return;
+    if (t.dataset.ph){ open = t.dataset.ph; render(); } else { open = ''; render(); }
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && open){ open = ''; render(); } });
+  if (!KEY){ err = 'no-key'; render(); return; }
+  render();
+  run('parent_view', [KEY], function(res){ D = res; render(); }, function(){ err = 'bad'; render(); });
+})();
+</script>
+<script>if (!window.__gqRouted) gqStart({});</script>
+</body>
+</html>
