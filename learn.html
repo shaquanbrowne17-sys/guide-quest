@@ -595,6 +595,87 @@ body.lock{overflow:hidden}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ch-box{background:#2A2520}}
 :root[data-theme="dark"] .ch-box{background:#2A2520}
 
+/* ===== Version 15: slim name pill, Memory Gems, longer What to know ===== */
+.mepill{min-height:38px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:700 14px var(--body);cursor:pointer;display:inline-flex;align-items:center;gap:6px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mepill.save{border-color:var(--primary-bg);color:var(--primary-bg)}
+.w2-top{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.w2-lead{font-size:15.5px;line-height:1.45;flex:1 1 220px;margin:0}
+.w2-say{min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--c, var(--primary-bg));background:var(--surface);color:var(--ink);font:800 14px var(--body);cursor:pointer;white-space:nowrap}
+.w2-facts{margin:0;padding-left:20px;flex:1 1 220px;display:flex;flex-direction:column;gap:4px;font-size:15.5px}
+.ch2{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;align-items:stretch;gap:2px}
+.ch2-step{display:flex;align-items:center;gap:12px;background:var(--surface2);border-radius:14px;padding:10px 12px;font-size:15.5px;line-height:1.35;border-left:5px solid var(--c, var(--primary-bg))}
+.ch2-step.new{animation:w2In .35s ease}
+.ch2-ic{font-size:28px;line-height:1;flex:none}
+.ch2-arrow{text-align:center;font-weight:900;color:var(--c, var(--primary-bg));font-size:18px;line-height:1.2}
+@keyframes w2In{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:none}}
+.w2-next{min-height:48px;border-radius:14px;border:0;background:var(--c, var(--primary-bg));color:#fff;font:800 16px var(--body);cursor:pointer;padding:0 18px;margin-top:10px;width:100%}
+.w2-next:disabled{opacity:.4}
+.w2-again{min-height:44px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:800 15px var(--body);cursor:pointer;padding:0 16px}
+.w2-again:disabled{opacity:.4;cursor:default}
+.w2-count{font-size:13px;color:var(--muted);text-align:center;margin:4px 0 0}
+.w2-end{background:var(--good-soft);border-radius:14px;padding:12px 14px;font-size:15px;font-weight:700;margin:12px 0 8px}
+.stp{margin-top:10px;background:var(--surface2);border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.stp-pic{font-size:54px;line-height:1;width:92px;height:92px;border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:0 0 0 4px var(--c, var(--primary-bg))}
+.stp-n{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.stp-t{font-family:var(--display);font-size:21px;line-height:1.15}
+.stp-x{font-size:16px;line-height:1.45;margin:0;max-width:34em}
+.stp-dots{display:flex;justify-content:center;gap:6px;margin:10px 0 4px}
+.stp-dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.stp-dots i.was{background:var(--c, var(--primary-bg));opacity:.45}
+.stp-dots i.on{background:var(--c, var(--primary-bg));width:22px;border-radius:99px}
+.stp-nav{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.stp-nav .w2-next{margin-top:0}
+.six{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+@media (max-width:420px){.six{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.six-c{background:var(--surface2);border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.six-ic{font-size:30px}
+.six-c b{font-size:14px}
+.six-c small{font-size:12.5px;color:var(--muted)}
+.hon{border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.hon.ok{border-color:var(--good)}
+.hon-q{font-weight:800;font-size:15.5px;margin:0}
+.hon-ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:420px){.hon-ch{grid-template-columns:1fr}}
+.hon-o{min-height:52px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 14.5px/1.3 var(--body);cursor:pointer;padding:8px 10px;text-align:left}
+.hon-o.right{background:var(--good-soft);border-color:var(--good);font-weight:800}
+.hon-o.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.hon-o:disabled{cursor:default}
+.hon-fb{margin:0;font-size:14px;font-weight:800}
+.hon-fb.good{color:var(--good)}
+.hon-fb.bad{color:var(--bad)}
+.gemcat{background:var(--surface);border:1.5px solid var(--line);border-radius:18px}
+.gemcat.open{border-color:#7A4A12}
+.gemh{width:100%;display:flex;align-items:center;gap:10px;background:none;border:0;padding:12px 14px;font:inherit;color:inherit;text-align:left;cursor:pointer;min-height:56px}
+.gemht{display:flex;flex-direction:column;gap:2px;flex:1 1 auto;min-width:0}
+.gemht b{font-family:var(--display);font-size:18px}
+.gemht small{font-size:13.5px;color:var(--muted)}
+.gemchev{flex:none;width:30px;height:30px;border-radius:50%;background:var(--surface2);display:grid;place-items:center}
+.gemchev::before{content:'';width:8px;height:8px;border:solid var(--ink);border-width:0 2.5px 2.5px 0;transform:translateY(-2px) rotate(45deg)}
+[aria-expanded="true"]>.gemchev::before{transform:translateY(2px) rotate(-135deg)}
+.gemlist{display:flex;flex-direction:column;gap:8px;padding:0 14px 14px}
+.gemrow{border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.gemrow.on{border-color:#7A4A12;background:#FBF3E8}
+.gemref{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gemok{font-size:12px;font-weight:800;color:var(--good);background:var(--good-soft);border-radius:999px;padding:2px 8px}
+.gemok.pk{color:#7A4A12;background:#F4E3CC}
+.gemprev{margin:0;font-size:14.5px;color:var(--muted)}
+.gemsay{align-self:flex-start;min-height:40px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.2);color:#fff;font:800 14px var(--body);cursor:pointer}
+.gemseg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+.gemseg button{padding:0 6px;font-size:13px}
+@media (max-width:520px){.gemseg{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.gemtext{background:var(--surface);border-radius:18px;padding:16px;font-size:19px;line-height:1.75}
+.gemdone{background:var(--surface);border-radius:18px;padding:14px;font-size:17px;line-height:1.6;min-height:60px}
+.gemnext{color:var(--muted)}
+.gempieces{display:flex;flex-wrap:wrap;gap:8px}
+.gempc{min-height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px/1.3 var(--body);cursor:pointer;padding:8px 12px;text-align:left}
+.gempc.wrong{border-color:var(--bad);background:var(--bad-soft);animation:gkShake .3s}
+.gemlearn{background:var(--surface);border:1.5px dashed #7A4A12;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.gemlearn.on{border-style:solid;border-color:var(--good);background:var(--good-soft)}
+.gemlearn p{margin:0;font-weight:700}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .gemrow.on{background:#2A2016}:root:not([data-theme="light"]) .gemok.pk{background:#3A2A16;color:#F1C58A}}
+:root[data-theme="dark"] .gemrow.on{background:#2A2016}
+:root[data-theme="dark"] .gemok.pk{background:#3A2A16;color:#F1C58A}
+
 </style>
 <style>
 .gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -777,9 +858,15 @@ body.lock{overflow:hidden}
   var BANK = (B.questions || []).filter(function(q){ return q && q.q && Array.isArray(q.opts) && q.opts[q.correct]; });
   var seen = {}; Object.keys(B.seen || {}).forEach(function(k){ seen[k] = {}; (B.seen[k] || []).forEach(function(id){ seen[k][id] = true; }); });
   var best = B.best || {};
-  var S = { topic: L[B.topic] ? B.topic : '', tab: 'learn', sel: '', big: false, find: {}, game: {}, ch: null, viaHub: false, face: null };
+  var S = { topic: (L[B.topic] || B.topic === 'gems') ? B.topic : '', tab: 'learn', sel: '', big: false, find: {}, game: {}, ch: null, viaHub: false, face: null };
   var app = document.getElementById('app');
-  var joinShown = false, joinMsg = '', joinBusy = false;
+  var joinShown = false, joinMsg = '', joinBusy = false, joinOpen = false, JOIN_FIRST = false;
+  try { JOIN_FIRST = !localStorage.getItem('gq-joinseen'); localStorage.setItem('gq-joinseen', '1'); } catch(e){}
+  function whoPill(){
+    if (TOKEN && B.name) return '<button class="mepill" data-act="joinopen" aria-expanded="'+joinOpen+'">👤 '+esc(String(B.name).split(' ')[0])+' · saved</button>';
+    if (B.join && hasRun()) return '<button class="mepill save" data-act="joinopen" aria-expanded="'+joinOpen+'">💾 Save my progress</button>';
+    return '';
+  }
 
   function seenCount(k){ var o = seen[k] || {}, n = 0; (k === 'sanctuary' ? [] : L[k].cards).forEach(function(c){ if (o[c.id]) n++; }); return k === 'sanctuary' ? Object.keys(o).length : n; }
   function totalCards(k){ return k === 'sanctuary' ? (META.sanctuary ? META.sanctuary.cards : 12) : L[k].cards.length; }
@@ -804,14 +891,15 @@ body.lock{overflow:hidden}
         + (home && !B.back ? '<a href="'+esc(home)+'">My Guide missions</a>' : '')
         + (B.join ? '<button class="linkbtn" data-act="notme">Not '+esc(String(B.name).split(' ')[0])+'?</button>' : '') + '</div>';
     }
-    if (!joinShown) return '';
+    if (!joinShown && !joinOpen) return '';
     return '<div class="join"><b class="jt">Save your progress for your counsellor</b><p>Type your full name once. This phone will remember you after that.</p>'
       + '<form id="joinform" autocomplete="off"><input id="joinname" maxlength="60" placeholder="e.g. Ann Smith" aria-label="Your full name"><button class="btn btn-primary" type="submit"'+(joinBusy?' disabled':'')+'>'+(joinBusy?'Saving…':'Start')+'</button></form>'
       + (joinMsg ? '<p class="err" role="alert">'+esc(joinMsg)+'</p>' : '')
       + '<button class="linkbtn" data-act="nojoin">Just look around without saving</button></div>';
   }
   function adopt(me){
-    TOKEN = me.token; B.name = me.name; joinShown = false; joinBusy = false;
+    TOKEN = me.token; B.name = me.name; joinShown = false; joinBusy = false; joinOpen = false;
+    gemAdopt(me);
     try { localStorage.setItem(JOINKEY, TOKEN); } catch(e){}
     Object.keys(me.seen || {}).forEach(function(k){ seen[k] = seen[k] || {}; (me.seen[k] || []).forEach(function(id){ seen[k][id] = true; }); });
     Object.keys(me.best || {}).forEach(function(k){ if (!best[k] || me.best[k].best > best[k].best) best[k] = me.best[k]; });
@@ -834,11 +922,11 @@ body.lock{overflow:hidden}
     return '<button class="tile" style="--c:'+color+'" data-topic="'+k+'">'+inner+'</button>';
   }
   function hubHTML(){
-    var h = '<div class="topnav">'+(B.back ? '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>' : '<span></span>')+'</div>';
+    var h = '<div class="topnav">'+(B.back ? '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>' : '<span></span>')+(JOIN_FIRST ? '' : whoPill())+'</div>';
     h += '<header class="hubhead"><div class="eyebrow">Pathfinder Guide class</div><h1>Learning Lab</h1><p>Explore each topic, play the game, then take the challenge. Your counsellor sees your scores.</p></header>';
-    h += whoHTML();
+    h += (JOIN_FIRST || joinOpen) ? whoHTML() : '';
     var order = ['sanctuary','orienteering','lashing','fire','packcamp','nutrition','ecology','newstart','church','pioneers','fruit','legion'];
-    h += '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + '</div>';
+    h += '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>';
     return h;
   }
 
@@ -1209,8 +1297,8 @@ body.lock{overflow:hidden}
     var T = L[k], m = META[k] || {}, n = seenCount(k), tot = totalCards(k);
     var backBtn = S.viaHub || !B.back ? '<button class="backlink" data-act="hub">'+BACK+'All explorers</button>'
       : '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>';
-    var h = '<div class="topnav">'+backBtn+(!S.viaHub && B.back ? '<button class="linkbtn" data-act="hub">All explorers</button>' : '')+'</div>';
-    h += whoHTML();
+    var h = '<div class="topnav">'+backBtn+(!S.viaHub && B.back ? '<button class="linkbtn" data-act="hub">All explorers</button>' : '')+whoPill()+'</div>';
+    h += joinOpen ? whoHTML() : '';
     h += '<header class="thead" style="--c:'+T.c+'"><span class="ico" aria-hidden="true">'+T.icon+'</span><div class="eyebrow">Guide requirement '+esc(fmt(m.code || ''))+'</div><h1>'+esc(m.name || k)+'</h1><p>'+esc(T.intro)+'</p></header>';
     h += '<div class="seg" role="tablist"><button role="tab" data-tab="learn" aria-selected="'+(S.tab==='learn')+'">Learn</button><button role="tab" data-tab="game" aria-selected="'+(S.tab==='game')+'">Game</button><button role="tab" data-tab="challenge" aria-selected="'+(S.tab==='challenge')+'">Challenge</button></div>';
     if (S.tab === 'learn'){
@@ -2555,9 +2643,318 @@ body.lock{overflow:hidden}
     if (!(S.topic && S.big)) stStop();
   }
 
+  /* ======================= WHAT TO KNOW, longer (Version 15) ======================= */
+  /* Ecology: "what happens next?" chains.  Orienteering: picture steps.  Legion of Honour: honour it or not.
+     Each one has a Listen button that reads it aloud. */
+  var CHAIN = {
+    eco: { start: 'Ecology is how living things depend on each other and on their home. Watch what happens when one part of a Guyana ecosystem changes.', steps: [
+      ['🪓', 'Mangrove trees along the coast are cut down.'],
+      ['🌊', 'Their roots no longer hold the mud, so waves wash the shore away.'],
+      ['🏚️', 'Much of Guyana’s coast is below the level of high tide, so sea water can flood farms and homes.'],
+      ['🦀', 'Young fish and crabs lose the mangrove “nursery” where they grow up.'],
+      ['🎣', 'People who fish and farm lose food and money.']],
+      end: 'In an ecosystem, the living things (plants, animals) and non-living things (sun, water, soil, air) are all connected.' },
+    habitat: { start: 'A jaguar’s habitat (its address) is the rainforest. Its niche (its job) is top predator. What if its habitat is lost?', steps: [
+      ['🚜', 'Part of the forest is cleared for farms or mining.'],
+      ['🐆', 'The jaguar has nowhere to hunt, hide or raise its young, so it moves away or dies.'],
+      ['🐗', 'Animals it used to hunt, like peccaries and capybaras, can grow too many.'],
+      ['🌱', 'Too many plant-eaters eat the young plants and seedlings.'],
+      ['🌳', 'The whole forest starts to change.']],
+      end: 'Every living thing has an address (habitat) and a job (niche). Take one away and others feel it.' },
+    chain: { start: 'Energy flows along a food chain: sun → grass → grasshopper → frog → snake → hawk. What if poison gets in at the bottom?', steps: [
+      ['🧴', 'A farmer sprays poison on the grass to kill grasshoppers.'],
+      ['🐸', 'Frogs eat many poisoned grasshoppers, and the poison stays in their bodies.'],
+      ['🐍', 'A snake eats many frogs, so it holds even more poison.'],
+      ['🦅', 'The hawk at the top eats many snakes and gets the most poison of all.'],
+      ['🥚', 'A poison called DDT once did this. It made the eggshells of hawks and eagles so thin that fewer chicks hatched.']],
+      end: 'What happens at the bottom of a food chain reaches the top. Many food chains linked together make a food web.' },
+    decomp: { start: 'Decomposers are nature’s recyclers. Follow one fallen leaf.', steps: [
+      ['🍂', 'A leaf falls, or an animal dies on the forest floor.'],
+      ['🍄', 'Fungi, bacteria, worms and termites break it down.'],
+      ['🟫', 'The nutrients go back into the soil.'],
+      ['🌱', 'Roots take the nutrients up, and new plants grow.'],
+      ['🔄', 'Animals eat the plants, and the cycle goes round again.']],
+      end: 'Without decomposers, dead things would pile up and the soil would run out of food for plants.' },
+    water: { start: 'The same water goes round and round. Follow one drop.', steps: [
+      ['☀️', 'The sun heats the sea, rivers like the Essequibo, and wet leaves.'],
+      ['💨', 'Evaporation: the water turns into invisible vapour and rises.'],
+      ['☁️', 'Condensation: high up, the vapour cools into tiny drops that make clouds.'],
+      ['🌧️', 'Precipitation: the drops join, get heavy and fall as rain.'],
+      ['🏞️', 'Collection: rain gathers in rivers, lakes, the ground and the sea, and the sun starts it again.']],
+      end: 'Evaporate, condense, precipitate, collect: E-C-P-C.' },
+    air: { start: 'Plants and animals swap gases every day. Follow one breath.', steps: [
+      ['🌿', 'Leaves use sunlight, water and carbon dioxide to make food. This is photosynthesis.'],
+      ['🫧', 'As they do it, they give off oxygen.'],
+      ['🫁', 'People and animals breathe the oxygen in.'],
+      ['😮‍💨', 'We breathe carbon dioxide out.'],
+      ['🌳', 'Plants take it in again. Most of Guyana is covered in forest, which takes in and stores a great deal of carbon.']],
+      end: 'Plants breathe out what we breathe in, and we breathe out what plants need.' },
+    threats: { start: 'Pollution doesn’t stay where we put it. Follow the mercury.', steps: [
+      ['⛏️', 'Some small gold miners in the interior use mercury to collect the gold.'],
+      ['🏞️', 'Mercury washes into creeks and rivers.'],
+      ['🦠', 'Tiny living things take it in, and small fish eat them.'],
+      ['🐟', 'Big fish eat many small fish, so mercury builds up in their bodies.'],
+      ['🧑‍🤝‍🧑', 'People who often eat those big fish can be harmed, especially babies before they are born.']],
+      end: 'Other threats: cutting and burning forests, litter and plastic, over-hunting, over-fishing and climate change. Lose the home, lose the animal.' },
+    care: { start: 'Small acts of care add up. Follow one Guide’s choice.', steps: [
+      ['🧤', 'You pick up litter and put rubbish in the bin, not the drain.'],
+      ['🕳️', 'The drains and canals stay clear.'],
+      ['🌧️', 'When heavy rain comes, water drains away and there is less flooding.'],
+      ['🦟', 'Less standing water means fewer places for mosquitoes to breed.'],
+      ['🏡', 'Your community is cleaner and healthier. Save water and power, plant trees, and respect protected places like Kaieteur National Park.']],
+      end: '“And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it.” Genesis 2:15' }
+  };
+  var STEPS = {
+    what: [['🗺️', 'Get your map', 'Your course is printed on it: a triangle for the start, numbered circles for the controls and a double circle for the finish.'],
+      ['🧭', 'Plan your route', 'Use the map and compass to choose the best way to control 1.'],
+      ['🚩', 'Find the flag', 'Each control has an orange-and-white flag. Punch or clip your card, or touch your electronic tag, to prove you were there.'],
+      ['🔢', 'Keep the order', 'Visit the controls in order: 1, 2, 3 and on.'],
+      ['🏁', 'Finish fast', 'The fastest time with every control in the right order wins.']],
+    map: [['📏', 'Check the scale', 'On a 1:10,000 map, 1 cm on the map is 100 m on the ground.'],
+      ['📖', 'Read the legend', 'It tells you what every symbol and colour means.'],
+      ['⬆️', 'Find the north lines', 'Lines run up the map and point to magnetic north.'],
+      ['👍', 'Thumb the map', 'Fold it small and keep your thumb on the spot where you are.']],
+    colours: [['⚫', 'Black', 'Things people built, and rocks: paths, buildings, fences, cliffs.'],
+      ['🟤', 'Brown', 'The shape of the land: contour lines and earth banks.'],
+      ['🔵', 'Blue', 'Water: rivers, ponds and marshes.'],
+      ['🟡', 'Yellow', 'Open land with no trees, like a field.'],
+      ['⚪', 'White and green', 'White is open forest you can run through. Green is thick bush: the darker the green, the slower you go.'],
+      ['🟣', 'Purple or red', 'Your course: start, controls and finish.']],
+    contour: [['〰️', 'Same height', 'A contour line joins places that are the same height above the sea.'],
+      ['⛰️', 'Steep or gentle', 'Lines close together: steep. Lines far apart: a gentle slope.'],
+      ['⭕', 'Hill top', 'Small rings inside bigger rings show a hill.'],
+      ['🥄', 'Valley', 'Lines that bend into a V or U pointing uphill show a valley or gully.']],
+    compass: [['📐', 'Baseplate', 'The clear plastic base with a straight edge and a ruler.'],
+      ['⬆️', 'Travel arrow', 'The arrow on the baseplate. It points the way you will walk.'],
+      ['🔄', 'Housing (dial)', 'It turns. It is marked 0 to 360 degrees, with the orienting arrow and orienting lines inside.'],
+      ['🔴', 'Needle', 'The red end points to magnetic north.'],
+      ['📵', 'Keep it clear', 'Phones, metal and magnets pull the needle the wrong way, so keep them away.']],
+    dirs: [['🧭', 'The four points', 'North 0°, East 90°, South 180°, West 270°.'],
+      ['↗️', 'In between', 'North-east 45°, South-east 135°, South-west 225°, North-west 315°.'],
+      ['🔁', 'All the way round', 'Degrees go clockwise. 360° brings you back to north.'],
+      ['🧇', 'Remember it', 'Never Eat Soggy Waffles: N, E, S, W, clockwise.']],
+    orient: [['🧭', 'Compass on the map', 'Hold the compass flat on the map.'],
+      ['🔄', 'Turn the map', 'Turn the map, not the compass, until the north lines point the same way as the red needle.'],
+      ['🗺️', 'It matches', 'Now the map matches the land: a path on your left is on the map’s left.'],
+      ['👣', 'Keep it turned', 'Keep the map turned this way as you go, and turn it again at every corner.']],
+    bearing: [['📏', 'Line it up', 'Lay the compass edge from where you are to where you want to go, with the travel arrow pointing there.'],
+      ['🔄', 'Turn the dial', 'Turn the dial until its orienting lines match the map’s north lines.'],
+      ['🔴', 'Red in the shed', 'Hold the compass flat, off the map. Turn your body until the red needle sits inside the orienting arrow.'],
+      ['🚶', 'Walk it', 'Walk where the travel arrow points. Pick a tree or rock on that line, walk to it, then pick the next one.']],
+    pace: [['👣', 'Count double steps', 'Count each time your left foot lands.'],
+      ['📏', 'Measure your 100 m', 'Walk a measured 100 m and count. Many people take about 60 to 70 double steps.'],
+      ['⛰️', 'Add for hills and bush', 'You take more steps uphill and in thick bush.'],
+      ['🛑', 'Lost? S.T.O.P.', 'Stop, Think, Observe, Plan. Three blasts on a whistle means “I need help”.']]
+  };
+  var HONOUR = {
+    behold: [['A friend sends you a video full of swearing and violence.', 'Don’t open it. Tell them kindly it’s not for you.', 'Watch it so you don’t feel left out.'],
+      ['You have a free hour on your phone.', 'Watch or read something that builds you up.', 'Scroll through anything that pops up.'],
+      ['A game makes you do cruel things to win.', 'Choose a different game.', 'Keep going. It’s only a game.']],
+    listen: [['Everyone is playing a song with dirty words.', 'Ask to change it, or step away.', 'Sing along so you fit in.'],
+      ['Someone starts gossiping about a classmate.', 'Don’t listen. Change the subject.', 'Listen closely so you can pass it on.'],
+      ['Your counsellor is giving worship.', 'Put the phone away and listen.', 'Text under the table.']],
+    go: [['You’re invited to a party where people will be drinking.', 'Say no thanks, and plan something good with friends instead.', 'Go anyway. You just won’t drink.'],
+      ['It’s Sabbath afternoon and nothing is planned.', 'Go for a nature walk, or visit someone who is lonely.', 'Hang around where trouble usually starts.'],
+      ['A link takes you to a website you know is wrong.', 'Close it straight away.', 'Have a quick look. Nobody will know.']],
+    friends: [['A new student sits alone every day.', 'Sit with them and be a friend.', 'Leave them alone. Someone else will.'],
+      ['Your group starts teasing someone.', 'Stand up for that person, and tell an adult if it keeps happening.', 'Laugh along so they don’t turn on you.'],
+      ['You’re choosing a close friend.', 'Someone who makes good choices and helps you grow.', 'Whoever is most popular, whatever they do.']],
+    speak: [['Someone makes you really angry.', 'Take a breath and answer calmly.', 'Shout something that will hurt them.'],
+      ['A friend posts something you disagree with.', 'Reply kindly, or talk to them in person.', 'Mock them in the comments.'],
+      ['You did something wrong.', 'Tell the truth.', 'Lie to get out of trouble.']],
+    body: [['It’s late and there’s school tomorrow.', 'Put the phone away and sleep.', 'Game until 2 in the morning.'],
+      ['Someone offers you a cigarette or a vape.', 'Say no, and walk away.', 'Try it just once.'],
+      ['You’re thirsty after football.', 'Drink water.', 'Drink a big bottle of soda.']]
+  };
+  var W2 = { chain: {}, step: {}, hon: {} };
+  function sayIt(text){ try { stStop(); var u = new SpeechSynthesisUtterance(text); u.rate = 0.95; speechSynthesis.speak(u); } catch (e) {} }
+  function listenBtn(key){ return ('speechSynthesis' in window) ? '<button type="button" class="w2-say" data-w2say="' + key + '" aria-label="Read this aloud">🔊 Listen</button>' : ''; }
+  function w2Wrap(k, c, inner){ return '<div class="w2" data-w2="' + k + ':' + c.id + '">' + inner + '</div>'; }
+  WTK.ecology = { has: function(c){ return !!CHAIN[c.id]; }, html: function(c){ return w2Wrap('ecology', c, WTK.ecology.inner(c)); }, inner: function(c){
+    var ch = CHAIN[c.id], n = W2.chain[c.id] || 0, done = n >= ch.steps.length;
+    var h = '<div class="w2-top"><p class="w2-lead">' + esc(ch.start) + '</p>' + listenBtn('ecology:' + c.id) + '</div><ol class="ch2">';
+    for (var i = 0; i < Math.min(n, ch.steps.length); i++) h += (i ? '<li class="ch2-arrow" aria-hidden="true">↓</li>' : '') + '<li class="ch2-step' + (i === n - 1 ? ' new' : '') + '"><span class="ch2-ic">' + ch.steps[i][0] + '</span><span>' + esc(ch.steps[i][1]) + '</span></li>';
+    h += '</ol>';
+    if (!done) h += '<button type="button" class="w2-next" data-w2next="' + c.id + '">' + (n ? 'Then what happens? ↓' : 'What happens? ↓') + '</button><p class="w2-count">' + n + ' of ' + ch.steps.length + '</p>';
+    else h += '<p class="w2-end">💡 ' + esc(ch.end) + '</p><button type="button" class="w2-again" data-w2again="' + c.id + '">Start again</button>';
+    return h; } };
+  WTK.orienteering = { has: function(c){ return !!STEPS[c.id]; }, html: function(c){ return w2Wrap('orienteering', c, WTK.orienteering.inner(c)); }, inner: function(c){
+    var list = STEPS[c.id], i = Math.min(W2.step[c.id] || 0, list.length - 1), s = list[i];
+    return '<div class="w2-top"><p class="w2-lead">' + list.length + ' steps · tap Next</p>' + listenBtn('orienteering:' + c.id) + '</div>'
+      + '<div class="stp"><div class="stp-pic" aria-hidden="true">' + s[0] + '</div><div class="stp-n">Step ' + (i + 1) + ' of ' + list.length + '</div><b class="stp-t">' + esc(s[1]) + '</b><p class="stp-x">' + esc(s[2]) + '</p></div>'
+      + '<div class="stp-dots" aria-hidden="true">' + list.map(function(_, j){ return '<i' + (j === i ? ' class="on"' : j < i ? ' class="was"' : '') + '></i>'; }).join('') + '</div>'
+      + '<div class="stp-nav"><button type="button" class="w2-again" data-w2step="' + c.id + ':-1"' + (i ? '' : ' disabled') + '>Back</button><button type="button" class="w2-next" data-w2step="' + c.id + ':1">' + (i === list.length - 1 ? 'Start again' : 'Next') + '</button></div>'; } };
+  var LEGION_SIX = [['👀', 'Behold', 'what I watch'], ['👂', 'Listen', 'what I hear'], ['👣', 'Go', 'where I go'], ['🤝', 'Associates', 'my friends'], ['🗣️', 'Speak', 'what I say'], ['💪', 'Body temple', 'how I care for my body']];
+  WTK.legion = { has: function(c){ return c.id === 'what' || !!HONOUR[c.id]; }, html: function(c){ return w2Wrap('legion', c, WTK.legion.inner(c)); }, inner: function(c){
+    var h = '<div class="w2-top"><ul class="w2-facts">' + c.p.map(function(t){ return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' + listenBtn('legion:' + c.id) + '</div>';
+    if (c.id === 'what') return h + '<div class="six">' + LEGION_SIX.map(function(x, i){ return '<div class="six-c"><span class="six-ic">' + x[0] + '</span><b>' + (i + 1) + ' · ' + esc(x[1]) + '</b><small>' + esc(x[2]) + '</small></div>'; }).join('') + '</div>';
+    var st = W2.hon[c.id] || (W2.hon[c.id] = {});
+    h += '<p class="w2-lead"><b>Honour Christ, or not?</b> Tap the choice that honours Him.</p>';
+    HONOUR[c.id].forEach(function(q, i){
+      var pick = st[i], flip = (c.id.length + i) % 2 === 1, opts = flip ? [[2, q[2]], [1, q[1]]] : [[1, q[1]], [2, q[2]]];
+      h += '<div class="hon' + (pick === 1 ? ' ok' : '') + '"><p class="hon-q">' + esc(q[0]) + '</p><div class="hon-ch">' + opts.map(function(o){
+        var cls = pick === o[0] ? (o[0] === 1 ? ' right' : ' wrong') : '';
+        return '<button type="button" class="hon-o' + cls + '" data-hon="' + c.id + ':' + i + ':' + o[0] + '"' + (pick === 1 ? ' disabled' : '') + '>' + esc(o[1]) + '</button>'; }).join('') + '</div>'
+        + (pick === 1 ? '<p class="hon-fb good">✓ That honours Christ.</p>' : pick === 2 ? '<p class="hon-fb bad">Think again. Which choice would you be happy for Jesus to see?</p>' : '') + '</div>';
+    });
+    var right = HONOUR[c.id].filter(function(_, i){ return st[i] === 1; }).length;
+    if (right === HONOUR[c.id].length) h += '<p class="w2-end">💡 ' + esc(c.m || '') + ' Every choice is a chance to honour Him.</p>';
+    return h; } };
+  function w2Redraw(from){
+    var box = from.closest('.w2'); if (!box) return;
+    var p = box.getAttribute('data-w2').split(':'), c = L[p[0]].cards.filter(function(x){ return x.id === p[1]; })[0];
+    if (c) box.innerHTML = WTK[p[0]].inner(c);
+  }
+  function w2Text(k, c){
+    if (k === 'ecology') { var ch = CHAIN[c.id]; return ch.start + ' ' + ch.steps.map(function(s){ return s[1]; }).join(' Then: ') + ' ' + ch.end; }
+    if (k === 'orienteering') return STEPS[c.id].map(function(s, i){ return 'Step ' + (i + 1) + '. ' + s[1] + '. ' + s[2]; }).join(' ');
+    if (k === 'legion') return c.p.join(' ') + (HONOUR[c.id] ? ' Honour Christ, or not? ' + HONOUR[c.id].map(function(q){ return q[0] + ' Honour Christ: ' + q[1]; }).join(' ') : ' The six choices are: ' + LEGION_SIX.map(function(x){ return x[1] + ', ' + x[2]; }).join('. '));
+    return '';
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-w2say],[data-w2next],[data-w2again],[data-w2step],[data-hon]'); if (!b) return;
+    if (b.hasAttribute('data-w2say')) { var sp = b.getAttribute('data-w2say').split(':'), cc = L[sp[0]].cards.filter(function(x){ return x.id === sp[1]; })[0]; if (cc) sayIt(w2Text(sp[0], cc)); return; }
+    if (b.hasAttribute('data-w2next')) { var id = b.getAttribute('data-w2next'); W2.chain[id] = (W2.chain[id] || 0) + 1; SFX.pop(); w2Redraw(b); return; }
+    if (b.hasAttribute('data-w2again')) { W2.chain[b.getAttribute('data-w2again')] = 0; w2Redraw(b); return; }
+    if (b.hasAttribute('data-w2step')) { var s2 = b.getAttribute('data-w2step').split(':'), len = STEPS[s2[0]].length, cur = W2.step[s2[0]] || 0, nx = cur + Number(s2[1]); W2.step[s2[0]] = nx >= len ? 0 : Math.max(0, nx); SFX.pop(); w2Redraw(b); return; }
+    if (b.hasAttribute('data-hon')) { var hp = b.getAttribute('data-hon').split(':'), hs = W2.hon[hp[0]] || (W2.hon[hp[0]] = {}); hs[hp[1]] = Number(hp[2]); if (hp[2] === '1') SFX.good(); else SFX.bad(); w2Redraw(b); }
+  });
+
+  /* ======================= MEMORY GEM TRAINER (SD4, Version 15) ======================= */
+  var GEM = { picked: [], learned: [], sel: '', level: 0, shown: {}, ord: null, open: undefined, t: null };
+  (function(){
+    var gp = B.gp || {};
+    GEM.picked = (gp.picked || []).slice(); GEM.learned = (gp.learned || []).slice();
+    if (!TOKEN){ try { var l = JSON.parse(localStorage.getItem('gq-gems') || 'null'); if (l){ GEM.picked = l.picked || []; GEM.learned = l.learned || []; } } catch(e){} }
+  })();
+  function gemList(){ return Array.isArray(B.gems) ? B.gems : []; }
+  function gemCats(){ var c = []; gemList().forEach(function(g){ if (c.indexOf(g.cat) < 0) c.push(g.cat); }); return c; }
+  function gemByRef(r){ return gemList().filter(function(g){ return g.ref === r; })[0]; }
+  function gemWords(t){ return String(t || '').split(/\s+/).filter(Boolean); }
+  function gemPreview(t){ var w = gemWords(t); return w.slice(0, 14).join(' ') + (w.length > 14 ? '…' : ''); }
+  function gemSave(){
+    try { localStorage.setItem('gq-gems', JSON.stringify({ picked: GEM.picked, learned: GEM.learned })); } catch(e){}
+    if (!TOKEN || !hasRun()) return;
+    clearTimeout(GEM.t);
+    GEM.t = setTimeout(function(){
+      google.script.run.withSuccessHandler(function(){}).withFailureHandler(function(){}).sync(TOKEN, [
+        { k: 'a', key: 'SD4.gems', value: GEM.picked.slice(0, 20), label: 'Memory Gems I picked' },
+        { k: 'a', key: 'SD4.learned', value: GEM.learned.slice(0, 20), label: 'Memory Gems I learned' }]);
+    }, 700);
+  }
+  function gemAdopt(me){
+    var gp = me && me.gp;
+    if (gp && ((gp.picked || []).length || (gp.learned || []).length)){ GEM.picked = gp.picked.slice(); GEM.learned = gp.learned.slice(); }
+    else if (GEM.picked.length || GEM.learned.length) gemSave();
+  }
+  function gemPick(ref){
+    var g = gemByRef(ref); if (!g) return;
+    GEM.picked = GEM.picked.filter(function(r){ var x = gemByRef(r); return !x || x.cat !== g.cat; });
+    GEM.picked.push(ref); gemSave();
+  }
+  function gemChunks(t){
+    var out = [], cur = [];
+    gemWords(t).forEach(function(w){ cur.push(w); if (cur.length >= 6 || (/[,;:.?!]$/.test(w) && cur.length >= 3)){ out.push(cur.join(' ')); cur = []; } });
+    if (cur.length){ if (cur.length < 3 && out.length) out[out.length - 1] += ' ' + cur.join(' '); else out.push(cur.join(' ')); }
+    return out;
+  }
+  function gemsTileHTML(){
+    var cats = gemCats(), ln = GEM.picked.filter(function(r){ return GEM.learned.indexOf(r) > -1; }).length;
+    if (!cats.length) return '';
+    return '<button class="tile" style="--c:#7A4A12" data-gems="1"><span class="ico" aria-hidden="true">💎</span><span style="flex:1;min-width:0"><b>Memory Gems</b><small>SD 4 · '+ln+' of '+cats.length+' learned</small>'
+      + '<span class="bar"><span style="width:'+Math.round(100*Math.min(ln, cats.length)/cats.length)+'%"></span></span></span></button>';
+  }
+  function gemsHTML(){
+    var back = S.viaHub || !B.back ? '<button class="backlink" data-act="hub">'+BACK+'All explorers</button>' : '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>';
+    var h = '<div class="topnav">'+(GEM.sel ? '<button class="backlink" data-gm="list">'+BACK+'All Memory Gems</button>' : back)+whoPill()+'</div>' + (joinOpen ? whoHTML() : '');
+    var g = GEM.sel ? gemByRef(GEM.sel) : null;
+    if (g) return h + gemPractiseHTML(g);
+    GEM.sel = '';
+    var cats = gemCats(), list = gemList();
+    var pickedCats = cats.filter(function(c){ return GEM.picked.some(function(r){ var x = gemByRef(r); return x && x.cat === c; }); });
+    var ln = GEM.picked.filter(function(r){ return GEM.learned.indexOf(r) > -1 && gemByRef(r); }).length;
+    h += '<header class="thead" style="--c:#7A4A12"><span class="ico" aria-hidden="true">💎</span><div class="eyebrow">Guide requirement SD 4</div><h1>Memory Gems</h1>'
+      + '<p>Pick one text from each group. Learn it here, say it to your counsellor, then take your club’s Memory Gem test.</p></header>';
+    if (!list.length) return h + '<p class="help">Your counsellor hasn’t set up the Memory Gem list yet.</p>';
+    h += '<div class="progress"><span>Picked '+pickedCats.length+' of '+cats.length+' groups · learned '+ln+'</span><span class="bar" style="--c:#7A4A12"><span style="width:'+Math.round(100*Math.min(ln, cats.length)/cats.length)+'%"></span></span></div>';
+    var openCat = GEM.open !== undefined ? GEM.open : (cats.filter(function(c){ return pickedCats.indexOf(c) < 0; })[0] || '');
+    cats.forEach(function(c){
+      var items = list.filter(function(x){ return x.cat === c; }), mine = items.filter(function(x){ return GEM.picked.indexOf(x.ref) > -1; })[0], open = openCat === c;
+      h += '<section class="gemcat'+(open ? ' open' : '')+'"><button class="gemh" data-gmcat="'+esc(c)+'" aria-expanded="'+open+'"><span class="gemht"><b>'+esc(c)+'</b><small>'
+        + (mine ? (GEM.learned.indexOf(mine.ref) > -1 ? '✓ Learned: ' : 'Picked: ')+esc(mine.ref) : items.length+' to choose from')+'</small></span><span class="gemchev" aria-hidden="true"></span></button>';
+      if (open) h += '<div class="gemlist">' + items.map(function(x){
+        var on = GEM.picked.indexOf(x.ref) > -1, lnd = GEM.learned.indexOf(x.ref) > -1;
+        return '<div class="gemrow'+(on ? ' on' : '')+'"><div class="gemref"><b>'+esc(x.ref)+'</b>'+(lnd ? '<span class="gemok">✓ Learned</span>' : on ? '<span class="gemok pk">My pick</span>' : '')+'</div><p class="gemprev">'+esc(gemPreview(x.text))+'</p>'
+          + '<div class="btnrow">'+(on ? '<button class="btn btn-primary" data-gmpract="'+esc(x.ref)+'">Practise it</button>' : '<button class="btn btn-ghost" data-gmpick="'+esc(x.ref)+'">Pick this one</button>')+'</div></div>';
+      }).join('') + '</div>';
+      h += '</section>';
+    });
+    h += '<p class="help">'+(TOKEN ? 'Your picks are saved for your counsellor.' : 'Your picks are saved on this phone. Type your name (tap “Save my progress” at the top) to save them for your counsellor.')+'</p>';
+    return h;
+  }
+  function gemPractiseHTML(g){
+    var words = gemWords(g.text), lv = GEM.level, lnd = GEM.learned.indexOf(g.ref) > -1;
+    var h = '<header class="thead" style="--c:#7A4A12"><span class="ico" aria-hidden="true">💎</span><div class="eyebrow">'+esc(g.cat)+'</div><h1>'+esc(g.ref)+'</h1>'
+      + (('speechSynthesis' in window) ? '<button class="gemsay" data-gmsay="'+esc(g.ref)+'">🔊 Listen</button>' : '') + '</header>';
+    h += '<div class="seg gemseg" role="tablist">' + ['Read it','Hide some','First letters','Hide all','Put in order'].map(function(t, i){ return '<button data-gmlv="'+i+'" aria-selected="'+(lv === i)+'">'+t+'</button>'; }).join('') + '</div>';
+    if (lv < 4){
+      h += '<p class="help">'+['Read it aloud three times.','Say it, and fill in the gaps. Tap a gap to peek.','Say it from the first letters. Tap one to peek.','Say the whole text. Tap a gap to peek.'][lv]+'</p>';
+      h += '<div class="mem gemtext" style="--c:#7A4A12"><p>' + words.map(function(w, i){
+        var hide = lv === 1 ? (i % 3 !== 0) && w.replace(/[^A-Za-z]/g, '').length > 2 : lv >= 2;
+        if (!hide || GEM.shown[i]) return GEM.shown[i] ? '<span class="w shown">'+esc(w)+'</span>' : esc(w);
+        if (lv === 2) return '<span class="w hint" data-gw="'+i+'">'+esc(w.replace(/^([^A-Za-z]*[A-Za-z]).*?([,;:.?!]*)$/, '$1…$2'))+'</span>';
+        return '<span class="w" data-gw="'+i+'">'+esc(w)+'</span>';
+      }).join(' ') + '</p></div>';
+      h += '<div class="btnrow">'+(lv > 0 ? '<button class="btn btn-ghost" data-gm="hide">Hide them again</button>' : '')+'<button class="btn btn-primary" data-gmlv="'+(lv + 1)+'">'+(lv === 3 ? 'Put it in order' : 'Next: '+['Hide some','First letters','Hide all'][lv])+'</button></div>';
+    } else h += gemOrderHTML(g);
+    h += '<div class="gemlearn'+(lnd ? ' on' : '')+'"><p>'+(lnd ? '✓ You marked this one as learned. Say it to your counsellor.' : 'Can you say it all by heart, with the reference?')+'</p>'
+      + '<button class="btn '+(lnd ? 'btn-ghost' : 'btn-primary')+'" data-gmlearn="'+esc(g.ref)+'">'+(lnd ? 'Not yet, keep practising' : 'Yes, I can say it')+'</button></div>';
+    return h;
+  }
+  function gemOrderHTML(g){
+    var ch = gemChunks(g.text), parts = Math.max(1, Math.ceil(ch.length / 10)), o = GEM.ord;
+    if (!o || o.ref !== g.ref) o = GEM.ord = { ref: g.ref, part: 0, done: [], wrong: -1, deck: null };
+    var mine = ch.slice(o.part * 10, o.part * 10 + 10);
+    if (!o.deck) o.deck = gkShuffle(mine.map(function(_, i){ return i; }));
+    var h = '<p class="help">'+(parts > 1 ? 'Part '+(o.part + 1)+' of '+parts+'. ' : '')+'Tap the pieces in the right order.</p>';
+    h += '<div class="gemdone">' + (o.done.length ? o.done.map(function(i){ return '<span>'+esc(mine[i])+'</span>'; }).join(' ') : '<span class="gemnext">Start with the first words…</span>') + '</div>';
+    if (o.done.length < mine.length){
+      h += '<div class="gempieces">' + o.deck.filter(function(i){ return o.done.indexOf(i) < 0; }).map(function(i){ return '<button class="gempc'+(o.wrong === i ? ' wrong' : '')+'" data-gmpc="'+i+'">'+esc(mine[i])+'</button>'; }).join('') + '</div>';
+    } else if (o.part < parts - 1){
+      h += '<p class="fb ok">'+CHECK+' Part '+(o.part + 1)+' done!</p><div class="btnrow"><button class="btn btn-primary" data-gm="nextpart">Next part</button></div>';
+    } else {
+      h += '<p class="fb ok">'+CHECK+' You put the whole text in order!</p><div class="btnrow"><button class="btn btn-ghost" data-gm="again">Do it again</button></div>';
+    }
+    return h;
+  }
+  function gemGo(){ render(); window.scrollTo(0, 0); }
+  document.addEventListener('click', function(e){
+    var w = e.target.closest('[data-gw]');
+    if (w){ GEM.shown[w.getAttribute('data-gw')] = true; render(); return; }
+    var b = e.target.closest('[data-gems],[data-gmcat],[data-gmpick],[data-gmpract],[data-gm],[data-gmlv],[data-gmpc],[data-gmlearn],[data-gmsay]'); if (!b) return;
+    var d = b.dataset;
+    if (d.gems){ S.topic = 'gems'; S.viaHub = true; GEM.sel = ''; gemGo(); return; }
+    if (d.gmcat){ GEM.open = b.getAttribute('aria-expanded') === 'true' ? '' : d.gmcat; render(); return; }
+    if (d.gmpick){ gemPick(d.gmpick); SFX.pop(); GEM.sel = d.gmpick; GEM.level = 0; GEM.shown = {}; GEM.ord = null; gemGo(); return; }
+    if (d.gmpract){ GEM.sel = d.gmpract; GEM.level = 0; GEM.shown = {}; GEM.ord = null; gemGo(); return; }
+    if (d.gmlv !== undefined){ GEM.level = Math.min(4, +d.gmlv); GEM.shown = {}; if (GEM.level === 4) GEM.ord = null; stStop(); render(); return; }
+    if (d.gmsay){ var g = gemByRef(d.gmsay); if (g) sayIt(g.ref + '. ' + g.text + ' ' + g.ref + '.'); return; }
+    if (d.gmlearn){ var at = GEM.learned.indexOf(d.gmlearn); if (at > -1) GEM.learned.splice(at, 1); else { GEM.learned.push(d.gmlearn); SFX.good(); } gemSave(); render(); return; }
+    if (d.gmpc !== undefined){
+      var o = GEM.ord; if (!o) return;
+      var i = +d.gmpc;
+      if (i === o.done.length){ o.done.push(i); o.wrong = -1; SFX.pop(); } else { o.wrong = i; SFX.bad(); }
+      render(); return;
+    }
+    if (d.gm === 'list'){ GEM.sel = ''; stStop(); gemGo(); return; }
+    if (d.gm === 'hide'){ GEM.shown = {}; render(); return; }
+    if (d.gm === 'nextpart'){ GEM.ord.part++; GEM.ord.done = []; GEM.ord.deck = null; GEM.ord.wrong = -1; render(); return; }
+    if (d.gm === 'again'){ GEM.ord = null; render(); return; }
+  });
+
   /* ======================= RENDER + EVENTS ======================= */
   function render(){
-    app.innerHTML = S.topic ? topicHTML(S.topic) : hubHTML();
+    app.innerHTML = S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
     document.body.classList.toggle('lock', !!(S.topic && S.big && S.tab === 'learn'));
     afterRender();
   }
@@ -2607,7 +3004,8 @@ body.lock{overflow:hidden}
         render(); window.scrollTo({ top: 0, behavior: 'smooth' }); break;
       case 'again': startChallenge(S.topic); render(); break;
       case 'resave': submitScore(); break;
-      case 'nojoin': joinShown = false; render(); break;
+      case 'nojoin': joinShown = false; joinOpen = false; render(); break;
+      case 'joinopen': joinOpen = !joinOpen; render(); break;
       case 'notme':
         try { localStorage.removeItem(JOINKEY); } catch(err){}
         TOKEN = ''; B.name = ''; seen = {}; best = {}; joinShown = true; joinMsg = ''; render(); window.scrollTo(0, 0); break;
