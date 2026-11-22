@@ -896,6 +896,168 @@ body.lock{overflow:hidden}
 .x6-buoy.ok{background:#DDF6E6;border-color:var(--g-mint)}
 .x6-buoy.no{background:#FFE1DD;border-color:var(--g-red);animation:gkShake .35s;opacity:.7}
 
+/* ===== Version 17: recording controls and the pop-up player ===== */
+.rd-rec{display:flex;align-items:center;gap:10px}
+.rd-recb{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:#5B3A1E;color:#FFF6E4;font-size:18px;cursor:pointer;display:grid;place-items:center}
+.rd-seek{flex:1;min-width:0;accent-color:#B5452C;height:28px}
+.rd-time{flex:none;font:700 12.5px/1 var(--body);color:var(--muted);min-width:76px;text-align:right}
+.rd-parts .rd-rec{margin:2px 0}
+.rdmini{position:fixed;left:10px;right:10px;bottom:10px;z-index:60;display:flex;align-items:center;gap:6px;max-width:640px;margin:0 auto;padding:6px 6px 6px 8px;border-radius:18px;background:#2A231B;color:#FFF6E4;box-shadow:0 10px 28px rgba(0,0,0,.35);animation:rdmIn .25s ease}
+.rdmini[hidden]{display:none}
+@keyframes rdmIn{from{transform:translateY(20px);opacity:0}}
+.rdm-open{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:none;border:0;color:inherit;text-align:left;cursor:pointer;padding:4px;font:inherit}
+.rdm-ic{flex:none;width:38px;height:38px;border-radius:12px;background:#5B3A1E;display:grid;place-items:center;font-size:20px}
+.rdm-t{min-width:0;display:flex;flex-direction:column}
+.rdm-t b{font:800 14px/1.2 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rdm-t small{font-size:12px;color:#D9C9AE;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rdm-b{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:#3A332A;color:#FFF6E4;font-size:17px;cursor:pointer}
+.rdm-play{background:#E9B649;color:#2A1C00}
+body.has-rdmini{padding-bottom:84px}
+/* ===== Version 17: 3D arcade cards ===== */
+.x17-arc{position:relative;display:grid;grid-template-columns:56px 1fr;grid-template-rows:auto auto auto;column-gap:12px;row-gap:2px;align-items:center;margin:0 0 12px;padding:16px 14px 14px;border-radius:20px;text-decoration:none;color:#FFF8E8;background:linear-gradient(135deg,#1F4D3A 0%,#2E6B50 55%,#C98A1E 140%);box-shadow:0 10px 24px rgba(31,77,58,.28);overflow:hidden}
+.x17-arc::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(242,193,78,.45),transparent 70%)}
+.x17-tag{grid-column:1 / -1;justify-self:start;font:800 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:#F2C14E;color:#2A1C00;padding:5px 8px;border-radius:8px;margin-bottom:6px}
+.x17-ic{grid-row:span 2;width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:30px}
+.x17-arc b{font:900 19px/1.15 var(--body)} .x17-arc small{font-size:13.5px;line-height:1.35;color:#DDEBDF}
+.x17-go{grid-column:1 / -1;justify-self:end;margin-top:8px;background:#F2C14E;color:#2A1C00;font:900 14px/1 var(--body);padding:11px 16px;border-radius:12px;position:relative;z-index:1}
+.x17-hub{margin:4px 0 14px}
+
+/* ===== Version 17: ten different covers ===== */
+.cv{position:relative;margin:4px 0 12px}
+.cv button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cv-hint{margin:0 0 8px;color:var(--muted);font-size:14px;font-weight:600}
+.cv-tick{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:#1E7A46;color:#fff;font:900 13px/22px var(--body);text-align:center;font-style:normal}
+/* Legion: a day in my life */
+.cv-dayrow{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px;scrollbar-width:none}
+.cv-dayrow::-webkit-scrollbar{display:none}
+.cv-moment{position:relative;flex:0 0 78%;max-width:300px;min-height:300px;scroll-snap-align:center;border:0;border-radius:24px;padding:18px;text-align:left;display:flex;flex-direction:column;gap:6px;color:#fff;box-shadow:0 10px 24px rgba(30,20,60,.25);overflow:hidden}
+.cv-moment.t-dawn{background:linear-gradient(160deg,#F6B26B,#7A4FA8)}.cv-moment.t-morning{background:linear-gradient(160deg,#FFD36B,#E58A3A)}
+.cv-moment.t-noon{background:linear-gradient(160deg,#5FB7F2,#2B6CB0)}.cv-moment.t-evening{background:linear-gradient(160deg,#F08A5D,#8E3A7A)}.cv-moment.t-night{background:linear-gradient(160deg,#2B2D6E,#0E1033)}
+.cv-time{font:800 13px/1 var(--body);letter-spacing:.08em;background:rgba(0,0,0,.22);align-self:flex-start;padding:6px 10px;border-radius:20px}
+.cv-big{font-size:84px;line-height:1;margin:14px 0 6px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.cv-moment b{font:800 22px/1.15 var(--display)}
+.cv-q{font-size:16px;opacity:.95}
+.cv-pledge{margin-top:auto;font:800 12.5px/1.2 var(--body);letter-spacing:.04em;text-transform:uppercase;opacity:.9}
+.cv-moment.seen{outline:3px solid rgba(255,255,255,.75);outline-offset:-6px}
+.cv-dots{display:flex;justify-content:center;gap:6px}.cv-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.cv-dots i.on{background:#5A3188}
+/* Life Choices: comic */
+.cv-comic{background:#FFF8E1;border:3px solid #111;border-radius:6px;padding:10px;box-shadow:6px 6px 0 #111}
+.cv-comic-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid #111;padding-bottom:6px;margin-bottom:10px}
+.cv-comic-head b{font:900 24px/1 var(--display);letter-spacing:.04em;color:#D7263D;-webkit-text-stroke:1px #111}
+.cv-comic-head span{font:800 12px/1 var(--body);text-transform:uppercase;color:#111}
+.cv-panels{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cv-panel{position:relative;border:3px solid #111;background:#fff radial-gradient(circle,rgba(14,94,115,.16) 1.5px,transparent 1.6px) 0 0/9px 9px;padding:0;text-align:left;min-height:150px;transform:rotate(var(--r));display:flex;flex-direction:column;color:#111}
+.cv-panel.wide{grid-column:span 2;min-height:130px}
+.cv-cap{background:#FFE14D;border-bottom:3px solid #111;font:900 11.5px/1.2 var(--body);text-transform:uppercase;padding:5px 7px}
+.cv-scene{flex:1;position:relative;display:flex;align-items:flex-end;gap:6px;padding:8px}
+.cv-who{font-size:46px;line-height:1}
+.cv-bubble{position:relative;background:#fff;border:2.5px solid #111;border-radius:16px;padding:6px 8px;font:700 13px/1.25 var(--body);margin-bottom:34px;flex:1}
+.cv-bubble small{display:block;font:900 10px/1 var(--body);text-transform:uppercase;color:#D7263D;margin-bottom:2px}
+.cv-bubble:after{content:"";position:absolute;left:-12px;bottom:8px;border:8px solid transparent;border-right:12px solid #111}
+.cv-prop{position:absolute;right:8px;bottom:6px;font-size:28px}
+.cv-stamp{position:absolute;top:30px;right:6px;transform:rotate(12deg);border:2.5px solid #1E7A46;color:#1E7A46;font:900 11px/1 var(--body);padding:3px 6px;border-radius:4px;font-style:normal;background:rgba(255,255,255,.8)}
+/* Sharing Jesus: phone */
+.cv-phone{display:flex;flex-direction:column;align-items:center}
+.cv-ph{width:min(300px,86%);border-radius:40px;border:10px solid #1B1B1F;background:linear-gradient(170deg,#1F6F8B,#3B2A6E 60%,#C2185B);padding:10px 14px 14px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.cv-ph-top{display:flex;justify-content:space-between;align-items:center;color:#fff;font:700 12px/1 var(--body);padding:2px 6px 10px}
+.cv-notch{width:80px;height:20px;background:#1B1B1F;border-radius:0 0 14px 14px;margin-top:-12px}
+.cv-note{width:100%;display:flex;gap:8px;align-items:center;text-align:left;border:0;border-radius:16px;background:rgba(255,255,255,.88);padding:8px 10px;margin-bottom:14px;color:#1B1B1F;font-size:13px;animation:cvSlide .6s ease}
+.cv-note b{display:block;font-size:13px}
+.cv-note-ic{font-size:22px}
+@keyframes cvSlide{from{transform:translateY(-18px);opacity:0}}
+.cv-apps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;padding:4px 2px 16px}
+.cv-app{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:5px;color:#fff}
+.cv-app-ic{position:relative;width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:28px;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.cv-badge{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;border-radius:10px;background:#FF3B30;color:#fff;font:800 12px/20px var(--body);font-style:normal;text-align:center;border:2px solid #fff}
+.cv-app-l{font:700 12px/1.1 var(--body);text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.cv-dock{display:flex;justify-content:space-around;background:rgba(255,255,255,.22);border-radius:22px;padding:8px;font-size:24px}
+.cv-phone .cv-hint{margin-top:10px}
+/* Honours: sash */
+.cv-sash{display:flex;flex-direction:column;align-items:center}
+.cv-sash-band{width:min(320px,92%);background:linear-gradient(90deg,#1E5A2E,#2E7D3C 50%,#1E5A2E);border-radius:14px;padding:14px 16px 18px;box-shadow:inset 0 0 0 3px #E9B649,0 10px 24px rgba(0,0,0,.2);transform:rotate(-2deg)}
+.cv-sash-title{display:block;text-align:center;color:#FFE9A8;font:800 13px/1.2 var(--body);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.cv-patches{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px}
+.cv-patch{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;color:#FFF6E0}
+.cv-patch-in{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font-size:38px;border:3px dashed rgba(255,255,255,.55);background:rgba(0,0,0,.18);filter:grayscale(.7);opacity:.75;transition:all .3s}
+.cv-patch.sewn .cv-patch-in{filter:none;opacity:1;background:radial-gradient(circle,#FFFDF5 55%,#F4E2B0);border:4px solid #E9B649;box-shadow:0 0 0 3px #7A5A10 inset,0 4px 10px rgba(0,0,0,.35)}
+.cv-patch-l{font:800 12.5px/1.15 var(--body);text-align:center}
+/* Our Church's Story: river map */
+.cv-river{border-radius:22px;overflow:hidden}
+.cv-river-map{position:absolute;inset:0;width:100%;height:100%}
+.cv-stop{position:absolute;width:46%;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:0;border-radius:16px;background:#FFFDF6;padding:10px 12px;box-shadow:0 6px 16px rgba(20,60,40,.25);color:#1D1B2B}
+.cv-stop.l{left:3%}.cv-stop.r{right:3%}
+.cv-stop b{font:800 14px/1.2 var(--body)}
+.cv-year{font:900 12px/1 var(--display);color:#fff;background:#1F5E7A;border-radius:10px;padding:4px 8px}
+.cv-pin{font-size:26px;line-height:1}
+.cv-stop.seen{background:#E9F6EE}
+.cv-canoe{position:absolute;bottom:-26px;left:50%;font-size:30px;animation:gkBob 1.2s ease-in-out infinite}
+.cv-stop.r .cv-canoe{left:auto;right:50%}
+.cv-river-hint{position:absolute;bottom:6px;left:0;right:0;text-align:center;color:#2D5A1E}
+/* Fit & Free: fitness dashboard */
+.cv-fit{background:#0E0F12;color:#F2F2F2;border-radius:24px;padding:16px}
+.cv-fit-top{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.cv-rings{width:128px;height:128px;flex:none}
+.cv-fit-legend{display:flex;flex-direction:column;gap:8px;font:700 14px/1.2 var(--body)}
+.cv-fit-legend span{display:flex;align-items:center;gap:8px}.cv-fit-legend i{width:10px;height:10px;border-radius:50%}.cv-fit-legend b{margin-left:auto;font-size:16px}
+.cv-tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cv-tile{background:#1C1E24;border:0;border-radius:18px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:4px;color:#F2F2F2;min-height:128px}
+.cv-tile-ic{font-size:26px}
+.cv-tile b{font:800 14.5px/1.2 var(--body)}.cv-tile small{color:#A0A4AE;font-size:12px;line-height:1.25}
+.cv-bar{margin-top:auto;height:6px;border-radius:4px;background:#2D3038;overflow:hidden;display:block}.cv-bar i{display:block;height:100%;background:#7DDB3A;border-radius:4px}
+.cv-tile.seen{box-shadow:inset 0 0 0 2px #7DDB3A}
+/* Temperance: a book with chapter tabs */
+.cv-book{display:flex;gap:0;align-items:stretch}
+.cv-cover{flex:1;position:relative;border-radius:10px 4px 4px 10px;background:linear-gradient(135deg,#6E1E3A,#3E0E22);color:#F4D9A0;padding:22px 16px;min-height:360px;box-shadow:inset 8px 0 0 rgba(0,0,0,.25),0 12px 26px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
+.cv-book-k{font:700 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.cv-book-t{font:800 32px/1.1 Georgia,serif;margin:10px 0 2px;color:#FBE3A8}
+.cv-book-p{font:italic 14px Georgia,serif;opacity:.9}
+.cv-chain{display:flex;flex-wrap:wrap;justify-content:center;gap:0;margin:26px 0 10px;transform:rotate(-8deg)}
+.cv-link{width:34px;height:20px;border:5px solid #A9AFB8;border-radius:12px;margin:0 -5px;background:transparent;box-shadow:0 2px 3px rgba(0,0,0,.4);transition:all .5s}
+.cv-link:nth-child(even){height:14px;margin-top:3px}
+.cv-link.broke{border-color:#6B4E5A;opacity:.35;transform:translateY(16px) rotate(30deg)}
+.cv-lock{font-size:44px;margin-top:6px}
+.cv-book-n{margin-top:auto;font:700 13.5px/1.3 var(--body);color:#F7E2BC}
+.cv-book.free .cv-cover{background:linear-gradient(135deg,#8A2C4F,#5A1A35)}
+.cv-tabs{display:flex;flex-direction:column;gap:4px;padding:10px 0;width:118px}
+.cv-btab{border:0;border-radius:0 12px 12px 0;padding:8px 8px;text-align:left;font:800 12px/1.15 var(--body);background:hsl(var(--h),55%,86%);color:#2B1220;display:flex;align-items:center;gap:5px;box-shadow:2px 2px 4px rgba(0,0,0,.15);min-height:44px}
+.cv-btab span{font-size:16px}
+.cv-btab.seen{background:hsl(var(--h),40%,72%);text-decoration:line-through;text-decoration-thickness:2px}
+/* Nature Parables: side-scrolling walk */
+.cv-walk-row{position:relative;height:300px;overflow-x:auto;overflow-y:hidden;border-radius:22px;scrollbar-width:thin}
+.cv-walk-bg{position:absolute;left:0;top:0;height:300px;width:var(--w,1720px)}
+.cv-spot{position:absolute;width:170px;border:0;border-radius:18px;background:rgba(255,253,246,.94);padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:4px;box-shadow:0 8px 18px rgba(40,70,20,.25);color:#1D1B2B}
+.cv-spot-ic{font-size:34px;line-height:1}
+.cv-spot b{font:800 14px/1.2 var(--body)}
+.cv-spot.seen{background:#E9F6EE}
+.cv-walker{position:sticky;left:12px;top:220px;font-size:38px;display:inline-block;margin-top:216px;animation:gkBob .9s ease-in-out infinite}
+/* Serving Others: a street of houses */
+.cv-houses{display:flex;gap:14px;overflow-x:auto;padding:8px 4px 0;scrollbar-width:none;align-items:flex-end}
+.cv-houses::-webkit-scrollbar{display:none}
+.cv-house{flex:0 0 130px;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
+.cv-roof{width:0;height:0;border-left:72px solid transparent;border-right:72px solid transparent;border-bottom:48px solid #8E3B26}
+.cv-wall{position:relative;width:126px;height:120px;background:var(--wall);border:3px solid #6B4A2A;border-top:0}
+.cv-win{position:absolute;left:12px;top:16px;width:34px;height:30px;background:#CFE9F8;border:3px solid #fff;box-shadow:0 0 0 2px #6B4A2A}
+.cv-door{position:absolute;right:16px;bottom:0;width:38px;height:62px;background:#5A3A22;border:3px solid #3A2414;border-bottom:0;perspective:200px}
+.cv-door i{position:absolute;inset:0;background:#7A4E2C;transform-origin:left;transition:transform .5s}
+.cv-house.open .cv-door i{transform:rotateY(-70deg)}
+.cv-house.open .cv-door{background:#FFE9A8}
+.cv-sign{position:absolute;left:12px;bottom:10px;font-size:30px}
+.cv-house b{font:800 13px/1.2 var(--body);text-align:center}
+.cv-road{height:26px;margin-top:6px;border-radius:8px;background:#5E5E63 linear-gradient(90deg,transparent 45%,#F4D35E 45% 55%,transparent 55%) 0 50%/40px 4px repeat-x}
+/* Teach It: clipboard */
+.cv-board{position:relative;background:#A0703C;border-radius:18px;padding:30px 14px 14px;box-shadow:0 12px 24px rgba(0,0,0,.25)}
+.cv-clamp{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:110px;height:34px;border-radius:10px;background:linear-gradient(#D6D9DE,#8E949C);box-shadow:0 3px 6px rgba(0,0,0,.3)}
+.cv-paper{background:#FFFEF7 repeating-linear-gradient(transparent 0 33px,#D8E6F3 33px 34px);border-radius:6px;padding:16px 14px 10px;box-shadow:0 2px 6px rgba(0,0,0,.2);color:#1D1B2B}
+.cv-plan-t{display:block;font:800 22px/1 'Comic Sans MS','Segoe Print',cursive;color:#1D3E7A;margin-bottom:8px}
+.cv-fields{display:flex;flex-wrap:wrap;gap:4px 14px;font:600 13px/1.4 var(--body);color:#3B3B4F;margin-bottom:8px}
+.cv-line{width:100%;display:flex;align-items:center;gap:8px;border:0;background:none;text-align:left;min-height:46px;padding:4px 0;border-bottom:1px dashed #D0D7E2}
+.cv-box{flex:none;width:24px;height:24px;border:2px solid #1D3E7A;border-radius:5px;color:#C62828;font:900 18px/20px var(--body);text-align:center}
+.cv-n{font:800 14px var(--body);color:#1D3E7A}
+.cv-lt{flex:1;font:700 15px/1.25 var(--body)}
+.cv-li{font-size:22px}
+.cv-line.done .cv-lt{color:#5C6B7A}
+.cv-sign-off{margin:8px 0 0;font:italic 13px Georgia,serif;color:#5C596D}
+
 </style>
 <style>
 .gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -1146,7 +1308,7 @@ body.lock{overflow:hidden}
     h += '<header class="hubhead"><div class="eyebrow">Pathfinder Guide class</div><h1>Learning Lab</h1><p>Explore each topic, play the game, then take the challenge. Your counsellor sees your scores.</p></header>';
     h += (JOIN_FIRST || joinOpen) ? whoHTML() : '';
     var order = ['sanctuary','orienteering','lashing','fire','packcamp','nutrition','ecology','newstart','church','pioneers','story','fruit','legion','visit','witness','choices','fitness','temperance','teach','parable','honours','hiv'];
-    h += '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>' + x16ReadTiles();
+    h += x17ArcadeBanner() + '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>' + x16ReadTiles();
     return h;
   }
 
@@ -1523,10 +1685,10 @@ body.lock{overflow:hidden}
     h += '<div class="seg" role="tablist"><button role="tab" data-tab="learn" aria-selected="'+(S.tab==='learn')+'">Learn</button><button role="tab" data-tab="game" aria-selected="'+(S.tab==='game')+'">Game</button><button role="tab" data-tab="challenge" aria-selected="'+(S.tab==='challenge')+'">Challenge</button></div>';
     if (S.tab === 'learn'){
       h += '<div class="progress"><span>'+(n >= tot ? 'You opened every picture. Try the game, then the challenge.' : 'You’ve opened '+n+' of '+tot+' pictures')+'</span><span class="bar" style="--c:'+T.c+'"><span style="width:'+Math.round(100*n/tot)+'%"></span></span></div>';
-      h += sceneHTML(k, 'learn') + '<p class="taphint">Tap a picture to open it big.</p>';
+      h += COVERS[k] ? COVERS[k](k) : sceneHTML(k, 'learn') + '<p class="taphint">Tap a picture to open it big.</p>';
       h += '<div class="btnrow"><button class="btn btn-ghost btn-grow" data-tab="game">Play the game</button><button class="btn btn-primary btn-grow" data-tab="challenge">Take the challenge</button></div>';
     } else if (S.tab === 'game'){
-      h += gamePanelHTML(k);
+      h += x17Arcade(k) + gamePanelHTML(k);
       h += '<section class="panel" style="--c:'+T.c+'">'+findHTML(k)+'</section>';
       if (k === 'pioneers') h += '<section class="panel" style="--c:'+T.c+'">'+faceHTML()+'</section>';
       h += '<section class="panel" style="--c:'+T.c+'"><span class="eyebrow">'+(k === 'pioneers' ? 'One more game' : 'Bonus game')+'</span>'+gameHTML(k)+'</section>';
@@ -1962,7 +2124,7 @@ body.lock{overflow:hidden}
       else if (a === 'prev') { if (st.i) { st.i--; show(); } }
       else if (a === 'say') {
         var s2 = slides[st.i], text = s2.say || (s2.q ? 'Quick check. ' + s2.q + ' ' + s2.opts.join('? ') + '?' : [s2.line, s2.line2, s2.small].filter(Boolean).join('. '));
-        gkSpeakLong(text);
+        x17Say(text);
       }
     };
     show();
@@ -2987,7 +3149,7 @@ body.lock{overflow:hidden}
       ['You’re thirsty after football.', 'Drink water.', 'Drink a big bottle of soda.']]
   };
   var W2 = { chain: {}, step: {}, hon: {} };
-  function sayIt(text){ gkSpeakLong(text); }
+  function sayIt(text){ x17Say(text); }
   function listenBtn(key){ return ('speechSynthesis' in window) ? '<button type="button" class="w2-say" data-w2say="' + key + '" aria-label="Read this aloud">🔊 Listen</button>' : ''; }
   function w2Wrap(k, c, inner){ return '<div class="w2" data-w2="' + k + ':' + c.id + '">' + inner + '</div>'; }
   WTK.ecology = { has: function(c){ return !!CHAIN[c.id]; }, html: function(c){ return w2Wrap('ecology', c, WTK.ecology.inner(c)); }, inner: function(c){
@@ -3033,7 +3195,7 @@ body.lock{overflow:hidden}
   }
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-w2say],[data-w2next],[data-w2again],[data-w2step],[data-hon]'); if (!b) return;
-    if (b.hasAttribute('data-w2say')) { var sp = b.getAttribute('data-w2say').split(':'), cc = L[sp[0]].cards.filter(function(x){ return x.id === sp[1]; })[0]; if (cc) sayIt(w2Text(sp[0], cc)); return; }
+    if (b.hasAttribute('data-w2say')) { var sp = b.getAttribute('data-w2say').split(':'), cc = L[sp[0]].cards.filter(function(x){ return x.id === sp[1]; })[0]; if (cc) x17Say(w2TextNow(sp[0], cc)); return; }
     if (b.hasAttribute('data-w2next')) { var id = b.getAttribute('data-w2next'); W2.chain[id] = (W2.chain[id] || 0) + 1; SFX.pop(); w2Redraw(b); return; }
     if (b.hasAttribute('data-w2again')) { W2.chain[b.getAttribute('data-w2again')] = 0; w2Redraw(b); return; }
     if (b.hasAttribute('data-w2step')) { var s2 = b.getAttribute('data-w2step').split(':'), len = STEPS[s2[0]].length, cur = W2.step[s2[0]] || 0, nx = cur + Number(s2[1]); W2.step[s2[0]] = nx >= len ? 0 : Math.max(0, nx); SFX.pop(); w2Redraw(b); return; }
@@ -3289,7 +3451,7 @@ body.lock{overflow:hidden}
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-x3say],[data-x3fl],[data-x3next],[data-x3again],[data-x3step],[data-x3ck]'); if (!b) return;
     var a;
-    if ((a = b.getAttribute('data-x3say'))) { gkSpeakLong(x3Say(a.split(':')[1])); return; }
+    if ((a = b.getAttribute('data-x3say'))) { x17Say(x3SayNow(a.split(':')[1])); return; }
     if ((a = b.getAttribute('data-x3fl'))) { var p = a.split(':'), s = X3S[p[1]] || (X3S[p[1]] = {}); s[p[2]] = !s[p[2]]; b.classList.toggle('on', !!s[p[2]]); b.setAttribute('aria-pressed', !!s[p[2]]); SFX.pop(); return; }
     if ((a = b.getAttribute('data-x3next'))) { var q = a.split(':'), t = X3S[q[1]] || (X3S[q[1]] = {}); t.n = (t.n || 0) + 1; SFX.pop(); x3Redraw(b, q[0], q[1]); return; }
     if ((a = b.getAttribute('data-x3again'))) { var r = a.split(':'); (X3S[r[1]] || (X3S[r[1]] = {})).n = 0; x3Redraw(b, r[0], r[1]); return; }
@@ -3890,8 +4052,347 @@ body.lock{overflow:hidden}
     show();
   };
 
+  /* ======================= VERSION 17: different covers for ten explorers ======================= */
+  /* Every part still opens its own full page (data-card), exactly as before. */
+  var COVERS = {};
+  function cvSeen(k, id){ return !!((seen[k] || {})[id]); }
+  function cvCards(k){ return L[k].cards; }
+  function cvLbl(k, id){ var p = (V[k] && V[k].pos || {})[id]; return p && p[3] ? p[3] : (cvCards(k).filter(function(c){ return c.id === id; })[0] || {}).t || ''; }
+  function cvCount(k){ var n = 0; cvCards(k).forEach(function(c){ if (cvSeen(k, c.id)) n++; }); return n; }
+  function cvTick(k, id){ return cvSeen(k, id) ? '<i class="cv-tick" aria-label="opened">✓</i>' : ''; }
+
+  /* Legion of Honour: a day in my life, swipe through the day */
+  COVERS.legion = function(k){
+    var M = [['what', '6:30 am', 'Morning worship', '“By the grace of God I will…”', 'dawn'], ['behold', '7:15 am', 'Phone in bed', 'What will I watch?', 'morning'],
+             ['listen', '8:00 am', 'Bus ride, earbuds in', 'What will I listen to?', 'morning'], ['go', '3:30 pm', 'School is out', 'Where will I go?', 'noon'],
+             ['friends', '5:00 pm', 'The group at the corner', 'Who will I hang with?', 'evening'], ['speak', '7:30 pm', 'The group chat', 'What will I say?', 'evening'],
+             ['body', '10:00 pm', 'Late snacks, late night', 'How will I treat my body?', 'night']];
+    return '<div class="cv cv-day" style="--c:' + L[k].c + '"><p class="cv-hint">Swipe through a day. Every choice is a chance to honour Jesus. →</p><div class="cv-dayrow" role="list">' + M.map(function(m, i){
+      return '<button class="cv-moment t-' + m[4] + (cvSeen(k, m[0]) ? ' seen' : '') + '" data-card="' + m[0] + '" role="listitem"><span class="cv-time">' + m[1] + '</span><span class="cv-big" aria-hidden="true">' + glyph(k, m[0]) + '</span><b>' + esc(m[2]) + '</b><span class="cv-q">' + esc(m[3]) + '</span><span class="cv-pledge">' + (i ? 'Pledge ' + i + ' · ' : '') + esc(cvLbl(k, m[0])) + '</span>' + cvTick(k, m[0]) + '</button>'; }).join('') + '</div>'
+      + '<div class="cv-dots" aria-hidden="true">' + M.map(function(m){ return '<i' + (cvSeen(k, m[0]) ? ' class="on"' : '') + '></i>'; }).join('') + '</div></div>';
+  };
+
+  /* Life Choices: a comic strip about Maya and Jordan */
+  COVERS.choices = function(k){
+    var P = [['ch_gifts', '🧑🏾‍🎨', 'Maya', 'I love drawing… could that be a job one day?', 'wide'], ['ch_path', '🧑🏽‍🎓', 'Jordan', 'Engineer? Nurse? How do I even start?', ''],
+             ['ch_test', '🧑🏾', 'Maya', 'Before I decide, four questions.', ''], ['ch_why', '🧑🏽', 'Jordan', 'Why does God set limits anyway?', 'wide'],
+             ['ch_dating', '🧑🏾', 'Maya', 'Group outing on Friday? My parents said yes!', ''], ['ch_flags', '🧑🏽', 'Jordan', 'They keep pushing me. Is that a red flag?', ''],
+             ['ch_partner', '🧑🏾', 'Maya', 'Someday: someone who loves God like I do.', 'wide']];
+    return '<div class="cv cv-comic"><div class="cv-comic-head"><b>MAYA &amp; JORDAN</b><span>Life Choices · tap a panel</span></div><div class="cv-panels">' + P.map(function(p, i){
+      return '<button class="cv-panel' + (p[4] ? ' ' + p[4] : '') + (cvSeen(k, p[0]) ? ' seen' : '') + '" data-card="' + p[0] + '" style="--r:' + ((i % 3) - 1) * 0.6 + 'deg"><span class="cv-cap">' + (i + 1) + ' · ' + esc(cvCards(k).filter(function(c){ return c.id === p[0]; })[0].t) + '</span>'
+        + '<span class="cv-scene"><span class="cv-who" aria-hidden="true">' + p[1] + '</span><span class="cv-bubble"><small>' + p[2] + '</small>' + esc(p[3]) + '</span><span class="cv-prop" aria-hidden="true">' + glyph(k, p[0]) + '</span></span>' + (cvSeen(k, p[0]) ? '<i class="cv-stamp">READ</i>' : '') + '</button>'; }).join('') + '</div></div>';
+  };
+
+  /* Sharing Jesus: a phone home screen */
+  COVERS.witness = function(k){
+    var A = [['wt_friend', 'Friends', '#2E7D5B'], ['wt_listen', 'Listen', '#1F6F8B'], ['wt_story', 'My Story', '#8A4FBF'], ['wt_plan', 'Notes', '#E0A020'], ['wt_barriers', 'Blocks', '#B5452C'], ['wt_invite', 'Invite', '#C2185B']];
+    var unseen = A.filter(function(a){ return !cvSeen(k, a[0]); }).length;
+    return '<div class="cv cv-phone"><div class="cv-ph"><div class="cv-ph-top"><span>9:41</span><i class="cv-notch"></i><span>📶 🔋</span></div>'
+      + '<button class="cv-note" data-card="wt_listen"><span class="cv-note-ic">💬</span><span><b>Jordan</b>Why do you always go to Pathfinders?</span></button>'
+      + '<div class="cv-apps">' + A.map(function(a){ return '<button class="cv-app' + (cvSeen(k, a[0]) ? ' seen' : '') + '" data-card="' + a[0] + '"><span class="cv-app-ic" style="background:' + a[2] + '">' + glyph(k, a[0]) + (cvSeen(k, a[0]) ? '' : '<i class="cv-badge">1</i>') + '</span><span class="cv-app-l">' + esc(a[1]) + '</span></button>'; }).join('') + '</div>'
+      + '<div class="cv-dock"><span>📞</span><span>💬</span><span>📷</span><span>🎵</span></div></div><p class="cv-hint">' + (unseen ? unseen + ' apps have something new. Tap one.' : 'You opened every app.') + '</p></div>';
+  };
+
+  /* Honours Guide: a Pathfinder sash with patch spots */
+  COVERS.honours = function(k){
+    var C = cvCards(k);
+    return '<div class="cv cv-sash"><div class="cv-sash-band"><span class="cv-sash-title">My sash · ' + cvCount(k) + ' of ' + C.length + ' patches</span><div class="cv-patches">' + C.map(function(c){
+      var on = cvSeen(k, c.id);
+      return '<button class="cv-patch' + (on ? ' sewn' : '') + '" data-card="' + c.id + '"><span class="cv-patch-in">' + glyph(k, c.id) + '</span><span class="cv-patch-l">' + esc(cvLbl(k, c.id)) + '</span></button>'; }).join('') + '</div></div><p class="cv-hint">Tap a patch spot. Each one you open is sewn on.</p></div>';
+  };
+
+  /* Our Church's Story: a river map with dated stops */
+  COVERS.story = function(k){
+    var Y = { gy_tract: '1885', gy_first: '1887–1895', gy_davis: '1911', gy_dmh: '1955', gy_grow: '1971–1976', gy_today: 'Today', gy_book: 'Your church' };
+    var C = cvCards(k), next = C.filter(function(c){ return !cvSeen(k, c.id); })[0];
+    var H = 120 * C.length + 40, d = 'M200 0';
+    C.forEach(function(_, i){ var y = 60 + i * 120; d += ' Q' + (i % 2 ? 330 : 70) + ' ' + (y - 40) + ' 200 ' + (y + 30); });
+    d += ' L200 ' + H;
+    return '<div class="cv cv-river" style="height:' + H + 'px"><svg class="cv-river-map" viewBox="0 0 400 ' + H + '" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="' + H + '" fill="#CFE6C4"/><path d="' + d + '" fill="none" stroke="#6FA6C2" stroke-width="46" stroke-linecap="round"/><path d="' + d + '" fill="none" stroke="#A9D2E6" stroke-width="12" stroke-dasharray="2 22" stroke-linecap="round"/></svg>'
+      + C.map(function(c, i){ var y = 60 + i * 120, left = i % 2 === 0;
+        return '<button class="cv-stop' + (left ? ' l' : ' r') + (cvSeen(k, c.id) ? ' seen' : '') + '" data-card="' + c.id + '" style="top:' + (y - 16) + 'px"><span class="cv-year">' + Y[c.id] + '</span><span class="cv-pin" aria-hidden="true">' + glyph(k, c.id) + '</span><b>' + esc(c.t) + '</b>' + (next === c ? '<span class="cv-canoe" aria-hidden="true">🛶</span>' : '') + cvTick(k, c.id) + '</button>'; }).join('')
+      + '<p class="cv-hint cv-river-hint">Paddle down the river: tap each stop.</p></div>';
+  };
+
+  /* Fit & Free: a fitness-app dashboard */
+  COVERS.fitness = function(k){
+    var C = cvCards(k), n = cvCount(k), b = best[k], g = gstate(k) || {}, played = !!(b && b.total) || !!(g && g.done && g.done.length);
+    var quiz = b && b.total ? b.best / b.total : 0, rings = [[n / C.length, '#FF3B5C', 'Learn', n + '/' + C.length], [played ? 1 : 0, '#7DDB3A', 'Play', played ? '✓' : '0'], [quiz, '#2FC7E8', 'Quiz', b && b.total ? b.best + '/' + b.total : '–']];
+    var svg = '<svg class="cv-rings" viewBox="0 0 120 120" aria-hidden="true">' + rings.map(function(r, i){ var rad = 50 - i * 14, cir = 2 * Math.PI * rad;
+      return '<circle cx="60" cy="60" r="' + rad + '" fill="none" stroke="' + r[1] + '" stroke-opacity=".22" stroke-width="11"/><circle cx="60" cy="60" r="' + rad + '" fill="none" stroke="' + r[1] + '" stroke-width="11" stroke-linecap="round" stroke-dasharray="' + (cir * Math.max(0.001, r[0])).toFixed(1) + ' ' + cir.toFixed(1) + '" transform="rotate(-90 60 60)"/>'; }).join('') + '</svg>';
+    return '<div class="cv cv-fit"><div class="cv-fit-top">' + svg + '<div class="cv-fit-legend">' + rings.map(function(r){ return '<span><i style="background:' + r[1] + '"></i>' + r[2] + ' <b>' + r[3] + '</b></span>'; }).join('') + '</div></div>'
+      + '<div class="cv-tiles">' + C.map(function(c){ var on = cvSeen(k, c.id);
+        return '<button class="cv-tile' + (on ? ' seen' : '') + '" data-card="' + c.id + '"><span class="cv-tile-ic">' + glyph(k, c.id) + '</span><b>' + esc(c.t) + '</b><small>' + esc((V[k].find || {})[c.id] || '') + '</small><i class="cv-bar"><i style="width:' + (on ? 100 : 8) + '%"></i></i></button>'; }).join('') + '</div></div>';
+  };
+
+  /* Temperance: a book with chapter tabs; a chain link breaks for each part you open */
+  COVERS.temperance = function(k){
+    var C = cvCards(k), n = cvCount(k), all = n === C.length;
+    var links = C.map(function(c, i){ return '<span class="cv-link' + (cvSeen(k, c.id) ? ' broke' : '') + '" style="--i:' + i + '"></span>'; }).join('');
+    return '<div class="cv cv-book' + (all ? ' free' : '') + '"><div class="cv-cover"><span class="cv-book-k">Ellen G. White</span><b class="cv-book-t">Temperance</b><span class="cv-book-p">pages 102–125</span><div class="cv-chain" aria-hidden="true">' + links + '</div>'
+      + '<span class="cv-lock" aria-hidden="true">' + (all ? '🔓' : '🔒') + '</span><span class="cv-book-n">' + (all ? 'Free! Every chain is broken.' : (C.length - n) + ' chain links left. Open a tab to break one.') + '</span></div>'
+      + '<div class="cv-tabs">' + C.map(function(c, i){ return '<button class="cv-btab' + (cvSeen(k, c.id) ? ' seen' : '') + '" data-card="' + c.id + '" style="--h:' + (330 + i * 18) % 360 + '"><span>' + glyph(k, c.id) + '</span>' + esc(cvLbl(k, c.id)) + '</button>'; }).join('') + '</div></div>';
+  };
+
+  /* Nature Parables: a side-scrolling nature walk */
+  COVERS.parable = function(k){
+    var C = cvCards(k), W = 260 * C.length + 160;
+    var land = '<svg class="cv-walk-bg" style="width:' + W + 'px" viewBox="0 0 ' + W + ' 300" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="cvsky" x1="0" x2="1"><stop offset="0" stop-color="#FFE9B8"/><stop offset=".5" stop-color="#CDE9F6"/><stop offset="1" stop-color="#F6C9A0"/></linearGradient></defs><rect width="' + W + '" height="300" fill="url(#cvsky)"/>'
+      + '<path d="M0 190 ' + C.map(function(_, i){ return 'Q' + (i * 260 + 130) + ' ' + (i % 2 ? 120 : 160) + ' ' + (i * 260 + 260) + ' 185'; }).join(' ') + ' L' + W + ' 300 L0 300Z" fill="#9CC77A"/>'
+      + '<path d="M0 230 ' + C.map(function(_, i){ return 'Q' + (i * 260 + 130) + ' ' + (i % 2 ? 210 : 245) + ' ' + (i * 260 + 260) + ' 230'; }).join(' ') + ' L' + W + ' 300 L0 300Z" fill="#6FA24A"/>'
+      + '<path d="M0 262 L' + W + ' 262" stroke="#C9A16A" stroke-width="16" stroke-dasharray="26 10"/></svg>';
+    return '<div class="cv cv-walk"><p class="cv-hint">Take a walk with Jesus’ eyes: scroll along the path →</p><div class="cv-walk-row">' + land + C.map(function(c, i){
+      return '<button class="cv-spot' + (cvSeen(k, c.id) ? ' seen' : '') + '" data-card="' + c.id + '" style="left:' + (120 + i * 260) + 'px;top:' + (i % 2 ? 70 : 110) + 'px"><span class="cv-spot-ic">' + glyph(k, c.id) + '</span><b>' + esc(c.t) + '</b>' + cvTick(k, c.id) + '</button>'; }).join('')
+      + '<span class="cv-walker" aria-hidden="true">🚶🏾</span></div></div>';
+  };
+
+  /* Serving Others: a street of houses */
+  COVERS.visit = function(k){
+    var C = cvCards(k), cols = ['#F2C14E', '#8EC5E8', '#F29E8E', '#B8D98B', '#D7B7EE', '#F6D7A7'];
+    return '<div class="cv cv-street"><p class="cv-hint">Walk down the street. Knock on each door →</p><div class="cv-houses">' + C.map(function(c, i){ var on = cvSeen(k, c.id);
+      return '<button class="cv-house' + (on ? ' open' : '') + '" data-card="' + c.id + '" style="--wall:' + cols[i % cols.length] + '"><span class="cv-roof"></span><span class="cv-wall"><span class="cv-win"></span><span class="cv-door"><i></i></span><span class="cv-sign">' + glyph(k, c.id) + '</span></span><b>' + esc(cvLbl(k, c.id)) + '</b></button>'; }).join('') + '</div><div class="cv-road" aria-hidden="true"></div></div>';
+  };
+
+  /* Teach It: a teacher's clipboard with the lesson plan */
+  COVERS.teach = function(k){
+    var C = cvCards(k);
+    return '<div class="cv cv-clip"><div class="cv-board"><span class="cv-clamp" aria-hidden="true"></span><div class="cv-paper"><b class="cv-plan-t">Lesson plan</b><div class="cv-fields"><span>Class: <u>Juniors</u></span><span>Topic: <u>Square knot</u></span><span>Mentor: <u>________</u></span></div>'
+      + C.map(function(c, i){ var on = cvSeen(k, c.id); return '<button class="cv-line' + (on ? ' done' : '') + '" data-card="' + c.id + '"><span class="cv-box">' + (on ? '✔' : '') + '</span><span class="cv-n">' + (i + 1) + '.</span><span class="cv-lt">' + esc(c.t) + '</span><span class="cv-li">' + glyph(k, c.id) + '</span></button>'; }).join('')
+      + '<p class="cv-sign-off">Tap a line to open it. ' + cvCount(k) + ' of ' + C.length + ' ticked.</p></div></div></div>';
+  };
+
+  /* ======================= VERSION 17: Listen reads only what is on screen ======================= */
+  var LSN = { tok: 0, on: false, view: '' };
+  /* The lesson voice. It pauses the Reading room while it talks. */
+  function x17Say(text){
+    if (RD.playing) rdStop();
+    rdRecPause();
+    LSN.tok++; var my = LSN.tok; LSN.on = true;
+    gkSpeakLong(text, { end: function(){ if (my === LSN.tok) LSN.on = false; } });
+  }
+  function x17StopLesson(){ if (!LSN.on) return; LSN.tok++; LSN.on = false; gkStopSpeech(); }
+  /* Called at the start of every render: a new screen stops the lesson voice. */
+  function x17ViewChange(){
+    var v = [S.read ? 'read' : '', S.topic, S.tab, S.big, S.sel].join('|');
+    if (v !== LSN.view) { LSN.view = v; x17StopLesson(); }
+    setTimeout(rdMini, 0);
+  }
+  /* What the Version 16 lesson cards show right now. */
+  /* Sentences joined with one full stop each, never "?." */
+  function x17Join(parts){ return parts.filter(function(t){ return t && String(t).trim(); }).map(function(t){ t = String(t).trim(); return /[.!?…:]["”’)]*$/.test(t) ? t : t + '.'; }).join(' '); }
+  function x3SayNow(id){
+    var w = X16.W[id], d = w[1], st = X3S[id] || {};
+    if (w[0] === 'flip') {
+      var any = d.some(function(_, i){ return st[i]; }), out = [];
+      d.forEach(function(f, i){ out.push(f[1]); if (st[i]) out.push(f[2]); });
+      if (!any) out.push('Tap a card to flip it.');
+      return x17Join(out);
+    }
+    if (w[0] === 'chain') {
+      var n = st.n || 0;
+      return d.start + (n ? ' ' + d.steps.slice(0, n).map(function(s){ return s[1]; }).join(' Then, ') : '') + (n >= d.steps.length ? ' ' + d.end : '');
+    }
+    if (w[0] === 'steps') { var j = Math.min(st.i || 0, d.length - 1), s = d[j]; return x17Join(['Step ' + (j + 1) + ' of ' + d.length, s[1], s[2]]); }
+    var parts = []; d.forEach(function(s){ parts.push(s[1]); parts.push(s[2]); }); return x17Join(parts);
+  }
+  /* What the Version 15 lesson cards (Ecology, Orienteering, Legion of Honour) show right now. */
+  function w2TextNow(k, c){
+    if (k === 'ecology') {
+      var ch = CHAIN[c.id], n = W2.chain[c.id] || 0;
+      return ch.start + (n ? ' ' + ch.steps.slice(0, n).map(function(s){ return s[1]; }).join(' Then: ') : '') + (n >= ch.steps.length ? ' ' + ch.end : '');
+    }
+    if (k === 'orienteering') { var list = STEPS[c.id], i = Math.min(W2.step[c.id] || 0, list.length - 1); return 'Step ' + (i + 1) + ' of ' + list.length + '. ' + list[i][1] + '. ' + list[i][2]; }
+    if (k === 'legion') {
+      var t = c.p.join(' ');
+      if (!HONOUR[c.id]) return t + ' The six choices are: ' + LEGION_SIX.map(function(x){ return x[1] + ', ' + x[2]; }).join('. ');
+      var st = W2.hon[c.id] || {};
+      /* Both choices are read in the order they are shown, without giving the answer away. */
+      return t + ' Honour Christ, or not? ' + HONOUR[c.id].map(function(q, i){
+        var flip = (c.id.length + i) % 2 === 1, a = flip ? q[2] : q[1], b = flip ? q[1] : q[2];
+        return q[0] + ' ' + a + '? Or, ' + b + '?' + (st[i] === 1 ? ' That honours Christ.' : '');
+      }).join(' ');
+    }
+    return w2Text(k, c);
+  }
+  /* Anything that changes what is on screen stops the lesson voice. */
+  document.addEventListener('click', function(e){
+    if (!LSN.on) return;
+    var b = e.target.closest('[data-x3next],[data-x3again],[data-x3step],[data-x3fl],[data-w2next],[data-w2again],[data-w2step],[data-hon],[data-st],[data-act],[data-tab],[data-topic],[data-card],[data-gems],[data-rdopen],a[href]');
+    if (b && b.getAttribute('data-st') !== 'say') x17StopLesson();
+  }, true);
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) x17StopLesson(); });
+  window.addEventListener('pagehide', function(){ try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch (e) {} });
+
+  /* ======================= VERSION 17: Reading room keeps playing in a pop-up player ======================= */
+  RD.now = null; RD.au = new Audio(); RD.au.preload = 'none';
+  function rdFmt(s){ s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function rdRecPause(){ try { if (!RD.au.paused) RD.au.pause(); } catch (e) {} }
+  function rdRecPlay(src, title, sub){
+    if (RD.playing) rdStop();
+    x17StopLesson();
+    if (RD.au.getAttribute('src') !== src) RD.au.src = src;
+    RD.now = { mode: 'rec', src: src, key: S.read ? S.read.key : '', ch: S.read ? S.read.ch : 0, title: title, sub: sub };
+    var p = RD.au.play(); if (p && p.catch) p.catch(function(){});
+    rdMedia(); rdRecPaint(); rdMini();
+  }
+  function rdMedia(){
+    try {
+      var n = RD.now; if (!n || n.mode !== 'rec' || !('mediaSession' in navigator)) return;
+      navigator.mediaSession.metadata = new MediaMetadata({ title: n.sub || n.title, artist: 'Ellen G. White', album: n.title });
+      navigator.mediaSession.setActionHandler('play', function(){ RD.au.play(); });
+      navigator.mediaSession.setActionHandler('pause', function(){ RD.au.pause(); });
+    } catch (e) {}
+  }
+  function rdRecHTML(src, label, title, sub, compact){
+    var n = RD.now, on = !!(n && n.mode === 'rec' && n.src === src), playing = on && !RD.au.paused;
+    var pos = on && RD.au.duration ? Math.round(1000 * RD.au.currentTime / RD.au.duration) : 0;
+    var ctl = '<div class="rd-rec"><button type="button" class="rd-recb" data-rdrec="' + esc(src) + '" data-rt="' + esc(title) + '" data-rs="' + esc(sub || '') + '" aria-label="' + (playing ? 'Pause' : 'Play') + ' the recording">' + (playing ? '⏸' : '▶') + '</button>'
+      + '<input type="range" class="rd-seek" min="0" max="1000" value="' + pos + '" data-rdseek="' + esc(src) + '" aria-label="Position in the recording"' + (on ? '' : ' disabled') + '>'
+      + '<span class="rd-time" data-rdtime="' + esc(src) + '">' + (on ? rdFmt(RD.au.currentTime) + ' / ' + rdFmt(RD.au.duration) : '0:00') + '</span></div>';
+    return compact ? ctl : '<div class="rd-audio"><span>🎧 ' + esc(label) + '</span>' + ctl + '</div>';
+  }
+  function rdRecPaint(){
+    var n = RD.now;
+    [].forEach.call(document.querySelectorAll('[data-rdrec]'), function(b){ var on = n && n.mode === 'rec' && b.getAttribute('data-rdrec') === n.src, pl = on && !RD.au.paused; b.textContent = pl ? '⏸' : '▶'; b.setAttribute('aria-label', (pl ? 'Pause' : 'Play') + ' the recording'); });
+    [].forEach.call(document.querySelectorAll('[data-rdseek]'), function(s){ var on = n && n.mode === 'rec' && s.getAttribute('data-rdseek') === n.src; s.disabled = !on; if (on && RD.au.duration && !s.matches(':active')) s.value = Math.round(1000 * RD.au.currentTime / RD.au.duration); if (!on) s.value = 0; });
+    [].forEach.call(document.querySelectorAll('[data-rdtime]'), function(t){ var on = n && n.mode === 'rec' && t.getAttribute('data-rdtime') === n.src; t.textContent = on ? rdFmt(RD.au.currentTime) + ' / ' + rdFmt(RD.au.duration) : '0:00'; });
+    var mt = document.querySelector('.rdm-t small'); if (mt && n && n.mode === 'rec') mt.textContent = (n.sub ? n.sub + ' · ' : '') + rdFmt(RD.au.currentTime) + ' / ' + rdFmt(RD.au.duration);
+  }
+  ['timeupdate', 'durationchange'].forEach(function(ev){ RD.au.addEventListener(ev, rdRecPaint); });
+  ['play', 'pause', 'ended'].forEach(function(ev){ RD.au.addEventListener(ev, function(){ if (ev === 'ended' && RD.now && RD.now.mode === 'rec') RD.now = null; rdRecPaint(); rdMini(); }); });
+  function rdPartsHTML(parts){
+    return '<ol class="rd-parts">' + parts.map(function(p){ return '<li><div class="rd-pt"><b>' + esc(p[0]) + '</b><small>' + esc(p[1]) + '</small></div>' + rdRecHTML(p[2], '', RD_BOOKS[S.read.key].title, p[0], true) + '<a class="rd-text" href="' + esc(p[3]) + '" target="_blank" rel="noopener">Read the text ↗</a></li>'; }).join('') + '</ol>';
+  }
+  function rdAudioOnlyHTML(d){
+    var h = '<div class="rd-note">🔒 ' + esc(d.note) + '</div>';
+    if (d.parts) h += rdPartsHTML(d.parts);
+    (d.groups || []).forEach(function(g){
+      h += '<section class="rd-group"><h2 class="rd-title">' + esc(g.title) + '</h2>' + (g.tip ? '<p class="rd-intro">' + esc(g.tip) + '</p>' : '')
+        + (g.audio ? rdRecHTML(g.audio, 'Recorded reading', RD_BOOKS[S.read.key].title, g.title) : '') + (g.parts ? rdPartsHTML(g.parts) : '')
+        + '<a class="btn btn-ghost btn-block rd-open" href="' + esc(g.text) + '" target="_blank" rel="noopener">📖 Read ' + esc(g.title.toLowerCase()) + ' on egwwritings.org ↗</a></section>';
+    });
+    return h;
+  }
+  function x16ReaderHTML(){
+    var R = S.read, bk = RD_BOOKS[R.key], d = RD.data[R.key];
+    if (!d) { rdLoad(R.key); d = 'loading'; }
+    var back = R.back ? '<button class="backlink" data-rd="leave">' + BACK + 'Back to ' + esc((META[R.back] || {}).name || 'the explorer') + '</button>'
+      : R.viaHub || !B.back ? '<button class="backlink" data-rd="leave">' + BACK + 'All explorers</button>' : '<a class="backlink" href="' + esc(B.back) + '">' + BACK + esc(B.backLabel || 'Back') + '</a>';
+    var h = '<div class="topnav">' + back + whoPill() + '</div><header class="thead rd-head" style="--c:#5B3A1E"><span class="ico" aria-hidden="true">' + (R.key === 'te' || R.key === 'cs' ? '🎧' : '📖') + '</span><div class="eyebrow">Reading room · ' + esc(bk.code) + '</div><h1>' + esc(bk.title) + '</h1><p>' + esc(d && d.author ? d.author : 'Ellen G. White') + ' · ' + esc(bk.note) + '</p></header>';
+    if (d === 'loading') return h + '<p class="think">Opening the book…</p>';
+    if (d === 'error') return h + '<div class="panel"><p>The reading couldn’t open. Check your internet, then try again.</p><button class="btn btn-primary" data-rd="retry">Try again</button></div>';
+    var done = B.back && !R.viaHub && !R.back ? '<a class="btn btn-primary btn-grow" href="' + esc(B.back) + '">Done · ' + esc((B.backLabel || 'back').replace(/^Back/, 'back')) + '</a>' : '';
+    if (d.audioOnly) return h + rdAudioOnlyHTML(d) + (done ? '<div class="btnrow">' + done + '</div>' : '');
+    var c = rdChapter(), idx = d.chapters.indexOf(c), n = RD.now, here = !!(n && n.mode === 'voice' && n.key === R.key && n.ch === c.n);
+    if (d.chapters.length > 1) h += '<nav class="rd-chips" aria-label="Chapters">' + d.chapters.map(function(x){ return '<button class="rd-chip' + (x === c ? ' on' : '') + '" data-rdch="' + x.n + '" aria-current="' + (x === c) + '">' + x.n + '</button>'; }).join('') + '</nav>';
+    h += '<article class="rd-book" style="--rd:' + RD.size + 'px">' + (d.refs ? '' : '<div class="eyebrow">Chapter ' + c.n + '</div>') + '<h2 class="rd-title">' + esc(c.title) + '</h2>' + (c.intro ? '<p class="rd-intro">' + esc(c.intro) + '</p>' : '')
+      + (c.audio ? rdRecHTML(c.audio, 'Recorded reading of this chapter (Ellen G. White Estate)', bk.title, (d.refs ? '' : 'Chapter ' + c.n + ' · ') + c.title) : '')
+      + c.paras.map(function(p, i){ return '<p class="rd-p' + (here && RD.playing && RD.i === i ? ' on' : '') + '" data-rdp="' + i + '">' + (d.refs ? '<b class="rd-vref">' + esc(p[0]) + '</b>' : '<span class="rd-ref">' + esc((d.prefix || '') + ' ' + p[0].split('.')[0]) + '</span>') + esc(p[1]).replace(/\n/g, '<br>') + '</p>'; }).join('')
+      + '<p class="rd-src">' + esc(d.note) + (d.href ? ' <a href="' + esc(d.href) + '" target="_blank" rel="noopener">egwwritings.org ↗</a>' : '') + '</p></article>';
+    h += '<div class="btnrow">' + (idx > 0 ? '<button class="btn btn-ghost btn-grow" data-rdch="' + d.chapters[idx - 1].n + '">‹ Chapter ' + d.chapters[idx - 1].n + '</button>' : '')
+      + (idx < d.chapters.length - 1 ? '<button class="btn btn-primary btn-grow" data-rdch="' + d.chapters[idx + 1].n + '">Chapter ' + d.chapters[idx + 1].n + ' ›</button>' : done) + '</div>';
+    var pl = here && RD.playing;
+    h += '<div class="rd-bar" role="toolbar" aria-label="Listen">' + (('speechSynthesis' in window) ? '<button class="rd-btn rd-play" data-rd="' + (pl ? 'stop' : 'play') + '">' + (pl ? '⏸ Pause' : '🔊 Listen') + '</button><button class="rd-btn" data-rd="rate" aria-label="Reading speed">' + (RD.rate < 0.9 ? '🐢 Slow' : RD.rate > 1 ? '🐇 Fast' : '🚶 Normal') + '</button>' : '')
+      + '<button class="rd-btn" data-rd="smaller" aria-label="Smaller text">A−</button><button class="rd-btn" data-rd="bigger" aria-label="Bigger text">A+</button></div>';
+    return h;
+  }
+  function rdHere(){ var n = RD.now; return !!(S.read && n && n.mode === 'voice' && S.read.key === n.key && S.read.ch === n.ch); }
+  function rdMark(){
+    var here = rdHere();
+    [].forEach.call(document.querySelectorAll('.rd-p'), function(p){ p.classList.toggle('on', !!(here && RD.playing && +p.getAttribute('data-rdp') === RD.i)); });
+    var b = document.querySelector('.rd-play'); if (b) { var pl = here && RD.playing; b.textContent = pl ? '⏸ Pause' : '🔊 Listen'; b.setAttribute('data-rd', pl ? 'stop' : 'play'); }
+    if (here && RD.playing) { var on = document.querySelector('.rd-p.on'); if (on && on.scrollIntoView) try { on.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { on.scrollIntoView(); } }
+  }
+  /* Pause the phone voice (where it was is kept, so it can carry on). */
+  function rdStop(){ RD.tok++; RD.playing = false; gkStopSpeech(); rdMark(); rdMini(); }
+  function rdClose(){ RD.tok++; RD.playing = false; if (RD.now && RD.now.mode === 'voice') gkStopSpeech(); rdRecPause(); RD.now = null; RD.i = -1; rdMark(); rdRecPaint(); rdMini(); }
+  function rdPlay(from, now){
+    var n = now;
+    if (!n) {
+      var c = rdChapter(), d = RD.data[S.read.key]; if (!c) return;
+      n = { mode: 'voice', key: S.read.key, ch: c.n, title: RD_BOOKS[S.read.key].title, sub: (d.refs ? '' : 'Chapter ' + c.n + ' · ') + c.title, paras: c.paras, refs: !!d.refs, cn: c.n, ct: c.title };
+    }
+    rdRecPause(); x17StopLesson(); gkUnlockVoice();
+    RD.now = n; RD.tok++; var tok = RD.tok; RD.playing = true; RD.i = Math.max(0, Math.min(n.paras.length - 1, from || 0));
+    (function step(){
+      if (tok !== RD.tok) return;
+      if (RD.i >= n.paras.length) { RD.playing = false; RD.i = -1; RD.now = null; rdMark(); rdMini(); return; }
+      rdMark(); rdMini();
+      var p = n.paras[RD.i], text = (n.refs ? p[0] + '. ' : RD.i === 0 ? 'Chapter ' + n.cn + '. ' + n.ct + '. ' : '') + p[1].replace(/\n/g, ' ');
+      gkSpeakLong(text, { rate: RD.rate, end: function(){ if (tok !== RD.tok) return; RD.i++; step(); } });
+    })();
+  }
+  function rdOpen(key, ch, viaHub){ S.read = { key: key, ch: ch || RD_BOOKS[key].ch || 1, viaHub: !!viaHub, back: S.topic && S.topic !== 'gems' ? S.topic : '' }; S.topic = ''; render(); window.scrollTo(0, 0); }
+
+  /* The pop-up player: a small bar at the bottom while you look at other things. */
+  var RDM = document.createElement('div'); RDM.className = 'rdmini'; RDM.hidden = true; RDM.setAttribute('role', 'region'); RDM.setAttribute('aria-label', 'Now playing');
+  document.body.appendChild(RDM);
+  function rdMini(){
+    var n = RD.now, showing = n && S.read && S.read.key === n.key && (n.mode === 'rec' || S.read.ch === n.ch);
+    if (!n || showing) { RDM.hidden = true; document.body.classList.remove('has-rdmini'); return; }
+    var playing = n.mode === 'rec' ? !RD.au.paused : RD.playing;
+    var sub = n.mode === 'rec' ? (n.sub ? n.sub + ' · ' : '') + rdFmt(RD.au.currentTime) + ' / ' + rdFmt(RD.au.duration) : n.sub + (RD.i > -1 ? ' · paragraph ' + (RD.i + 1) + ' of ' + n.paras.length : '');
+    RDM.innerHTML = '<button type="button" class="rdm-open" data-rdmini="open" aria-label="Open the reading"><span class="rdm-ic" aria-hidden="true">' + (n.mode === 'rec' ? '🎧' : '🔊') + '</span><span class="rdm-t"><b>' + esc(n.title) + '</b><small>' + esc(sub) + '</small></span></button>'
+      + '<button type="button" class="rdm-b rdm-play" data-rdmini="toggle" aria-label="' + (playing ? 'Pause' : 'Play') + '">' + (playing ? '⏸' : '▶') + '</button><button type="button" class="rdm-b" data-rdmini="close" aria-label="Stop and close">✕</button>';
+    RDM.hidden = false; document.body.classList.add('has-rdmini');
+  }
+
+  /* One handler for everything in the Reading room (it replaces the Version 16 one). */
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-rd],[data-rdch],[data-rdopen],[data-rdp],[data-rdrec],[data-rdmini]'); if (!b) return;
+    e.stopPropagation();
+    var a;
+    if ((a = b.getAttribute('data-rdmini'))) {
+      var n = RD.now; if (!n) { rdMini(); return; }
+      if (a === 'close') rdClose();
+      else if (a === 'toggle') { if (n.mode === 'rec') { if (RD.au.paused) { var p = RD.au.play(); if (p && p.catch) p.catch(function(){}); } else RD.au.pause(); } else if (RD.playing) rdStop(); else rdPlay(RD.i > -1 ? RD.i : 0, n); }
+      else if (a === 'open' && n.key) { x17StopLesson(); rdOpen(n.key, n.ch, true); }
+      return;
+    }
+    if ((a = b.getAttribute('data-rdopen'))) { rdOpen(a, 0, true); return; }
+    if ((a = b.getAttribute('data-rdrec'))) {
+      var nn = RD.now;
+      if (nn && nn.mode === 'rec' && nn.src === a) { if (RD.au.paused) { var pp = RD.au.play(); if (pp && pp.catch) pp.catch(function(){}); } else RD.au.pause(); }
+      else rdRecPlay(a, b.getAttribute('data-rt') || '', b.getAttribute('data-rs') || '');
+      return;
+    }
+    if (!S.read) return;
+    if ((a = b.getAttribute('data-rdch'))) { S.read.ch = +a; render(); window.scrollTo(0, 0); return; }
+    if ((a = b.getAttribute('data-rdp')) != null && b.classList.contains('rd-p')) { if (RD.playing && rdHere()) rdPlay(+a, RD.now); return; }
+    a = b.getAttribute('data-rd');
+    if (a === 'play') { if (rdHere() && RD.i > -1) rdPlay(RD.i, RD.now); else rdPlay(0); }
+    else if (a === 'stop') rdStop();
+    else if (a === 'rate') { RD.rate = RD.rate < 0.9 ? 0.95 : RD.rate > 1 ? 0.82 : 1.1; try { localStorage.setItem('gq-rd-rate', RD.rate); } catch (er) {} if (RD.playing) rdPlay(RD.i, RD.now); else render(); }
+    else if (a === 'smaller' || a === 'bigger') { RD.size = Math.min(24, Math.max(15, RD.size + (a === 'bigger' ? 1 : -1))); try { localStorage.setItem('gq-rd-size', RD.size); } catch (er) {} var bk = document.querySelector('.rd-book'); if (bk) bk.style.setProperty('--rd', RD.size + 'px'); }
+    else if (a === 'retry') { delete RD.data[S.read.key]; render(); }
+    else if (a === 'leave' || a === 'hub') { var bt = S.read.back; S.read = null; if (bt) { S.topic = bt; S.tab = 'learn'; S.big = false; } render(); window.scrollTo(0, 0); }
+  }, true);
+  document.addEventListener('input', function(e){
+    var s = e.target.closest && e.target.closest('[data-rdseek]'); if (!s) return;
+    var n = RD.now; if (n && n.mode === 'rec' && n.src === s.getAttribute('data-rdseek') && RD.au.duration) RD.au.currentTime = RD.au.duration * (+s.value) / 1000;
+  });
+
+  /* ===== Version 17: the 3D arcade (Guide Quest Arcade on the website) ===== */
+  var X17_SITE = 'https://shaquanbrowne17-sys.github.io/guide-quest/';
+  var X17_GAMES = {
+    seawall: ['🌊', 'Seawall Fun Run', 'Run the Georgetown seawall. Grab water and fruit, and dodge vapes, energy drinks and more.'],
+    choices: ['🚩', 'Choices Run', 'Run through the green flag or the red flag, and dodge the pressures.'],
+    honour: ['🏅', 'Honour Run', 'Collect the six Legion of Honour badges on the camp trail and choose what honours Christ.']
+  };
+  var X17_TOPIC = { fitness: ['seawall'], choices: ['choices'], legion: ['honour'] };
+  function x17PlayUrl(key){ return (window.GQ_STATIC ? '' : X17_SITE) + 'play.html' + (key ? '?g=' + key : '') + (TOKEN ? (key ? '&' : '?') + 't=' + encodeURIComponent(TOKEN) : ''); }
+  function x17Arcade(k){
+    var list = X17_TOPIC[k]; if (!list) return '';
+    return list.map(function(g){ var G3 = X17_GAMES[g];
+      return '<a class="x17-arc" href="' + esc(x17PlayUrl(g)) + '" target="_top"><span class="x17-tag">NEW · 3D game</span><span class="x17-ic">' + G3[0] + '</span><b>' + esc(G3[1]) + '</b><small>' + esc(G3[2]) + '</small><span class="x17-go">Play ▶</span></a>'; }).join('');
+  }
+  function x17ArcadeBanner(){
+    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Run as your own Pathfinder: Seawall Fun Run, Choices Run and Honour Run. Practice, levels, endless and a daily challenge.</small><span class="x17-go">Open the arcade ▶</span></a>';
+  }
+
   /* ======================= RENDER + EVENTS ======================= */
   function render(){
+    x17ViewChange();
     app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
     document.body.classList.toggle('lock', !!(S.topic && S.big && S.tab === 'learn'));
     afterRender();
