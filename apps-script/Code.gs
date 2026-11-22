@@ -3035,3 +3035,49 @@ function ensureTopics_() {
 }
 /** The Learning Lab's reading room (the readings live on the website, in readings/). */
 var READINGS_ = ['sc', 'da7', 'te', 'cs', 'gal5', 'friends'];
+
+
+/* =====================================================================
+   VERSION 17: the 3D arcade on the website. Endless keeps each Guide's
+   best; the Daily Challenge has a board for each day.
+   ===================================================================== */
+GAME_IDS['run:seawall'] = 'Seawall Fun Run (3D)';
+GAME_IDS['run:choices'] = 'Choices Run (3D)';
+GAME_IDS['run:honour'] = 'Honour Run (3D)';
+GAME_IDS['defend:temple'] = 'Body Temple Defender (3D)';
+GAME_IDS['escape:free'] = 'Break Free escape room (3D)';
+GAME_IDS['canoe:journey'] = 'Canoe Journey (3D)';
+API_FNS.l_game3 = 1; API_FNS.l_top3 = 1;
+function gameLabel3_(game, mode) {
+  var name = GAME_IDS[cleanGame_(game)];
+  return mode === 'daily' ? name + ' · Daily ' + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd') : name;
+}
+/** A finished 3D game (mode 'endless' or 'daily'). Keeps the Guide's best and returns the class top 5. */
+function l_game3(t, game, score, mode) {
+  t = cleanToken_(t); mode = mode === 'daily' ? 'daily' : 'endless';
+  var label = gameLabel3_(game, mode);
+  score = Math.round(Number(score));
+  if (!(score >= 0 && score <= 100000)) throw new Error('bad-request');
+  var g = guideByToken_(t);
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var sh = setupGames_(), rows = gameRows_(), mine = rows.filter(function (x) { return x.t === g.t && x.game === label; })[0];
+    var best = score, now = new Date(), prev = mine ? mine.best : 0;
+    if (mine) {
+      best = Math.max(mine.best, score);
+      sh.getRange(mine.row, 1, 1, 5).setValues([[safe_(g.name), label, best, mine.plays + 1, now]]);
+    } else {
+      sh.appendRow([safe_(g.name), label, best, 1, now, g.t]);
+      rows.push({ row: sh.getLastRow(), name: g.name, game: label, best: best, plays: 1, last: now, t: g.t });
+    }
+    return { best: best, newBest: score > prev, top: gameTop_(rows, label, 5, g.t) };
+  } finally { lock.releaseLock(); }
+}
+/** The class board for a 3D game, for anyone with the class link. */
+function l_top3(game, t, mode) {
+  mode = mode === 'daily' ? 'daily' : 'endless';
+  var label = gameLabel3_(game, mode); t = cleanToken_(t);
+  var rows = gameRows_(), mine = t ? rows.filter(function (x) { return x.t === t && x.game === label; })[0] : null;
+  return { best: mine ? mine.best : 0, top: gameTop_(rows, label, 5, t) };
+}

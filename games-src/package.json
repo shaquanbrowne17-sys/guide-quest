@@ -1,0 +1,8 @@
+{
+  "name": "guide-quest-arcade",
+  "private": true,
+  "description": "Guide Quest 3D games",
+  "scripts": { "build": "./build3d.sh ../" },
+  "dependencies": { "three": "0.187.0" },
+  "devDependencies": { "esbuild": "0.25.10", "@gltf-transform/core": "^4", "@gltf-transform/functions": "^4", "@gltf-transform/extensions": "^4", "sharp": "*", "meshoptimizer": "*" }
+}

@@ -1,0 +1,49 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$code": {
+        ".read": "auth != null && $code.matches(/^[A-Z0-9]+$/) && $code.length >= 4 && $code.length <= 8",
+        "meta": {
+          ".write": "auth != null && $code.matches(/^[A-Z0-9]+$/) && $code.length >= 4 && $code.length <= 8 && (!data.exists() || data.child('host').val() === auth.uid || data.child('at').val() < now - 21600000)",
+          ".validate": "newData.hasChildren(['host', 'game', 'at']) && newData.child('host').val() === auth.uid",
+          "host": { ".validate": "newData.isString()" },
+          "game": { ".validate": "newData.isString() && newData.val().length <= 16" },
+          "at": { ".validate": "newData.isNumber() && newData.val() <= now + 60000" },
+          "state": { ".validate": "newData.isString() && newData.val().length <= 12" },
+          "seed": { ".validate": "newData.isNumber()" },
+          "start": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('rooms/' + $code + '/meta').exists()",
+            ".validate": "newData.hasChildren(['n', 'at'])",
+            "n": { ".validate": "newData.isString() && newData.val().length <= 24 && newData.val().matches(/^[A-Za-z][A-Za-z .'-]*$/)" },
+            "at": { ".validate": "newData.isNumber()" },
+            "c": { ".validate": "newData.isNumber()" },
+            "s": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000" },
+            "x": { ".validate": "newData.isNumber()" },
+            "y": { ".validate": "newData.isNumber()" },
+            "z": { ".validate": "newData.isNumber()" },
+            "r": { ".validate": "newData.isNumber()" },
+            "g": { ".validate": "newData.isNumber()" },
+            "a": { ".validate": "newData.isBoolean()" },
+            "$other": { ".validate": false }
+          }
+        },
+        "chat": {
+          "$id": {
+            ".write": "auth != null && !data.exists() && root.child('rooms/' + $code + '/players/' + auth.uid).exists()",
+            ".validate": "newData.hasChildren(['u', 'p', 't'])",
+            "u": { ".validate": "newData.val() === auth.uid" },
+            "p": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 64" },
+            "t": { ".validate": "newData.val() === now" },
+            "$other": { ".validate": false }
+          }
+        }
+      }
+    }
+  }
+}
