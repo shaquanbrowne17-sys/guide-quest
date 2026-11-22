@@ -808,7 +808,7 @@ function readQuestions_(activeOnly, topic) {
     var id = String(r[0] || '').trim() || ('row' + (i + 2));
     var active = r[1] === true || String(r[1]).toUpperCase() === 'TRUE';
     var q = String(r[2] || '').trim();
-    var opts = [r[3], r[4], r[5], r[6]].map(function (x) { return String(x == null ? '' : x).trim(); });
+    var opts = [r[3], r[4], r[5], r[6]].map(function (x) { return typeof x === 'boolean' ? (x ? 'True' : 'False') : String(x == null ? '' : x).trim(); });
     var correct = 'ABCD'.indexOf(String(r[7] || '').trim().toUpperCase());
     var filled = opts.filter(function (x) { return x; }).length;
     var valid = !!q && filled >= 2 && correct > -1 && !!opts[correct];
