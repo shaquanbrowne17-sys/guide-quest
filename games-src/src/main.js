@@ -90,6 +90,7 @@ const gameUI = {
     if (h.badgeList) $('#h-badges').innerHTML = h.badgeList.map((b, i) => '<span class="' + (i < h.badges ? 'on' : '') + '" title="' + esc(b[1]) + '">' + b[0] + '</span>').join('');
   },
   toast(text, kind) {
+    if (kind === 'go') $('#h-tap').hidden = true;
     const t = document.createElement('div'); t.className = 'toast ' + (kind || ''); t.textContent = text; $('#h-toasts').appendChild(t);
     setTimeout(() => t.classList.add('out'), kind === 'go' ? 900 : 2300); setTimeout(() => t.remove(), kind === 'go' ? 1300 : 2800);
   },

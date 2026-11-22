@@ -52,7 +52,7 @@ export class Runner {
     this.gq = this.T.gates(this.r); this.gi = 0;
     if (this.plan) { const n = this.plan.gates; this.gateAt = Array.from({ length: n }, (_, i) => Math.round(this.plan.target * (0.25 + 0.6 * (n === 1 ? 0.5 : i / (n - 1))))); }
     else this.gateAt = [];
-    this.nextGate = this.plan ? this.gateAt.shift() : this.mode === 'practice' ? 170 : 260;
+    this.nextGate = this.plan ? this.gateAt.shift() : this.mode === 'practice' ? 240 : 260;
     this.tutorial = this.mode === 'practice' || (this.mode === 'levels' && this.level === 1) ? [{ s: 40, pat: 'tutLane', text: 'Swipe ← or → to change lanes' }, { s: 75, pat: 'tutJump', text: 'Swipe ↑ to jump' }, { s: 110, pat: 'tutSlide', text: 'Swipe ↓ to slide' }, { s: 140, pat: 'tutCoins', text: 'Collect the Pathfinder triangles' }] : [];
     if (this.tutorial.length) this.nextRow = 175;
     this.finishAt = this.plan ? this.plan.target : null; this.finishSpawned = false;
@@ -237,7 +237,7 @@ export class Runner {
       } else if (o.type === 'pick' && !o.got && Math.abs(dz) < 1.0 && Math.abs(px - o.x) < 1.1 && Math.abs((this.y + (standing ? 1 : 0.5)) - o.y) < 1.4) {
         o.got = true; this.world.remove(o.obj); this.onPick(o);
       } else if (o.type === 'gate' && !o.done) {
-        if (!o.shown && dz < AHEAD - 5) { o.shown = true; this.ui.question(o); }
+        if (!o.shown && dz < Math.min(AHEAD - 5, Math.max(this.v, 8) * 7 + 12)) { o.shown = true; this.ui.question(o); }
         if (dz <= 0) { o.done = true; this.onGate(o); }
       } else if (o.type === 'finish' && !o.done && dz <= 0) { o.done = true; this.end(true); }
     }
