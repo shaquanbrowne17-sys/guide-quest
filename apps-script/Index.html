@@ -268,6 +268,36 @@ input[type=number]{width:100%;min-height:42px;border:1.5px solid var(--line);bor
 .phbar{display:flex;justify-content:space-between;align-items:center}
 .linkbtn{border:none;background:none;color:var(--muted);text-decoration:underline;font-size:13px;cursor:pointer;min-height:36px;align-self:center}
 @media (prefers-reduced-motion:reduce){.evload{animation:none}}
+/* ===== Version 15: ask-my-counsellor, folding tasks ===== */
+.task-top.tfold{width:100%;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer;min-height:44px;flex-wrap:nowrap}
+.task-top .tt{font:800 19px/1.2 var(--display);letter-spacing:-.01em;flex:1 1 auto;min-width:0}
+.task.folded{padding-block:10px}
+.chev{flex:none;width:28px;height:28px;border-radius:50%;background:var(--surface2);display:grid;place-items:center}
+.chev::before{content:'';width:8px;height:8px;border:solid var(--ink);border-width:0 2.5px 2.5px 0;transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+[aria-expanded="true"] .chev::before{transform:translateY(2px) rotate(-135deg)}
+.wait-pill,.note-pill{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 9px;white-space:nowrap}
+.wait-pill{background:#FFF1CC;color:#7A5200}
+.note-pill{background:var(--bad-soft);color:var(--bad)}
+.task.is-wait{border-color:var(--gold)}
+.revnote{background:var(--bad-soft);border-left:4px solid var(--bad);border-radius:10px;padding:10px 12px;font-size:15px}
+.revnote b{color:var(--bad)}
+.donebtn.waiting{border-style:solid;border-color:var(--gold);background:#FFF6DD;color:#6B4A00}
+.mstat small.wt{color:#8A5B00;text-transform:none;letter-spacing:0;font-size:12px}
+.mstat small.op{color:var(--muted)}
+.qdot.wait{border-color:var(--gold);font-size:12px;line-height:1}
+.sgroup{border:1.5px solid var(--line);border-radius:14px;background:var(--surface)}
+.sgroup.open{border-color:var(--c)}
+.sgh{width:100%;display:flex;align-items:center;gap:10px;background:none;border:0;padding:10px 12px;font:inherit;color:inherit;text-align:left;cursor:pointer;min-height:52px}
+.sgt{display:flex;flex-direction:column;gap:1px;flex:1 1 auto;min-width:0}
+.sgt b{font-size:15.5px}
+.sgt small{font-size:13px;color:var(--muted)}
+.sgok{color:var(--good);display:inline-flex}
+.sgb{padding:0 12px 12px;display:flex;flex-direction:column;gap:12px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .wait-pill{background:#3A2C08;color:#F2C14E}:root:not([data-theme="light"]) .donebtn.waiting{background:#2E2408;color:#F2C14E}:root:not([data-theme="light"]) .mstat small.wt{color:#F2C14E}}
+:root[data-theme="dark"] .wait-pill{background:#3A2C08;color:#F2C14E}
+:root[data-theme="dark"] .donebtn.waiting{background:#2E2408;color:#F2C14E}
+:root[data-theme="dark"] .mstat small.wt{color:#F2C14E}
+
 </style>
 </head>
 <body>
@@ -292,7 +322,7 @@ var BOOT = <?!= boot ?>;
 
   var SECTIONS = [['G','General'],['SD','Spiritual Discovery'],['CO','Community Outreach'],['FD','Friendship Development'],['HF','Health and Fitness'],['OL','Organisation and Leadership'],['NS','Nature Study'],['OD','Outdoor Living'],['LE','Lifestyle Enrichment']];
   var REQ = {
-    G1:'Be 15 years old and/or in Year 11 or equivalent',
+    G1:'Be at least 15, or in Grade 10 (Form 4) or equivalent',
     G2:'Know and understand the AY Legion of Honour',
     G3:'Be an active member of the Pathfinder Club',
     G4:'Read a Teen Book Club book and a local church history book',
@@ -300,18 +330,18 @@ var BOOT = <?!= boot ?>;
     SD2:'How the sanctuary service points to the cross and Jesus',
     SD3:'Outline and tell 3 Adventist pioneer stories at worship',
     SD4:'Have a current Memory Gem Certificate',
-    CO1:'Friendship visit to a shut-in, or adopt a family in need',
+    CO1:'Visit a shut-in, adopt a family in need, or another approved outreach',
     CO2:'Discuss witnessing to teens and put it into practice',
     FD1:'Examine your attitudes on two life topics',
     HF1:'Present the laws of good health to a younger group',
-    HF2:'Fun Run with a recorded training programme',
+    HF2:'Health article or poem, Fun Run with training, or Temperance reading and quiz',
     HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
     OL1:'Flow chart of church organisation, with your Division',
     OL2:'Attend a Basic Pathfinder Staff Training Course',
-    OL3:'Plan and teach 2 honour requirements to Juniors',
+    OL3:'Plan and teach 2 honour requirements to Juniors, with a staff mentor',
     NS1:'Desire of Ages ch. 7 and an original nature parable',
     NS2:'Ecology or Environmental Conservation Honour',
-    OD1:'Two-night pack camp, and discuss the equipment',
+    OD1:'Two-night pack camp with a trip log, and discuss the equipment',
     OD2:'Plan and cook a three-course meal on an open fire',
     OD3:'Complete an object of lashing or rope work',
     OD4:'New honour toward a Master award',
@@ -338,7 +368,8 @@ var BOOT = <?!= boot ?>;
   function missionOf(code){ for (var i=0;i<MISSIONS.length;i++){ if (MISSIONS[i].tasks.indexOf(code) > -1) return MISSIONS[i]; } return null; }
 
   var TASKS = {
-    CO1:{title:'Serve someone in need', how:'As a class, make a friendship visit to a shut-in, or adopt a person or family and help them.', fields:[
+    CO1:{title:'Serve someone in need', how:'Pick one: a friendship visit to a shut-in, adopting a person or family in need and helping them, or another outreach your leader approves. Do it as a class or on your own.', fields:[
+      {t:'chips',k:'kind',label:'What we did',max:1,opts:['Visited a shut-in','Adopted a person or family in need','Another outreach our leader approved']},
       {t:'text',k:'date',label:'Date and place'},
       {t:'text',k:'who',label:'Who we served'},
       {t:'chips',k:'helped',label:'We helped by…',opts:['Cleaning or yard work','Food hamper','Cooking a meal','Small repairs','Reading and visiting','Something else']},
@@ -357,8 +388,9 @@ var BOOT = <?!= boot ?>;
     HF1:{title:'Teach the 8 laws of health', how:'Fill in the NEWSTART laws, then teach them to the Juniors in a short, fun talk.', fields:[
       {t:'game',game:'newstart'},
       {t:'text',k:'when',label:'Taught to (group) on (date)'}]},
-    OL3:{title:'Teach an honour to Juniors', how:'Plan and teach at least two requirements of any honour.', fields:[
+    OL3:{title:'Teach an honour to Juniors', how:'Plan and teach at least two requirements of any honour to younger Pathfinders, with a staff member as your mentor.', fields:[
       {t:'text',k:'honour',label:'Honour'},
+      {t:'text',k:'mentor',label:'My staff mentor'},
       {t:'text',k:'r1',label:'Requirement I taught'},
       {t:'text',k:'r2',label:'Second requirement I taught'},
       {t:'chips',k:'method',label:'How I taught it',opts:['Demo','Game','Hands-on','Quiz']}]},
@@ -370,9 +402,11 @@ var BOOT = <?!= boot ?>;
     SD3:{title:'Tell 3 pioneer stories', how:'Pick three Adventist pioneers, jot one key point for each, then tell their stories at worship.', fields:[
       {t:'rows',k:'p',n:3,cols:['Pioneer','Key point'],rowlabel:'Story'},
       {t:'text',k:'where',label:'Told at (worship and date)'}]},
-    OD1:{title:'Pack for two nights', how:'Go on a two-night pack camp. Before you go, talk through what to bring.', fields:[
+    OD1:{title:'Pack for two nights', how:'Go on a two-night pack camp, carrying everything in your pack. Talk through the gear before you go, and keep a trip log: a pre-log before and a post-log after.', fields:[
       {t:'text',k:'site',label:'Camp site and dates'},
-      {t:'chips',k:'gear',label:'Gear we talked through',opts:['Tent or tarp','Sleeping bag','Flashlight','Water bottle','First-aid kit','Rain gear','Mess kit','Matches','Rope','Bible']}]},
+      {t:'chips',k:'gear',label:'Gear we talked through',opts:['Tent or tarp','Sleeping bag','Flashlight','Water bottle','First-aid kit','Rain gear','Mess kit','Matches','Rope','Bible']},
+      {t:'area',k:'prelog',label:'Pre-log (before): our plan, route, menu, and the gear I’m carrying'},
+      {t:'area',k:'postlog',label:'Post-log (after): what happened, what went well, and what I’d do differently'}]},
     OD2:{title:'Fire feast', how:'Plan and cook a three-course meal on an open fire.', fields:[
       {t:'text',k:'starter',label:'Starter'},
       {t:'text',k:'main',label:'Main'},
@@ -380,9 +414,17 @@ var BOOT = <?!= boot ?>;
     OD3:{title:'Lash a camp gadget', how:'Build something useful with lashings or rope work.', fields:[
       {t:'text',k:'built',label:'We built a…'},
       {t:'chips',k:'lash',label:'Lashings we used',opts:['Square','Diagonal','Shear','Tripod','Round']}]},
-    HF2:{title:'Sunrise Fun Run', how:'Train for three weeks, then run it together at camp.', fields:[
-      {t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true},
-      {t:'text',k:'run',label:'Run day: distance and time'}]},
+    HF2:{title:'Health and fitness: pick one', how:'Do one of these three. Your counsellor checks it.', fields:[
+      {t:'chips',k:'way',label:'I chose',max:1,opts:['A health or temperance article or poem','A Fun Run, after a training programme','Temperance reading and quiz']},
+      {t:'text',k:'atitle',label:'Title',when:['way','A health or temperance article or poem']},
+      {t:'area',k:'atext',label:'My article or poem, written for a church health or temperance journal',when:['way','A health or temperance article or poem']},
+      {t:'text',k:'awhere',label:'Where I sent or shared it',when:['way','A health or temperance article or poem']},
+      {t:'note',html:'Keep a training record, then run it. The class can run it together at sunrise on the camp.',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
+      {t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true,when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
+      {t:'text',k:'run',label:'Run day: distance and time',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
+      {t:'note',html:'Read <i>Temperance</i> by Ellen G. White, pages 102–125 (free at <a href="https://egwwritings.org" target="_blank" rel="noopener">egwwritings.org</a>). Then your counsellor gives you a true or false quiz. You need 75% or more.',when:['way','Temperance reading and quiz']},
+      {t:'checks',k:'read',label:'Pages read',opts:['Pages 102–110','Pages 111–118','Pages 119–125'],when:['way','Temperance reading and quiz']},
+      {t:'text',k:'quiz',label:'My quiz score (from my counsellor)',when:['way','Temperance reading and quiz']}]},
     SD1:{title:'Fruit of the Spirit', how:'Read Galatians 5:22–23 around the campfire and talk about how the Spirit grows these in us. Tap the nine fruits.', fields:[
       {t:'game',game:'fruit'},
       {t:'text',k:'grow',label:'The fruit I want God to grow in me'}]},
@@ -392,12 +434,12 @@ var BOOT = <?!= boot ?>;
     OL1:{title:'Map the church', how:'Pick the right name for each level, then add your own church.', fields:[
       {t:'game',game:'church'},
       {t:'text',k:'hq',label:'Our Division’s headquarters are in…'}]},
-    G1:{title:'Age and grade', fields:[{t:'text',k:'age',label:'My age, and grade or year'}]},
+    G1:{title:'Age and grade', how:'Be at least 15 years old, or in Grade 10 (Form 4) or equivalent.', fields:[{t:'text',k:'age',label:'My age, and my grade or form'}]},
     G3:{title:'Active club member', how:'Dues paid, and at 75% or more of club activities.'},
     G4:{title:'Two books', fields:[
       {t:'text',k:'b1',label:'Teen Book Club book'},
       {t:'text',k:'b2',label:'Local church history book'}]},
-    SD4:{title:'Memory Gem Certificate', fields:[{t:'text',k:'date',label:'Date received'}]},
+    SD4:{title:'Memory Gem Certificate', how:'Learn one Memory Gem from each group on your club’s list, then pass the Memory Gem test. Practise in the Memory Gem trainer.', fields:[{t:'text',k:'date',label:'Date I passed the test or got the certificate'}]},
     OL2:{title:'Staff Training Course', how:'The conference-run Basic Pathfinder Staff Training Course.', fields:[{t:'text',k:'where',label:'Where and when'}]},
     HF3:{title:'Health honour', how:'Nutrition Honour, or lead a group through the Physical Fitness Honour.', fields:[{t:'text',k:'h',label:'Which one, and when'}]},
     NS2:{title:'Nature honour', how:'Ecology Honour or Environmental Conservation Honour.', fields:[{t:'text',k:'h',label:'Which one, and when'}]},
@@ -487,8 +529,17 @@ var BOOT = <?!= boot ?>;
         if (v !== !!G.done[c]){ G.done[c] = v; changed = true; }
       });
     }
+    if (res.claims || res.notes){
+      var cl = res.claims || {}, nt = res.notes || {}, ad = res.adv || {};
+      CODES.concat(ADVC).forEach(function(c){
+        var k = c+'.claim', nk = c+'.revnote';
+        if (CODES.indexOf(c) > -1 && !(('a:'+k) in pending)){ var want = cl[c] ? 'yes' : ''; if ((claimed(c) ? 'yes' : '') !== want){ G.f[k] = want; changed = true; } }
+        if (ADVC.indexOf(c) > -1 && !(('a:'+c+'.done') in pending) && res.adv){ var dv = ad[c] ? 'yes' : ''; if (String(G.f[c+'.done'] || '') !== dv){ G.f[c+'.done'] = dv; changed = true; } }
+        if (String(G.f[nk] || '') !== String(nt[c] || '')){ G.f[nk] = nt[c] || ''; changed = true; }
+      });
+    }
     var a = document.activeElement;
-    var typing = a && (a.tagName === 'INPUT' || a.tagName === 'SELECT');
+    var typing = a && (a.tagName === 'INPUT' || a.tagName === 'SELECT' || a.tagName === 'TEXTAREA');
     if (changed && !typing) rerender();
   }
   setInterval(function(){
@@ -513,7 +564,8 @@ var BOOT = <?!= boot ?>;
 
   function renderHome(){
     var n = doneCount(), h = topbar(false);
-    var msg = n === TOTAL ? 'Every requirement is complete. Show your Quest Map to your counsellor.' : (TOTAL-n)+' requirement'+(TOTAL-n===1?'':'s')+' to go. Pick a mission below.';
+    var wAll = waitCount(CODES);
+    var msg = n === TOTAL ? 'Every requirement is signed off. Well done!' : (TOTAL-n)+' requirement'+(TOTAL-n===1?'':'s')+' to go'+(wAll ? ' ('+wAll+' waiting for your counsellor to check)' : '')+'. Pick a mission below.';
     h += '<section class="hero">'+ring(n,TOTAL)+'<div class="hero-text"><span class="eyebrow muted">Pathfinder Guide class</span><h1>Hi, '+esc(G.name)+'</h1><p class="muted">'+msg+'</p></div></section>';
     h += '<div class="trail">';
     MISSIONS.forEach(function(m){
@@ -522,7 +574,7 @@ var BOOT = <?!= boot ?>;
         + '<span class="medal">'+(m.n || FLAG)+'</span>'
         + '<span class="mbody"><span class="mname">'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</span><span class="mblurb">'+esc(m.short)+'</span>'
         + '<span class="mcodes">'+m.tasks.map(fmt).join(' · ')+'</span><span class="bar"><span style="width:'+pct+'%"></span></span></span>'
-        + '<span class="mstat">'+d+'/'+tot+(signed ? '<small>Signed</small>' : '')+'</span></button>';
+        + '<span class="mstat">'+d+'/'+tot+(signed ? '<small>Signed</small>' : waitCount(m.tasks) ? '<small class="wt">⏳ '+waitCount(m.tasks)+' waiting</small>' : '')+'</span></button>';
     });
     h += '</div>';
     h += '<button class="mapbtn" data-go="map">'+COMPASS+'<span><b>Quest Map</b><span>All 24 requirements on one screen</span></span></button>';
@@ -533,6 +585,7 @@ var BOOT = <?!= boot ?>;
       h += '<section class="lab"><div class="labhead"><h2>Learning Lab</h2><a href="'+esc(LAB + '&from=home')+'">See all explorers</a></div>'
         + '<p class="muted" style="font-size:14px">Learn each topic, play the game, then take the challenge.</p><div class="labgrid">'
         + labs.map(function(t){ return '<a class="labtile" href="'+esc(labHref(t, 'home'))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS[t.id] || '')+'</span><span>'+esc(t.name)+'<small>'+fmt(t.code)+'</small></span></a>'; }).join('')
+        + '<a class="labtile" href="'+esc(LAB + '&k=gems&from=home')+'"><span class="li" aria-hidden="true">💎</span><span>Memory Gems<small>SD 4</small></span></a>'
         + '</div></section>';
     }
     h += '<p class="note">Everything you type saves to your club’s Guide Quest record. Keep this link to yourself.</p>';
@@ -540,7 +593,23 @@ var BOOT = <?!= boot ?>;
     return '<div class="wrap">'+h+'</div>';
   }
 
+  var GFOLD = {};
+  function filledKey(k){ var v = G.f[k]; return Array.isArray(v) ? v.some(function(x){ return String(x == null ? '' : x).trim() !== ''; }) : String(v == null ? '' : v).trim() !== ''; }
+  function fieldShown(code, fd){
+    if (!fd.when) return true;
+    var sel = arr(code+'.'+fd.when[0]);
+    if (sel.length) return sel.indexOf(fd.when[1]) > -1;
+    return !!fd.legacy && Object.keys(G.f).some(function(k){ return fd.legacy.some(function(p){ return k.indexOf(code+'.'+p) === 0; }) && filledKey(k); });
+  }
   function fieldHTML(code, fd){
+    if (!fieldShown(code, fd)) return '';
+    if (fd.t === 'note') return '<p class="how">'+fd.html+'</p>';
+    if (fd.t === 'group'){
+      var gk = code+':'+fd.id, gopen = !!GFOLD[gk], filled = (fd.keys || []).some(function(x){ return Object.keys(G.f).some(function(k){ return (k === code+'.'+x || k.indexOf(code+'.'+x+'.') === 0) && filledKey(k); }); });
+      return '<div class="sgroup'+(gopen ? ' open' : '')+'"><button class="sgh" data-gfold="'+gk+'" aria-expanded="'+gopen+'"><span class="sgt"><b>'+esc(fd.title)+'</b>'+(fd.sub ? '<small>'+esc(fd.sub)+'</small>' : '')+'</span>'
+        + (filled ? '<span class="sgok" title="Started">'+CHECK+'</span>' : '') + '<span class="chev" aria-hidden="true"></span></button>'
+        + (gopen ? '<div class="sgb">' + fd.fields.map(function(f2){ return fieldHTML(code, f2); }).join('') + '</div>' : '') + '</div>';
+    }
     var k = code+'.'+fd.k;
     if (fd.t === 'text'){
       return '<label class="field"><span>'+esc(fd.label)+'</span><input type="text" id="f-'+k+'" data-k="'+k+'" data-label="'+esc(fd.label)+'" value="'+esc(G.f[k] || '')+'" autocomplete="off" maxlength="600"></label>';
@@ -639,10 +708,23 @@ var BOOT = <?!= boot ?>;
     }
   };
 
+  function claimed(code){ return String(G.f[code+'.claim'] || '').indexOf('yes') === 0; }
+  function revnote(code){ return String(G.f[code+'.revnote'] || ''); }
+  function waitCount(codes){ return codes.filter(function(c){ return !G.done[c] && claimed(c); }).length; }
+  var TFOLD = {};
+  function taskOpen(code){
+    if (code in TFOLD) return TFOLD[code];
+    var m = missionOf(code); if (!m) return true;
+    if (!G.done[code] && !claimed(code) && revnote(code)) return true;
+    return m.tasks.filter(function(c){ return !G.done[c] && !claimed(c); })[0] === code;
+  }
   function taskHTML(code){
-    var t = TASKS[code], d = !!G.done[code];
-    var h = '<article class="task'+(d?' is-done':'')+'" id="task-'+code+'">'
-      + '<div class="task-top"><span class="code">'+fmt(code)+'</span><h2>'+esc(t.title)+'</h2>'+(d ? '<span class="ok-pill">'+CHECK+'Done</span>' : '')+'</div>';
+    var t = TASKS[code], d = !!G.done[code], w = !d && claimed(code), note = (!d && !w) ? revnote(code) : '', open = taskOpen(code);
+    var pill = d ? '<span class="ok-pill">'+CHECK+'Signed off</span>' : w ? '<span class="wait-pill">⏳ Waiting</span>' : note ? '<span class="note-pill">Not yet</span>' : '';
+    var h = '<article class="task'+(d?' is-done':'')+(w?' is-wait':'')+(open?'':' folded')+'" id="task-'+code+'">'
+      + '<button class="task-top tfold" data-tfold="'+code+'" aria-expanded="'+open+'"><span class="code">'+fmt(code)+'</span><span class="tt">'+esc(t.title)+'</span>'+pill+'<span class="chev" aria-hidden="true"></span></button>';
+    if (!open) return h + '</article>';
+    if (note) h += '<p class="revnote"><b>Your counsellor says:</b> '+esc(note)+'</p>';
     if (t.how) h += '<p class="how">'+t.how+'</p>';
     (t.fields || []).forEach(function(fd){ h += fieldHTML(code, fd); });
     var lt = LAB_BY_CODE[code];
@@ -651,9 +733,11 @@ var BOOT = <?!= boot ?>;
         + (lt.id === 'sanctuary' ? TENT : '<span class="li" aria-hidden="true">'+(LAB_ICONS[lt.id] || '')+'</span>')
         + 'Open the '+esc(lt.name)+(/Explorer$/.test(lt.name) ? '' : ' explorer')+'</a>';
     }
+    if (code === 'SD4' && LAB) h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(LAB + '&k=gems&from=' + view + '&f=SD4')+'"><span class="li" aria-hidden="true">💎</span>Open the Memory Gem trainer</a>';
     if (TOKEN) h += photosHTML(code);
-    h += '<button class="donebtn" id="done-'+code+'" data-done="'+code+'" aria-pressed="'+d+'">'+(d ? CHECK+'Completed · tap to undo' : 'Mark '+fmt(code)+' complete')+'</button></article>';
-    return h;
+    h += d ? '<p class="signed">'+CHECK+'Signed off by your counsellor. It’s on your record.</p>'
+      : '<button class="donebtn'+(w ? ' waiting' : '')+'" id="done-'+code+'" data-done="'+code+'" aria-pressed="'+w+'">'+(w ? '⏳ Waiting for your counsellor · tap to undo' : 'Done – ask my counsellor to check')+'</button>';
+    return h + '</article>';
   }
 
   function renderMission(mid){
@@ -661,7 +745,9 @@ var BOOT = <?!= boot ?>;
     var h = topbar(true);
     h += '<header class="mhead"><div class="mhead-top"><span class="medal">'+(m.n || FLAG)+'</span><div><span class="eyebrow">'+(m.n ? 'Mission '+m.n : 'Records and honours')+'</span><h1>'+esc(m.name)+'</h1></div></div>'
       + '<p>'+esc(m.blurb)+'</p><div class="covers">'+m.tasks.map(function(c){ return '<span><b>'+fmt(c)+'</b></span>'; }).join('')+'</div></header>';
-    h += '<div class="mprog"><span>'+d+' of '+tot+' complete</span><span class="bar"><span style="width:'+Math.round(100*d/tot)+'%"></span></span></div>';
+    var wn = waitCount(m.tasks);
+    h += '<div class="mprog"><span>'+d+' of '+tot+' signed off'+(wn ? ' · '+wn+' waiting for your counsellor' : '')+'</span><span class="bar"><span style="width:'+Math.round(100*d/tot)+'%"></span></span></div>';
+    h += '<p class="muted small">When you finish a part, tap <b>Done – ask my counsellor to check</b>. It goes on your record when your counsellor signs it off.</p>';
     h += '<div class="tasks">'+m.tasks.map(taskHTML).join('')+'</div>';
     h += '<section class="sign"><h3>Counsellor sign-off</h3>'
       + (s ? '<p class="signed">'+CHECK+'Signed off · '+esc(s)+'</p>' : '<p class="muted">When every part is done, your counsellor will check it and sign it off.</p>')
@@ -674,13 +760,13 @@ var BOOT = <?!= boot ?>;
 
   function renderMap(){
     var n = doneCount(), h = topbar(true);
-    h += '<section class="maphead">'+ring(n,TOTAL)+'<div class="hero-text"><span class="eyebrow muted">Quest Map</span><h1>'+esc(G.name)+'</h1><p class="muted">'+(n===TOTAL ? 'All 24 Guide requirements complete.' : n+' of 24 Guide requirements complete. Tap any row to go to it.')+'</p></div></section>';
+    h += '<section class="maphead">'+ring(n,TOTAL)+'<div class="hero-text"><span class="eyebrow muted">Quest Map</span><h1>'+esc(G.name)+'</h1><p class="muted">'+(n===TOTAL ? 'All 24 Guide requirements signed off.' : n+' of 24 Guide requirements signed off'+(waitCount(CODES) ? ', '+waitCount(CODES)+' waiting for your counsellor' : '')+'. Tap any row to go to it.')+'</p></div></section>';
     SECTIONS.forEach(function(sec){
       var codes = CODES.filter(function(c){ return c.replace(/\d+$/,'') === sec[0]; });
       h += '<section class="section"><h2>'+esc(sec[1])+'</h2>';
       codes.forEach(function(c){
-        var m = missionOf(c), on = !!G.done[c];
-        h += '<button class="qrow" data-go="'+m.id+'" data-focus="'+c+'"><span class="qdot'+(on?' on':'')+'">'+(on?CHECK:'')+'</span><span class="qcode">'+fmt(c)+'</span><span class="qtext">'+esc(REQ[c])+'</span><span class="qtag" style="'+mvars(m.id)+'">'+(m.n ? 'Mission '+m.n : 'Base Camp')+'</span></button>';
+        var m = missionOf(c), on = !!G.done[c], wq = !on && claimed(c);
+        h += '<button class="qrow" data-go="'+m.id+'" data-focus="'+c+'"><span class="qdot'+(on?' on':wq?' wait':'')+'">'+(on?CHECK:wq?'⏳':'')+'</span><span class="qcode">'+fmt(c)+'</span><span class="qtext">'+esc(REQ[c])+'</span><span class="qtag" style="'+mvars(m.id)+'">'+(m.n ? 'Mission '+m.n : 'Base Camp')+'</span></button>';
       });
       h += '</section>';
     });
@@ -765,13 +851,14 @@ var BOOT = <?!= boot ?>;
           '6 · List one month of your spending, or plan a $50 monthly budget',
           '7 · Find what the Bible and Ellen White say about talents',
           '8 · Do a talent project (new to you, helps others, at least 5 hours) and report on it']},
-        {t:'game',game:'stewquiz'},
-        {t:'text',k:'tithe',label:'How tithe is used: local church, conference, union, General Conference'},
-        {t:'game',game:'timechart'},
-        {t:'game',game:'budget'},
-        {t:'text',k:'talents',label:'My three talents or skills'},
-        {t:'text',k:'chosen',label:'The one I chose to develop, and my project'},
-        {t:'area',k:'project',label:'My talent project report: what I did, who it helped, and how many hours',target:120,unit:'words'}]},
+        {t:'group',id:'q',title:'Part 1 · Bible questions',sub:'The verse game',keys:['quiz'],fields:[{t:'game',game:'stewquiz'}]},
+        {t:'group',id:'tithe',title:'Part 3 · How tithe is used',sub:'Local church, conference, union, General Conference',keys:['tithe'],fields:[{t:'text',k:'tithe',label:'How tithe is used: local church, conference, union, General Conference'}]},
+        {t:'group',id:'time',title:'Part 5 · 24-hour time chart',sub:'One weekday and one weekend day',keys:['tcw','tce'],fields:[{t:'game',game:'timechart'}]},
+        {t:'group',id:'money',title:'Part 6 · Money',sub:'One month of spending, or a $50 budget',keys:['bud'],fields:[{t:'game',game:'budget'}]},
+        {t:'group',id:'talent',title:'Parts 7 and 8 · Talents and your project',sub:'Three talents, one project of at least 5 hours',keys:['talents','chosen','project'],fields:[
+          {t:'text',k:'talents',label:'My three talents or skills'},
+          {t:'text',k:'chosen',label:'The one I chose to develop, and my project'},
+          {t:'area',k:'project',label:'My talent project report: what I did, who it helped, and how many hours',target:120,unit:'words'}]}]},
     AV2:{sec:'Spiritual Discovery', icon:'📖', title:'Steps to Christ', req:'Read Steps to Christ and write a one-page report or essay.',
       how:'<i>Steps to Christ</i> by Ellen G. White has 13 short chapters. Read them free at <a href="https://egwwritings.org" target="_blank" rel="noopener">egwwritings.org</a> or in the EGW Writings app. Tick each chapter as you finish it and answer its question, then write your report.',
       fields:[{t:'game',game:'stc'},{t:'area',k:'report',label:'My one-page report (about 300 words): what the book is about, what helped me most, and one change I will make',target:300,unit:'words'}]},
@@ -1001,15 +1088,16 @@ var BOOT = <?!= boot ?>;
 
   /* ---------- Advanced views ---------- */
   function advTaskHTML(c){
-    var t = ADV[c], d = advDone(c), s = advSign(c);
-    var h = '<article class="task'+(d?' is-done':'')+'" id="task-'+c+'">'
-      + '<div class="task-top"><span class="code">'+esc(t.sec)+'</span><h2>'+esc(t.title)+'</h2>'+(s ? '<span class="ok-pill">'+CHECK+'Signed</span>' : d ? '<span class="ok-pill">'+CHECK+'Done</span>' : '')+'</div>'
+    var t = ADV[c], d = advDone(c), s = advSign(c), note = (!s && !d) ? revnote(c) : '';
+    var h = '<article class="task'+(s?' is-done':'')+(d && !s?' is-wait':'')+'" id="task-'+c+'">'
+      + '<div class="task-top"><span class="code">'+esc(t.sec)+'</span><h2>'+esc(t.title)+'</h2>'+(s ? '<span class="ok-pill">'+CHECK+'Signed off</span>' : d ? '<span class="wait-pill">⏳ Waiting</span>' : note ? '<span class="note-pill">Not yet</span>' : '')+'</div>'
+      + (note ? '<p class="revnote"><b>Your counsellor says:</b> '+esc(note)+'</p>' : '')
       + '<p class="advreq"><b>Requirement:</b> '+esc(t.req)+'</p>';
     if (t.how) h += '<p class="how">'+t.how+'</p>';
     t.fields.forEach(function(fd){ h += fieldHTML(c, fd); });
     if (!t.noPhotos && TOKEN) h += photosHTML(c);
-    h += '<button class="donebtn" data-avdone="'+c+'" aria-pressed="'+d+'">'+(d ? CHECK+'Completed · tap to undo' : 'Mark “'+esc(t.title)+'” complete')+'</button>';
-    h += '<p class="'+(s ? 'signed' : 'muted small')+'">'+(s ? CHECK+'Signed off · '+esc(s) : 'When it is done, your counsellor will check it and sign it off.')+'</p></article>';
+    if (!s) h += '<button class="donebtn'+(d ? ' waiting' : '')+'" data-avdone="'+c+'" aria-pressed="'+d+'">'+(d ? '⏳ Waiting for your counsellor · tap to undo' : 'Done – ask my counsellor to check')+'</button>';
+    h += '<p class="'+(s ? 'signed' : 'muted small')+'">'+(s ? CHECK+'Signed off · '+esc(s) : 'Your counsellor checks it, then signs it off.')+'</p></article>';
     return h;
   }
   function advTopbar(back, label){
@@ -1024,7 +1112,7 @@ var BOOT = <?!= boot ?>;
     ADVC.forEach(function(c){
       var t = ADV[c], s = advSign(c), d = advDone(c);
       h += '<button class="mcard" data-go="adv-'+c+'" style="'+mvars('base')+'"><span class="medal" aria-hidden="true">'+t.icon+'</span><span class="mbody"><span class="mname">'+esc(t.title)+'</span><span class="mblurb">'+esc(t.sec)+'</span></span>'
-        + '<span class="mstat">'+(s ? CHECK+'<small>Signed</small>' : d ? '<small>Done</small>' : '<small>Open</small>')+'</span></button>';
+        + '<span class="mstat">'+(s ? CHECK+'<small>Signed</small>' : d ? '<small class="wt">⏳ Waiting</small>' : '<small class="op">Open</small>')+'</span></button>';
     });
     return '<div class="wrap">'+h+'</div></div>';
   }
@@ -1106,7 +1194,7 @@ var BOOT = <?!= boot ?>;
     if (id){ var el = document.getElementById(id); if (el) try { el.focus({preventScroll:true}); } catch(e){ el.focus(); } }
   }
   function go(to, focus){
-    view = to; render();
+    view = to; if (focus) TFOLD[focus] = true; render();
     if (focus){ var el = document.getElementById('task-'+focus); if (el){ el.scrollIntoView({block:'start'}); return; } }
     window.scrollTo(0,0);
   }
@@ -1129,7 +1217,9 @@ var BOOT = <?!= boot ?>;
     }
     if (ds.notme){ lsSet(JOINKEY, null); location.href = BOOT.base || location.pathname; return; }
     if (ds.go){ go(ds.go, ds.focus); return; }
-    if (ds.avdone){ var on = !advDone(ds.avdone); saveField(ds.avdone + '.done', on ? 'yes' : '', 'Marked complete'); rerender(); return; }
+    if (ds.avdone){ if (advSign(ds.avdone)) return; var on = !advDone(ds.avdone); saveField(ds.avdone + '.done', on ? 'yes' : '', 'Marked complete'); if (on) G.f[ds.avdone + '.revnote'] = ''; rerender(); return; }
+    if (ds.tfold){ TFOLD[ds.tfold] = !taskOpen(ds.tfold); rerender(); return; }
+    if (ds.gfold){ GFOLD[ds.gfold] = !GFOLD[ds.gfold]; rerender(); return; }
     if (ds.quiz){ var qa = nums(ds.quiz, +ds.n); qa[+ds.i] = ds.j; saveField(ds.quiz, qa); rerender(); return; }
     if (ds.stc){ var ra = arr('AV2.read'), ri = ra.indexOf(ds.stc); if (ri > -1) ra.splice(ri, 1); else ra.push(ds.stc); ra.sort(function(x, y){ return x - y; }); saveField('AV2.read', ra); rerender(); return; }
     if (ds.timer){
@@ -1139,8 +1229,11 @@ var BOOT = <?!= boot ?>;
       rerender(); return;
     }
     if (ds.done){
-      var v = !G.done[ds.done]; G.done[ds.done] = v;
-      queue('d:'+ds.done, {k:'d', code:ds.done, value:v}); rerender(); return;
+      var dc = ds.done; if (G.done[dc]) return;
+      var ask = !claimed(dc);
+      saveField(dc+'.claim', ask ? 'yes' : '', 'Asked the counsellor to check');
+      if (ask) G.f[dc+'.revnote'] = '';
+      rerender(); return;
     }
     if (ds.chip){
       var k = ds.chip, val = ds.val, max = +ds.max || 0, a = arr(k), at = a.indexOf(val);

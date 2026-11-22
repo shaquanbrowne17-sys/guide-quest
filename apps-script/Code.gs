@@ -32,7 +32,7 @@ var MISSIONS = [
 ];
 
 var REQ = {
-  G1: 'Be 15 years old and/or in Year 11 or equivalent',
+  G1: 'Be at least 15, or in Grade 10 (Form 4) or equivalent',
   G2: 'Know and understand the AY Legion of Honour',
   G3: 'Be an active member of the Pathfinder Club',
   G4: 'Read a Teen Book Club book and a local church history book',
@@ -40,18 +40,18 @@ var REQ = {
   SD2: 'How the sanctuary service points to the cross and Jesus',
   SD3: 'Outline and tell 3 Adventist pioneer stories at worship',
   SD4: 'Have a current Memory Gem Certificate',
-  CO1: 'Friendship visit to a shut-in, or adopt a family in need',
+  CO1: 'Visit a shut-in, adopt a family in need, or another approved outreach',
   CO2: 'Discuss witnessing to teens and put it into practice',
   FD1: 'Examine your attitudes on two life topics',
   HF1: 'Present the laws of good health to a younger group',
-  HF2: 'Fun Run with a recorded training programme',
+  HF2: 'Health article or poem, Fun Run with training, or Temperance reading and quiz',
   HF3: 'Nutrition Honour, or lead the Physical Fitness Honour',
   OL1: 'Flow chart of church organisation, with your Division',
   OL2: 'Attend a Basic Pathfinder Staff Training Course',
-  OL3: 'Plan and teach 2 honour requirements to Juniors',
+  OL3: 'Plan and teach 2 honour requirements to Juniors, with a staff mentor',
   NS1: 'Desire of Ages ch. 7 and an original nature parable',
   NS2: 'Ecology or Environmental Conservation Honour',
-  OD1: 'Two-night pack camp, and discuss the equipment',
+  OD1: 'Two-night pack camp with a trip log, and discuss the equipment',
   OD2: 'Plan and cook a three-course meal on an open fire',
   OD3: 'Complete an object of lashing or rope work',
   OD4: 'New honour toward a Master award',
@@ -468,7 +468,8 @@ function getQuest(t) {
   t = cleanToken_(t);
   var d = questData_(t, true);
   if (!d) throw new Error('link-not-found');
-  return { done: d.done, signs: d.signs };
+  var rs = reviewState_(t);
+  return { done: d.done, signs: d.signs, claims: rs.claims, notes: rs.notes, adv: rs.adv };
 }
 
 /**
@@ -483,55 +484,58 @@ function sync(t, ops) {
   var lock = LockService.getScriptLock();
   lock.waitLock(15000);
   try {
+    ANS_IDX_ = null;
     var sh = sheet_(SHEET_PF);
     var row = findRow_(sh, t);
     if (row < 0) throw new Error('link-not-found');
     var name = String(sh.getRange(row, COL_NAME).getValue()).trim();
-    var now = new Date();
-    var ans = null, index = null;
+    var now = new Date(), doneRow = null;
+    function isDone(code) {
+      if (!doneRow) doneRow = sh.getRange(row, COL_REQ0, 1, CODES.length).getValues()[0];
+      return doneRow[CODES.indexOf(code)] === true;
+    }
     ops.forEach(function (op) {
-      if (op && op.k === 'd') {
-        var i = CODES.indexOf(String(op.code));
-        if (i < 0) return;
-        var on = op.value === true;
-        sh.getRange(row, COL_REQ0 + i).setValue(on);
-        if (on) tickDate_(t, name, String(op.code), 'Pathfinder');
-        log_(name, (on ? 'Completed ' : 'Un-ticked ') + op.code + ' · ' + REQ[op.code]);
-      } else if (op && op.k === 'a') {
-        var key = String(op.key || '');
-        if (!/^[A-Z]{1,2}\d\.[A-Za-z0-9.]{1,24}$/.test(key)) return;
-        var code = key.split('.')[0];
-        if (CODES.indexOf(code) < 0 && ADVC.indexOf(code) < 0) return;
-        if (/^AV\d\.sign$/.test(key)) return; // only counsellors sign off
-        var val = op.value;
-        if (Array.isArray(val)) {
-          val = JSON.stringify(val.slice(0, 20).map(function (x) { return x == null ? '' : String(x).slice(0, 120); }));
-        } else {
-          val = safe_(String(val == null ? '' : val).slice(0, ADV_LONG[key] ? 12000 : 1500));
-        }
-        var label = safe_(String(op.label || key).slice(0, 160));
-        if (!ans) {
-          ans = sheet_(SHEET_ANS);
-          if (ans.getLastRow() === 0) setupAnswers_();
-          index = {};
-          var last = ans.getLastRow();
-          if (last >= 2) {
-            var tk = ans.getRange(2, 6, last - 1, 2).getValues();
-            for (var j = 0; j < tk.length; j++) if (String(tk[j][0]) === t) index[String(tk[j][1])] = j + 2;
-          }
-        }
-        if (index[key]) {
-          ans.getRange(index[key], 1, 1, 5).setValues([[name, code, label, val, now]]);
-        } else {
-          ans.appendRow([name, code, label, val, now, t, key]);
-          index[key] = ans.getLastRow();
+      if (!op) return;
+      // Pages from before Version 15 send a tick. A Guide's tick is now a request for the counsellor to check.
+      if (op.k === 'd') op = { k: 'a', key: String(op.code) + '.claim', value: op.value === true ? 'yes' : '' };
+      if (op.k !== 'a') return;
+      var key = String(op.key || '');
+      if (!/^[A-Z]{1,2}\d\.[A-Za-z0-9.]{1,24}$/.test(key)) return;
+      var code = key.split('.')[0];
+      if (CODES.indexOf(code) < 0 && ADVC.indexOf(code) < 0) return;
+      if (/^AV\d\.sign$/.test(key) || /\.revnote$/.test(key)) return; // only counsellors sign off or write notes
+      if (/\.claim$/.test(key)) {
+        if (CODES.indexOf(code) < 0 || key !== code + '.claim') return;
+        var on = String(op.value == null ? '' : op.value) !== '';
+        if (on && isDone(code)) return;
+        var had = claimMs_((ansIndex_()[t + '|' + key] || {}).val);
+        if (on && had) return;
+        if (!on && !had) return;
+        ansPut_(t, name, code, key, CLAIM_LABEL, on ? 'yes|' + now.getTime() : '');
+        if (on) ansPut_(t, name, code, code + '.revnote', NOTE_LABEL, '');
+        log_(name, (on ? 'Asked for sign-off: ' : 'Took back the request for ') + code + ' · ' + REQ[code]);
+        return;
+      }
+      var val = op.value;
+      if (Array.isArray(val)) {
+        val = JSON.stringify(val.slice(0, 20).map(function (x) { return x == null ? '' : String(x).slice(0, 120); }));
+      } else {
+        val = safe_(String(val == null ? '' : val).slice(0, ADV_LONG[key] ? 12000 : 1500));
+      }
+      var label = safe_(String(op.label || key).slice(0, 160));
+      if (/^AV\d\.done$/.test(key)) {
+        var was = String((ansIndex_()[t + '|' + key] || {}).val || '') === 'yes', now2 = val === 'yes';
+        if (was !== now2) {
+          if (now2) ansPut_(t, name, code, code + '.revnote', NOTE_LABEL, '');
+          log_(name, (now2 ? 'Asked for sign-off: Advanced · ' : 'Took back the request for Advanced · ') + ADV_INFO[code].name);
         }
       }
+      ansPut_(t, name, code, key, label, val);
     });
     sh.getRange(row, COL_UPDATED).setValue(now);
     SpreadsheetApp.flush();
-    var d = questData_(t, true);
-    return { ok: true, done: d.done, signs: d.signs };
+    var d = questData_(t, true), rs = reviewState_(t);
+    return { ok: true, done: d.done, signs: d.signs, claims: rs.claims, notes: rs.notes, adv: rs.adv };
   } finally {
     lock.releaseLock();
   }
@@ -590,6 +594,8 @@ function c_setPin(newPin) {
 
 function c_overview(pin) {
   checkPin_(pin);
+  ANS_IDX_ = null;
+  try { migrateClaims_(); } catch (err) { log_('—', 'Version 15 move to “To review” did not finish: ' + String(err && err.message || err).slice(0, 120)); }
   makeMissingLinks();
   var sh = sheet_(SHEET_PF), last = sh.getLastRow(), list = [];
   var chal = challengeSummary_(), seen = seenSummary_();
@@ -624,14 +630,18 @@ function c_overview(pin) {
   }
   var meets = meetingsRead_(), xt = extrasMap_(), av = advSummary_(), extras = {}, advanced = {}, photos = {};
   list.forEach(function (p) { if (xt[p.t]) extras[p.t] = xt[p.t]; if (av[p.t]) advanced[p.t] = av[p.t]; });
-  evRows_().forEach(function (x) { photos[x.t] = (photos[x.t] || 0) + 1; });
+  var evs = evRows_(), cm = claimsMap_(), revnotes = {};
+  evs.forEach(function (x) { photos[x.t] = (photos[x.t] || 0) + 1; });
+  list.forEach(function (p) { var n = (cm[p.t] || {}).notes; if (n && Object.keys(n).length) revnotes[p.t] = n; });
   return { codes: CODES, pathfinders: list, activity: act, url: baseUrl_(), now: Date.now(), parts: SANCT_PARTS.length, topics: topicList_(),
     extras: extras, attend: attendance_(meets), meetingsTotal: meets.length, evalDate: evalDate_(),
-    advanced: advanced, photos: photos, record: recordSettings_(), backup: lastBackup_() };
+    advanced: advanced, photos: photos, record: recordSettings_(), backup: lastBackup_(),
+    reviews: reviews_(list, cm, av, evs), revnotes: revnotes, paper: PAPER };
 }
 
 function withRow_(pin, t, fn) {
   checkPin_(pin);
+  ANS_IDX_ = null;
   t = cleanToken_(t);
   var lock = LockService.getScriptLock();
   lock.waitLock(15000);
@@ -725,6 +735,7 @@ function c_answers(pin, t) {
         try { v = JSON.parse(v).filter(function (x) { return x !== '' && x != null; }).join(', '); } catch (err) {}
       }
       if (v === '' || v === null) return;
+      if (/\.(claim|revnote)$/.test(String(r[5]))) return;
       out.push({ code: String(r[0]), q: String(r[1]), a: String(v), key: String(r[5]) });
     });
   }
@@ -1126,31 +1137,31 @@ var AI_KNOWLEDGE = [
 '- m1 Mission 1, Hands of Jesus: CO1, CO2. Visit a shut-in or help a family in need, bring a teen friend, help with a real job, sing, pray and share testimonies.',
 '- m2 Mission 2, Guide for a Day: NS1, HF1, OL3. The class runs one Junior Pathfinder meeting: nature parable, health talk, teach two honour requirements.',
 '- m3 Mission 3, Worship Takeover: G2, SD2, SD3. The class runs a worship: recite the Legion of Honour, tell three pioneer stories, show how the sanctuary points to Jesus.',
-'- m4 Mission 4, Two-Night Trek: OD1, OD2, OD3, HF2, SD1, FD1. A two-night pack camp: gear talk, three-course fire meal, lashed gadget, sunrise Fun Run, campfire talks.',
+'- m4 Mission 4, Two-Night Trek: OD1, OD2, OD3, HF2, SD1, FD1. A two-night pack camp: gear talk and trip log, three-course fire meal, lashed gadget, a sunrise Fun Run (one of the three HF2 options), campfire talks.',
 '- m5 Mission 5, Church Map: OL1. Class talk on church organisation, then a flow chart from the General Conference down to the local church.',
 '- base Base Camp, records and honours: G1, G3, G4, SD4, OL2, HF3, NS2, OD4, LE1. Personal records and honours, checked one Guide at a time.',
 '',
 '# THE 24 REQUIREMENTS: what each needs, how to check it, and what covers it',
-'G1 (General) Be 15 years old and/or in Year 11 (Grade 10) or equivalent. Personal: check age/grade. Never ticked by a group activity.',
+'G1 (General) Be at least 15 years old, or in Grade 10 (Form 4 in Guyana) or equivalent. Personal record: check age/grade and file it. Never ticked by a group activity and never a lesson.',
 'G2 (General) Know and understand the AY Legion of Honour. Done when the Guide can say it from memory and explain what each line means (eyes, ears, feet, friends, mouth, body). Objective: see how thoughts shape actions and want to honour Christ. Covered when the class recites and explains it, e.g. at a worship. Learning Lab explorer: legion.',
 'G3 (General) Be an active member of the Pathfinder club: dues paid and at least 75% attendance, supporting the club and taking leadership when given. Personal; counsellor checks records.',
 'G4 (General) Read a Teen Book Club book and a local church history book. Check with a short verbal report on each book. Personal.',
 'SD1 (Spiritual Discovery) Discuss how a Christian can have the gifts of the Spirit as Paul describes to the Galatians (Galatians 5:22-23, the fruit of the Spirit; compare the gifts in 1 Corinthians 12, Romans 12, Ephesians 4). Objective: recognise God gives each Guide gifts and grows His character in them. Done by taking part in the discussion (often a campfire talk). Explorer: fruit.',
 'SD2 (Spiritual Discovery) Learn the Old Testament sanctuary service and discuss how it points to the cross and Jesus\' ministry now in the heavenly sanctuary (Hebrews 8-9; Daniel 8:14). Parts: court, fence, gate, altar of burnt offering, laver, holy place, lampstand, table of shewbread, altar of incense, veil, most holy place, ark of the covenant. Daily service and yearly Day of Atonement. Done by studying/viewing and discussing. Explorer: Sanctuary Explorer.',
 'SD3 (Spiritual Discovery) Outline and tell three Adventist pioneer stories at worship (e.g. William Miller, Hiram Edson, Joseph Bates, Ellen and James White, John Byington, J. N. Andrews). Done when each Guide has told stories in a worship. Explorer: pioneers.',
-'SD4 (Spiritual Discovery) Have a current Memory Gem Certificate (pass the conference memory gem test). Personal.',
+'SD4 (Spiritual Discovery) Have a current Memory Gem Certificate. Use the local conference youth department\'s Memory Gem list if it has one; if not, the curriculum\'s suggested list in seven groups (Great passages, Salvation, Doctrine, Prayer, Relationships, Behaviour, Promise and praise): the Guide learns one text from each group. Allow one class period for the Memory Gem exam. The club\'s list is in Explorers > Memory Gems, and Guides practise in the Learning Lab Memory Gem trainer. Personal record: check and file the certificate.',
 'CO1 (Community Outreach) As a group or alone, help organise and take part in: a friendship visit to a shut-in, OR adopting a person or family in need and helping them, OR another outreach approved by the leader. Done by taking part. A class visit to a shut-in, elderly or sick person, or a family-help day, covers CO1 for every Guide present.',
 'CO2 (Community Outreach) Take part in a discussion on witnessing to other teenagers, then put it into practice (the app suggests bringing a teen friend on the visit and sharing a short testimony). Objective: help Guides become witnesses to their own age group. Teaching points: communication; being a real friend first; personal testimony in three parts (before Jesus, how Jesus met me, life now); a plan for a target friend; understanding barriers; inviting a decision. Only tick when the discussion happened (and, for the app, the Guide practised it).',
 'FD1 (Friendship Development / Personal Growth) Examine your attitudes on two life topics through group discussion and personal thought: choosing a career, moral behaviour, sex and dating, choosing a life partner. Two topics, about two sessions each. Done by taking part. Handle with care: biblical, age-appropriate, involve parents/pastor where wise.',
 'HF1 (Health and Fitness) Present the laws of good health to a younger group (NEWSTART: Nutrition, Exercise, Water, Sunlight, Temperance, Air, Rest, Trust in God). Done when the Guide has presented/taught it, e.g. at a Junior meeting. Explorer: newstart.',
-'HF2 (Health and Fitness) Organise and take part in a Fun Run or similar, after keeping a recorded physical training programme (the app suggests three weeks of training, then a sunrise run at camp). Needs both the training record and the run.',
+'HF2 (Health and Fitness) Do ONE of three: (a) write a poem or article on health or temperance suitable for a church health or temperance journal; (b) organise or take part in a Fun Run or similar, after keeping a record of a physical training programme (the app suggests three weeks of training, then a sunrise run at camp; needs both the record and the run); (c) read Temperance by Ellen G. White, pages 102-125, and pass a true/false quiz on it with at least 75%. About one class period.',
 'HF3 (Health and Fitness) Earn the Nutrition Honour, or lead a group through the Physical Fitness Honour. Explorer: nutrition.',
 'OL1 (Organisation and Leadership) After a class discussion, make a flow chart of how the church is organised, with details of our Division (Inter-American). Done by taking part and making the chart. Explorer: church.',
 'OL2 (Organisation and Leadership) Attend a Basic Pathfinder Staff Training Course (run by the conference). Personal record.',
-'OL3 (Organisation and Leadership) Plan and teach at least two requirements of an honour to younger Pathfinders. Done when taught.',
+'OL3 (Organisation and Leadership) Plan and teach at least two requirements of an honour to younger Pathfinders, under the guidance of a staff member (a staff mentor). Done when taught.',
 'NS1 (Nature Study) Read The Desire of Ages chapter 7 (As a Child) and relate it to nature study in Jesus\' education and ministry; then give, before an audience, an original nature lesson (parable) from your own observation. Done when the parable is presented.',
 'NS2 (Nature Study) Earn the Ecology Honour or the Environmental Conservation Honour. Explorer: ecology.',
-'OD1 (Outdoor Living) Take part in a two-night pack camp (everything carried in packs) and discuss the equipment beforehand. Both parts needed. Explorer: packcamp.',
+'OD1 (Outdoor Living) Take part in a two-night pack camp (everything carried in packs), discuss the equipment beforehand, and keep a trip log: a pre-log before (plan, route, menu, gear) and a post-log after (what happened, what was learned). All parts needed. Explorer: packcamp.',
 'OD2 (Outdoor Living) Plan and cook, in a satisfactory way, a three-course meal on an open fire (balanced menu). Explorer: fire.',
 'OD3 (Outdoor Living) Complete an object of lashing or rope work, such as a tower, bridge or camp gadget. Basic lashings first (square, diagonal, shear, tripod, round). Explorer: lashing.',
 'OD4 (Outdoor Living) Earn a new honour (not earned before) that counts toward a Master Award such as Aquatic, Sportsman, Recreation, Wilderness or Nature (Orienteering is a good choice). Explorer: orienteering.',
@@ -1188,10 +1199,20 @@ var AI_KNOWLEDGE = [
 '# THE COUNSELLOR DASHBOARD',
 '- Tabs: Class (cards, grid, or the class Quest Map; countdown to the evaluation date), Meetings & Plan (the programme planner for coming weeks, logging each meeting with who came, which can tick requirements for everyone present, and attendance), Explorers (Sanctuary, Learning Lab and the Questions editor), Report (class report, photo evidence, printable record sheets for investiture), Assistant (you), Links (class link, personal links, parent links).',
 '- A Guide\'s page: ticks and mission sign-offs, Advanced sign-offs, photos, what they typed, private notes, parent link, New link (their work moves to it) and Remove.',
-'- LESSON PLANS: when asked for a lesson plan (for example "a lesson plan for this week"), base it on where the class is: call get_class_overview, look at guides_done_per_requirement, what most Guides still need, and upcoming_programme, and plan for the requirement(s) the class most needs next. Say which requirement(s) it covers.',
+'- LESSON PLANS: when asked for a lesson plan (for example "a lesson plan for this week"), first call get_class_overview. Plan from what each Guide has completed and what is still missing (guides[].missing, class_most_needs_next), never from paperwork (paperwork_check_and_file). Requests in waiting_for_sign_off still need a counsellor to check them, so plan a quick check, not a lesson. Use upcoming_programme, the 20-week sample order and the class-period times below to choose what comes next. Give: the requirement code(s) and plain name(s), aim, Bible base (KJV), materials, opener, the main activity with timings, discussion questions, how to check it (the method of testing), and a short closing. If Guides are missing different things, suggest groups or stations.',
+'',
+'# HOW A REQUIREMENT GOES ON THE RECORD (Version 15)',
+'- A Guide taps "Done - ask my counsellor to check" in their app. That is only a request: it shows in To review on the Class tab and in waiting_for_sign_off. It does not count until a counsellor signs it off (ticks it). "Not yet" sends it back to the Guide with a short note.',
+'- Only counsellor ticks and sign-offs count toward the 24 and the record sheets. mark_requirements is a counsellor action, so it does count.',
+'- Paperwork (G1 age or grade, G3 active member, SD4 Memory Gem certificate, OL2 staff course) is checked and filed on the Report tab. Never plan a lesson for it.',
+'',
+'# GUIDE TEACHER\'S MANUAL GUIDANCE (official Guide curriculum used in the Inter-American Division)',
+'- Class time: SD1 two class periods; SD2 two periods; FD1 two sessions for each topic; HF2 one period; OL1 one period; NS1 about one hour; OD4 three periods; G2 one session; CO1 one period; CO2 one session; Memory Gem exam one class period.',
+'- Sample 20-week order: week 1 Legion of Honour, choose book club books, collect dues; 2 gifts of the Spirit, Basic Staff Course; 3 gifts of the Spirit, attitudes topic A, begin Stewardship (Advanced); 4 attitudes topic B, organise the camp-out; 5 pack camp; 6 sanctuary, Community Outreach (Advanced); 7 nature and recreation, an honour toward a Master award; 8 sanctuary discussion, honour work; 9 three-course meal; 10 pioneer stories, honour work, begin Steps to Christ (Advanced); 11 pioneer stories, organise the health activity, Memory Gem exam; 12 Desire of Ages ch. 7, health activity, assign the Friendship essay (Advanced); 13 teach an honour to Juniors, attitudes topic C; 14 teach an honour to Juniors, start lifestyle honours, attitudes topic D; 15 lashing tower or bridge, witnessing discussion; 16 nature parables, Nutrition Honour; 17 church organisation flow chart, Nutrition Honour continued, Advanced health; 18 outreach visits; 19 presentation at school, Wilderness Master; 20 complete all work. Use it as a guide and adapt it to where the class is.',
+'- Investiture: the conference or area youth director (or someone they appoint) presides; the area coordinator calls the service to order; class marshals hand the record forms to the investing officer.',
 '',
 '# LEARNING LAB EXPLORERS (each has lesson cards, a game and an 8-question challenge)',
-'sanctuary (SD2), legion (G2), fruit (SD1), pioneers (SD3), newstart (HF1), nutrition (HF3), church (OL1), ecology (NS2), packcamp (OD1), fire (OD2), lashing (OD3), orienteering (OD4). Counsellors can add questions to any explorer.'
+'sanctuary (SD2), legion (G2), fruit (SD1), pioneers (SD3), newstart (HF1), nutrition (HF3), church (OL1), ecology (NS2), packcamp (OD1), fire (OD2), lashing (OD3), orienteering (OD4). Counsellors can add questions to any explorer. There is also a Memory Gem trainer (SD4).'
 ].join('\n');
 
 var AI_RULES = [
@@ -1380,7 +1401,7 @@ function aiGetAnswer_(t, key) {
 
 /* ---------- tools ---------- */
 function aiOverview_(roster) {
-  var chal = challengeSummary_(), seen = seenSummary_(), byReq = {};
+  var chal = challengeSummary_(), seen = seenSummary_(), byReq = {}, cm = claimsMap_();
   var meets = meetingsRead_(), att = attendance_(meets), av = advSummary_(), today = Utilities.formatDate(new Date(), tz_(), 'yyyy-MM-dd');
   CODES.forEach(function (c) { byReq[c] = roster.filter(function (g) { return g.done[c]; }).length + '/' + roster.length; });
   return {
@@ -1396,9 +1417,13 @@ function aiOverview_(roster) {
       });
       return { guide: g.code, done: (CODES.length - missing.length) + ' of ' + CODES.length, missing: missing,
         missions_signed_off: Object.keys(g.signs), learning_lab: lab,
-        meetings_attended: (att[g.t] || 0) + ' of ' + meets.length, advanced: advText_(av[g.t]) };
+        meetings_attended: (att[g.t] || 0) + ' of ' + meets.length, advanced: advText_(av[g.t]),
+        waiting_for_sign_off: Object.keys((cm[g.t] || {}).claims || {}).filter(function (c) { return CODES.indexOf(c) > -1 && !g.done[c]; }) };
     }),
     guides_done_per_requirement: byReq,
+    paperwork_check_and_file: PAPER.join(', ') + ': personal records (age or grade, active membership, Memory Gem certificate, staff course). Check and file them on the Report tab; never plan a lesson for them.',
+    class_most_needs_next: CODES.filter(function (c) { return PAPER.indexOf(c) < 0; }).map(function (c) { return { c: c, n: roster.filter(function (g) { return !g.done[c]; }).length }; })
+      .filter(function (x) { return x.n; }).sort(function (a, b) { return b.n - a.n; }).slice(0, 8).map(function (x) { return x.c + ' ' + REQ[x.c] + ' (' + x.n + ' still need it)'; }),
     missions: MISSIONS.map(function (m) { return m.id + ' ' + m.label + ': ' + m.tasks.join(', '); })
   };
 }
@@ -1847,21 +1872,22 @@ function learnState_(t, d) {
     var sum = challengeSummary_()[t] || {};
     Object.keys(sum).forEach(function (k) { best[k] = { best: sum[k].best, total: sum[k].last ? sum[k].last.total : 0 }; });
   }
-  return { seen: seen, best: best };
+  return { seen: seen, best: best, gp: d ? gemsMine_(d.f) : { picked: [], learned: [] } };
 }
 
 function learnPage_(p, data, t, base, back) {
   var tpl = HtmlService.createTemplateFromFile('Learn');
-  var topic = TOPICS[p.k] && p.k !== 'sanctuary' ? String(p.k) : '';
+  var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' ? String(p.k) : '';
   var st = learnState_(t, data);
   tpl.boot = JSON.stringify({
+    gems: gemsRead_().list, gp: st.gp,
     token: data ? t : '', name: data ? data.name : '', base: base, join: !data, topic: topic,
     back: back.url, backLabel: back.label, from: String(p.from || ''),
     topics: topicList_(), seen: st.seen, best: st.best,
     questions: readQuestions_(true).filter(function (q) { return q.topic !== 'sanctuary'; })
   }).replace(/</g, '\\u003c');
   return tpl.evaluate()
-    .setTitle(topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab')
+    .setTitle(topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
 }
 
@@ -1871,7 +1897,7 @@ function l_whoami(t) {
   var d = t ? questData_(t) : null;
   if (!d) throw new Error('link-not-found');
   var st = learnState_(t, d);
-  return { token: t, name: d.name, seen: st.seen, best: st.best };
+  return { token: t, name: d.name, seen: st.seen, best: st.best, gp: st.gp };
 }
 function l_join(name) { var me = s_join(name); return l_whoami(me.token); }
 
@@ -2064,6 +2090,7 @@ function apiGlobal_() { return typeof globalThis !== 'undefined' ? globalThis : 
 function doPost(e) {
   var out;
   try {
+    ANS_IDX_ = null;
     var body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     var fn = String(body.fn || ''), g = apiGlobal_();
     if (body.base === SITE) API_BASE_ = SITE;
@@ -2100,9 +2127,10 @@ function bootFor_(p) {
   ensureLearn_();
   var back = backInfo_(p, data ? t : '', base);
   if (p.p === 'learn') {
-    var topic = TOPICS[p.k] && p.k !== 'sanctuary' ? String(p.k) : '';
+    var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' ? String(p.k) : '';
     var st = learnState_(t, data);
-    return { page: 'Learn', title: topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab', boot: {
+    return { page: 'Learn', title: topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab', boot: {
+      gems: gemsRead_().list, gp: st.gp,
       token: data ? t : '', name: data ? data.name : '', base: base, join: !data, topic: topic,
       back: back.url, backLabel: back.label, from: String(p.from || ''),
       topics: topicList_(), seen: st.seen, best: st.best,
@@ -2146,7 +2174,7 @@ var ADV_INFO = {
   AV5: { sec: 'HF', name: 'God’s plan for sexuality', req: 'Take part in a study of God’s plan for sexual behaviour, including the facts about AIDS and other sexually transmitted infections.' },
   AV6: { sec: 'OD', name: 'Wilderness Master Award', req: 'Complete the Wilderness Master Award.' }
 };
-var ADV_LONG = { 'AV2.report': 1, 'AV4.essay': 1, 'AV4.outline': 1, 'AV5.reflect': 1, 'AV1.project': 1 };
+var ADV_LONG = { 'AV2.report': 1, 'AV4.essay': 1, 'AV4.outline': 1, 'AV5.reflect': 1, 'AV1.project': 1, 'HF2.atext': 1, 'OD1.prelog': 1, 'OD1.postlog': 1 };
 
 /** Writes one Answers row (one key for one Guide). */
 function ansSet_(t, name, code, key, label, val) {
@@ -2337,6 +2365,7 @@ function tickDate_(t, name, code, by, when) {
     var vals = [[name, code, when || new Date(), by]];
     if (row > 0) s.getRange(row, 1, 1, 4).setValues(vals); else s.appendRow([name, code, when || new Date(), by, t]);
   } catch (err) { /* never block a tick */ }
+  if (by !== 'Pathfinder') claimClear_(t, code);
 }
 /** {token: {code: {date: ms, by}}}; falls back to the Activity log for ticks made before Version 13. */
 function tickDates_() {
@@ -2694,3 +2723,262 @@ function c_games(pin) {
     return { id: id, name: name, rows: list };
   });
 }
+
+/* =====================================================================
+   VERSION 15: a Guide asks, a counsellor signs off. Only counsellor
+   ticks count. Memory Gems. Paperwork kept out of planning.
+   ===================================================================== */
+var PAPER = ['G1', 'G3', 'SD4', 'OL2'];      // personal records: check and file, never a lesson
+var CLAIM_LABEL = 'Asked the counsellor to check';
+var NOTE_LABEL = 'Counsellor’s note';
+
+function claimMs_(v) { v = String(v == null ? '' : v); if (v.indexOf('yes') !== 0) return 0; return Number(v.split('|')[1]) || 1; }
+function dayText_(d) { return Utilities.formatDate(d || new Date(), tz_(), 'd MMM'); }
+
+/* One read of the Answers sheet per run: 'token|key' -> {row, val}. Writes below keep it current. */
+var ANS_IDX_ = null;
+function ansIndex_() {
+  if (ANS_IDX_) return ANS_IDX_;
+  ANS_IDX_ = {};
+  var a = sheetIf_(SHEET_ANS);
+  if (!a || a.getLastRow() < 2) return ANS_IDX_;
+  a.getRange(2, 4, a.getLastRow() - 1, 4).getValues().forEach(function (r, i) { // Answer, Updated, Token, Key
+    ANS_IDX_[String(r[2]) + '|' + String(r[3])] = { row: i + 2, val: r[0] };
+  });
+  return ANS_IDX_;
+}
+/** Sets one answer cell; with val '' it only clears a row that already holds something. */
+function ansPut_(t, name, code, key, label, val) {
+  var idx = ansIndex_(), x = idx[t + '|' + key], a = sheet_(SHEET_ANS);
+  if (x) {
+    if (String(x.val) === String(val)) return;
+    if (name) a.getRange(x.row, 1, 1, 5).setValues([[name, code, label, val, new Date()]]);
+    else a.getRange(x.row, 4, 1, 2).setValues([[val, new Date()]]);
+    x.val = val;
+    return;
+  }
+  if (val === '' || val == null) return;
+  if (a.getLastRow() === 0) setupAnswers_();
+  a.appendRow([name, code, label, val, new Date(), t, key]);
+  idx[t + '|' + key] = { row: a.getLastRow(), val: val };
+}
+/** A requirement went on the record: its request and any old note are finished. */
+function claimClear_(t, code) {
+  try {
+    var idx = ansIndex_();
+    [code + '.claim', code + '.revnote'].forEach(function (k) {
+      var x = idx[t + '|' + k];
+      if (x && String(x.val) !== '') ansPut_(t, '', code, k, k === code + '.claim' ? CLAIM_LABEL : NOTE_LABEL, '');
+    });
+  } catch (err) { /* never block a tick */ }
+}
+
+/** What one Guide is waiting on, and notes sent back to them. */
+function reviewState_(t) {
+  var claims = {}, notes = {}, adv = {};
+  var a = sheetIf_(SHEET_ANS);
+  if (a && a.getLastRow() >= 2) a.getRange(2, 4, a.getLastRow() - 1, 4).getValues().forEach(function (r) {
+    if (String(r[2]) !== t) return;
+    var m = String(r[3]).match(/^([A-Z]{1,2}\d)\.(claim|revnote|done)$/);
+    if (!m) return;
+    if (m[2] === 'claim') { var ms = claimMs_(r[0]); if (ms) claims[m[1]] = ms; }
+    else if (m[2] === 'done') { if (String(r[0]) === 'yes') adv[m[1]] = 1; }
+    else if (String(r[0])) notes[m[1]] = String(r[0]);
+  });
+  return { claims: claims, notes: notes, adv: adv };
+}
+
+/** Everyone: {token: {claims:{code:ms}, notes:{code:text}, counts:{code:n}, avAt:{AVn:ms}}} */
+function claimsMap_() {
+  var out = {}, a = sheetIf_(SHEET_ANS);
+  if (!a || a.getLastRow() < 2) return out;
+  a.getRange(2, 4, a.getLastRow() - 1, 4).getValues().forEach(function (r) {
+    var t = String(r[2]), key = String(r[3]), code = key.split('.')[0], what = key.slice(code.length + 1);
+    if (!t || !code) return;
+    var g = out[t] || (out[t] = { claims: {}, notes: {}, counts: {}, avAt: {} });
+    if (what === 'claim') { var ms = claimMs_(r[0]); if (ms) g.claims[code] = ms; return; }
+    if (what === 'revnote') { if (String(r[0])) g.notes[code] = String(r[0]); return; }
+    if (what === 'done') { if (String(r[0]) === 'yes') g.avAt[code] = r[1] instanceof Date ? r[1].getTime() : 0; return; }
+    if (what === 'sign' || /Seen$|^visited$/.test(what)) return;
+    var v = String(r[0] == null ? '' : r[0]);
+    if (v === '' || v === '[]' || /^\[(?:"",?)+\]$/.test(v)) return;
+    g.counts[code] = (g.counts[code] || 0) + 1;
+  });
+  return out;
+}
+
+/** The "To review" list for the dashboard: oldest request first. */
+function reviews_(list, cm, av, evs) {
+  var out = [], ph = {};
+  (evs || []).forEach(function (x) { var k = x.t + '|' + x.code; ph[k] = (ph[k] || 0) + 1; });
+  list.forEach(function (p) {
+    var c = cm[p.t] || { claims: {}, counts: {}, avAt: {} };
+    CODES.forEach(function (code, i) {
+      if (p.done[i] || !c.claims[code]) return;
+      out.push({ t: p.t, name: p.name, code: code, at: c.claims[code], answers: c.counts[code] || 0, photos: ph[p.t + '|' + code] || 0 });
+    });
+    var a = av[p.t] || {};
+    ADVC.forEach(function (code) {
+      var x = a[code];
+      if (!x || !x.done || x.sign) return;
+      out.push({ t: p.t, name: p.name, code: code, at: c.avAt[code] || 0, answers: c.counts[code] || 0, photos: ph[p.t + '|' + code] || 0 });
+    });
+  });
+  out.sort(function (x, y) { return (x.at || 0) - (y.at || 0); });
+  return out;
+}
+
+/**
+ * Runs once (the first time the dashboard opens after Version 15).
+ * Ticks a Guide made for themselves were never checked, so they move to "To review".
+ * Ticks in a mission a counsellor already signed off stay: that sign-off was the check.
+ */
+function migrateClaims_() {
+  var P = PropertiesService.getScriptProperties();
+  if (P.getProperty('GQ_V15_CLAIMS')) return 0;
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(20000)) return 0;
+  try {
+    if (P.getProperty('GQ_V15_CLAIMS')) return 0;
+    var sh = sheet_(SHEET_PF), last = sh.getLastRow(), moved = 0, people = 0;
+    if (last >= FIRST_ROW) {
+      var n = last - FIRST_ROW + 1, vals = sh.getRange(FIRST_ROW, 1, n, NCOLS).getValues();
+      var dates = tickDates_(), idx = ansIndex_(), add = [];
+      vals.forEach(function (r, i) {
+        var tok = String(r[COL_TOKEN - 1]), name = String(r[COL_NAME - 1]).trim();
+        if (!tok || !name) return;
+        var row = r.slice(COL_REQ0 - 1, COL_REQ0 - 1 + CODES.length), logd = null, mine = [];
+        CODES.forEach(function (c, j) {
+          if (row[j] !== true) return;
+          var mi = -1;
+          MISSIONS.forEach(function (m, k) { if (m.tasks.indexOf(c) > -1) mi = k; });
+          var sv = mi > -1 ? r[COL_SIGN0 - 1 + mi] : '';
+          if (sv !== '' && sv !== null) return;
+          var d = (dates[tok] || {})[c];
+          if (!d) { if (!logd) logd = logDates_(name); d = logd[c]; }
+          if (!d || d.by !== 'Pathfinder') return;
+          row[j] = false; mine.push(c);
+          var val = 'yes|' + (d.date || Date.now()), key = c + '.claim';
+          if (idx[tok + '|' + key]) ansPut_(tok, safe_(name), c, key, CLAIM_LABEL, val);
+          else add.push([safe_(name), c, CLAIM_LABEL, val, new Date(), tok, key]);
+        });
+        if (mine.length) {
+          sh.getRange(FIRST_ROW + i, COL_REQ0, 1, CODES.length).setValues([row]);
+          moved += mine.length; people++;
+          log_(name, 'Version 15: ' + mine.join(', ') + ' moved to “To review” (only counsellor sign-offs count now)');
+        }
+      });
+      if (add.length) {
+        var a = sheet_(SHEET_ANS);
+        if (a.getLastRow() === 0) setupAnswers_();
+        a.getRange(a.getLastRow() + 1, 1, add.length, 7).setValues(add);
+        ANS_IDX_ = null;
+      }
+    }
+    P.setProperty('GQ_V15_CLAIMS', String(Date.now()));
+    if (moved) log_('Class', 'Version 15: ' + moved + ' tick' + (moved === 1 ? '' : 's') + ' that ' + people + ' Guide' + (people === 1 ? '' : 's') + ' made for themselves now wait in “To review” for a counsellor to sign off');
+    SpreadsheetApp.flush();
+    return moved;
+  } finally { lock.releaseLock(); }
+}
+
+/** Counsellor signs off one or more items a Guide asked about (requirements and Advanced). */
+function c_reviewSign(pin, t, codes, who) {
+  codes = (Array.isArray(codes) ? codes : [codes]).map(String).filter(function (c, i, a) { return (CODES.indexOf(c) > -1 || ADVC.indexOf(c) > -1) && a.indexOf(c) === i; }).slice(0, 40);
+  if (!codes.length) throw new Error('bad-code');
+  return withRow_(pin, t, function (sh, row, name) {
+    t = cleanToken_(t);
+    var now = new Date(), text = who_(who) + ' · ' + Utilities.formatDate(now, tz_(), 'd MMM yyyy'), reqs = [], advs = [];
+    codes.forEach(function (c) {
+      if (CODES.indexOf(c) > -1) {
+        sh.getRange(row, COL_REQ0 + CODES.indexOf(c)).setValue(true);
+        tickDate_(t, name, c, who_(who));
+        claimClear_(t, c);
+        reqs.push(c);
+      } else {
+        ansPut_(t, name, c, c + '.sign', 'Advanced sign-off · ' + ADV_INFO[c].name, text);
+        ansPut_(t, name, c, c + '.revnote', NOTE_LABEL, '');
+        advs.push(ADV_INFO[c].name);
+      }
+    });
+    sh.getRange(row, COL_UPDATED).setValue(now);
+    log_(name, who_(who) + ' signed off ' + reqs.concat(advs.map(function (x) { return 'Advanced: ' + x; })).join(', ') + ' (the Guide asked)');
+    return { ok: true, sign: text, codes: codes };
+  });
+}
+
+/** "Not yet": the request goes back to the Guide with a short note. */
+function c_reviewBack(pin, t, code, note, who) {
+  code = String(code);
+  if (CODES.indexOf(code) < 0 && ADVC.indexOf(code) < 0) throw new Error('bad-code');
+  return withRow_(pin, t, function (sh, row, name) {
+    t = cleanToken_(t);
+    var msg = String(note || '').replace(/\s+/g, ' ').trim().slice(0, 300) || 'Not yet. Talk to your counsellor about what is missing.';
+    var text = safe_(msg + ' (' + who_(who) + ', ' + dayText_() + ')');
+    if (CODES.indexOf(code) > -1) ansPut_(t, name, code, code + '.claim', CLAIM_LABEL, '');
+    else ansPut_(t, name, code, code + '.done', 'Marked complete', '');
+    ansPut_(t, name, code, code + '.revnote', NOTE_LABEL, text);
+    log_(name, who_(who) + ' sent ' + (CODES.indexOf(code) > -1 ? code : 'Advanced: ' + ADV_INFO[code].name) + ' back: ' + msg);
+    return { ok: true, note: text };
+  });
+}
+
+/* ---------- Memory Gems (SD4) ---------- */
+var SHEET_GEMS = 'Memory Gems';
+var GEM_CATS = ['Great passages', 'Salvation', 'Doctrine', 'Prayer', 'Relationships', 'Behaviour', 'Promise and praise'];
+function gemsDefault_() { return GEMS_DEFAULT.map(function (g) { return { cat: g[0], ref: g[1], text: g[2] }; }); }
+function setupGems_(rows) {
+  var s = sheet_(SHEET_GEMS);
+  s.clear();
+  s.getRange(1, 1, 1, 3).setValues([['Group', 'Reference', 'Text (KJV)']]).setFontWeight('bold').setBackground('#1F4D3A').setFontColor('#FFFFFF');
+  s.setFrozenRows(1); s.setColumnWidth(1, 150); s.setColumnWidth(2, 170); s.setColumnWidth(3, 620);
+  if (rows.length) s.getRange(2, 1, rows.length, 3).setValues(rows.map(function (g) { return [safe_(g.cat), safe_(g.ref), safe_(g.text)]; })).setWrap(true).setVerticalAlignment('top');
+  return s;
+}
+/** The club's list: the Memory Gems tab of the sheet, or the official suggested list until a counsellor changes it. */
+function gemsRead_() {
+  var s = sheetIf_(SHEET_GEMS);
+  if (!s || s.getLastRow() < 2) return { list: gemsDefault_(), custom: false };
+  var list = s.getRange(2, 1, s.getLastRow() - 1, 3).getDisplayValues().map(function (r) {
+    return { cat: String(r[0]).replace(/^'/, '').trim() || 'Memory Gems', ref: String(r[1]).replace(/^'/, '').trim(), text: String(r[2]).replace(/^'/, '').trim() };
+  }).filter(function (g) { return g.ref && g.text; }).slice(0, 80);
+  if (!list.length) return { list: gemsDefault_(), custom: false };
+  var d = gemsDefault_(), same = list.length === d.length && list.every(function (g, i) { return g.ref === d[i].ref && g.text === d[i].text && g.cat === d[i].cat; });
+  return { list: list, custom: !same };
+}
+function gemsMine_(f) {
+  var p = Array.isArray(f['SD4.gems']) ? f['SD4.gems'] : [], l = Array.isArray(f['SD4.learned']) ? f['SD4.learned'] : [];
+  return { picked: p.map(String), learned: l.map(String) };
+}
+function c_gems(pin) {
+  checkPin_(pin);
+  var g = gemsRead_(), prog = {};
+  if (!sheetIf_(SHEET_GEMS)) { try { setupGems_(g.list); } catch (err) {} }
+  var a = sheetIf_(SHEET_ANS);
+  if (a && a.getLastRow() >= 2) a.getRange(2, 4, a.getLastRow() - 1, 4).getValues().forEach(function (r) {
+    var k = String(r[3]);
+    if (k !== 'SD4.gems' && k !== 'SD4.learned') return;
+    var v = []; try { v = JSON.parse(String(r[0] || '[]')); } catch (err) {}
+    var x = prog[String(r[2])] || (prog[String(r[2])] = { picked: [], learned: [] });
+    x[k === 'SD4.gems' ? 'picked' : 'learned'] = Array.isArray(v) ? v : [];
+  });
+  return { list: g.list, custom: g.custom, cats: GEM_CATS, progress: prog };
+}
+/** rows: [{cat, ref, text}], or null to go back to the official suggested list. */
+function c_setGems(pin, rows, who) {
+  checkPin_(pin);
+  var list = rows === null ? gemsDefault_() : (Array.isArray(rows) ? rows : []).map(function (g) {
+    return { cat: String(g && g.cat || '').replace(/\s+/g, ' ').trim().slice(0, 40) || 'Memory Gems', ref: String(g && g.ref || '').replace(/\s+/g, ' ').trim().slice(0, 60), text: String(g && g.text || '').replace(/\s+/g, ' ').trim().slice(0, 2500) };
+  }).filter(function (g) { return g.ref && g.text; }).slice(0, 80);
+  if (!list.length) throw new Error('empty');
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    setupGems_(list);
+    log_('Class', who_(who) + (rows === null ? ' put back the suggested Memory Gem list' : ' saved the Memory Gem list (' + list.length + ' texts)'));
+  } finally { lock.releaseLock(); }
+  return gemsRead_();
+}
+
+/* The suggested list in the official Guide curriculum (seven groups), King James Version text. */
+var GEMS_DEFAULT = [["Great passages","2 Timothy 3:15–16","And that from a child thou hast known the holy scriptures, which are able to make thee wise unto salvation through faith which is in Christ Jesus. All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness:"],["Great passages","Romans 10:17","So then faith cometh by hearing, and hearing by the word of God."],["Great passages","Daniel 8:14","And he said unto me, Unto two thousand and three hundred days; then shall the sanctuary be cleansed."],["Salvation","Philippians 3:7–9","But what things were gain to me, those I counted loss for Christ. Yea doubtless, and I count all things but loss for the excellency of the knowledge of Christ Jesus my Lord: for whom I have suffered the loss of all things, and do count them but dung, that I may win Christ, And be found in him, not having mine own righteousness, which is of the law, but that which is through the faith of Christ, the righteousness which is of God by faith:"],["Salvation","Ezekiel 36:26–27","A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you an heart of flesh. And I will put my spirit within you, and cause you to walk in my statutes, and ye shall keep my judgments, and do them."],["Salvation","1 John 5:11–12","And this is the record, that God hath given to us eternal life, and this life is in his Son. He that hath the Son hath life; and he that hath not the Son of God hath not life."],["Salvation","1 Corinthians 5:7–8","Purge out therefore the old leaven, that ye may be a new lump, as ye are unleavened. For even Christ our passover is sacrificed for us: Therefore let us keep the feast, not with old leaven, neither with the leaven of malice and wickedness; but with the unleavened bread of sincerity and truth."],["Salvation","1 Corinthians 6:19–20","What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own? For ye are bought with a price: therefore glorify God in your body, and in your spirit, which are God’s."],["Doctrine","Matthew 24:24–27","For there shall arise false Christs, and false prophets, and shall shew great signs and wonders; insomuch that, if it were possible, they shall deceive the very elect. Behold, I have told you before. Wherefore if they shall say unto you, Behold, he is in the desert; go not forth: behold, he is in the secret chambers; believe it not. For as the lightning cometh out of the east, and shineth even unto the west; so shall also the coming of the Son of man be."],["Doctrine","Ecclesiastes 9:5–6, 10","For the living know that they shall die: but the dead know not any thing, neither have they any more a reward; for the memory of them is forgotten. Also their love, and their hatred, and their envy, is now perished; neither have they any more a portion for ever in any thing that is done under the sun. Whatsoever thy hand findeth to do, do it with thy might; for there is no work, nor device, nor knowledge, nor wisdom, in the grave, whither thou goest."],["Doctrine","Hebrews 4:14–16","Seeing then that we have a great high priest, that is passed into the heavens, Jesus the Son of God, let us hold fast our profession. For we have not an high priest which cannot be touched with the feeling of our infirmities; but was in all points tempted like as we are, yet without sin. Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need."],["Doctrine","Exodus 20:3–7","Thou shalt have no other gods before me. Thou shalt not make unto thee any graven image, or any likeness of any thing that is in heaven above, or that is in the earth beneath, or that is in the water under the earth: Thou shalt not bow down thyself to them, nor serve them: for I the LORD thy God am a jealous God, visiting the iniquity of the fathers upon the children unto the third and fourth generation of them that hate me; And shewing mercy unto thousands of them that love me, and keep my commandments. Thou shalt not take the name of the LORD thy God in vain; for the LORD will not hold him guiltless that taketh his name in vain."],["Prayer","Philippians 4:6–7","Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus."],["Prayer","Ephesians 3:20–21","Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us, Unto him be glory in the church by Christ Jesus throughout all ages, world without end. Amen."],["Prayer","Matthew 5:44","But I say unto you, Love your enemies, bless them that curse you, do good to them that hate you, and pray for them which despitefully use you, and persecute you;"],["Relationships","Acts 17:26–27","And hath made of one blood all nations of men for to dwell on all the face of the earth, and hath determined the times before appointed, and the bounds of their habitation; That they should seek the Lord, if haply they might feel after him, and find him, though he be not far from every one of us:"],["Relationships","1 Peter 4:10","As every man hath received the gift, even so minister the same one to another, as good stewards of the manifold grace of God."],["Relationships","1 Peter 3:15","But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear:"],["Relationships","1 Corinthians 12:9","To another faith by the same Spirit; to another the gifts of healing by the same Spirit;"],["Behaviour","Luke 12:15","And he said unto them, Take heed, and beware of covetousness: for a man’s life consisteth not in the abundance of the things which he possesseth."],["Behaviour","1 Corinthians 10:31","Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God."],["Behaviour","James 4:7–8","Submit yourselves therefore to God. Resist the devil, and he will flee from you. Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye double minded."],["Promise and praise","Psalm 46","God is our refuge and strength, a very present help in trouble. Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea; Though the waters thereof roar and be troubled, though the mountains shake with the swelling thereof. Selah. There is a river, the streams whereof shall make glad the city of God, the holy place of the tabernacles of the most High. God is in the midst of her; she shall not be moved: God shall help her, and that right early. The heathen raged, the kingdoms were moved: he uttered his voice, the earth melted. The LORD of hosts is with us; the God of Jacob is our refuge. Selah. Come, behold the works of the LORD, what desolations he hath made in the earth. He maketh wars to cease unto the end of the earth; he breaketh the bow, and cutteth the spear in sunder; he burneth the chariot in the fire. Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth. The LORD of hosts is with us; the God of Jacob is our refuge. Selah."],["Promise and praise","Philippians 4:13","I can do all things through Christ which strengtheneth me."],["Promise and praise","Psalm 55:22","Cast thy burden upon the LORD, and he shall sustain thee: he shall never suffer the righteous to be moved."],["Promise and praise","Psalm 95:6–7","O come, let us worship and bow down: let us kneel before the LORD our maker. For he is our God; and we are the people of his pasture, and the sheep of his hand. To day if ye will hear his voice,"],["Promise and praise","1 Corinthians 10:13","There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it."]];

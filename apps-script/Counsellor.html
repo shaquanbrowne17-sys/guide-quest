@@ -347,6 +347,66 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   .rgrid,.rsigns{grid-template-columns:1fr 1fr!important}
   .rtab tr{break-inside:avoid}
 }
+/* ===== Version 15: folds, To review, tab row, check and file ===== */
+.fold{gap:0;padding:0}
+.foldh{width:100%;display:flex;align-items:center;gap:10px;background:none;border:0;padding:14px 16px;font:inherit;color:inherit;text-align:left;cursor:pointer;min-height:56px;border-radius:18px}
+.foldh:hover{background:var(--surface2)}
+.fht{display:flex;align-items:baseline;gap:6px 10px;flex-wrap:wrap;flex:1 1 auto;min-width:0}
+.fht h2{font-size:19px}
+.fmeta{font-size:13px;font-weight:800;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
+.chev{flex:none;width:30px;height:30px;border-radius:50%;background:var(--surface2);display:grid;place-items:center}
+.chev::before{content:'';width:8px;height:8px;border:solid var(--ink);border-width:0 2.5px 2.5px 0;transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+[aria-expanded="true"]>.chev::before{transform:translateY(2px) rotate(-135deg)}
+.foldb{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
+.fold.mblock{padding:0;overflow:hidden}
+.fold.mblock .foldh{background:var(--c);color:var(--ci);border-radius:0;padding:12px 16px}
+.fold.mblock .fmeta{color:inherit;opacity:.9}
+.fold.mblock .chev{background:rgba(255,255,255,.22)}
+.fold.mblock .chev::before{border-color:var(--ci)}
+.fold.mblock .foldb{padding:0;gap:0}
+.mft{font-family:var(--display);font-size:17px}
+.dsec{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.rvpanel{border-color:var(--gold)}
+.rvpanel.open{background:linear-gradient(180deg,var(--m5-soft),var(--surface) 140px)}
+.rvbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-weight:900;font-size:14px;display:inline-grid;place-items:center}
+.rvguide{display:flex;flex-direction:column;gap:8px;padding:10px 0;border-top:1px solid var(--line)}
+.rvguide:first-of-type{border-top:none}
+.rvitem{border:1.5px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.rvtop{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.rvtx{font-weight:700;font-size:14.5px;flex:1 1 200px}
+.rvmeta{font-size:13px;color:var(--muted);font-weight:600}
+.rvev{background:var(--ground);border-radius:12px;padding:4px 12px 10px}
+.rvev .ans:first-child{border-top:none}
+.rvall{width:max-content}
+.tabsbox{position:relative;max-width:100%}
+.tabs.main{width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.tabs.main::-webkit-scrollbar{display:none}
+.tabs.main .tab{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tabsbox::before,.tabsbox::after{position:absolute;top:0;bottom:0;width:44px;display:flex;align-items:center;font:900 24px/1 var(--display);color:var(--ink);pointer-events:none;opacity:0;transition:opacity .2s;z-index:2}
+.tabsbox::after{content:'›';right:0;justify-content:flex-end;padding-right:10px;border-radius:0 14px 14px 0;background:linear-gradient(90deg,transparent,var(--surface2) 60%)}
+.tabsbox::before{content:'‹';left:0;justify-content:flex-start;padding-left:10px;border-radius:14px 0 0 14px;background:linear-gradient(270deg,transparent,var(--surface2) 60%)}
+.tabsbox.more::after,.tabsbox.less::before{opacity:1}
+.tbadge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:12px;font-weight:900;display:inline-grid;place-items:center}
+.schip.wait,.ready.wait{background:#FFF1CC;color:#6B4A00}
+.cell.wait .box{border-color:var(--gold);background:#FFF1CC;color:#6B4A00;font-size:12px}
+.lg.wait{border-color:var(--gold);background:#FFF1CC}
+.rwait,.rnote{display:block;font-size:12.5px;font-weight:700;margin-top:3px}
+.rwait{color:#7A5200}
+.rnote{color:var(--bad)}
+.pwhow{display:flex;flex-direction:column;gap:4px;font-size:13.5px;background:var(--surface2);border-radius:12px;padding:10px 12px}
+.ptable{border-collapse:collapse;font-size:14px;min-width:100%}
+.ptable th{font-size:12px;letter-spacing:.06em;color:var(--muted);padding:6px;text-align:center;border-bottom:2px solid var(--line)}
+.ptable th:first-child{text-align:left}
+.ptable td{padding:2px 6px;border-bottom:1px solid var(--line)}
+.ptable td:first-child{min-width:140px}
+.note15{font-size:14px;background:var(--m5-soft);border-radius:12px;padding:10px 12px}
+.gcat{font-size:15px;margin-top:10px;color:var(--pine)}
+.muted.small,.small{font-size:13px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .schip.wait,:root:not([data-theme="light"]) .ready.wait,:root:not([data-theme="light"]) .cell.wait .box,:root:not([data-theme="light"]) .lg.wait{background:#3A2C08;color:#F2C14E}:root:not([data-theme="light"]) .rwait{color:#F2C14E}}
+:root[data-theme="dark"] .schip.wait,:root[data-theme="dark"] .ready.wait,:root[data-theme="dark"] .cell.wait .box,:root[data-theme="dark"] .lg.wait{background:#3A2C08;color:#F2C14E}
+:root[data-theme="dark"] .rwait{color:#F2C14E}
+@media print{.fold .foldh .chev,.tabsbox{display:none}}
+
 </style>
 </head>
 <body>
@@ -368,13 +428,13 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   ];
   var SECTIONS = [['G','General'],['SD','Spiritual Discovery'],['CO','Community Outreach'],['FD','Friendship Development'],['HF','Health and Fitness'],['OL','Organisation and Leadership'],['NS','Nature Study'],['OD','Outdoor Living'],['LE','Lifestyle Enrichment']];
   var REQ = {
-    G1:'Be 15 years old and/or in Year 11 or equivalent', G2:'Know and understand the AY Legion of Honour', G3:'Be an active member of the Pathfinder Club', G4:'Read a Teen Book Club book and a local church history book',
+    G1:'Be at least 15, or in Grade 10 (Form 4) or equivalent', G2:'Know and understand the AY Legion of Honour', G3:'Be an active member of the Pathfinder Club', G4:'Read a Teen Book Club book and a local church history book',
     SD1:'Discuss the gifts of the Spirit from Galatians', SD2:'How the sanctuary service points to the cross and Jesus', SD3:'Outline and tell 3 Adventist pioneer stories at worship', SD4:'Have a current Memory Gem Certificate',
-    CO1:'Friendship visit to a shut-in, or adopt a family in need', CO2:'Discuss witnessing to teens and put it into practice', FD1:'Examine your attitudes on two life topics',
-    HF1:'Present the laws of good health to a younger group', HF2:'Fun Run with a recorded training programme', HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
-    OL1:'Flow chart of church organisation, with your Division', OL2:'Attend a Basic Pathfinder Staff Training Course', OL3:'Plan and teach 2 honour requirements to Juniors',
+    CO1:'Visit a shut-in, adopt a family in need, or another approved outreach', CO2:'Discuss witnessing to teens and put it into practice', FD1:'Examine your attitudes on two life topics',
+    HF1:'Present the laws of good health to a younger group', HF2:'Health article or poem, Fun Run with training, or Temperance reading and quiz', HF3:'Nutrition Honour, or lead the Physical Fitness Honour',
+    OL1:'Flow chart of church organisation, with your Division', OL2:'Attend a Basic Pathfinder Staff Training Course', OL3:'Plan and teach 2 honour requirements to Juniors, with a staff mentor',
     NS1:'Desire of Ages ch. 7 and an original nature parable', NS2:'Ecology or Environmental Conservation Honour',
-    OD1:'Two-night pack camp, and discuss the equipment', OD2:'Plan and cook a three-course meal on an open fire', OD3:'Complete an object of lashing or rope work', OD4:'New honour toward a Master award',
+    OD1:'Two-night pack camp with a trip log, and discuss the equipment', OD2:'Plan and cook a three-course meal on an open fire', OD3:'Complete an object of lashing or rope work', OD4:'New honour toward a Master award',
     LE1:'New honour in a lifestyle area'
   };
   var CODES = [];
@@ -432,7 +492,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
   function loadOverview(quiet){
     call('c_overview', [S.pin], function(res){
-      S.data = res; if (!S.data.extras) S.data.extras = {}; S.lastSync = Date.now();
+      S.data = res; if (!S.data.extras) S.data.extras = {}; S.lastSync = Date.now(); rvNotify();
       if (S.open && !find(S.open)) S.open = null;
       var a = document.activeElement;
       if (quiet && (S.qEdit || (a && (a.tagName === 'TEXTAREA' || a.tagName === 'INPUT')))) { paintLive(); return; }
@@ -474,8 +534,9 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
   function tabs(){
     var t = [['class','Class'],['meet','Meetings & Plan'],['explorers','Explorers'],['report','Report'],['ai','Assistant'],['roster','Links']];
-    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions','games'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
-    return '<div class="tabs" role="tablist">' + t.map(function(x){ return '<button class="tab" role="tab" data-tab="'+(x[0] === 'explorers' ? (S.lastX || 'lab') : x[0])+'" aria-selected="'+(cur === x[0] && !S.open)+'">'+x[1]+'</button>'; }).join('') + '</div>';
+    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions','games','gems'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
+    var nrv = reviews().length;
+    return '<div class="tabsbox"><div class="tabs main" role="tablist" id="maintabs">' + t.map(function(x){ return '<button class="tab" role="tab" data-tab="'+(x[0] === 'explorers' ? (S.lastX || 'lab') : x[0])+'" aria-selected="'+(cur === x[0] && !S.open)+'">'+x[1]+(x[0] === 'class' && nrv ? ' <span class="tbadge" aria-label="'+nrv+' to review">'+nrv+'</span>' : '')+'</button>'; }).join('') + '</div></div>';
   }
 
   function renderClass(){
@@ -484,6 +545,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     var full = list.filter(function(p){ return score(p) === TOTAL; }).length;
     var ready = list.reduce(function(s,p){ return s + readyList(p).length; }, 0);
     h += evalBanner();
+    h += reviewPanelHTML(reviews(), false);
     h += '<div class="stats">'
       + '<div class="stat"><b>'+n+'</b><span>Pathfinders</span></div>'
       + '<div class="stat"><b>'+avg.toFixed(1)+'</b><span>Class average out of 24</span></div>'
@@ -495,7 +557,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     }
     var isMap = S.tab === 'map';
     h += '<div class="row"><div class="tabs"><button class="tab" data-tab="class" data-view="cards" aria-selected="'+(!isMap && S.view==='cards')+'">Cards</button><button class="tab" data-tab="class" data-view="grid" aria-selected="'+(!isMap && S.view==='grid')+'">Grid</button><button class="tab" data-tab="map" aria-selected="'+isMap+'">Quest Map</button></div>'
-      + '<div class="legend"><span><i class="lg"></i>Not done</span><span><i class="lg on"></i>Done</span><span><i class="lg signed"></i>Mission signed</span></div></div>';
+      + '<div class="legend"><span><i class="lg"></i>Not done</span><span><i class="lg wait"></i>Waiting for you</span><span><i class="lg on"></i>Signed off</span><span><i class="lg signed"></i>Mission signed</span></div></div>';
     if (isMap) return h + renderMap();
     h += S.view === 'grid' ? renderGrid(list) : renderCards(list);
     h += renderActivity();
@@ -510,6 +572,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
         + '<span class="bar"><span style="width:'+Math.round(100*sc/TOTAL)+'%"></span></span>'
         + '<span class="pips">' + MISSIONS.map(function(m){ var d = mDone(p,m), full = d === m.tasks.length, sg = p.signs[m.id];
             return '<span class="pip'+(full?' full':'')+'" style="'+mvars(m.id)+'">'+(sg?CHECK:'')+(m.n ? 'M'+m.n : 'Base')+' '+d+'/'+m.tasks.length+'</span>'; }).join('') + '</span>'
+        + (reviewsFor(p.t).length ? '<span class="ready wait">⏳ '+reviewsFor(p.t).length+' waiting for you</span>' : '')
         + (rl.length ? '<span class="ready">Ready to sign: '+rl.map(function(m){ return m.n ? 'M'+m.n : 'Base'; }).join(', ')+'</span>' : '')
         + (p.sanct && (p.sanct.attempts || p.sanct.explored) ? '<span class="schip">Sanctuary: '+p.sanct.explored+'/'+(S.data.parts||12)+' explored'+(p.sanct.attempts ? ' · best '+p.sanct.best+(p.sanct.last ? '/'+p.sanct.last.total : '') : '')+'</span>' : '')
         + (p.learn && Object.keys(p.learn).length ? '<span class="schip">Learning Lab: '+Object.keys(p.learn).length+' explorer'+(Object.keys(p.learn).length === 1 ? '' : 's')+' started</span>' : '')
@@ -532,7 +595,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
         var sg = !!p.signs[m.id];
         m.tasks.forEach(function(c){
           var on = !!p.done[idx(c)];
-          h += '<td style="'+mvars(m.id)+'"><button class="cell'+(on?' on':'')+(on&&sg?' signed':'')+'" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'" aria-label="'+esc(p.name)+', '+fmt(c)+(on?', done':', not done')+'"><span class="box">'+CHECK+'</span></button></td>';
+          h += '<td style="'+mvars(m.id)+'"><button class="cell'+(on?' on':'')+(on&&sg?' signed':'')+(!on && waiting(p.t, c)?' wait':'')+'" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'" aria-label="'+esc(p.name)+', '+fmt(c)+(on?', done':', not done')+'"><span class="box">'+CHECK+'</span></button></td>';
         });
       });
       h += '</tr>';
@@ -543,44 +606,50 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   function renderActivity(){
     var a = S.data.activity || [];
     if (!a.length) return '';
-    return '<section class="panel"><h2>Recent activity</h2><div class="acts">' + a.map(function(x){
+    return fold('activity', '<h2>Recent activity</h2>', '<div class="acts">' + a.map(function(x){
       return '<div class="act"><time>'+esc(when(x.when))+'</time><span><b>'+esc(x.name)+'</b> · '+esc(x.what)+'</span></div>';
-    }).join('') + '</div></section>';
+    }).join('') + '</div>', false);
   }
 
   function renderDetail(p){
-    var sc = score(p), link = linkFor(p), conf = S.confirm;
+    var sc = score(p), link = linkFor(p), conf = S.confirm, wl = reviewsFor(p.t), rn = ((S.data.revnotes || {})[p.t]) || {};
     var h = '<button class="back" data-back="1">'+BACK+'Class</button>';
     h += '<section class="dhead"><span class="eyebrow muted">Pathfinder</span><h1>'+esc(p.name)+'</h1>'
-      + '<div class="row"><b>'+sc+' of 24 complete</b><span class="muted" style="font-size:13px">'+(p.updated ? 'Last active '+esc(when(p.updated)) : 'Not started yet')+'</span></div>'
+      + '<div class="row"><b>'+sc+' of 24 signed off</b><span class="muted" style="font-size:13px">'+(p.updated ? 'Last active '+esc(when(p.updated)) : 'Not started yet')+'</span></div>'
       + '<span class="bar"><span style="width:'+Math.round(100*sc/TOTAL)+'%"></span></span>'
-      + '<div class="gchips"><span class="schip">'+signedCount(p)+' of 6 missions signed</span>'+(S.data.meetingsTotal ? '<span class="schip">Came to '+attOf(p).came+' of '+S.data.meetingsTotal+' meetings</span>' : '')+(advDone(p) ? '<span class="schip">Advanced complete</span>' : '')+'</div>'
+      + '<div class="gchips">'+(wl.length ? '<span class="schip wait">⏳ '+wl.length+' waiting for you</span>' : '')+'<span class="schip">'+signedCount(p)+' of 6 missions signed</span>'+(S.data.meetingsTotal ? '<span class="schip">Came to '+attOf(p).came+' of '+S.data.meetingsTotal+' meetings</span>' : '')+(advDone(p) ? '<span class="schip">Advanced complete</span>' : '')+'</div>'
       + '<label class="field"><span>Personal link</span><span class="linkrow"><input type="text" id="plink" readonly value="'+esc(link)+'"><button class="btn btn-ghost btn-small" data-copy="'+esc(link)+'">Copy</button></span></label>'
       + '<div class="actions"><a class="btn btn-wa btn-small" href="'+esc(waFor(p))+'" target="_blank" rel="noopener">Send on WhatsApp</a>'
-      + '<button class="btn btn-ghost btn-small" data-act="answers">'+(S.answers[p.t] ? 'Refresh answers' : 'Show their answers')+'</button>'
       + '<button class="btn '+(conf==='new'?'btn-danger':'btn-ghost')+' btn-small" data-act="newlink">'+(conf==='new' ? 'Tap again: old link stops working' : 'New link')+'</button>'
       + '<button class="btn '+(conf==='remove'?'btn-danger':'btn-ghost')+' btn-small" data-act="remove">'+(conf==='remove' ? 'Tap again to remove '+esc(p.name) : 'Remove')+'</button></div></section>';
-    h += '<div class="mblocks">';
+    h += reviewPanelHTML(wl, true);
+    h += '<h2 class="dsec">Missions</h2><div class="mblocks">';
     MISSIONS.forEach(function(m){
-      var d = mDone(p,m), sg = p.signs[m.id];
-      h += '<section class="mblock" style="'+mvars(m.id)+'"><div class="mblock-h"><b>'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</b><span>'+d+'/'+m.tasks.length+'</span></div>';
-      m.tasks.forEach(function(c){
-        var on = !!p.done[idx(c)];
-        h += '<button class="reqrow" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'"><span class="tick">'+CHECK+'</span><span class="rc">'+fmt(c)+'</span><span class="rt">'+esc(REQ[c])+'</span></button>';
-      });
-      h += '<div class="signbar">' + (sg
-        ? '<p class="ok">'+CHECK+'Signed · '+esc(sg)+'</p><button class="btn btn-ghost btn-small" data-sign="'+m.id+'|0">Remove</button>'
-        : '<p>'+(d === m.tasks.length ? 'Ready to sign off' : 'Not every part is ticked yet')+'</p><button class="btn btn-primary btn-small" data-sign="'+m.id+'|1">Sign off as '+esc(S.who || 'Counsellor')+'</button>')
-        + '</div></section>';
+      var d = mDone(p,m), sg = p.signs[m.id], wn = m.tasks.filter(function(c){ return !p.done[idx(c)] && waiting(p.t, c); }).length;
+      var meta = sg ? 'Signed' : d === m.tasks.length ? 'Ready to sign' : wn ? '⏳ '+wn+' waiting' : '';
+      var head = '<b class="mft">'+(m.n ? 'Mission '+m.n+' · ' : '')+esc(m.name)+'</b><span class="fmeta">'+(sg ? CHECK : '')+d+'/'+m.tasks.length+(meta ? ' · '+meta : '')+'</span>';
+      h += fold('d:'+m.id, head, function(){
+        var b = '';
+        m.tasks.forEach(function(c){
+          var on = !!p.done[idx(c)], w = !on && waiting(p.t, c), note = !on && !w ? rn[c] : '';
+          b += '<button class="reqrow" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'"><span class="tick">'+CHECK+'</span><span class="rc">'+fmt(c)+'</span><span class="rt">'+esc(REQ[c])
+            + (w ? '<small class="rwait">⏳ They asked you to check this. Tap to sign it off.</small>' : note ? '<small class="rnote">Sent back: '+esc(note)+'</small>' : '') + '</span></button>';
+        });
+        b += '<div class="signbar">' + (sg
+          ? '<p class="ok">'+CHECK+'Signed · '+esc(sg)+'</p><button class="btn btn-ghost btn-small" data-sign="'+m.id+'|0">Remove</button>'
+          : '<p>'+(d === m.tasks.length ? 'Ready to sign off' : 'Not every part is signed off yet')+'</p><button class="btn btn-primary btn-small" data-sign="'+m.id+'|1">Sign off as '+esc(S.who || 'Counsellor')+'</button>')
+          + '</div>';
+        return b;
+      }, false, 'mblock', mvars(m.id));
     });
-    h += '</div>';
+    h += '</div><h2 class="dsec">More</h2>';
     h += detailExtrasHTML(p);
     var ans = S.answers[p.t];
-    if (ans){
-      h += '<section class="panel"><h2>Their answers</h2>' + (ans.length ? ans.map(function(a){
-        return '<div class="ans"><b>'+esc(fmt(a.code))+' · '+esc(a.q)+'</b><p>'+esc(a.a)+'</p></div>';
-      }).join('') : '<p class="muted">Nothing typed yet.</p>') + '<p class="muted" style="font-size:13px">To change an answer, edit it in the Google Sheet’s Answers tab.</p></section>';
-    }
+    h += fold('d:answers', '<h2>Their answers</h2>'+(ans ? '<span class="fmeta">'+ans.length+'</span>' : ''), function(){
+      if (!ans){ loadAnswers(p.t); return '<p class="muted">Loading…</p>'; }
+      return (ans.length ? ans.map(function(a){ return '<div class="ans"><b>'+esc(fmtAny(a.code))+' · '+esc(a.q)+'</b><p>'+esc(a.a)+'</p></div>'; }).join('') : '<p class="muted">Nothing typed yet.</p>')
+        + '<div class="actions"><button class="btn btn-ghost btn-small" data-act="answers">Refresh</button></div><p class="muted" style="font-size:13px">To change an answer, edit it in the Google Sheet’s Answers tab.</p>';
+    }, false);
     return h;
   }
 
@@ -821,17 +890,19 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     var p = S.open ? find(S.open) : null;
     if (p) body = renderDetail(p);
     else if (S.tab === 'map') body = renderClass();
-    else if (S.tab === 'meet') body = renderPlan() + renderMeet();
+    else if (S.tab === 'meet') body = renderPlan() + foldSections(renderMeet(), 'meet', false);
     else if (S.tab === 'report') body = renderReport();
     else if (S.tab === 'sanct') body = xnav() + renderSanct();
     else if (S.tab === 'lab') body = xnav() + renderLab();
     else if (S.tab === 'ai') body = renderAI();
     else if (S.tab === 'questions') body = xnav() + renderQuestions();
     else if (S.tab === 'games') body = xnav() + renderGames();
+    else if (S.tab === 'gems') body = xnav() + renderGems();
     else if (S.tab === 'roster') body = renderRoster();
     else body = renderClass();
     app.innerHTML = '<div class="cwrap">' + topbar() + tabs() + body + '</div>';
     paintLive();
+    tabCue();
     if (S.phOpen) app.insertAdjacentHTML('beforeend', photoViewerHTML());
     fetchCThumbs();
     if (S.tab === 'ai' && !S.open) aiGrow();
@@ -1166,7 +1237,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
 
   /* Programme planner */
-  var LESSON_PROMPT = 'Make a lesson plan for this week based on where my class is now. Check what most Guides still need and what is on our programme, then plan the lesson for the requirement(s) we most need next. Say which requirements it covers.';
+  var LESSON_PROMPT = 'Make a lesson plan for this week based on where my class is now. Look at what each Guide has completed and what is still left, what is waiting for sign-off, and what is on our programme. Follow the Guide teacher’s manual guidance (class periods, methods and the 20-week order). Plan the requirement(s) the class most needs next, not paperwork like G1, G3, SD4 or OL2. Give timings, materials, the Bible base, the activity, discussion questions and how to check it, and say which requirements it covers.';
   function loadProgramme(){ call('c_programme', [S.pin], function(res){ S.prog = res || []; if (S.tab === 'meet' && !S.open) rerender(); }, function(){ S.prog = S.prog || []; toast('Couldn’t load the programme.'); }); }
   function pfStart(it){
     var sel = {}; ((it && it.codes) || []).forEach(function(c){ sel[c] = true; });
@@ -1180,7 +1251,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
       + '<p class="muted">Plan the next weeks. Parents see what’s coming up on their link.</p>'
       + '<div class="actions"><button class="btn btn-ghost btn-small" data-act="aiplan">'+SPARK+'Lesson plan for this week</button></div>';
     var need = needList(S.data.pathfinders).slice(0, 4);
-    if (need.length) h += '<p class="muted" style="font-size:13px"><b>The class most needs next:</b> ' + need.map(function(x){ return fmt(x.c) + ' (' + x.who.length + ' of ' + S.data.pathfinders.length + ')'; }).join(', ') + '</p>';
+    if (need.length) h += '<p class="muted" style="font-size:13px"><b>The class most needs next (paperwork left out):</b> ' + need.map(function(x){ return fmt(x.c) + ' (' + x.who.length + ' of ' + S.data.pathfinders.length + ')'; }).join(', ') + '</p>';
     if (S.pf){
       var f = S.pf;
       h += '<div class="pform"><div class="frow"><label class="field"><span>Date</span><input type="date" id="pf-date" value="'+esc(f.date)+'"></label>'
@@ -1278,7 +1349,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
 
   /* Report */
   function needList(list){
-    return Object.keys(REQ).map(function(c){ return { c: c, who: list.filter(function(p){ return !p.done[idx(c)]; }) }; })
+    return Object.keys(REQ).filter(function(c){ return PAPER.indexOf(c) < 0; }).map(function(c){ return { c: c, who: list.filter(function(p){ return !p.done[idx(c)]; }) }; })
       .filter(function(x){ return x.who.length; })
       .sort(function(a, b){ return b.who.length - a.who.length || Object.keys(REQ).indexOf(a.c) - Object.keys(REQ).indexOf(b.c); });
   }
@@ -1299,6 +1370,8 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
       L2.push(''); L2.push('Still needed (most first):');
       need.slice(0, 12).forEach(function(x){ L2.push('• ' + fmt(x.c) + ' ' + REQ[x.c] + ': ' + x.who.length + ' (' + x.who.map(function(p){ return p.name; }).join(', ') + ')'); });
     }
+    var pw = PAPER.map(function(c){ return { c: c, n: list.filter(function(p){ return !p.done[idx(c)]; }).length }; }).filter(function(x){ return x.n; });
+    if (pw.length){ L2.push(''); L2.push('Paperwork to check and file: ' + pw.map(function(x){ return fmt(x.c) + ' (' + x.n + ')'; }).join(', ')); }
     L2.push(''); L2.push('Each Guide:');
     list.forEach(function(p){
       var a = attOf(p), ms = missing(p), av = advCount(p);
@@ -1312,7 +1385,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     h += '<section class="panel"><h2>Evaluation date</h2>' + (e ? '<p><b>'+esc(fmtDay(e, true))+'</b> · '+esc(untilText(daysUntil(e)))+'</p>' : '<p class="muted">Set the date of the class evaluation or investiture. The Class tab then counts down to it.</p>')
       + '<div class="frow"><label class="field"><span>Date</span><input type="date" id="evaldate" value="'+esc(e || '')+'"></label><button class="btn btn-primary btn-small" data-act="evalsave">Save date</button>'
       + (e ? '<button class="btn btn-ghost btn-small" data-act="evalclear">Clear</button>' : '') + '</div></section>';
-    if (!list.length) return h + '<section class="panel"><h2>No Guides yet</h2><p class="muted">Add your class on the Links tab first.</p></section>' + recordPanelHTML();
+    if (!list.length) return h + '<section class="panel"><h2>No Guides yet</h2><p class="muted">Add your class on the Links tab first.</p></section>' + foldSections(recordPanelHTML(), 'rec', false);
     var st = classStats(list), phTotal = 0; Object.keys(S.data.photos || {}).forEach(function(k){ phTotal += S.data.photos[k]; });
     h += '<div class="stats"><div class="stat"><b>'+st.avg.toFixed(1)+'</b><span>Class average out of 24</span></div>'
       + '<div class="stat"><b>'+st.full+'<span style="font-size:16px;color:var(--muted)"> / '+st.n+'</span></b><span>Finished all 24</span></div>'
@@ -1321,25 +1394,30 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     h += '<div class="actions"><button class="btn btn-primary btn-small" data-act="repcopy">Copy the report</button>'
       + '<a class="btn btn-wa btn-small" href="https://wa.me/?text='+encodeURIComponent(reportText())+'" target="_blank" rel="noopener">Send the report on WhatsApp</a>'
       + '<button class="btn btn-ghost btn-small" data-act="recjump">Record sheets</button></div>';
-    var need = needList(list);
-    h += '<section class="panel"><h2>What the class still needs</h2><p class="muted">Most-needed first. Plan your next meetings from the top of this list.</p>'
-      + (need.length ? '<div class="acts">' + need.map(function(x){
+    var need = needList(list), showAll = isOpen('needall', false);
+    h += fold('r:needs', '<h2>What the class still needs</h2><span class="fmeta">'+need.length+'</span>', function(){
+      if (!need.length) return '<p class="ok">'+CHECK+'Every Guide has every lesson requirement signed off.</p>';
+      var shown = showAll ? need : need.slice(0, 5);
+      return '<p class="muted">Most-needed first. Plan your next meetings from the top of this list. Paperwork is in “Check and file” below.</p><div class="acts">' + shown.map(function(x){
           return '<div class="needrow"><span><b>'+fmt(x.c)+'</b> '+esc(REQ[x.c])+'</span><span class="ncnt">'+x.who.length+' of '+list.length+'</span><span class="nwho">'+x.who.map(function(p){ return esc(p.name); }).join(', ')+'</span></div>';
-        }).join('') + '</div>' : '<p class="ok">'+CHECK+'Every Guide has all 24 requirements ticked.</p>') + '</section>';
+        }).join('') + '</div>' + (need.length > 5 ? '<button class="btn btn-ghost btn-small" data-fold="needall" aria-expanded="'+showAll+'">'+(showAll ? 'Show the top 5 only' : 'See all '+need.length)+'</button>' : '');
+    }, true);
+    var pl = paperLeft(list);
+    h += fold('r:paper', '<h2>Check and file</h2><span class="fmeta">'+(pl ? pl+' to check' : CHECK+'all filed')+'</span>', function(){ return paperHTML(list); }, true);
     var order = list.slice().sort(function(a, b){ return missing(a).length - missing(b).length || byName(a, b); });
-    h += '<section class="panel"><h2>Each Guide</h2><p class="muted">Closest to finishing first. Tap a name to open their page.</p><div class="acts">' + order.map(function(p){
-      var a = attOf(p), ms = missing(p), s = p.sanct || {}, l = p.learn || {}, labN = Object.keys(l).filter(function(k){ return l[k].attempts; }).length, av = advCount(p), ar = advReady(p), np = (S.data.photos || {})[p.t] || 0;
+    h += fold('r:guides', '<h2>Each Guide</h2><span class="fmeta">'+list.length+'</span>', function(){ return '<p class="muted">Closest to finishing first. Tap a name to open their page.</p><div class="acts">' + order.map(function(p){
+      var a = attOf(p), ms = missing(p), s = p.sanct || {}, l = p.learn || {}, labN = Object.keys(l).filter(function(k){ return l[k].attempts; }).length, av = advCount(p), ar = advReady(p), np = (S.data.photos || {})[p.t] || 0, wn = reviewsFor(p.t).length;
       return '<div class="gitem"><div class="row"><button class="linkish" data-open="'+esc(p.t)+'">'+esc(p.name)+'</button><span class="sc">'+score(p)+'/24</span></div>'
         + '<span class="bar"><span style="width:'+Math.round(100 * score(p) / TOTAL)+'%"></span></span>'
-        + '<div class="gchips"><span class="schip">'+signedCount(p)+' of 6 missions signed</span>'
+        + '<div class="gchips">'+(wn ? '<span class="schip wait">⏳ '+wn+' waiting for you</span>' : '')+'<span class="schip">'+signedCount(p)+' of 6 missions signed</span>'
         + (a.total ? '<span class="schip">Came to '+a.came+' of '+a.total+'</span>' : '')
         + (av || ar ? '<span class="schip">Advanced '+av+'/6'+(ar ? ' · '+ar+' to sign' : '')+'</span>' : '')
         + (np ? '<span class="schip">'+np+' photo'+(np === 1 ? '' : 's')+'</span>' : '')
         + (s.attempts ? '<span class="schip">Sanctuary best '+s.best+(s.last ? '/'+s.last.total : '')+'</span>' : '')
         + (labN ? '<span class="schip">'+labN+' explorer challenge'+(labN === 1 ? '' : 's')+'</span>' : '') + '</div>'
         + (ms.length ? '<p class="needs"><b>Still needs:</b> '+ms.map(fmt).join(', ')+'</p>' : '<p class="ok">'+CHECK+'All 24 done</p>') + '</div>';
-    }).join('') + '</div></section>';
-    return h + recordPanelHTML();
+    }).join('') + '</div>'; }, false);
+    return h + foldSections(recordPanelHTML(), 'rec', false);
   }
 
   /* Record sheets */
@@ -1408,7 +1486,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   function loadGuidePhotos(t){
     if (S.ph[t] || S.phLoading['list:' + t]) return;
     S.phLoading['list:' + t] = 1;
-    call('c_photos', [S.pin, t], function(res){ delete S.phLoading['list:' + t]; S.ph[t] = res || []; if (S.open === t) rerender(); },
+    call('c_photos', [S.pin, t], function(res){ delete S.phLoading['list:' + t]; S.ph[t] = res || []; if (S.open === t || (S.rvOpen && S.rvOpen.indexOf(t + '|') === 0)) rerender(); },
       function(){ delete S.phLoading['list:' + t]; S.ph[t] = []; });
   }
   function fetchCThumbs(){
@@ -1452,47 +1530,51 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     rd.readAsDataURL(file);
   }
   function detailExtrasHTML(p){
-    var h = '', l = p.learn || {}, s = p.sanct || {};
+    var h = '', l = p.learn || {}, s = p.sanct || {}, rn = ((S.data.revnotes || {})[p.t]) || {};
     var ks = labTopics().filter(function(t){ return l[t.id]; });
     if (ks.length || s.explored || s.attempts){
-      h += '<section class="panel"><h2>Explorers</h2><div class="gchips">'
+      h += fold('d:explorers', '<h2>Explorers</h2><span class="fmeta">'+(ks.length + (s.explored || s.attempts ? 1 : 0))+' started</span>', '<div class="gchips">'
         + (s.explored || s.attempts ? '<span class="schip">⛺ Sanctuary '+s.explored+'/'+(S.data.parts || 12)+(s.attempts ? ' · best '+s.best+(s.last ? '/'+s.last.total : '') : '')+'</span>' : '')
         + ks.map(function(t){ var x = l[t.id]; return '<span class="schip">'+(LAB_ICONS[t.id] || '')+' '+esc(t.name)+' '+Math.min(x.seen, t.cards)+'/'+t.cards+(x.attempts ? ' · best '+x.best+(x.total ? '/'+x.total : '') : '')+'</span>'; }).join('')
-        + '</div></section>';
+        + '</div>', false);
     }
-    var a = advOf(p), cnt = advCount(p);
-    h += '<section class="panel advsec"><div class="row"><h2>Advanced <small class="muted" style="font-size:14px">(optional)</small></h2>'
-      + (cnt === 6 ? '<span class="okpill">'+CHECK+'All 6 signed</span>' : '<span class="muted" style="font-size:13px">'+cnt+' of 6 signed</span>') + '</div>'
-      + '<p class="muted" style="font-size:13px">The Guide works on these in the Advanced section of their app. Their written work shows under “Show their answers”.</p>';
-    ADVC.forEach(function(c){
-      var x = a[c] || {}, key = p.t + '|' + c;
-      h += '<div class="advrow2"><div><b>'+esc(ADVN[c][0])+' · '+esc(ADVSHORT[c])+'</b><span class="muted">'+esc(ADVN[c][1])+'</span>'
-        + '<span class="'+(x.sign ? 'ok' : 'muted')+'" style="font-size:13px">'+(x.sign ? CHECK+'Signed · '+esc(x.sign) : x.done ? 'Marked done by the Guide · ready to sign' : 'Not marked done yet')+'</span></div>'
-        + (x.sign ? '<button class="btn btn-ghost btn-small" data-avsign="'+esc(key)+'|0">Remove</button>' : '<button class="btn '+(x.done ? 'btn-primary' : 'btn-ghost')+' btn-small" data-avsign="'+esc(key)+'|1">Sign off</button>') + '</div>';
-    });
-    h += '</section>';
-    // photos
+    var a = advOf(p), cnt = advCount(p), ar = advReady(p);
+    h += fold('d:adv', '<h2>Advanced <small class="muted" style="font-size:14px">(optional)</small></h2><span class="fmeta">'+cnt+' of 6 signed'+(ar ? ' · ⏳ '+ar+' waiting' : '')+'</span>', function(){
+      var b = '<p class="muted" style="font-size:13px">The Guide works on these in the Advanced section of their app. Their written work is under “Their answers”.</p>';
+      ADVC.forEach(function(c){
+        var x = a[c] || {}, key = p.t + '|' + c, note = !x.sign && !x.done ? rn[c] : '';
+        b += '<div class="advrow2"><div><b>'+esc(ADVN[c][0])+' · '+esc(ADVSHORT[c])+'</b><span class="muted">'+esc(ADVN[c][1])+'</span>'
+          + '<span class="'+(x.sign ? 'ok' : 'muted')+'" style="font-size:13px">'+(x.sign ? CHECK+'Signed · '+esc(x.sign) : x.done ? '⏳ They asked you to check it' : note ? 'Sent back: '+esc(note) : 'Not asked yet')+'</span></div>'
+          + (x.sign ? '<button class="btn btn-ghost btn-small" data-avsign="'+esc(key)+'|0">Remove</button>'
+            : '<span class="actions"><button class="btn '+(x.done ? 'btn-primary' : 'btn-ghost')+' btn-small" data-avsign="'+esc(key)+'|1">Sign off</button>'+(x.done ? '<button class="btn btn-ghost btn-small" data-rvback="'+esc(key)+'">Not yet</button>' : '')+'</span>') + '</div>';
+        if (S.rvBack === key) b += '<label class="field"><span>What still needs doing? (the Guide sees this)</span><input type="text" id="rvnote" maxlength="300"></label><div class="actions"><button class="btn btn-primary btn-small" data-rvsend="'+esc(key)+'">Send it back</button><button class="btn btn-ghost btn-small" data-rvcancel="1">Cancel</button></div>';
+      });
+      return b;
+    }, false, 'advsec');
     loadGuidePhotos(p.t);
     var list = S.ph[p.t];
-    h += '<section class="panel"><div class="row"><h2>Photos of evidence</h2><span class="muted" style="font-size:13px">'+(list ? list.length+' photo'+(list.length === 1 ? '' : 's') : 'Loading…')+'</span></div>';
-    if (list && list.length){
-      var codes = allCodes().filter(function(c){ return list.some(function(x){ return x.code === c; }); });
-      h += codes.map(function(c){ return '<div class="phgroup"><small><b>'+fmtAny(c)+'</b> '+esc(codeName(c))+'</small><div class="phgrid">' + list.filter(function(x){ return x.code === c; }).map(function(x){
-        return '<button class="phthumb" data-cph="'+esc(x.id)+'" aria-label="Open photo">'+(S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<span class="phload"></span>')+'</button>'; }).join('') + '</div></div>'; }).join('');
-    } else if (list) h += '<p class="muted">No photos yet. The Guide can add them on each requirement, or you can add one here.</p>';
-    h += '<div class="frow"><label class="field grow"><span>Add a photo for</span><select id="cph-code"><option value="">Choose the requirement…</option>'
-      + allCodes().map(function(c){ return '<option value="'+c+'">'+esc(fmtAny(c)+' · '+codeName(c))+'</option>'; }).join('') + '</select></label>'
-      + '<label class="btn btn-ghost btn-small fileb'+(S.phBusy ? ' busy' : '')+'"><input type="file" accept="image/*" data-cphadd="'+esc(p.t)+'"'+(S.phBusy ? ' disabled' : '')+'>'+(S.phBusy ? 'Uploading…' : 'Choose photo')+'</label></div></section>';
-    // parent link
+    h += fold('d:photos', '<h2>Photos of evidence</h2><span class="fmeta">'+(list ? list.length : '…')+'</span>', function(){
+      var b = '';
+      if (list && list.length){
+        var codes = allCodes().filter(function(c){ return list.some(function(x){ return x.code === c; }); });
+        b += codes.map(function(c){ return '<div class="phgroup"><small><b>'+fmtAny(c)+'</b> '+esc(codeName(c))+'</small><div class="phgrid">' + list.filter(function(x){ return x.code === c; }).map(function(x){
+          return '<button class="phthumb" data-cph="'+esc(x.id)+'" aria-label="Open photo">'+(S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<span class="phload"></span>')+'</button>'; }).join('') + '</div></div>'; }).join('');
+      } else if (list) b += '<p class="muted">No photos yet. The Guide can add them on each requirement, or you can add one here.</p>';
+      else b += '<p class="muted">Loading…</p>';
+      b += '<div class="frow"><label class="field grow"><span>Add a photo for</span><select id="cph-code"><option value="">Choose the requirement…</option>'
+        + allCodes().map(function(c){ return '<option value="'+c+'">'+esc(fmtAny(c)+' · '+codeName(c))+'</option>'; }).join('') + '</select></label>'
+        + '<label class="btn btn-ghost btn-small fileb'+(S.phBusy ? ' busy' : '')+'"><input type="file" accept="image/*" data-cphadd="'+esc(p.t)+'"'+(S.phBusy ? ' disabled' : '')+'>'+(S.phBusy ? 'Uploading…' : 'Choose photo')+'</label></div>';
+      return b;
+    }, false);
     var pl = S.parent[p.t];
-    h += '<section class="panel"><h2>Parent link</h2><p class="muted" style="font-size:13px">Parents can see progress, attendance, photos and the coming programme. They can’t change anything.</p>'
+    h += fold('d:parent', '<h2>Parent link</h2>', '<p class="muted" style="font-size:13px">Parents can see progress, attendance, photos and the coming programme. They can’t change anything.</p>'
       + (pl ? '<span class="linkrow"><input type="text" readonly value="'+esc(pl)+'" aria-label="Parent link"><button class="btn btn-ghost btn-small" data-copy="'+esc(pl)+'">Copy</button></span>'
         + '<a class="btn btn-wa btn-small" style="width:max-content" href="https://wa.me/?text='+encodeURIComponent('Hello! Here is the link to follow ' + p.name + '’s progress in the Pathfinder Guide class: ' + pl)+'" target="_blank" rel="noopener">Send to a parent on WhatsApp</a>'
-        : '<button class="btn btn-ghost btn-small" data-plink="'+esc(p.t)+'" style="width:max-content">Show the parent link</button>') + '</section>';
+        : '<button class="btn btn-ghost btn-small" data-plink="'+esc(p.t)+'" style="width:max-content">Show the parent link</button>'), false);
     var x2 = xOf(p), nd = S.noteDraft[p.t];
-    h += '<section class="panel"><h2>Counsellor notes</h2><p class="muted" style="font-size:13px">Only counsellors see these.'+(x2.updated ? ' Last saved '+esc(when(x2.updated))+(x2.by ? ' by '+esc(x2.by) : '')+'.' : '')+'</p>'
+    h += fold('d:notes', '<h2>Counsellor notes</h2>'+(x2.note ? '<span class="fmeta">saved</span>' : ''), '<p class="muted" style="font-size:13px">Only counsellors see these.'+(x2.updated ? ' Last saved '+esc(when(x2.updated))+(x2.by ? ' by '+esc(x2.by) : '')+'.' : '')+'</p>'
       + '<textarea id="xn-'+esc(p.t)+'" maxlength="2000" aria-label="Notes about '+esc(p.name)+'" placeholder="e.g. Needs to finish the Pack Camp list. Parent asked about the camp date.">'+esc(nd != null ? nd : x2.note)+'</textarea>'
-      + '<button class="btn btn-primary btn-small" data-notesave="'+esc(p.t)+'" style="width:max-content">Save notes</button></section>';
+      + '<button class="btn btn-primary btn-small" data-notesave="'+esc(p.t)+'" style="width:max-content">Save notes</button>', false);
     return h;
   }
   function getParentLink(t, then){
@@ -1521,8 +1603,214 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     return h;
   }
 
+
+  /* ======================= VERSION 15: review flow, folds, paperwork, Memory Gems ======================= */
+  var PAPER = ['G1','G3','SD4','OL2'];
+  var PAPER_HOW = {
+    G1:'At least 15 years old, or in Grade 10 (Form 4) or equivalent. Check a birth certificate or a school record.',
+    G3:'An active member: dues paid and at 75% or more of club activities. Check your attendance and dues records.',
+    SD4:'A current Memory Gem certificate: they passed the Memory Gem test.',
+    OL2:'Attended a Basic Pathfinder Staff Training Course. See their certificate or the course list.'
+  };
+  S.ansLoading = {};
+  try { S.fold = JSON.parse(localStorage.getItem('gq-c-fold') || '{}') || {}; } catch(e){ S.fold = {}; }
+  function isOpen(id, dflt){ return id in S.fold ? !!S.fold[id] : !!dflt; }
+  function setFold(id, v){ S.fold[id] = !!v; try { localStorage.setItem('gq-c-fold', JSON.stringify(S.fold)); } catch(e){} }
+  /* A panel that folds away: the heading always shows, the inside only when opened. */
+  function fold(id, head, body, dflt, cls, style, attrs){
+    var open = isOpen(id, dflt);
+    return '<section class="panel fold'+(open ? ' open' : '')+(cls ? ' '+cls : '')+'"'+(style ? ' style="'+style+'"' : '')+(attrs || '')+'>'
+      + '<button class="foldh" data-fold="'+esc(id)+'" aria-expanded="'+open+'"><span class="fht">'+head+'</span><span class="chev" aria-hidden="true"></span></button>'
+      + (open ? '<div class="foldb">'+(typeof body === 'function' ? body() : body)+'</div>' : '') + '</section>';
+  }
+  /* Turns plain "<section class=panel><h2>Title</h2>…</section>" panels into folds (keeps their id). */
+  function foldSections(html, prefix, dflt){
+    return html.replace(/<section class="panel"( id="[^"]*")?><h2>([\s\S]*?)<\/h2>([\s\S]*?)<\/section>/g, function(all, idattr, title, body){
+      var id = prefix + ':' + title.replace(/<[^>]+>/g, '').trim().split(/\s/)[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      return fold(id, '<h2>'+title+'</h2>', body, typeof dflt === 'object' ? dflt[id] : dflt, '', '', idattr || '');
+    });
+  }
+
+  /* ---------- requests from Guides ---------- */
+  function reviews(){ return (S.data && S.data.reviews) || []; }
+  function reviewsFor(t){ return reviews().filter(function(r){ return r.t === t; }); }
+  function waiting(t, c){ return reviews().some(function(r){ return r.t === t && r.code === c; }); }
+  function codeLabel(c){ return REQ[c] ? fmt(c) : 'Advanced'; }
+  function codeText(c){ return REQ[c] || (ADVN[c] ? ADVN[c][1] : c); }
+  function ago(ms){ if (!ms || ms < 100000) return ''; var d = Math.floor((Date.now() - ms) / 86400000); return d <= 0 ? 'today' : d === 1 ? 'yesterday' : d + ' days ago'; }
+  function loadAnswers(t){
+    if (S.ansLoading[t]) return;
+    S.ansLoading[t] = 1;
+    call('c_answers', [S.pin, t], function(res){ delete S.ansLoading[t]; S.answers[t] = res || []; rerender(); }, function(){ delete S.ansLoading[t]; toast('Couldn’t load their answers.'); });
+  }
+  function rvEvidenceHTML(r){
+    var ans = S.answers[r.t], ph = S.ph[r.t], h = '<div class="rvev">';
+    if (!ans) h += '<p class="muted small">Loading their answers…</p>';
+    else {
+      var mine = ans.filter(function(a){ return a.code === r.code && !/\.done$/.test(a.key || ''); });
+      h += mine.length ? mine.map(function(a){ return '<div class="ans"><b>'+esc(a.q)+'</b><p>'+esc(a.a)+'</p></div>'; }).join('') : '<p class="muted small">Nothing typed for this one. Check it in person.</p>';
+    }
+    if (ph){
+      var mp = ph.filter(function(x){ return x.code === r.code; });
+      if (mp.length) h += '<div class="phgrid">' + mp.map(function(x){ return '<button class="phthumb" data-cph="'+esc(x.id)+'" aria-label="Open photo">'+(S.phData[x.id] ? '<img src="'+S.phData[x.id]+'" alt="">' : '<span class="phload"></span>')+'</button>'; }).join('') + '</div>';
+    }
+    return h + '</div>';
+  }
+  function rvItemHTML(r){
+    var key = r.t + '|' + r.code, open = S.rvOpen === key, ms = missionOf(r.code), a = ago(r.at);
+    var h = '<div class="rvitem'+(open ? ' open' : '')+'" style="'+mvars(ms ? ms.id : 'base')+'"><div class="rvtop"><span class="mtag">'+esc(codeLabel(r.code))+'</span><span class="rvtx">'+esc(codeText(r.code))+'</span></div>'
+      + '<div class="rvmeta">'+(a ? 'Asked '+esc(a)+' · ' : '')+r.answers+' answer'+(r.answers === 1 ? '' : 's')+' · '+r.photos+' photo'+(r.photos === 1 ? '' : 's')+'</div>';
+    if (open) h += rvEvidenceHTML(r);
+    if (S.rvBack === key){
+      h += '<label class="field"><span>What still needs doing? (the Guide sees this)</span><input type="text" id="rvnote" maxlength="300" placeholder="e.g. Add a photo of your lashing, then ask again."></label>'
+        + '<div class="actions"><button class="btn btn-primary btn-small" data-rvsend="'+esc(key)+'">Send it back</button><button class="btn btn-ghost btn-small" data-rvcancel="1">Cancel</button></div>';
+    } else {
+      h += '<div class="actions"><button class="btn btn-ghost btn-small" data-rvcheck="'+esc(key)+'" aria-expanded="'+open+'">'+(open ? 'Hide their work' : 'Check their work')+'</button>'
+        + '<button class="btn btn-primary btn-small" data-rvsign="'+esc(key)+'">'+CHECK+'Sign off</button><button class="btn btn-ghost btn-small" data-rvback="'+esc(key)+'">Not yet</button></div>';
+    }
+    return h + '</div>';
+  }
+  function reviewPanelHTML(list, oneGuide){
+    if (!list.length) return oneGuide ? '' : fold('rv', '<h2>To review</h2><span class="fmeta">Nothing waiting</span>',
+      '<p class="muted">When a Guide finishes something, they tap “Done – ask my counsellor to check”. It shows here. Nothing goes on their record until you sign it off.</p>', false, 'rvpanel');
+    var by = {}, order = [];
+    list.forEach(function(r){ if (!by[r.t]){ by[r.t] = []; order.push(r.t); } by[r.t].push(r); });
+    var body = '<p class="muted small">'+(oneGuide ? 'They asked you to check these.' : 'Guides asked you to check these, oldest first.')+' Look at their work, then sign it off, or send it back with a note. Only your sign-off puts it on their record.</p>' + order.map(function(t){
+      var p = find(t), its = by[t];
+      return '<div class="rvguide">' + (oneGuide ? '' : '<div class="row"><button class="linkish" data-open="'+esc(t)+'">'+esc(p ? p.name : its[0].name)+'</button><span class="sc">'+its.length+' waiting</span></div>')
+        + its.map(rvItemHTML).join('')
+        + (its.length > 1 ? '<button class="btn '+(S.confirm === 'rvall:'+t ? 'btn-danger' : 'btn-ghost')+' btn-small rvall" data-rvall="'+esc(t)+'">'+(S.confirm === 'rvall:'+t ? 'Tap again to sign off all '+its.length : 'Sign off all '+its.length+' for '+esc((p ? p.name : its[0].name).split(' ')[0]))+'</button>' : '') + '</div>';
+    }).join('');
+    return fold(oneGuide ? 'rv1' : 'rv', '<h2>'+(oneGuide ? 'Waiting for you' : 'To review')+'</h2><span class="rvbadge">'+list.length+'</span>', body, true, 'rvpanel');
+  }
+  function rvSign(t, codes){
+    var p = find(t); if (!p || !codes.length) return;
+    var keep = reviews().slice();
+    S.data.reviews = keep.filter(function(r){ return !(r.t === t && codes.indexOf(r.code) > -1); });
+    S.data.advanced = S.data.advanced || {};
+    codes.forEach(function(c){ var i = idx(c); if (i > -1) p.done[i] = true; else { var ag = S.data.advanced[t] || (S.data.advanced[t] = {}); ag[c] = ag[c] || { done: true, sign: '' }; ag[c].sign = (S.who || 'Counsellor') + ' · today'; } });
+    S.rvOpen = ''; S.confirm = null; rerender();
+    call('c_reviewSign', [S.pin, t, codes, S.who], function(res){
+      codes.forEach(function(c){ if (ADVC.indexOf(c) > -1 && S.data.advanced[t] && S.data.advanced[t][c]) S.data.advanced[t][c].sign = res.sign; });
+      toast(codes.length > 1 ? 'Signed off ' + codes.length + ' for ' + p.name : 'Signed off ' + (REQ[codes[0]] ? fmt(codes[0]) : 'Advanced: ' + ADVSHORT[codes[0]]) + ' for ' + p.name);
+      RV_SEEN = null; loadOverview(true);
+    }, function(){
+      S.data.reviews = keep;
+      codes.forEach(function(c){ var i = idx(c); if (i > -1) p.done[i] = false; else if (S.data.advanced[t] && S.data.advanced[t][c]) S.data.advanced[t][c].sign = ''; });
+      rerender(); toast('Couldn’t sign off. Try again.');
+    });
+  }
+  function rvBackSend(t, code, note){
+    var p = find(t); if (!p) return;
+    var keep = reviews().slice();
+    S.data.reviews = keep.filter(function(r){ return !(r.t === t && r.code === code); });
+    if (ADVC.indexOf(code) > -1 && S.data.advanced && S.data.advanced[t] && S.data.advanced[t][code]) S.data.advanced[t][code].done = false;
+    S.rvBack = ''; rerender();
+    call('c_reviewBack', [S.pin, t, code, note, S.who], function(res){
+      S.data.revnotes = S.data.revnotes || {}; (S.data.revnotes[t] = S.data.revnotes[t] || {})[code] = res.note;
+      toast('Sent back to ' + p.name + '. They’ll see your note.'); rerender();
+    }, function(){ S.data.reviews = keep; rerender(); toast('Couldn’t send it back. Try again.'); });
+  }
+  var RV_SEEN = null;
+  function rvNotify(){
+    var list = reviews(), keys = list.map(function(r){ return r.t + '|' + r.code; });
+    if (RV_SEEN){
+      var fresh = list.filter(function(r){ return RV_SEEN.indexOf(r.t + '|' + r.code) < 0; });
+      if (fresh.length) toast(fresh.length === 1 ? fresh[0].name + ' asked you to check ' + (REQ[fresh[0].code] ? fmt(fresh[0].code) : 'Advanced: ' + ADVSHORT[fresh[0].code]) : fresh.length + ' new requests to review');
+    }
+    RV_SEEN = keys;
+    try { document.title = (list.length ? '(' + list.length + ') ' : '') + 'Guide Quest · Counsellors'; } catch(e){}
+  }
+  function rvClick(ds, b){
+    if (ds.fold){
+      var open = b.getAttribute('aria-expanded') === 'true'; setFold(ds.fold, !open);
+      if (!open && ds.fold === 'd:answers' && S.open && !S.answers[S.open]) loadAnswers(S.open);
+      if (!open && ds.fold === 'explorers:gems' && !S.gems) loadGems();
+      rerender(); return true;
+    }
+    if (ds.rvcheck){ S.rvOpen = S.rvOpen === ds.rvcheck ? '' : ds.rvcheck; var t = ds.rvcheck.split('|')[0]; if (S.rvOpen){ if (!S.answers[t]) loadAnswers(t); loadGuidePhotos(t); } rerender(); return true; }
+    if (ds.rvsign){ var pr = ds.rvsign.split('|'); rvSign(pr[0], [pr[1]]); return true; }
+    if (ds.rvall){ if (S.confirm !== 'rvall:' + ds.rvall){ S.confirm = 'rvall:' + ds.rvall; rerender(); return true; } rvSign(ds.rvall, reviewsFor(ds.rvall).map(function(r){ return r.code; })); return true; }
+    if (ds.rvback){ S.rvBack = ds.rvback; rerender(); var el = document.getElementById('rvnote'); if (el) el.focus(); return true; }
+    if (ds.rvcancel){ S.rvBack = ''; rerender(); return true; }
+    if (ds.rvsend){ var pb = ds.rvsend.split('|'), note = (document.getElementById('rvnote') || {}).value || ''; rvBackSend(pb[0], pb[1], note); return true; }
+    if (ds.act === 'gemsave' || ds.act === 'gemreset'){ saveGems(ds.act === 'gemreset'); return true; }
+    return false;
+  }
+
+  /* ---------- the tab row: fits when it can, slides when it can't ---------- */
+  function tabCue(){
+    var el = document.getElementById('maintabs'); if (!el) return;
+    var box = el.parentNode;
+    function upd(){ box.classList.toggle('more', el.scrollWidth - el.clientWidth - el.scrollLeft > 4); box.classList.toggle('less', el.scrollLeft > 4); }
+    var on = el.querySelector('[aria-selected="true"]');
+    if (on && (on.offsetLeft + on.offsetWidth > el.scrollLeft + el.clientWidth || on.offsetLeft < el.scrollLeft)) el.scrollLeft = Math.max(0, on.offsetLeft - 24);
+    el.onscroll = upd; upd();
+  }
+  window.addEventListener('resize', function(){ tabCue(); });
+
+  /* ---------- paperwork: check and file ---------- */
+  function paperLeft(list){ var n = 0; list.forEach(function(p){ PAPER.forEach(function(c){ if (!p.done[idx(c)]) n++; }); }); return n; }
+  function paperHTML(list){
+    var h = '<p class="muted">Personal records, not lessons. Check each one, then tap its box. Your tick puts it on the record.</p>'
+      + '<div class="pwhow">' + PAPER.map(function(c){ return '<p><b>'+fmt(c)+'</b> '+esc(PAPER_HOW[c])+'</p>'; }).join('') + '</div>';
+    if (!list.length) return h;
+    return h + '<div class="tablewrap"><table class="ptable" style="'+mvars('base')+'"><thead><tr><th>Guide</th>'+PAPER.map(function(c){ return '<th title="'+esc(REQ[c])+'">'+fmt(c)+'</th>'; }).join('')+'</tr></thead><tbody>'
+      + list.map(function(p){ return '<tr><td><button class="linkish" data-open="'+esc(p.t)+'">'+esc(p.name)+'</button></td>' + PAPER.map(function(c){
+          var on = !!p.done[idx(c)], w = !on && waiting(p.t, c);
+          return '<td><button class="cell'+(on ? ' on' : '')+(w ? ' wait' : '')+'" data-tog="'+esc(p.t)+'|'+c+'" aria-pressed="'+on+'" aria-label="'+esc(p.name)+', '+fmt(c)+(on ? ', checked' : w ? ', they asked you to check it' : ', not checked yet')+'"><span class="box">'+(w ? '⏳' : CHECK)+'</span></button></td>'; }).join('') + '</tr>'; }).join('')
+      + '</tbody></table></div><p class="muted small">⏳ means the Guide asked you to check it.</p>';
+  }
+
+  /* ---------- Memory Gems ---------- */
+  function loadGems(){
+    S.gemsBusy = true;
+    call('c_gems', [S.pin], function(res){ S.gems = res; S.gemsBusy = false; if (S.tab === 'gems') rerender(); },
+      function(){ S.gemsBusy = false; S.gems = S.gems || null; toast('Couldn’t load the Memory Gems.'); });
+  }
+  function gemsText(list){ return list.map(function(g){ return g.cat + ' | ' + g.ref + ' | ' + g.text; }).join('\n'); }
+  function saveGems(reset){
+    if (reset && S.confirm !== 'gemreset'){ S.confirm = 'gemreset'; rerender(); return; }
+    S.confirm = null;
+    var rows = null;
+    if (!reset){
+      var box = document.getElementById('gemsbox'), txt = box ? box.value : (S.gemsDraft || '');
+      rows = txt.split(/\r?\n/).map(function(l){ var p = l.split('|'); if (p.length < 3) return null; return { cat: p[0].trim(), ref: p[1].trim(), text: p.slice(2).join('|').trim() }; }).filter(function(x){ return x && x.ref && x.text; });
+      if (!rows.length){ toast('Write one text per line: Group | Reference | Text'); return; }
+    }
+    call('c_setGems', [S.pin, rows, S.who], function(res){ S.gems = S.gems || {}; S.gems.list = res.list; S.gems.custom = res.custom; S.gemsDraft = null; toast(reset ? 'The suggested list is back' : 'Saved. The trainer uses this list now.'); rerender(); },
+      function(){ toast('Couldn’t save the list. Try again.'); });
+  }
+  function renderGems(){
+    var h = '<section class="panel"><h2>Memory Gems (SD 4)</h2><p class="muted">Guides learn one text from each group, then take your Memory Gem test (one class period). They practise in the Learning Lab’s Memory Gem trainer.</p>';
+    if (!S.gems){ if (!S.gemsBusy) loadGems(); return h + '<p class="muted">Loading…</p></section>'; }
+    var G = S.gems, cats = [];
+    G.list.forEach(function(g){ if (cats.indexOf(g.cat) < 0) cats.push(g.cat); });
+    h += '<p class="note15">' + (G.custom ? 'This is your club’s own list.' : 'This is the suggested list from the official Guide curriculum, in the King James Version. We couldn’t find a 2026 Memory Gem list from the Guyana Conference or the Caribbean Union online. When your conference youth department gives you this year’s list, put it in under “Change the list” and the trainer uses it.') + '</p>'
+      + '<div class="gchips">' + cats.map(function(c){ return '<span class="schip">'+esc(c)+' · '+G.list.filter(function(g){ return g.cat === c; }).length+'</span>'; }).join('') + '</div></section>';
+    var list = S.data.pathfinders.slice().sort(byName);
+    h += fold('g:prog', '<h2>Each Guide</h2><span class="fmeta">learned of '+cats.length+' groups</span>', function(){
+      if (!list.length) return '<p class="muted">No Guides yet.</p>';
+      return '<div class="acts">' + list.map(function(p){
+        var x = (G.progress || {})[p.t] || { picked: [], learned: [] }, lc = Math.min(x.learned.length, cats.length), sd = !!p.done[idx('SD4')];
+        return '<div class="rrow"><span class="nm">'+esc(p.name)+'</span><span class="sc">picked '+x.picked.length+' · learned '+x.learned.length+'</span>'+(sd ? '<span class="schip">'+CHECK+' SD 4 signed</span>' : '')
+          + '<span class="bar" style="flex:1 1 100%"><span style="width:'+Math.round(100 * lc / Math.max(1, cats.length))+'%"></span></span></div>';
+      }).join('') + '</div><button class="btn btn-ghost btn-small" data-act="gemrefresh">Refresh</button>';
+    }, true);
+    h += fold('g:list', '<h2>The texts</h2><span class="fmeta">'+G.list.length+'</span>', function(){
+      return cats.map(function(c){ return '<h3 class="gcat">'+esc(c)+'</h3>' + G.list.filter(function(g){ return g.cat === c; }).map(function(g){ return '<div class="ans"><b>'+esc(g.ref)+'</b><p>'+esc(g.text)+'</p></div>'; }).join(''); }).join('');
+    }, false);
+    h += fold('g:edit', '<h2>Change the list</h2>', function(){
+      return '<p class="muted small">One text per line: <b>Group | Reference | Text</b>. You can also edit the “Memory Gems” tab in the Google Sheet.</p>'
+        + '<textarea id="gemsbox" rows="14" spellcheck="false" aria-label="Memory Gem list">'+esc(S.gemsDraft != null ? S.gemsDraft : gemsText(G.list))+'</textarea>'
+        + '<div class="actions"><button class="btn btn-primary btn-small" data-act="gemsave">Save the list</button>'
+        + (G.custom ? '<button class="btn '+(S.confirm === 'gemreset' ? 'btn-danger' : 'btn-ghost')+' btn-small" data-act="gemreset">'+(S.confirm === 'gemreset' ? 'Tap again to go back to the suggested list' : 'Go back to the suggested list')+'</button>' : '') + '</div>';
+    }, false);
+    return h;
+  }
+
   function xnav(){
-    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['questions','Questions']].map(function(x){
+    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['gems','Memory Gems'],['questions','Questions']].map(function(x){
       return '<button class="tab" role="tab" data-tab="'+x[0]+'" aria-selected="'+(S.tab === x[0])+'">'+x[1]+'</button>'; }).join('') + '</div>';
   }
 
@@ -1542,7 +1830,9 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
       if (!pg) return true;
       S.data.advanced = S.data.advanced || {};
       var ag = S.data.advanced[pg.t] || (S.data.advanced[pg.t] = {}), cur = ag[pa[1]] || (ag[pa[1]] = { done: false, sign: '' }), was = cur.sign;
-      cur.sign = on ? (S.who || 'Counsellor') + ' · today' : ''; rerender();
+      cur.sign = on ? (S.who || 'Counsellor') + ' · today' : '';
+      if (on && S.data.reviews) S.data.reviews = S.data.reviews.filter(function(r){ return !(r.t === pg.t && r.code === pa[1]); });
+      rerender();
       call('c_advSign', [S.pin, pg.t, pa[1], on, S.who], function(res){ cur.sign = res.sign; toast(on ? 'Signed off' : 'Sign-off removed'); rerender(); }, function(){ cur.sign = was; rerender(); toast('Couldn’t save that. Try again.'); });
       return true;
     }
@@ -1550,7 +1840,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     if (ds.pfedit){ var it = (S.prog || []).filter(function(x){ return x.id === ds.pfedit; })[0]; if (it){ pfStart(it); rerender(); } return true; }
     if (ds.pflog){
       var it2 = (S.prog || []).filter(function(x){ return x.id === ds.pflog; })[0];
-      if (it2){ var sel = {}; it2.codes.forEach(function(c){ if (REQ[c]) sel[c] = true; }); S.mf = { date: it2.date, title: it2.title, codes: sel, present: {}, tick: true, notes: '', saving: false }; rerender();
+      if (it2){ var sel = {}; it2.codes.forEach(function(c){ if (REQ[c]) sel[c] = true; }); S.mf = { date: it2.date, title: it2.title, codes: sel, present: {}, tick: true, notes: '', saving: false }; setFold('meet:log', true); rerender();
         var el = document.getElementById('logmeeting'); if (el) el.scrollIntoView({ block: 'start' }); toast('Tick who came, then save.'); }
       return true;
     }
@@ -1591,7 +1881,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
       return true;
     }
     if (act === 'repcopy'){ copyText(reportText(), 'Report copied'); return true; }
-    if (act === 'recjump'){ var rj = document.getElementById('records'); if (rj) rj.scrollIntoView({ block: 'start' }); return true; }
+    if (act === 'recjump'){ setFold('rec:record', true); render(); var rj = document.getElementById('records'); if (rj) rj.scrollIntoView({ block: 'start' }); return true; }
     if (act === 'recopen'){ openRecord((document.getElementById('recwho') || {}).value || '', !!(document.getElementById('recph') || {}).checked); return true; }
     if (act === 'recclose'){ S.print = null; render(); var rp = document.getElementById('records'); if (rp) rp.scrollIntoView({ block: 'start' }); return true; }
     if (act === 'recprint'){ window.print(); return true; }
@@ -1609,6 +1899,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     else if (t.id === 'mf-date') mfInit().date = t.value;
     else if (t.id.indexOf('pf-') === 0 && S.pf) S.pf[t.id.slice(3)] = t.value;
     else if (t.id.indexOf('xn-') === 0) S.noteDraft[t.id.slice(3)] = t.value;
+    else if (t.id === 'gemsbox') S.gemsDraft = t.value;
   });
   app.addEventListener('change', function(e){
     var t = e.target; if (!t) return;
@@ -1627,10 +1918,12 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     var ds = b.dataset;
     if (b.type === 'submit' && b.closest('form')) return;
     if (aiClick(ds)) return;
+    if (rvClick(ds, b)) return;
     if (xClick(ds)) return;
     if (ds.gsel){ S.gameSel = ds.gsel; render(); return; }
+    if (ds.act === 'gemrefresh'){ S.gems = null; loadGems(); rerender(); return; }
     if (ds.grefresh !== undefined){ loadGames(); return; }
-    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions','games'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'games') loadGames(); if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
+    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions','games','gems'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'games') loadGames(); if (ds.tab === 'gems') loadGems(); if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
     if (ds.ltopic){ S.labTopic = ds.ltopic; S.labOpen = null; rerender(); return; }
     if (ds.lopen !== undefined){ S.labOpen = ds.lopen || null; render(); window.scrollTo(0,0); var lt = labTopic(); if (S.labOpen && lt) loadLabAttempts(S.labOpen, lt.id); return; }
     if (ds.qtopic){ if (ds.qtopic !== S.qTopic){ S.qTopic = ds.qtopic; S.qs = null; S.qEdit = null; S.qConfirm = null; rerender(); loadQuestions(); } return; }
@@ -1665,7 +1958,9 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     if (ds.tog){
       var parts = ds.tog.split('|'), p = find(parts[0]), i = idx(parts[1]);
       if (!p || i < 0) return;
-      var val = !p.done[i]; p.done[i] = val; rerender();
+      var val = !p.done[i]; p.done[i] = val;
+      if (val && S.data.reviews) S.data.reviews = S.data.reviews.filter(function(r){ return !(r.t === p.t && r.code === parts[1]); });
+      rerender();
       call('c_toggle', [S.pin, p.t, parts[1], val, S.who], null, function(code){ p.done[i] = !val; rerender(); toast(code === 'not-found' ? ERR['not-found'] : 'Couldn’t save that tick. Try again.'); if (code === 'not-found') loadOverview(false); });
       return;
     }
@@ -1691,7 +1986,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     if (act === 'lock'){ lockOut(''); try { localStorage.removeItem(KEY); } catch(err){} return; }
     if (act === 'answers'){
       var pa = find(S.open); if (!pa) return;
-      call('c_answers', [S.pin, pa.t], function(res){ S.answers[pa.t] = res || []; rerender(); }, function(){ toast('Couldn’t load answers.'); });
+      setFold('d:answers', true); delete S.ansLoading[pa.t]; loadAnswers(pa.t);
       return;
     }
     if (act === 'newlink'){
