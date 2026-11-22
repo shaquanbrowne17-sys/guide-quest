@@ -3851,6 +3851,8 @@ body.lock{overflow:hidden}
   });
 
   /* ======================= Challenges: True/False stays in order; some explorers ask more ======================= */
+  /* Google Sheets turns the words True/False into checkbox values; show them as words again. */
+  BANK.forEach(function(q){ q.opts = q.opts.map(function(o){ var t = String(o == null ? '' : o); return /^(true|false)$/i.test(t) ? t.charAt(0).toUpperCase() + t.slice(1).toLowerCase() : t; }); });
   function x16IsTF(b){ var o = (b.opts || []).filter(function(x){ return x !== '' && x != null; }); return o.length === 2 && /^true$/i.test(o[0]) && /^false$/i.test(o[1]); }
   function x16Pool(k){
     var all = BANK.filter(function(q){ return q.topic === k; }), C = X16.C && X16.C[k];
