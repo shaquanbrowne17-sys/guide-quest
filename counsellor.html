@@ -785,7 +785,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
 
   /* ---------- Learning Lab ---------- */
-  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭'};
+  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭', hiv:'🎗️', visit:'🏡', witness:'💬', choices:'🛤️', fitness:'🏅', teach:'🧑‍🏫', parable:'🍃', honours:'🎖️', temperance:'⛓️', story:'🛶'};
   function labTopics(){ return (S.data.topics || []).filter(function(t){ return t.id !== 'sanctuary'; }); }
   function labTopic(){ var l = labTopics(); return l.filter(function(t){ return t.id === S.labTopic; })[0] || l[0] || null; }
   function topicChips(list, cur, attr){
@@ -1599,7 +1599,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
 
   /* ---------- Games: every Guide's best score in each new game ---------- */
-  var GAME_ICONS = { 'church:ladder':'🪜', 'sanctuary:setup':'⛺', 'fire:build':'🔥', 'lashing:tower':'🗼', 'orienteering:race':'🧭', 'packcamp:pack':'🎒', 'nutrition:run':'🏃', 'fruit:basket':'🧺', 'pioneers:timeline':'📜', 'ecology:creek':'🏞️', 'legion:path':'🛡️' };
+  var GAME_ICONS = { 'church:ladder':'🪜', 'sanctuary:setup':'⛺', 'fire:build':'🔥', 'lashing:tower':'🗼', 'orienteering:race':'🧭', 'packcamp:pack':'🎒', 'nutrition:run':'🏃', 'fruit:basket':'🧺', 'pioneers:timeline':'📜', 'ecology:creek':'🏞️', 'legion:path':'🛡️', 'hiv:know':'🎗️', 'visit:day':'🏡', 'witness:chat':'💬', 'choices:flags':'🚩', 'fitness:guard':'🛡️', 'teach:class':'🧑‍🏫', 'parable:build':'🍃', 'honours:sort':'🎖️', 'temperance:free':'⛓️', 'story:river':'🛶' };
   function loadGames(){
     S.gamesBusy = true;
     call('c_games', [S.pin], function(res){ S.games = res || []; S.gamesBusy = false; if (!S.gameSel && S.games.length) { var first = S.games.filter(function(g){ return g.rows.length; })[0]; S.gameSel = (first || S.games[0]).id; } if (S.tab === 'games') rerender(); },
