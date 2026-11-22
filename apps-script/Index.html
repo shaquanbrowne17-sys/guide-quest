@@ -242,6 +242,8 @@ input[type=number]{width:100%;min-height:42px;border:1.5px solid var(--line);bor
 .tcbar span{background:var(--c,var(--pine));border-right:1px solid var(--surface)}
 .tcbar span:nth-child(odd){opacity:.7}
 .stcrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+.stcread{font-size:13px;font-weight:700;margin-left:6px;white-space:nowrap;font-family:var(--body)}
+.labbtn{white-space:normal;line-height:1.25}
 .stcrow>div{display:flex;flex-direction:column;gap:6px;flex:1}
 .stcbox{flex:0 0 34px;height:34px;border-radius:9px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
 .stcbox[aria-pressed="true"]{background:var(--good);border-color:var(--good);color:var(--good-ink)}
@@ -310,8 +312,10 @@ var BOOT = <?!= boot ?>;
   var SANCT = BOOT.base && TOKEN ? BOOT.base + '?t=' + TOKEN + '&p=s' : '';
   var LAB = BOOT.base && TOKEN ? BOOT.base + '?t=' + TOKEN + '&p=learn' : '';
   var LAB_TOPICS = BOOT.topics || [{id:'sanctuary', name:'Sanctuary Explorer', code:'SD2'}];
-  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭'};
-  var LAB_BY_CODE = {}; LAB_TOPICS.forEach(function(t){ LAB_BY_CODE[t.code] = t; });
+  var LAB_ICONS = {sanctuary:'⛺', legion:'🛡️', fruit:'🍇', pioneers:'📜', newstart:'☀️', nutrition:'🥗', church:'⛪', ecology:'🌿', packcamp:'🎒', fire:'🔥', lashing:'➰', orienteering:'🧭', hiv:'🎗️', visit:'🏡', witness:'💬', choices:'🛤️', fitness:'🏅', teach:'🧑‍🏫', parable:'🍃', honours:'🎖️', temperance:'⛓️', story:'🛶'};
+  var LAB_BY_CODE = {}; LAB_TOPICS.forEach(function(t){ if (!LAB_BY_CODE[t.code]) LAB_BY_CODE[t.code] = t; });
+  var READS = {AV1:['cs','🎧','Counsels on Stewardship: listen or read'], AV2:['sc','📖','Read Steps to Christ, with Listen'], AV4:['friends','📖','Read the Bible passages, with Listen'], NS1:['da7','📖','Read Desire of Ages ch. 7, with Listen'], SD1:['gal5','📖','Read Galatians 5:22–23, with Listen'], HF2:['te','🎧','Temperance pp. 102–125: listen or read']};
+  function readLink(code, from){ var r = READS[code]; if (code === 'HF2' && arr('HF2.way')[0] !== 'Temperance reading and quiz') return ''; return r && LAB ? '<a class="btn btn-ghost btn-block labbtn" href="'+esc(LAB+'&r='+r[0]+'&from='+from+'&f='+code)+'"><span class="li" aria-hidden="true">'+r[1]+'</span>'+esc(r[2])+'</a>' : ''; }
   function labHref(t, from, code){ return (t.id === 'sanctuary' ? SANCT : LAB + '&k=' + t.id) + '&from=' + from + (code ? '&f=' + code : ''); }
   var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var FLAG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>';
@@ -422,7 +426,7 @@ var BOOT = <?!= boot ?>;
       {t:'note',html:'Keep a training record, then run it. The class can run it together at sunrise on the camp.',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
       {t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true,when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
       {t:'text',k:'run',label:'Run day: distance and time',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
-      {t:'note',html:'Read <i>Temperance</i> by Ellen G. White, pages 102–125 (free at <a href="https://egwwritings.org" target="_blank" rel="noopener">egwwritings.org</a>). Then your counsellor gives you a true or false quiz. You need 75% or more.',when:['way','Temperance reading and quiz']},
+      {t:'note',html:'Read <i>Temperance</i> by Ellen G. White, pages 102–125 (<a href="https://m.egwwritings.org/en/book/110.562" target="_blank" rel="noopener">open page 102 at egwwritings.org</a>), or listen to the recorded reading below. Then take the quiz in the Temperance explorer: 20 questions, true or false and multiple choice. You need 75% (15 of 20). Your counsellor sees your score.',when:['way','Temperance reading and quiz']},
       {t:'checks',k:'read',label:'Pages read',opts:['Pages 102–110','Pages 111–118','Pages 119–125'],when:['way','Temperance reading and quiz']},
       {t:'text',k:'quiz',label:'My quiz score (from my counsellor)',when:['way','Temperance reading and quiz']}]},
     SD1:{title:'Fruit of the Spirit', how:'Read Galatians 5:22–23 around the campfire and talk about how the Spirit grows these in us. Tap the nine fruits.', fields:[
@@ -733,6 +737,9 @@ var BOOT = <?!= boot ?>;
         + (lt.id === 'sanctuary' ? TENT : '<span class="li" aria-hidden="true">'+(LAB_ICONS[lt.id] || '')+'</span>')
         + 'Open the '+esc(lt.name)+(/Explorer$/.test(lt.name) ? '' : ' explorer')+'</a>';
     }
+    if (code === 'OD4' && LAB && LAB_BY_CODE.LE1) h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(labHref(LAB_BY_CODE.LE1, view, code))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS.honours || '')+'</span>Open the Honours Guide explorer</a>';
+    h += readLink(code, view);
+    if (code === 'HF2' && LAB && arr('HF2.way')[0] === 'Temperance reading and quiz') { var tpt = LAB_TOPICS.filter(function(x){ return x.id === 'temperance'; })[0]; if (tpt) h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(labHref(tpt, view, code))+'"><span class="li" aria-hidden="true">⛓️</span>Open the Temperance explorer and quiz</a>'; }
     if (code === 'SD4' && LAB) h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(LAB + '&k=gems&from=' + view + '&f=SD4')+'"><span class="li" aria-hidden="true">💎</span>Open the Memory Gem trainer</a>';
     if (TOKEN) h += photosHTML(code);
     h += d ? '<p class="signed">'+CHECK+'Signed off by your counsellor. It’s on your record.</p>'
@@ -860,12 +867,14 @@ var BOOT = <?!= boot ?>;
           {t:'text',k:'chosen',label:'The one I chose to develop, and my project'},
           {t:'area',k:'project',label:'My talent project report: what I did, who it helped, and how many hours',target:120,unit:'words'}]}]},
     AV2:{sec:'Spiritual Discovery', icon:'📖', title:'Steps to Christ', req:'Read Steps to Christ and write a one-page report or essay.',
-      how:'<i>Steps to Christ</i> by Ellen G. White has 13 short chapters. Read them free at <a href="https://egwwritings.org" target="_blank" rel="noopener">egwwritings.org</a> or in the EGW Writings app. Tick each chapter as you finish it and answer its question, then write your report.',
+      how:'<i>Steps to Christ</i> by Ellen G. White has 13 short chapters. Read them right here, word for word with a Listen button (tap 📖 beside a chapter), or at <a href="https://m.egwwritings.org/en/book/108.4" target="_blank" rel="noopener">egwwritings.org</a>. Tick each chapter as you finish it and answer its question, then write your report.',
       fields:[{t:'game',game:'stc'},{t:'area',k:'report',label:'My one-page report (about 300 words): what the book is about, what helped me most, and one change I will make',target:300,unit:'words'}]},
     AV3:{sec:'Community Outreach', icon:'🤝', title:'Outreach', req:'Bring 2 friends to at least 2 meetings sponsored by your church, or help plan and take part in at least 4 youth evangelism (or similar) meetings.',
       how:'Pick one option. Use what your class learned about witnessing to teens (CO 2). Write down each meeting as you go.',
       fields:[
-        {t:'chips',k:'opt',label:'My option',max:1,opts:['Bring 2 friends to 2 church meetings','Help plan and take part in 4 youth meetings']},
+        {t:'chips',k:'opt',label:'My option',max:1,opts:['Bring 2 friends to 2 church meetings','Help plan and take part in 4 youth meetings','Something similar my leader approves']},
+        {t:'note',when:['opt','Something similar my leader approves'],html:'The requirement says “or similar”, so ask your leader first. Ideas: bring 2 friends to 2 Pathfinder club events (a camp-out, a community service day, a drill competition); help run a Vacation Bible School or a children’s story hour with friends; bring friends to 2 sessions of a youth Bible study or prayer group run by the youth department; or bring friends to a church health expo, sports day or youth concert.'},
+        {t:'text',k:'similar',label:'What I did, and the leader who approved it',when:['opt','Something similar my leader approves']},
         {t:'rows',k:'log',n:4,rowlabel:'Meeting',cols:['Date and meeting','Friends who came, or my part']},
         {t:'game',game:'outreach'},
         {t:'game',game:'invite'}]},
@@ -967,7 +976,7 @@ var BOOT = <?!= boot ?>;
     STC.forEach(function(c, i){
       var on = read.indexOf(String(i + 1)) > -1, pick = q[i] === '' ? -1 : +q[i];
       if (pick === c[3]) right++;
-      h += '<div class="stcrow'+(on?' on':'')+'"><button class="stcbox" data-stc="'+(i+1)+'" aria-pressed="'+on+'" aria-label="Chapter '+(i+1)+' read">'+(on?CHECK:'')+'</button><div><b>'+(i+1)+' · '+esc(c[0])+'</b>'
+      h += '<div class="stcrow'+(on?' on':'')+'"><button class="stcbox" data-stc="'+(i+1)+'" aria-pressed="'+on+'" aria-label="Chapter '+(i+1)+' read">'+(on?CHECK:'')+'</button><div><b>'+(i+1)+' · '+esc(c[0])+(LAB ? ' <a class="stcread" href="'+esc(LAB+'&r=sc&ch='+(i+1)+'&from=adv&f=AV2')+'">📖 Read</a>' : '')+'</b>'
         + (on ? '<p class="small">'+esc(c[1])+'</p><div class="qopts">' + c[2].map(function(o, j){ var cls = pick === j ? (j === c[3] ? ' right' : ' wrong') : ''; return '<button class="qopt'+cls+'" data-quiz="AV2.q" data-i="'+i+'" data-j="'+j+'" data-n="'+STC.length+'">'+esc(o)+'</button>'; }).join('') + '</div>' : '') + '</div></div>';
     });
     return h + '<p class="fb'+(read.length === 13 ? ' ok' : '')+'">'+(read.length === 13 ? CHECK+'All 13 chapters read · '+right+' of 13 questions right' : read.length+' of 13 chapters read')+'</p></div>';
@@ -1095,6 +1104,9 @@ var BOOT = <?!= boot ?>;
       + '<p class="advreq"><b>Requirement:</b> '+esc(t.req)+'</p>';
     if (t.how) h += '<p class="how">'+t.how+'</p>';
     t.fields.forEach(function(fd){ h += fieldHTML(c, fd); });
+    var lta = LAB_BY_CODE[c];
+    if (lta && LAB) h += '<a class="btn btn-ghost btn-block labbtn" href="'+esc(labHref(lta, 'adv'))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS[lta.id] || '')+'</span>Open the '+esc(lta.name)+' explorer</a>';
+    h += readLink(c, 'adv');
     if (!t.noPhotos && TOKEN) h += photosHTML(c);
     if (!s) h += '<button class="donebtn'+(d ? ' waiting' : '')+'" data-avdone="'+c+'" aria-pressed="'+d+'">'+(d ? '⏳ Waiting for your counsellor · tap to undo' : 'Done – ask my counsellor to check')+'</button>';
     h += '<p class="'+(s ? 'signed' : 'muted small')+'">'+(s ? CHECK+'Signed off · '+esc(s) : 'Your counsellor checks it, then signs it off.')+'</p></article>';

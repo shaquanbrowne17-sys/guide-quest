@@ -669,6 +669,226 @@ body.lock{overflow:hidden}
 :root[data-theme="dark"] .gemrow.on{background:#2A2016}
 :root[data-theme="dark"] .gemok.pk{background:#3A2A16;color:#F1C58A}
 
+/* ===== Version 16: new explorer games (dark game screen, like the other games) ===== */
+.x6-intro{background:var(--g-p);border:1px solid var(--g-l);border-radius:18px;padding:18px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;animation:gkIn .3s ease;margin-top:30px}
+.x6-intro h4{margin:0;font:800 22px/1.15 var(--display);color:var(--g-fg)}
+.x6-intro p{margin:0;color:var(--g-mu);font-size:15px;line-height:1.4}
+.x6-intro .gk-btn{min-width:160px;margin-top:6px}
+.x6-rn{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--g-gold)}
+.x6-count{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--g-mu);margin-bottom:10px}
+.x6-count i{flex:1;height:6px;border-radius:6px;background:#0E1612;overflow:hidden}.x6-count b{display:block;height:100%;background:var(--g-gold)}
+.x6-card{background:#FFFDF6;color:#1D1B2B;border-radius:18px;padding:22px 18px;font:700 18px/1.35 var(--body);text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.35);transition:transform .25s ease, background .2s;animation:gkIn .25s ease;touch-action:pan-y}
+.x6-card.ok{background:#DDF6E6}.x6-card.no{background:#FFE1DD}
+.x6-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.x6-two .gk-btn{min-height:54px;font-size:16px}
+.x6-l{border-color:#F08A82}.x6-r{border-color:#7FD3A2}
+.x6-two .gk-btn.ok{background:var(--g-mint-d);border-color:var(--g-mint)}
+.x6-why{margin:10px 0 0;font-size:14.5px;line-height:1.4;min-height:1.4em}.x6-why.ok{color:#B9EBCF}.x6-why.no{color:#FFC9C3}
+.x6-next{width:100%;margin-top:10px}
+.x6-trail{display:flex;justify-content:space-between;background:linear-gradient(#7DB7E8,#CDE6F7);border-radius:14px;padding:8px 10px;margin-bottom:10px}
+.x6-trail span{font-size:22px;filter:grayscale(.8);opacity:.55;transition:all .3s}
+.x6-trail span.was{filter:none;opacity:.9}.x6-trail span.on{filter:none;opacity:1;transform:scale(1.3)}
+.x6-in{min-height:84px;font-size:17px}
+.x6-bins{display:grid;gap:8px;margin-top:12px}
+.x6-b2{grid-template-columns:1fr 1fr}.x6-b3{grid-template-columns:repeat(3,1fr)}.x6-b4{grid-template-columns:1fr 1fr}.x6-b5{grid-template-columns:repeat(3,1fr)}
+.x6-bin{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--g-p2);border:1.5px dashed var(--g-l);border-radius:14px;padding:10px 6px;color:var(--g-fg);font:inherit;cursor:pointer;min-height:84px;touch-action:manipulation}
+.x6-bin span{font-size:26px}.x6-bin b{font-size:13px;line-height:1.2;text-align:center}.x6-bin small{font-size:12px;color:var(--g-gold);font-weight:800}
+.x6-bin.ok{border-style:solid;border-color:var(--g-mint);background:var(--g-mint-d)}
+.x6-bin.no{border-style:solid;border-color:var(--g-red);background:var(--g-red-d);animation:gkShake .35s}
+.x6-abbr{display:flex;justify-content:center;gap:8px;margin:6px 0 12px}
+.x6-abbr b{width:54px;height:62px;border-radius:12px;background:var(--g-gold);color:#2A1C00;display:grid;place-items:center;font:900 34px/1 var(--display)}
+.x6-slots{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.x6-slot{min-width:70px;padding:8px 10px;border-radius:10px;border:1.5px dashed var(--g-l);color:var(--g-mu);font-weight:800;text-align:center}
+.x6-slot.ok{border-style:solid;border-color:var(--g-mint);background:var(--g-mint-d);color:#D4F5E2;animation:gkIn .25s ease}
+.x6-ask{text-align:center;color:var(--g-mu);font-weight:700;margin:12px 0 8px;font-size:14.5px}
+.x6-bank,.x6-ch{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.x6-w.no,.x6-o.no{border-color:var(--g-red);background:var(--g-red-d);animation:gkShake .35s}
+.x6-o{text-align:left;line-height:1.3;width:100%}
+.x6-o.ok{border-color:var(--g-mint);background:var(--g-mint-d)}
+.x6-chat{background:#E9E2D6;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;min-height:380px}
+.x6-phtop{display:flex;align-items:center;gap:10px;background:#1F6F8B;color:#fff;padding:10px 12px}
+.x6-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:22px}
+.x6-meter{margin-left:auto;width:90px;height:8px;border-radius:6px;background:rgba(255,255,255,.25);overflow:hidden}.x6-meter i{display:block;height:100%;width:0;background:#7FD3A2;transition:width .4s}
+.x6-msgs{flex:1;display:flex;flex-direction:column;gap:6px;padding:12px;max-height:320px;overflow-y:auto}
+.x6-bb{margin:0;max-width:84%;padding:8px 11px;border-radius:14px;font-size:15px;line-height:1.4;color:#1D1B2B;animation:chPop .35s ease}
+.x6-bb.me{align-self:flex-end;background:#D7F5C9;border-bottom-right-radius:4px}
+.x6-bb.them{align-self:flex-start;background:#FFFFFF;border-bottom-left-radius:4px}
+.x6-typing i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:#9AA;animation:gkBob .8s ease-in-out infinite}
+.x6-typing i:nth-child(2){animation-delay:.15s}.x6-typing i:nth-child(3){animation-delay:.3s}
+.x6-opts{display:flex;flex-direction:column;gap:8px;padding:0 12px 12px}
+.x6-opts .gk-btn{text-align:left;line-height:1.3}
+.x6-nat{background:var(--g-p);border:1px solid var(--g-l);border-radius:18px;padding:14px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px}
+.x6-nat span{font-size:54px;line-height:1}.x6-nat b{font:800 19px/1.2 var(--display)}.x6-nat p{margin:4px 0 0;color:var(--g-gold);font-weight:700}
+/* What to know (version 16) */
+.x3-fl .fl-card{min-height:156px}
+.x3-fl .fl-back{font-size:13.5px;line-height:1.3}
+.x3-fl .fl-card:nth-child(5) .fl-front{background:#9B2C5A}.x3-fl .fl-card:nth-child(6) .fl-front{background:#0E5E73}
+.x3-fl .fl-card:nth-child(5) .fl-back{border-color:#9B2C5A}.x3-fl .fl-card:nth-child(6) .fl-back{border-color:#0E5E73}
+/* Sanctuary film voice button */
+.sg-ctl .gk-btn[data-f="voice"]{min-width:118px}
+
+/* ===== Version 16: more kinds of play ===== */
+/* memory */
+.x6-mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+@media (min-width:560px){.x6-mgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.x6-mc{position:relative;height:92px;border:0;padding:0;background:none;cursor:pointer;perspective:600px;touch-action:manipulation;font:inherit}
+.x6-mb,.x6-mf{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .35s ease}
+.x6-mb{background:repeating-linear-gradient(45deg,#2E5E45 0 10px,#285440 10px 20px);border:2px solid #3E7A5B;color:#CFE9DA;font:900 30px/1 var(--display)}
+.x6-mf{background:#FFFDF6;color:#1D1B2B;font:700 12px/1.2 var(--body);-webkit-hyphens:auto;hyphens:auto;overflow-wrap:anywhere;transform:rotateY(180deg);border:2px solid #E9B649}
+.x6-mf.big{font:900 24px/1 var(--display);color:#7A1F4A}
+.x6-mc.up .x6-mb{transform:rotateY(-180deg)}.x6-mc.up .x6-mf{transform:none}
+.x6-mc.ok .x6-mf{background:#DDF6E6;border-color:var(--g-mint);animation:x6Pulse .5s ease}
+@keyframes x6Pulse{50%{transform:scale(1.07)}}
+/* pop */
+.x6-pop{position:relative}
+.x6-legend{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:800;color:var(--g-mu);margin-top:8px}
+.x6-sky{position:relative;height:380px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.08) 0 30px,transparent 31px),radial-gradient(circle at 80% 60%,rgba(255,255,255,.06) 0 40px,transparent 41px),linear-gradient(#173A52,#0E2233)}
+.x6-bub{position:absolute;bottom:-90px;width:64%;min-height:76px;padding:12px 16px;border-radius:40px;border:2px solid rgba(255,255,255,.55);background:radial-gradient(circle at 25% 25%,rgba(255,255,255,.45),rgba(140,200,255,.22) 45%,rgba(90,150,220,.28));color:#fff;font:800 15px/1.25 var(--body);text-shadow:0 1px 2px rgba(0,0,0,.5);cursor:pointer;touch-action:manipulation;box-shadow:inset 0 -6px 14px rgba(0,0,0,.18)}
+.x6-bub.l{left:5%}.x6-bub.r{right:5%}
+.x6-bub.popped{animation:x6Burst .4s ease forwards;pointer-events:none}
+.x6-bub.oops{border-color:var(--g-red);background:rgba(240,138,130,.35);animation:gkShake .4s}
+@keyframes x6Burst{to{transform:scale(1.5);opacity:0}}
+/* whack */
+.x6-house{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:46px 12px 12px;border-radius:18px;position:relative;background:linear-gradient(#E8C9A6,#D9B48B);border:3px solid #9C6B3E}
+.x6-house:before{content:"";position:absolute;left:-3px;right:-3px;top:-34px;height:44px;background:#B5452C;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.x6-win{position:relative;height:96px;border-radius:10px;border:4px solid #7A4E28;background:linear-gradient(#5D86A8,#2F5274);overflow:hidden;cursor:pointer;padding:0;touch-action:manipulation;font:inherit}
+.x6-win:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent calc(50% - 2px),#7A4E28 calc(50% - 2px) calc(50% + 2px),transparent calc(50% + 2px));pointer-events:none;transition:opacity .2s}
+.x6-pop-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;background:#FFFDF6;color:#1D1B2B;transform:translateY(105%);transition:transform .18s ease}
+.x6-pop-in i{font-style:normal;font-size:28px;line-height:1}.x6-pop-in b{font-size:12.5px;line-height:1.15;text-align:center}
+.x6-win.up .x6-pop-in{transform:none}.x6-win.up:after{opacity:0}
+.x6-win.ok .x6-pop-in{background:#DDF6E6}.x6-win.no .x6-pop-in{background:#FFE1DD;animation:gkShake .3s}
+/* stack */
+.x6-slots2{display:flex;flex-direction:column;gap:6px}
+.x6-slot2{background:var(--g-p);border:1.5px dashed var(--g-l);border-radius:14px;padding:6px 8px;min-height:58px}
+.x6-slot2 small{display:block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g-gold);margin-bottom:4px}
+.x6-slot2.ok{border-style:solid;border-color:var(--g-mint);background:var(--g-mint-d)}
+.x6-slot2.no{border-style:solid;border-color:var(--g-red);background:var(--g-red-d);animation:gkShake .35s}
+.x6-empty{color:var(--g-mu);font-size:13px}
+.x6-pool{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.x6-strip{width:100%;text-align:left;font:700 14px/1.3 var(--body);color:#1D1B2B;background:#FFFDF6;border:0;border-left:6px solid #E9B649;border-radius:10px;padding:9px 11px;cursor:pointer;touch-action:manipulation;animation:gkIn .2s ease}
+.x6-strip.in{background:#FFF6DC}
+/* planner */
+.x6-rules{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.x6-rules span{font-size:12.5px;font-weight:800;color:#D4F5E2;background:var(--g-mint-d);border:1px solid #2F6B4A;border-radius:20px;padding:5px 9px}
+.x6-week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.x6-day{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:92px;padding:5px 2px;border-radius:12px;border:1.5px dashed var(--g-l);background:var(--g-p);color:var(--g-fg);cursor:pointer;font:inherit;touch-action:manipulation}
+.x6-day small{font-size:11px;font-weight:800;color:var(--g-gold)}
+.x6-day i{font-style:normal;font-size:22px;line-height:1}.x6-day b{font-size:10.5px;line-height:1.1;text-align:center}
+.x6-day em{font-style:normal;color:var(--g-mu);font-size:22px;margin-top:14px}
+.x6-day.hard{background:#3B2014;border-style:solid;border-color:#C9714C}.x6-day.easy{background:#13304A;border-style:solid;border-color:#5C9BD1}
+.x6-day.rest,.x6-day.sabbath{background:#24203F;border-style:solid;border-color:#8F86D6}
+.x6-day.no{border-color:var(--g-red);box-shadow:0 0 0 2px var(--g-red);animation:gkShake .35s}
+.x6-tiles{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center}
+.x6-tile{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:12px;border:1.5px solid var(--g-l);background:var(--g-p2);color:var(--g-fg);font:700 13.5px/1.1 var(--body);cursor:pointer;touch-action:manipulation}
+.x6-tile i{font-style:normal;font-size:18px}
+.x6-tile.hard{border-color:#C9714C}.x6-tile.easy{border-color:#5C9BD1}.x6-tile.rest,.x6-tile.sabbath{border-color:#8F86D6}
+.x6-tile.sel{background:var(--g-gold);color:#2A1C00;border-color:var(--g-gold);transform:translateY(-2px)}
+/* defend */
+.x6-def{position:relative}
+.x6-body{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.x6-lungs{font-size:12.5px;font-weight:800;color:var(--g-mu);letter-spacing:.06em;text-transform:uppercase}
+.x6-hp{flex:1;height:12px;border-radius:8px;background:#0E1612;overflow:hidden;border:1px solid var(--g-l)}.x6-hp b{display:block;height:100%;background:linear-gradient(90deg,#F08A82,#7FD3A2);transition:width .3s}
+.x6-def.hurt .x6-air{animation:gkShake .35s}
+.x6-air{position:relative;height:300px;border-radius:16px;overflow:hidden;background:linear-gradient(90deg,rgba(240,138,130,.25) 0 54px,transparent 54px),linear-gradient(#18323F,#10222B)}
+.x6-air:before{content:"🫁";position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:34px;opacity:.85}
+.x6-thing{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;width:78px;padding:6px 4px;border-radius:14px;border:2px solid transparent;color:#fff;cursor:pointer;touch-action:manipulation;font:inherit;background:rgba(255,255,255,.08)}
+.x6-thing i{font-style:normal;font-size:30px;line-height:1}.x6-thing small{font-size:11.5px;font-weight:800;line-height:1.1;text-align:center}
+.x6-thing.zap{animation:x6Burst .35s ease forwards;pointer-events:none}
+.x6-thing.oops{border-color:var(--g-red);animation:gkShake .35s}
+/* timeline */
+.x6-bar{display:flex;height:64px;border-radius:12px;overflow:hidden;border:1px solid var(--g-l);background:#0E1612}
+.x6-seg{display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;padding:0 2px;color:#1D1B2B;animation:gkIn .3s ease;border-right:2px solid #0E1612}
+.x6-seg b{font-size:11px;line-height:1.1;text-align:center;overflow:hidden;max-width:100%}.x6-seg small{font-size:10.5px;font-weight:800}
+.x6-seg.s0{background:#E9B649}.x6-seg.s1{background:#8DB8F0}.x6-seg.s2{background:#F0A38A}.x6-seg.s3{background:#7FD3A2}.x6-seg.s4{background:#C7A6F0}.x6-seg.s5{background:#F5D77A}
+.x6-seg.rest{background:repeating-linear-gradient(45deg,#1A2620 0 8px,#22302A 8px 16px);color:var(--g-mu)}
+.x6-tl .x6-o small{color:var(--g-mu);font-weight:600}
+.x6-tlist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:13.5px;font-weight:700;color:var(--g-fg)}
+.x6-tlist li{display:flex;align-items:center;gap:7px}.x6-tlist small{color:var(--g-mu)}
+.x6-tlist i{width:12px;height:12px;border-radius:3px;flex:none}
+.x6-tlist i.s0{background:#E9B649}.x6-tlist i.s1{background:#8DB8F0}.x6-tlist i.s2{background:#F0A38A}.x6-tlist i.s3{background:#7FD3A2}.x6-tlist i.s4{background:#C7A6F0}.x6-tlist i.s5{background:#F5D77A}
+/* grow */
+.x6-pot{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px;border-radius:16px;background:linear-gradient(#CDE6F7,#EAF5E0)}
+.x6-plant{font-size:56px;line-height:1;display:inline-block;animation:x6Grow .6s ease}
+.x6-pot small{color:#2D5A1E;font-weight:800;font-size:12.5px}
+@keyframes x6Grow{from{transform:scale(.6)}}
+.x6-pcard{background:var(--g-p);border:1px solid var(--g-l);border-radius:14px;padding:8px 10px;margin:10px 0 4px;display:flex;flex-direction:column;gap:6px}
+.x6-prow{display:flex;align-items:center;gap:8px;font-size:14.5px;color:var(--g-mu)}.x6-prow span{font-size:20px}
+.x6-prow.now{color:var(--g-gold)}.x6-prow.done{color:#B9EBCF}.x6-prow:first-child{color:var(--g-fg)}
+/* drop */
+.x6-well{position:relative;display:flex;height:300px;border-radius:16px;overflow:hidden;background:linear-gradient(#20335C,#15213D)}
+.x6-lane{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:6px;cursor:pointer;transition:background .2s}
+.x6-lane+.x6-lane{border-left:1px dashed rgba(255,255,255,.12)}
+.x6-lane span{font-size:22px}.x6-lane b{font-size:12px;color:var(--g-gold)}
+.x6-lane.on{background:rgba(233,182,73,.12)}.x6-lane.ok{background:rgba(127,211,162,.35)}.x6-lane.hint{background:rgba(240,138,130,.3)}
+.x6-patch{position:absolute;top:0;transform:translateX(-50%);width:max-content;max-width:120px;display:flex;flex-direction:column;align-items:center;padding:6px 8px;border-radius:50%/40%;background:#FFFDF6;border:3px solid #E9B649;color:#1D1B2B;font:800 11.5px/1.1 var(--body);text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.4);pointer-events:none;transition:left .12s ease}
+.x6-patch i{font-style:normal;font-size:18px}
+.x6-patch.in{animation:x6Burst .35s ease forwards}.x6-patch.out{border-color:var(--g-red);animation:gkShake .35s}
+.x6-cbtns{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px}
+.x6-cb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border-radius:12px;border:1.5px solid var(--g-l);background:var(--g-p2);color:var(--g-fg);font:800 10.5px/1.1 var(--body);text-align:center;cursor:pointer;touch-action:manipulation;min-height:58px}
+.x6-cb span{font-size:20px}
+.x6-fast{width:100%;margin-top:8px}
+/* crossroads (path look) */
+.x6-road{position:relative;height:84px;border-radius:14px;margin-bottom:10px;overflow:hidden;background:linear-gradient(#7DB7E8,#CDE6F7 45%,#8FB35A 45%)}
+.x6-fork{position:absolute;left:50%;bottom:0;width:240px;height:52px;transform:translateX(-50%);background:linear-gradient(115deg,transparent 46%,#B7A37E 46% 54%,transparent 54%),linear-gradient(65deg,transparent 46%,#B7A37E 46% 54%,transparent 54%),linear-gradient(90deg,transparent 45%,#B7A37E 45% 55%,transparent 55%)}
+.x6-walker{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);font-size:28px;animation:gkBob .8s ease-in-out infinite}
+.x6-road small{position:absolute;right:10px;top:8px;font-weight:800;font-size:12px;color:#1D3A5A}
+.x6-sign{display:flex;align-items:center;gap:8px;text-align:left;background:#5A3D22;border-color:#8A6238;color:#FFF3DF;line-height:1.3}
+.x6-arr{font-style:normal;font-size:20px;color:var(--g-gold)}
+.x6-sign.ok{background:var(--g-mint-d);border-color:var(--g-mint)}
+.x6-sign.no{background:var(--g-red-d);border-color:var(--g-red)}
+@media (prefers-reduced-motion: reduce){.x6-mb,.x6-mf,.x6-pop-in{transition:none}.x6-walker,.x6-plant{animation:none}}
+/* chains */
+.x6-chain{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-bottom:8px}
+.x6-link{padding:6px 12px;border-radius:999px;border:4px solid #8A8F98;background:#2A2F36;color:#E5E8EC;font:800 12px/1 var(--body);transition:all .3s}
+.x6-link.on{border-color:var(--g-gold);box-shadow:0 0 0 3px rgba(233,182,73,.25)}
+.x6-link.broke{opacity:.25;border-style:dashed;transform:rotate(-8deg)}
+.x6-link.snap{animation:x6Snap .7s ease forwards}
+@keyframes x6Snap{30%{transform:scale(1.25)}100%{transform:translateY(26px) rotate(25deg);opacity:.25}}
+.x6-captive{display:flex;flex-direction:column;align-items:center;padding:8px;border-radius:16px;background:linear-gradient(#2B2140,#1A2620)}
+.x6-person{font-size:44px;line-height:1}
+.x6-captive small{color:var(--g-mu);font-weight:800;font-size:12px}
+.x6-captive.free{background:linear-gradient(#E9B649,#7FD3A2)}.x6-captive.free small{color:#1D1B2B}
+.x6-lie{margin-top:10px;background:#3B1D27;border:1.5px solid #B4566F;border-radius:16px;padding:12px;color:#FFE3EA;font:700 16px/1.35 var(--body);text-align:center}
+.x6-lie small{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#F3A9BC;margin-bottom:4px}
+.x6-verse{text-align:center;color:var(--g-fg);font-size:15px;line-height:1.45;margin:12px 0 0}.x6-verse b{color:var(--g-gold)}
+/* reading room */
+.rd-hubh{font:800 22px/1.2 var(--display);margin:26px 0 2px}.rd-hubp{color:var(--muted);margin:0 0 10px}
+.rd-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+.rd-chip{flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font:800 15px var(--body);color:var(--ink);cursor:pointer}
+.rd-chip.on{background:#5B3A1E;border-color:#5B3A1E;color:#fff}
+.rd-book{--paper:#FFFDF7;--paper-ink:#24201A;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px 18px 8px;margin-bottom:12px;color:var(--paper-ink)}
+.rd-title{font:800 24px/1.2 var(--display);margin:2px 0 10px}
+.rd-intro{font-style:italic;color:var(--muted);margin:0 0 12px}
+.rd-p{font-family:Georgia,'Times New Roman',serif;font-size:var(--rd,18px);line-height:1.65;margin:0 -6px 14px;color:var(--paper-ink);border-radius:10px;padding:2px 6px;transition:background .3s}
+.rd-p.on{background:#FFF0C2;box-shadow:inset 4px 0 0 #E9B649;color:#24201A}
+.rd-ref{float:right;font:700 11px var(--body);color:#A08B6A;margin:5px 0 0 8px}
+.rd-vref{display:block;font:800 14px var(--body);color:#7A4A12;margin-bottom:2px}
+.rd-src{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin:6px 0 10px}
+.rd-audio{display:flex;flex-direction:column;gap:4px;background:#F3ECDD;border-radius:14px;padding:10px 12px;margin:0 0 14px}
+.rd-audio span{font-weight:800;font-size:13.5px;color:#5B3A1E}
+.rd-audio audio,.rd-parts audio{width:100%;height:40px}
+.rd-bar{position:sticky;bottom:10px;z-index:20;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;background:rgba(36,32,26,.94);border-radius:18px;padding:8px;margin:12px 0;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.rd-btn{border:0;border-radius:12px;padding:10px 12px;background:#3A332A;color:#FFF6E4;font:800 14px var(--body);cursor:pointer;min-height:44px}
+.rd-play{background:#E9B649;color:#2A1C00;min-width:112px}
+.rd-note{background:#FFF4D6;border:1px solid #E9C977;color:#3A2A08;border-radius:14px;padding:12px;font-size:14.5px;line-height:1.45;margin:0 0 12px}
+.rd-group{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+.rd-parts{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:10px}
+.rd-parts li{background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.rd-pt{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.rd-pt small{color:var(--muted);font-weight:700;white-space:nowrap}
+.rd-text{font-weight:700;font-size:13.5px}
+.rd-open{margin:10px 0 4px}
+.rd-pass{font-weight:700}.rd-pass.ok{color:var(--good)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .rd-book{--paper:#221F18;--paper-ink:#EFE7D6}:root:not([data-theme="light"]) .rd-audio{background:#2E281E}:root:not([data-theme="light"]) .rd-audio span{color:#F1C58A}}
+:root[data-theme="dark"] .rd-book{--paper:#221F18;--paper-ink:#EFE7D6}:root[data-theme="dark"] .rd-audio{background:#2E281E}:root[data-theme="dark"] .rd-audio span{color:#F1C58A}
+/* time river */
+.x6-water{display:grid;grid-template-columns:repeat(5,1fr);gap:8px 6px;margin-top:12px;padding:14px 8px;border-radius:18px;background:repeating-linear-gradient(170deg,#1F5E7A 0 14px,#25708F 14px 28px)}
+.x6-buoy{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;border-radius:14px;border:2px solid #F3D9A4;background:#FFF6E0;color:#4A2E0E;font:inherit;cursor:pointer;touch-action:manipulation}
+.x6-buoy b{font:900 15px/1 var(--display)}
+.x6-buoy i{position:absolute;top:-14px;right:-6px;font-style:normal;font-size:22px;animation:gkBob 1s ease-in-out infinite}
+.x6-buoy.here{border-color:var(--g-gold);box-shadow:0 0 0 3px rgba(233,182,73,.35)}
+.x6-buoy.ok{background:#DDF6E6;border-color:var(--g-mint)}
+.x6-buoy.no{background:#FFE1DD;border-color:var(--g-red);animation:gkShake .35s;opacity:.7}
+
 </style>
 </head>
 <body>
@@ -908,8 +1128,8 @@ body.lock{overflow:hidden}
     var h = '<div class="topnav">'+(B.back ? '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>' : '<span></span>')+(JOIN_FIRST ? '' : whoPill())+'</div>';
     h += '<header class="hubhead"><div class="eyebrow">Pathfinder Guide class</div><h1>Learning Lab</h1><p>Explore each topic, play the game, then take the challenge. Your counsellor sees your scores.</p></header>';
     h += (JOIN_FIRST || joinOpen) ? whoHTML() : '';
-    var order = ['sanctuary','orienteering','lashing','fire','packcamp','nutrition','ecology','newstart','church','pioneers','fruit','legion'];
-    h += '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>';
+    var order = ['sanctuary','orienteering','lashing','fire','packcamp','nutrition','ecology','newstart','church','pioneers','story','fruit','legion','visit','witness','choices','fitness','temperance','teach','parable','honours','hiv'];
+    h += '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>' + x16ReadTiles();
     return h;
   }
 
@@ -1282,7 +1502,7 @@ body.lock{overflow:hidden}
       : '<a class="backlink" href="'+esc(B.back)+'">'+BACK+esc(B.backLabel || 'Back')+'</a>';
     var h = '<div class="topnav">'+backBtn+(!S.viaHub && B.back ? '<button class="linkbtn" data-act="hub">All explorers</button>' : '')+whoPill()+'</div>';
     h += joinOpen ? whoHTML() : '';
-    h += '<header class="thead" style="--c:'+T.c+'"><span class="ico" aria-hidden="true">'+T.icon+'</span><div class="eyebrow">Guide requirement '+esc(fmt(m.code || ''))+'</div><h1>'+esc(m.name || k)+'</h1><p>'+esc(T.intro)+'</p></header>';
+    h += '<header class="thead" style="--c:'+T.c+'"><span class="ico" aria-hidden="true">'+T.icon+'</span><div class="eyebrow">Guide requirement '+esc(fmt(m.code || ''))+'</div><h1>'+esc(m.name || k)+'</h1><p>'+esc(T.intro)+'</p></header>' + x16ReadBtn(k);
     h += '<div class="seg" role="tablist"><button role="tab" data-tab="learn" aria-selected="'+(S.tab==='learn')+'">Learn</button><button role="tab" data-tab="game" aria-selected="'+(S.tab==='game')+'">Game</button><button role="tab" data-tab="challenge" aria-selected="'+(S.tab==='challenge')+'">Challenge</button></div>';
     if (S.tab === 'learn'){
       h += '<div class="progress"><span>'+(n >= tot ? 'You opened every picture. Try the game, then the challenge.' : 'You’ve opened '+n+' of '+tot+' pictures')+'</span><span class="bar" style="--c:'+T.c+'"><span style="width:'+Math.round(100*n/tot)+'%"></span></span></div>';
@@ -1391,8 +1611,8 @@ body.lock{overflow:hidden}
 
   /* ======================= CHALLENGE ======================= */
   function startChallenge(k){
-    var pool = shuffle(BANK.filter(function(q){ return q.topic === k; })).slice(0, 8);
-    S.ch = { topic: k, qs: pool.map(function(b){ return { b: b, order: shuffle([0,1,2,3].filter(function(i){ return !!b.opts[i]; })) }; }), i: 0, score: 0, answered: false, chosen: null, right: false, done: false, log: [], save: '' };
+    var pool = x16Pool(k);
+    S.ch = { topic: k, qs: pool.map(function(b){ return { b: b, order: x16IsTF(b) ? [0, 1] : shuffle([0,1,2,3].filter(function(i){ return !!b.opts[i]; })) }; }), i: 0, score: 0, answered: false, chosen: null, right: false, done: false, log: [], save: '' };
   }
   function challengeHTML(k){
     if (!S.ch || S.ch.topic !== k) startChallenge(k);
@@ -1404,7 +1624,7 @@ body.lock{overflow:hidden}
       if (TOKEN) save = ch.save === 'saving' ? '<p class="think">Saving your score…</p>' : ch.save === 'saved' ? '<p class="think" style="color:var(--good)"><b>Saved.</b> Your counsellor can see this score.</p>' : ch.save === 'error' ? '<p class="think" style="color:var(--bad)">Couldn’t save your score. <button class="btn btn-ghost" data-act="resave">Try again</button></p>' : '';
       else if (B.join) save = '<p class="think"><b>Want your counsellor to see this score?</b> Type your name in the box at the top and it saves straight away.</p>';
       var b = best[k];
-      return '<span class="eyebrow">Challenge complete</span><div class="endscore">'+ch.score+'<span style="font-size:24px;color:var(--muted)"> / '+total+'</span></div><h2>'+title+'</h2>'+save
+      return '<span class="eyebrow">Challenge complete</span><div class="endscore">'+ch.score+'<span style="font-size:24px;color:var(--muted)"> / '+total+'</span></div><h2>'+title+'</h2>'+x16PassHTML(k, ch)+save
         + (b && b.total ? '<p class="think">Your best: <b>'+b.best+' / '+b.total+'</b></p>' : '')
         + '<div class="btnrow"><button class="btn btn-primary btn-grow" data-act="again">Play again</button><button class="btn btn-ghost btn-grow" data-tab="learn">Review the pictures</button></div>';
     }
@@ -1725,7 +1945,7 @@ body.lock{overflow:hidden}
       else if (a === 'prev') { if (st.i) { st.i--; show(); } }
       else if (a === 'say') {
         var s2 = slides[st.i], text = s2.say || (s2.q ? 'Quick check. ' + s2.q + ' ' + s2.opts.join('? ') + '?' : [s2.line, s2.line2, s2.small].filter(Boolean).join('. '));
-        try { stStop(); var u = new SpeechSynthesisUtterance(text); u.rate = 0.95; speechSynthesis.speak(u); } catch (er) {}
+        gkSpeakLong(text);
       }
     };
     show();
@@ -2750,7 +2970,7 @@ body.lock{overflow:hidden}
       ['You’re thirsty after football.', 'Drink water.', 'Drink a big bottle of soda.']]
   };
   var W2 = { chain: {}, step: {}, hon: {} };
-  function sayIt(text){ try { stStop(); var u = new SpeechSynthesisUtterance(text); u.rate = 0.95; speechSynthesis.speak(u); } catch (e) {} }
+  function sayIt(text){ gkSpeakLong(text); }
   function listenBtn(key){ return ('speechSynthesis' in window) ? '<button type="button" class="w2-say" data-w2say="' + key + '" aria-label="Read this aloud">🔊 Listen</button>' : ''; }
   function w2Wrap(k, c, inner){ return '<div class="w2" data-w2="' + k + ':' + c.id + '">' + inner + '</div>'; }
   WTK.ecology = { has: function(c){ return !!CHAIN[c.id]; }, html: function(c){ return w2Wrap('ecology', c, WTK.ecology.inner(c)); }, inner: function(c){
@@ -2935,13 +3155,729 @@ body.lock{overflow:hidden}
     if (d.gm === 'again'){ GEM.ord = null; render(); return; }
   });
 
+  /* ======================= VOICE (version 16): the most natural voice on this phone ======================= */
+  var GKV = { voice: null, unlocked: false };
+  function gkPickVoice(){
+    try {
+      var vs = speechSynthesis.getVoices() || [];
+      if (!vs.length) return null;
+      var en = vs.filter(function(v){ return /^en([-_]|$)/i.test(v.lang); });
+      if (!en.length) en = vs;
+      function score(v){
+        var n = v.name || '', s = 0;
+        if (/natural|neural/i.test(n)) s += 60;
+        if (/enhanced|premium|siri/i.test(n)) s += 40;
+        if (/google/i.test(n)) s += 30;
+        if (/online/i.test(n)) s += 10;
+        if (/samantha|daniel|karen|moira|tessa|serena|ava|allison|susan|zira|aria|jenny|guy|libby|sonia|ryan|natasha|william/i.test(n)) s += 12;
+        if (/en[-_](GB|US)/i.test(v.lang)) s += 6;
+        if (/compact|espeak|robot|novelty|whisper|bells|zarvox|trinoids|bad news|good news|bubbles|cellos|organ|jester|superstar/i.test(n)) s -= 80;
+        return s;
+      }
+      en.sort(function(a, b){ return score(b) - score(a); });
+      return en[0];
+    } catch (e) { return null; }
+  }
+  if ('speechSynthesis' in window) {
+    try { GKV.voice = gkPickVoice(); speechSynthesis.addEventListener('voiceschanged', function(){ GKV.voice = gkPickVoice(); }); } catch (e) {}
+  }
+  /* Bible references and ranges read the way a person says them. */
+  function gkSayText(t){
+    return String(t || '')
+      .replace(/(\d)\s*[–-]\s*(\d)/g, '$1 to $2')
+      .replace(/\b(\d+):(\d+)/g, ' chapter $1, verse $2')
+      .replace(/[“”"]/g, '')
+      .replace(/\s*\(([^)]*)\)/g, ', $1,')
+      .replace(/·/g, ',')
+      .replace(/\s+/g, ' ').trim();
+  }
+  function gkSpeak(text, o){
+    o = o || {};
+    try {
+      if (!('speechSynthesis' in window)) { if (o.end) setTimeout(o.end, 10); return null; }
+      if (!o.queue) speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(gkSayText(text));
+      if (!GKV.voice) GKV.voice = gkPickVoice();
+      if (GKV.voice) { u.voice = GKV.voice; u.lang = GKV.voice.lang; } else u.lang = 'en-GB';
+      u.rate = o.rate || 0.92; u.pitch = 1;
+      if (o.end) { u.onend = o.end; u.onerror = o.end; }
+      speechSynthesis.speak(u);
+      return u;
+    } catch (e) { if (o.end) setTimeout(o.end, 10); return null; }
+  }
+  /* Long text is read sentence by sentence, because some phones cut off long speech. */
+  function gkSpeakLong(text, o){
+    o = o || {};
+    var parts = String(text || '').match(/[^.!?;:]+[.!?;:]+["”’)]*\s*|[^.!?;:]+$/g) || [], chunks = [], cur = '';
+    parts.forEach(function(p){ if ((cur + p).length > 220 && cur) { chunks.push(cur); cur = p; } else cur += p; });
+    if (cur.trim()) chunks.push(cur);
+    try { speechSynthesis.cancel(); } catch (e) {}
+    chunks.forEach(function(c, i){ gkSpeak(c, { queue: true, rate: o.rate, end: i === chunks.length - 1 ? o.end : null }); });
+  }
+  function gkStopSpeech(){ try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch (e) {} }
+  /* Phones only allow sound after a tap: the first tap anywhere unlocks speech for later. */
+  function gkUnlockVoice(){
+    if (GKV.unlocked || !('speechSynthesis' in window)) return;
+    GKV.unlocked = true;
+    try { var u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {}
+  }
+  document.addEventListener('pointerdown', gkUnlockVoice, true);
+
+  var X16 = {"L": {"hiv": {"icon": "🎗️", "c": "#9B2C5A", "intro": "God’s good plan for sex and waiting, the short names to remember, and the true facts about HIV, AIDS and other infections.", "cards": [{"id": "hv_plan", "t": "God’s good plan", "p": ["God made us male and female, and He called it “very good” (Genesis 1:31).", "Our bodies and our sexuality are part of God’s good design. They are not dirty or shameful.", "God made sex for a husband and wife who have promised their lives to each other.", "Inside marriage, it brings a couple close and keeps them together.", "Outside God’s plan, it can bring hurt, infections and a baby before you are ready.", "God’s rules about sex come from love. He wants the best for you."], "m": "God’s gift, in God’s timing.", "v": ["Therefore shall a man leave his father and his mother, and shall cleave unto his wife: and they shall be one flesh.", "Genesis 2:24"]}, {"id": "hv_wait", "t": "Why wait?", "p": ["It protects your body: Waiting is the surest way to avoid HIV, other STIs and pregnancy before you are ready.", "It protects your heart: You don’t get used or hurt, and you don’t carry regrets.", "It protects your future: You stay free to focus on school, friends, your faith and your dreams.", "It’s a gift to your future husband or wife: And to yourself.", "It’s never too late to start: If you’ve made mistakes, God forgives and gives a fresh start (1 John 1:9)."], "m": "Not “no forever”: “yes, at the right time”.", "v": ["What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own?", "1 Corinthians 6:19"]}, {"id": "hv_abbr", "t": "The short names", "p": ["HIV: Human Immunodeficiency Virus: the virus that weakens the body’s defences.", "AIDS: Acquired Immune Deficiency Syndrome: the late stage of HIV if it isn’t treated.", "STI: Sexually Transmitted Infection: an infection passed on through sex. It used to be called STD.", "ART: Antiretroviral Therapy: the daily medicine that keeps HIV under control.", "HPV: Human Papillomavirus: an STI. A vaccine protects against the types that cause most cervical cancer.", "CD4: CD4 cells: white blood cells that lead the body’s defence. HIV attacks them."], "m": "HIV = Human Immunodeficiency Virus. AIDS = Acquired Immune Deficiency Syndrome."}, {"id": "hv_what", "t": "What are HIV and AIDS?", "p": ["Follow what HIV does if it is never treated.", "HIV gets into the blood.", "It attacks the CD4 cells that lead the body’s defence (immune) system.", "Over several years, more and more CD4 cells are lost.", "The body can no longer fight off other illnesses. This late stage is called AIDS.", "With ART, this does not have to happen. Most people who take it never get AIDS.", "HIV and AIDS are not the same thing. Treatment makes the difference."], "m": "HIV is the virus. AIDS is the late stage without treatment."}, {"id": "hv_spread", "t": "How HIV is passed on", "p": ["Through sex: Sex with someone who has HIV. HIV is in semen, vaginal fluids and blood.", "Through blood: Sharing needles, or anything that cuts the skin, like razors or tattoo tools.", "From mother to baby: During pregnancy, birth or breastfeeding. Treatment almost always stops this.", "Only a test can tell: Most people with HIV look and feel well, so you can’t tell by looking."], "m": "Three ways: sex, blood, mother to baby."}, {"id": "hv_not", "t": "How HIV is NOT passed on", "p": ["Hugs and handshakes?: Safe. HIV is not passed on by touching.", "Sharing cups or food?: Safe. HIV is not passed on by saliva on cups, plates or food.", "Toilets and pools?: Safe. HIV can’t spread through toilet seats or swimming water.", "Mosquito bites?: Safe. HIV can’t live or multiply inside mosquitoes."], "m": "Everyday contact is safe.", "v": ["And Jesus, moved with compassion, put forth his hand, and touched him, and saith unto him, I will; be thou clean.", "Mark 1:41"]}, {"id": "hv_sti", "t": "Other STIs", "p": ["HIV is not the only infection passed on through sex.", "Others include chlamydia, gonorrhoea, syphilis, herpes and HPV.", "Many have no signs at first, so people pass them on without knowing.", "Some can be cured with medicine. Others, like herpes, can be treated but not cured.", "The HPV vaccine protects against the types of HPV that cause most cervical cancer.", "Only a test can tell. And waiting protects you from all of them."], "m": "No signs does not mean no infection."}, {"id": "hv_test", "t": "Testing and treatment", "p": ["Get tested: A test is the only way to know. It is quick and private.", "Start ART: Medicine taken every day keeps the virus very low, so the body stays strong.", "Live well: People with HIV who take their medicine can live long, healthy lives.", "Protect babies: Treatment in pregnancy almost always stops HIV passing to the baby."], "m": "Test to know. Treatment works."}, {"id": "hv_strong", "t": "Standing strong", "p": ["Know your answer: “No. I’m waiting.” Practise saying it.", "Choose friends who share your values: They make it easier to stand firm.", "Stay out of risky situations: Being alone together with no adults, or parties with alcohol.", "Ask God for strength: He always makes a way to escape (1 Corinthians 10:13).", "Tell a trusted adult: If anyone pressures you or touches you in a way that is wrong, it is not your fault."], "m": "Decide before the moment, not in it.", "v": ["There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it.", "1 Corinthians 10:13"]}, {"id": "hv_care", "t": "Compassion and help", "p": ["Love, not fear: People living with HIV deserve love and respect, not gossip.", "Like Jesus: He touched the man with leprosy that everyone else avoided (Mark 1:41).", "Keep it private: A person’s health is their own business.", "Get answers: A parent, your counsellor, your pastor, or a nurse at a health centre can help in private."], "m": "Kindness, not shame.", "v": ["Bear ye one another’s burdens, and so fulfil the law of Christ.", "Galatians 6:2"]}], "game": {"type": "match", "title": "Match the short names", "help": "Match each short name to what it stands for.", "pairs": [["HIV", "Human Immunodeficiency Virus"], ["AIDS", "Acquired Immune Deficiency Syndrome"], ["STI", "Sexually Transmitted Infection"], ["ART", "Antiretroviral Therapy"], ["HPV", "Human Papillomavirus"], ["CD4", "The cells HIV attacks"]]}}, "visit": {"icon": "🏡", "c": "#B5452C", "intro": "How to visit a shut-in or help a family in need, so your visit really helps.", "cards": [{"id": "vs_why", "t": "Why we serve", "p": ["Jesus spent His days with people others forgot.", "He noticed people in need: the sick, the lonely and the poor.", "He stopped, touched them and helped (Mark 1:41).", "He said that when we help the least of these, we help Him (Matthew 25:40).", "Now we are His hands and feet.", "CO 1: visit a shut-in, adopt a person or family in need, or another outreach your leader approves."], "m": "Serving them is serving Jesus.", "v": ["And the King shall answer and say unto them, Verily I say unto you, Inasmuch as ye have done it unto one of the least of these my brethren, ye have done it unto me.", "Matthew 25:40"]}, {"id": "vs_plan", "t": "Plan the visit", "p": ["Ask first: Your leader sets a day and time that suits them.", "Go as a group, with an adult: Never visit a stranger’s home on your own.", "Bring something small: Fruit, a card the class made, or a meal if the family needs one.", "Prepare a song and a short Bible promise: Choose a hymn they may know."], "m": "Plan it, then go together."}, {"id": "vs_arrive", "t": "When you arrive", "p": ["Greet everyone by name and smile: Say who you are.", "Sit at their eye level: Standing over someone in a bed or chair feels unfriendly.", "Face them and speak clearly: Many older people hear better when they can see your face.", "Phones away: Give them your full attention."], "m": "Smile, greet, sit low, phones away."}, {"id": "vs_listen", "t": "Listen more than you talk", "p": ["A good question to ask: “What was Guyana like when you were young?”", "They repeat a story: Listen kindly anyway. It matters to them.", "They share something private: Keep it private. Don’t pass it on.", "They are sad or lonely: Sit with them, listen, and offer to pray."], "m": "Two ears, one mouth.", "v": ["Wherefore, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath:", "James 1:19"]}, {"id": "vs_help", "t": "Help with a real job", "p": ["Clean and tidy: Sweep, wash dishes or weed the yard. Ask before you move anything.", "Run errands: Bring groceries or medicine, with an adult.", "Small repairs: Only with an adult and safe tools.", "Read to them: A Bible passage, the news or a letter."], "m": "Ask first, then help."}, {"id": "vs_close", "t": "Close well, and come back", "p": ["Sing together: Your song can be the highlight of their week.", "Ask if you may pray with them: Keep it short and personal.", "Don’t stay too long: About 30 to 45 minutes is enough for someone who is unwell.", "Follow up: Send a card, call or visit again. Adopting a family means helping more than once."], "m": "Keep it short, keep your promise."}], "game": {"type": "order", "title": "Put the visit in order", "help": "Tap the steps of a good visit in order.", "items": ["Plan it with your leader", "Greet them by name", "Sit at eye level and listen", "Help with a real job", "Sing and pray", "Plan your next visit"]}}, "witness": {"icon": "💬", "c": "#1F6F8B", "intro": "How to share Jesus with other teens: be a real friend, listen, tell your story and invite them.", "cards": [{"id": "wt_friend", "t": "Friend first", "p": ["People listen to their friends. So start there.", "Notice someone: a classmate who sits alone, a teammate, a neighbour.", "Be friendly every day: talk, listen, help.", "Pray for them by name.", "Trust grows. They see how you live.", "When the moment comes, they are ready to hear about Jesus.", "CO 2: talk about witnessing as a class, then put it into practice."], "m": "Be a friend first. Then share.", "v": ["A man that hath friends must shew himself friendly: and there is a friend that sticketh closer than a brother.", "Proverbs 18:24"]}, {"id": "wt_listen", "t": "Listen and talk", "p": ["What do good listeners do?: They look at you, don’t interrupt, and ask questions.", "A good question to ask: “What’s been the hardest thing this week?”", "What not to do: Preach at them, argue, or make fun of what they believe.", "What makes people listen?: Respect and kindness."], "m": "Listen first, speak with grace.", "v": ["Let your speech be alway with grace, seasoned with salt, that ye may know how ye ought to answer every man.", "Colossians 4:6"]}, {"id": "wt_story", "t": "Your story in three parts", "p": ["Before: What your life was like before you knew Jesus well, or a time you struggled.", "How: How Jesus met you: a moment, a prayer, a person.", "Now: What is different now.", "Keep it short and real: About a minute or two. Practise it."], "m": "Before, how, now. About a minute.", "v": ["But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear:", "1 Peter 3:15"]}, {"id": "wt_plan", "t": "A plan for one friend", "p": ["Choose one friend: Write their first name in your app.", "Pray for them every day", "Invite them to something fun: Pathfinders, a camp-out, a youth programme or a sports day.", "Share when they ask: Answer honestly. “I don’t know, but I’ll find out” is fine."], "m": "One name, one prayer, one invitation."}, {"id": "wt_barriers", "t": "What gets in the way", "p": ["“I’m scared they’ll laugh.”: Start small: invite, don’t preach.", "“I don’t know enough.”: Share your own story. You are the expert on that.", "“They think church is boring.”: Invite them to something active first, like a camp-out.", "“They were hurt by church people.”: Listen, say you’re sorry it happened, and show them Jesus is different."], "m": "Invite, don’t preach."}, {"id": "wt_invite", "t": "Invite a decision", "p": ["When your friend is interested…", "Ask: “Would you like to know Jesus better?”", "Invite them to a Bible study or a youth programme.", "Offer to pray with them.", "Keep being their friend, whatever they decide.", "The Holy Spirit changes hearts. Your part is to be a friend and invite."], "m": "Invite, don’t pressure.", "v": ["No man can come to me, except the Father which hath sent me draw him: and I will raise him up at the last day.", "John 6:44"]}], "game": {"type": "order", "title": "Friend first", "help": "Tap the steps in order.", "items": ["Notice someone", "Be friendly every day", "Pray for them by name", "Share your story", "Invite them to something", "Keep being their friend"]}}, "choices": {"icon": "🛤️", "c": "#0E5E73", "intro": "Four big choices: your career, your values, dating, and a life partner. Think them through with God.", "cards": [{"id": "ch_gifts", "t": "Your gifts and interests", "p": ["What are gifts?: Things God made you good at: fixing things, caring, numbers, music, speaking…", "What are interests?: Things you enjoy so much you lose track of time.", "What does the world need?: Look for where your gifts and interests meet a real need.", "Ask God to guide you: He promises to direct your paths."], "m": "Gifts + interests + a real need.", "v": ["In all thy ways acknowledge him, and he shall direct thy paths.", "Proverbs 3:6"]}, {"id": "ch_path", "t": "Paths to a career", "p": ["Do your best in school now: Your CSEC subjects open or close doors later.", "Talk to people: Ask a nurse, mechanic, teacher or engineer what their work is really like.", "Try it: Volunteer, shadow someone, or earn an honour in that area.", "Plan the training: University, technical institute, an apprenticeship or a trade."], "m": "Learn, ask, try, train."}, {"id": "ch_test", "t": "Making moral choices", "p": ["Is it right?: Does it go against what God says in the Bible?", "Would I be happy if Jesus were with me?: He is.", "What will it do tomorrow?: To me, and to other people.", "Would I be happy for my family to know?: If you want to hide it, think again."], "m": "Right? Jesus? Tomorrow? Family?"}, {"id": "ch_why", "t": "Why God gives limits", "p": ["God’s commandments are like guard rails on a mountain road.", "Guard rails don’t stop the journey.", "They keep you from going over the edge.", "God gives His commandments because He loves us.", "Living by them brings freedom, not fear.", "We keep them because we love Him."], "m": "Guard rails, not cages.", "v": ["If ye love me, keep my commandments.", "John 14:15"]}, {"id": "ch_dating", "t": "Dating with respect", "p": ["Take your time: There’s no rush. Friendship comes first.", "Go out in groups: It’s safer, and often more fun.", "Set your limits before: Decide your boundaries before you are in the moment.", "“No” means no: Respect the other person’s no, and expect yours to be respected.", "Involve your parents: A good relationship doesn’t need to be hidden."], "m": "Take your time. Set limits before.", "v": ["Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity.", "1 Timothy 4:12"]}, {"id": "ch_flags", "t": "Green flags and red flags", "p": ["Green flag: respect: They respect your faith, your family and your “no”.", "Red flag: pressure: They push you to do things you don’t want, or to keep secrets.", "Green flag: kindness: They are kind to everyone, not just to you.", "Red flag: control: They check your phone, choose your friends or get angry easily."], "m": "Respect is green. Pressure is red."}, {"id": "ch_partner", "t": "Choosing a life partner", "p": ["Shared faith: Someone who loves God too.", "Character: Honest, kind, faithful and hardworking. Looks change; character lasts.", "Friendship: Strong marriages are built on deep friendship.", "God’s timing: The right person is worth waiting for."], "m": "Faith, character, friendship, God’s timing.", "v": ["Be ye not unequally yoked together with unbelievers: for what fellowship hath righteousness with unrighteousness? and what communion hath light with darkness?", "2 Corinthians 6:14"]}], "game": {"type": "match", "title": "Career match", "help": "Match each person to a career that fits.", "pairs": [["Loves fixing engines", "Mechanic or mechanical engineer"], ["Cares for people who are sick", "Nurse or doctor"], ["Good with numbers", "Accountant"], ["Loves teaching younger children", "Teacher"], ["Loves animals", "Vet or farmer"], ["Loves building with wood", "Carpenter"]]}}, "fitness": {"icon": "🏅", "c": "#B03A2E", "intro": "Train safely for a fun run, and know the facts about alcohol, tobacco, vaping and drugs.", "cards": [{"id": "ft_why", "t": "Why train?", "p": ["Your body is God’s temple. Exercise keeps it strong.", "Your heart gets stronger and pumps more blood with each beat.", "Your lungs and blood carry oxygen better.", "You sleep better, think more clearly and feel happier.", "Your muscles and bones get stronger.", "Teens need at least 60 minutes of activity a day."], "m": "At least 60 minutes of activity a day.", "v": ["What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own?", "1 Corinthians 6:19"]}, {"id": "ft_plan", "t": "Build a training plan", "p": ["Start where you are: If running is hard, start with walk–run: run 1 minute, walk 2.", "Build slowly: Add a little more each week, not a lot.", "Rest days count: Your body gets stronger while it rests. Take easy days.", "Keep a record: Date, what you did, how long. HF 2 needs it."], "m": "Start easy, build slowly, rest, record."}, {"id": "ft_safe", "t": "Run safely", "p": ["Warm up for 5 minutes: Walk, then jog slowly.", "Drink water: Before, during and after, especially in Guyana’s heat.", "Run when it’s cooler: Early morning or late afternoon.", "Wear good shoes, run with a buddy: And face the traffic if there is no footpath.", "Cool down and stretch: Walk 5 minutes, then stretch gently."], "m": "Warm up, drink up, cool down."}, {"id": "ft_alcohol", "t": "Alcohol", "p": ["What does alcohol do to the brain?: It slows it down, so judgement, balance and reactions get worse.", "Why is it worse for teens?: The brain keeps developing into the mid-20s, and alcohol can harm it.", "Alcohol and the roads: Drinking and driving causes many crashes and deaths.", "The Adventist choice: Adventists choose not to drink alcohol at all."], "m": "Wine is a mocker.", "v": ["Wine is a mocker, strong drink is raging: and whosoever is deceived thereby is not wise.", "Proverbs 20:1"]}, {"id": "ft_smoke", "t": "Tobacco and vaping", "p": ["What’s in cigarettes?: Nicotine, which is addictive, and thousands of chemicals, many of which cause cancer.", "Is vaping safe?: No. Most vapes contain nicotine, which is addictive and harms the growing brain.", "What does smoking do?: It damages the lungs and heart, and causes cancer. Smoke harms people nearby too.", "Smoking and sport: Smokers get out of breath faster: their blood carries less oxygen."], "m": "Nicotine hooks you. Your lungs pay."}, {"id": "ft_drugs", "t": "Drugs, and saying no", "p": ["Marijuana: It can harm memory, attention and learning in teens, and it can be addictive.", "Pills that aren’t yours: Taking someone else’s medicine can be dangerous.", "Ways to say no: “No thanks, I’m in training.” “Not for me.” Then walk away.", "Choose your friends and places: Stay away from places where drugs are used. Tell a trusted adult if you’re worried."], "m": "“No thanks, I’m in training.”"}], "game": {"type": "match", "title": "Training words", "help": "Match each word to what it means.", "pairs": [["Warm-up", "5 minutes of walking and easy jogging"], ["Cool-down", "Walk, then stretch gently"], ["Rest day", "When your body rebuilds and gets stronger"], ["Training record", "Date, what you did, and how long"], ["Nicotine", "The addictive drug in cigarettes and most vapes"], ["Proverbs 20:1", "Wine is a mocker"]]}}, "teach": {"icon": "🧑‍🏫", "c": "#0A6E66", "intro": "How to plan and teach two honour requirements to Juniors, with your staff mentor.", "cards": [{"id": "tc_mentor", "t": "Work with your mentor", "p": ["Choose the honour together: Pick one you know well, or learn it first.", "Read the honour’s requirements: Choose the two you will teach.", "Set the date and the time you have", "Show your plan: Your mentor checks it and helps you improve it."], "m": "Plan it with your mentor.", "v": ["Iron sharpeneth iron; so a man sharpeneth the countenance of his friend.", "Proverbs 27:17"]}, {"id": "tc_plan", "t": "Plan the lesson", "p": ["Aim: What will the Juniors be able to do at the end?", "Materials: Rope, pictures or real objects, enough for everyone.", "Timing: Plan each part in minutes. Juniors focus best in short chunks.", "Make it active: Plan a game or a hands-on activity."], "m": "Aim, materials, minutes, movement."}, {"id": "tc_teach", "t": "Explain, show, try, check", "p": ["Explain: Say what it is and why it matters, in simple words.", "Show: Demonstrate slowly, where everyone can see.", "Let them try: Everyone practises while you walk round and help.", "Check: Each Junior shows you they can do it."], "m": "Explain, show, try, check."}, {"id": "tc_kids", "t": "Teaching Juniors", "p": ["How long can Juniors listen?: Not long. Keep talks short, then switch to doing.", "A Junior looks bored. Now what?: Give them a job: hand out the rope, or be your helper.", "A Junior can’t get it: Stay calm, show again slowly, and praise each try.", "How do you finish?: Review with a quick game and praise what they learned."], "m": "Talk less, do more."}, {"id": "tc_choose", "t": "What to teach", "p": ["Pick requirements that work well for Juniors.", "Hands-on is best: tying a knot, naming leaves, a first-aid step.", "Break it into small steps.", "Use pictures and real objects.", "Plan how they will show you they learned it.", "OL 3: plan and teach at least two requirements of an honour to younger Pathfinders."], "m": "Teach what you know well."}, {"id": "tc_after", "t": "After you teach", "p": ["Write what worked: And what you would change.", "Ask your mentor for feedback", "Record it in your app: The honour, the two requirements, the date and your mentor."], "m": "Ask, learn, record."}], "game": {"type": "order", "title": "Teach it in order", "help": "Tap the steps in order.", "items": ["Choose the honour with your mentor", "Pick two requirements", "Write your plan", "Explain", "Show", "Let them try", "Check"]}}, "parable": {"icon": "🍃", "c": "#4A7A2C", "intro": "How Jesus learned from nature as a child (The Desire of Ages, chapter 7), and how to make your own nature parable.", "cards": [{"id": "pb_child", "t": "Jesus as a child", "p": ["Jesus grew up in Nazareth, a small town in the hills of Galilee.", "His mother was His first teacher. He learned the Scriptures from her.", "He was not taught in the schools of the rabbis.", "He learned from the Scriptures, from nature and from the work of His hands.", "He worked as a carpenter (Mark 6:3).", "The Desire of Ages, chapter 7, “As a Child”, tells this story."], "m": "Wisdom, stature, favour.", "v": ["And Jesus increased in wisdom and stature, and in favour with God and man.", "Luke 2:52"]}, {"id": "pb_nature", "t": "Lessons Jesus saw in nature", "p": ["Seeds in a field: Later He told the parable of the sower (Matthew 13).", "The birds: God feeds them, so He will care for us (Matthew 6:26).", "The lilies: God clothes the flowers beautifully, so don’t worry (Matthew 6:28–30).", "The sheep: A good shepherd knows and protects each one (John 10:11)."], "m": "Jesus taught with what people could see.", "v": ["Behold the fowls of the air: for they sow not, neither do they reap, nor gather into barns; yet your heavenly Father feedeth them. Are ye not much better than they?", "Matthew 6:26"]}, {"id": "pb_what", "t": "What is a parable?", "p": ["An earthly story: About something everyone knows: seeds, sheep, bread, a lost coin.", "With a heavenly meaning: It teaches something true about God.", "One main point: A good parable makes one clear lesson.", "Easy to remember: People remember stories longer than lectures."], "m": "An earthly story with a heavenly meaning."}, {"id": "pb_make", "t": "Make your own parable", "p": ["Observe: Watch something closely: ants, a seed sprouting, a river after rain.", "Find the lesson: What does it show about God, or about living for Him?", "Add a Bible text: Find a verse that says the same thing.", "Tell it: Keep it short, and bring the real thing or a picture."], "m": "Observe, lesson, text, tell."}, {"id": "pb_ideas", "t": "Ideas from around you", "p": ["Ants storing food: Work hard and plan ahead (Proverbs 6:6–8).", "A tiny seed growing tall: God’s kingdom grows from small beginnings (Matthew 13:31–32).", "A plant turning to the sun: We grow when we turn to Jesus, the Light (John 8:12).", "A branch on a vine: We bear fruit when we stay joined to Jesus (John 15:5)."], "m": "Look closely. God’s lessons are everywhere.", "v": ["Go to the ant, thou sluggard; consider her ways, and be wise:", "Proverbs 6:6"]}, {"id": "pb_tell", "t": "Telling it to Juniors", "p": ["Bring the real thing: A seed, a leaf, a shell, or a photo.", "Keep it to 3 to 5 minutes", "Ask a question: “What do you think this teaches us?”", "End with your Bible text: And a short prayer."], "m": "Show it, keep it short, ask."}], "game": {"type": "match", "title": "Nature and its lesson", "help": "Match each thing in nature to its lesson.", "pairs": [["Birds being fed", "God takes care of us"], ["A tiny seed growing tall", "Faith grows from small beginnings"], ["A shepherd and sheep", "Jesus knows and protects us"], ["A plant turning to the sun", "We grow by turning to Jesus"], ["Ants storing food", "Work hard and plan ahead"], ["A branch on a vine", "Stay joined to Jesus to bear fruit"]]}, "read": {"r": "da7", "label": "Read The Desire of Ages, chapter 7, here (with Listen)"}}, "honours": {"icon": "🎖️", "c": "#24407A", "intro": "Choose the right new honours: one in a lifestyle area (LE 1) and one toward a Master award (OD 4).", "cards": [{"id": "ho_what", "t": "What is an honour?", "p": ["Its own requirements: Each honour is a skill with its own list of requirements.", "An instructor: Someone qualified teaches it, checks your work and signs it off.", "A patch: When you finish, you get a patch for your sash.", "New means new: For LE 1 and OD 4 it must be an honour you haven’t earned before."], "m": "Learn it, show it, get the patch."}, {"id": "ho_le1", "t": "LE 1: five lifestyle areas", "p": ["Household Arts: Cooking, Baking, Dressmaking, Laundering, Housekeeping.", "Health and Science: First Aid, Nutrition, Chemistry, Temperance.", "Vocational: Carpentry, Computers, Electricity, Plumbing, Masonry.", "Outdoor Industries: Gardening, Agriculture, Poultry Raising, Beekeeping, Dog Care.", "Outreach Ministries: Christian Storytelling, Bible Evangelism, Personal Evangelism, Christian Visitation."], "m": "Home, science, trade, land, outreach."}, {"id": "ho_od4", "t": "OD 4: toward a Master award", "p": ["What is a Master award?: A big award for earning a set of honours in one area.", "Wilderness Master: Includes Backpacking, Camp Craft, Knot Tying, Orienteering and Tents.", "Other Master awards: Such as Aquatic, Recreation and Sportsman.", "Check with your counsellor: They confirm the honour counts toward the award you choose."], "m": "Many honours, one Master award."}, {"id": "ho_choose", "t": "How to choose", "p": ["Pick something you enjoy: You’ll finish it.", "Find an instructor: Someone in your church or community who knows it.", "Look for overlaps: Orienteering counts for OD 4 and the Wilderness Master.", "Plan your time: Most honours take several weeks."], "m": "Enjoy it, find a teacher, plan time."}, {"id": "ho_lab", "t": "Help in the Learning Lab", "p": ["Some explorers here help with honours.", "Orienteering: OD 4 and the Wilderness Master.", "Nutrition: the Nutrition Honour for HF 3.", "Ecology: the Ecology Honour for NS 2.", "Fire & Camp Cooking: toward Fire Building & Camp Cookery.", "Ask your counsellor which honours your club is teaching this year."], "m": "Use the explorers."}, {"id": "ho_record", "t": "Record it", "p": ["Honour name and date", "Your instructor’s name", "A photo of your work: Add it in your app.", "Ask your counsellor to check: Tap “Done – ask my counsellor to check”."], "m": "Name, date, instructor, photo."}], "game": {"type": "match", "title": "Which area?", "help": "Match each honour to its area.", "pairs": [["Baking", "Household Arts"], ["First Aid", "Health and Science"], ["Carpentry", "Vocational"], ["Poultry Raising", "Outdoor Industries"], ["Christian Storytelling", "Outreach Ministries"], ["Orienteering", "Wilderness Master"]]}}, "temperance": {"icon": "⛓️", "c": "#7A2E4A", "intro": "Temperance by Ellen G. White, pages 102–125: how Christ gives the power to break free from harmful habits. Read the pages, explore, then take the 20-question quiz.", "cards": [{"id": "te_why", "t": "What temperance is for", "p": ["The aim (p. 102): Real change happens when Christ’s grace reshapes a person and brings them close to God.", "From the inside (p. 102): Changing your surroundings is not enough. Christ changes the heart, and the actions follow.", "Body and mind (pp. 102–103): Your body is how your mind and character grow, so harmful habits hurt the mind too.", "Self-control (p. 103): Your will, guided by God, is meant to rule your desires, not the other way round."], "m": "Grace reshapes the character.", "v": ["And every man that striveth for the mastery is temperate in all things. Now they do it to obtain a corruptible crown; but we an incorruptible.", "1 Corinthians 9:25"]}, {"id": "te_no", "t": "Say “No” squarely", "p": ["“I’ll stop by degrees” doesn’t work (p. 103): Planning to quit slowly keeps you in the habit’s power.", "Say no clearly (p. 103): Temptation has no power over someone who says no firmly and holds on to Jesus.", "Ask, then believe (p. 103): It may be a hard battle, but ask God for grace and trust Him to give it.", "Stay close to godly friends (p. 104): Ask people who love God to keep you close until you are stronger."], "m": "A clear no, holding on to Jesus.", "v": ["Submit yourselves therefore to God. Resist the devil, and he will flee from you.", "James 4:7"]}, {"id": "te_grace", "t": "Only Christ’s power", "p": ["Where does the power to change come from?", "Promises made in our own strength can’t break a habit (p. 106).", "The only remedy for sin is the grace and power of Christ (p. 106).", "Jesus met every temptation with “It is written”, so use God’s word too (p. 107).", "When you have failed and feel you can’t pray, that is the very time to pray (p. 107).", "Knowing you are safe in Christ even helps your health (p. 108)."], "m": "Christ is the only remedy.", "v": ["Thy word have I hid in mine heart, that I might not sin against thee.", "Psalm 119:11"]}, {"id": "te_will", "t": "The will is the key", "p": ["What the will is (pp. 112–113): Not your feelings: it is your power to choose and decide.", "We can’t change our hearts (p. 112): But we can choose to give our will to God, and He changes us.", "“I can, I will” (p. 113): Don’t say “I can’t”. God has promised His Holy Spirit to help every real effort.", "The weakest prayer is heard (p. 114): Jesus hears even the feeblest prayer."], "m": "You choose; God gives the power.", "v": ["For it is God which worketh in you both to will and to do of his good pleasure.", "Philippians 2:13"]}, {"id": "te_stay", "t": "Staying free", "p": ["Live by the laws of health: Breaking them can create cravings that lead to the liquor habit (p. 115).", "Keep busy with useful work: It protects against temptation (p. 115).", "Don’t make a show of your past: Lean on Christ, not on praise (p. 116).", "Help others who struggle: Helping them helps you stay strong (pp. 116–117)."], "m": "Live healthily, keep busy, help others.", "v": ["There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it.", "1 Corinthians 10:13"]}, {"id": "te_stories", "t": "True stories", "p": ["The man in the old blue coat (p. 109): He prayed and struggled all night and won. Six months later he looked ten years younger.", "A man in Australia (p. 118): He gave up tobacco after hearing about Jesus’ self-denial, then gave his life to God.", "A fisherman (pp. 118–119): God helped him give up tobacco and tea. After a headache, his mind grew clearer.", "The man at Capernaum (pp. 122–123): His own choices had enslaved him, but Jesus set him free. No one is too far gone."], "m": "Real people won with God’s help.", "v": ["Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.", "2 Corinthians 5:17"]}, {"id": "te_help", "t": "Help for the tempted", "p": ["If you are struggling right now…", "Jesus invites the weary to find rest in Him (p. 120).", "He was tempted like us, so He understands (p. 120).", "He healed people who had brought sickness on themselves (p. 121).", "God never forces our minds. We choose who rules us, and Christ can free anyone (p. 123).", "Those forgiven most love Him most (p. 125)."], "m": "Jesus knows, heals and frees.", "v": ["For we have not an high priest which cannot be touched with the feeling of our infirmities; but was in all points tempted like as we are, yet without sin.", "Hebrews 4:15"]}], "game": {"type": "order", "title": "The man in the old blue coat", "help": "Tap what happened, in order (pages 108–109).", "items": ["He heard the call to resist in Jesus’ strength", "He stood up and said he would try", "He went home and prayed all night", "By sunrise he had won the battle", "Six months later he came back, looking younger", "He helped others find Christ"]}, "read": {"r": "te", "label": "Pages 102–125: listen to the recorded reading, or open the pages"}}, "story": {"icon": "🛶", "c": "#1F5E7A", "intro": "How the Adventist message came to Guyana, from a tract on a Georgetown wharf to more than 65,000 members. Then read a book on your own church’s history.", "cards": [{"id": "gy_tract", "t": "A tract on the wharf", "p": ["A ship’s captain: Adventist tracts reportedly left on a Georgetown wharf reached a woman named Alberta Alleyne, who began keeping the Sabbath.", "1885: a call for help: More than 20 Sabbath keepers in British Guiana asked the church in Battle Creek, USA, to send help.", "1886: a tract society: Colporteur Thomas E. Amsterdam organised a tract society with branches in Berbice and Demerara.", "The lesson: God used printed pages and ordinary believers before any minister arrived."], "m": "A tract, a Sabbath, a call for help.", "v": ["So shall my word be that goeth forth out of my mouth: it shall not return unto me void, but it shall accomplish that which I please, and it shall prosper in the thing whereto I sent it.", "Isaiah 55:11"]}, {"id": "gy_first", "t": "The first ministers", "p": ["1887: G. G. Rupert arrives: The General Conference sent him. He reached Georgetown on 31 January 1887.", "1893–1896: the Kneelands: W. G. Kneeland and his wife Mary served for about three years.", "July 1895: a church is organised: Kneeland baptised six members of the Fleming family and organised a church.", "Philip Giddings: A British Guianese believer who graduated from Battle Creek College in 1895 and led the building of a church in New Amsterdam."], "m": "Rupert 1887, Kneeland 1895.", "v": ["And how shall they preach, except they be sent? as it is written, How beautiful are the feet of them that preach the gospel of peace, and bring glad tidings of good things!", "Romans 10:15"]}, {"id": "gy_davis", "t": "Elder Davis and Mount Roraima", "p": ["Far inland, near Mount Roraima, the people asked to be taught about God.", "Elder Ovid E. Davis went to them in 1910 and again in 1911, by boat and on foot.", "He taught them from the Bible, and many chose to follow Jesus.", "He died there of blackwater fever on 31 July 1911, and Chief Jeremiah buried him.", "For years the people met at his grave on Sabbath to sing. In 1922 Chief Jeremiah walked to Georgetown to ask for a teacher.", "In 1925 W. E. Baxter and C. B. Sutton reached the grave, and in 1927 A. W. and Elizabeth Cott began the Mount Roraima mission.", "By the 1980s about 1,500 Adventists lived among the people now called the Davis Indians."], "m": "A seed that fell and grew.", "v": ["Verily, verily, I say unto you, Except a corn of wheat fall into the ground and die, it abideth alone: but if it die, it bringeth forth much fruit.", "John 12:24"]}, {"id": "gy_dmh", "t": "Davis Memorial Hospital", "p": ["1954: a doctor arrives: Dr E. C. Duerksen took charge of the new medical work in Georgetown.", "1955: a name: The hospital was named after Elder Davis and opened at Bel Air.", "1967: a new building: It opened at its present home on D’Urban Street, Georgetown.", "Today: It is linked with Loma Linda University and is supervised by the Caribbean Union Conference."], "m": "Healing in Elder Davis’s name.", "v": ["Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth.", "3 John 1:2"]}, {"id": "gy_grow", "t": "Growing up", "p": ["Schools: Mission schools grew at Bethany, Paruima, Kaikan and Waramadong, with more schools in Georgetown, Wismar and elsewhere.", "1971: a Guyanese leader: Wallace W. Weithers became the first Guyanese president of the Guyana Mission.", "1976: a conference: The Guyana Mission became a self-supporting conference, with Roy I. McGarrell as president.", "2019: 170 churches and 65,160 members in Guyana."], "m": "1971, 1976, and 65,000 members.", "v": ["For who hath despised the day of small things? for they shall rejoice, and shall see the plummet in the hand of Zerubbabel with those seven; they are the eyes of the LORD, which run to and fro through the whole earth. shall rejoice", "Zechariah 4:10"]}, {"id": "gy_today", "t": "Where we belong", "p": ["Your local church is part of a worldwide family.", "Your church belongs to the Guyana Conference.", "The Guyana Conference belongs to the Caribbean Union Conference.", "The union belongs to the Inter-American Division, formed in 1922.", "The division is part of the General Conference, the worldwide church.", "Many Guyanese leaders trained at the church’s college in Trinidad, opened in 1927 and now the University of the Southern Caribbean."], "m": "Local church → conference → union → division.", "v": ["And this gospel of the kingdom shall be preached in all the world for a witness unto all nations; and then shall the end come.", "Matthew 24:14"]}, {"id": "gy_book", "t": "Your church history book", "p": ["When did your church begin?: And where did the first members meet?", "Who started it?: Pastors, families, Bible workers.", "How did it grow?: Buildings, schools, evangelism.", "One story you like: Tell it to your class.", "Ask the oldest member: They may remember things no book has."], "m": "When, who, how, a story, a lesson.", "v": ["We will not hide them from their children, shewing to the generation to come the praises of the LORD, and his strength, and his wonderful works that he hath done.", "Psalm 78:4"]}], "game": {"type": "order", "title": "Put the story in order", "help": "Tap the events from first to last.", "items": ["Sabbath keepers ask Battle Creek for help", "G. G. Rupert arrives in Georgetown", "Kneeland organises a church", "Elder Davis dies at Mount Roraima", "The Cotts begin the Roraima mission", "Guyana becomes a conference"]}}}, "V": {"hiv": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FBE9F0\"/><stop offset=\"1\" stop-color=\"#F3D3E0\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><path d=\"M200 40c-26 0-40 22-40 44 0 30 26 56 40 96 14-40 40-66 40-96 0-22-14-44-40-44z\" fill=\"none\" stroke=\"#C0392B\" stroke-width=\"16\" stroke-linecap=\"round\" opacity=\".18\"/><path d=\"M168 150L120 260M232 150L280 260\" stroke=\"#C0392B\" stroke-width=\"16\" stroke-linecap=\"round\" opacity=\".18\"/>", "pos": {"hv_plan": [14, 20, "💍", "God’s plan"], "hv_wait": [38, 16, "⏳", "Waiting"], "hv_abbr": [62, 16, "🔤", "Short names"], "hv_what": [86, 20, "🦠", "HIV and AIDS"], "hv_spread": [22, 48, "🩸", "How it spreads"], "hv_not": [50, 44, "🤗", "How it doesn’t"], "hv_sti": [78, 48, "⚠️", "Other STIs"], "hv_test": [22, 78, "💊", "Test and treat"], "hv_strong": [50, 74, "💪", "Stand strong"], "hv_care": [78, 78, "🤝", "Compassion"]}, "find": {"hv_plan": "Sex is God’s gift for marriage", "hv_wait": "Waiting is “yes, at the right time”", "hv_abbr": "HIV, AIDS, STI, ART, HPV, CD4", "hv_what": "The virus, and the late stage", "hv_spread": "Blood, sex, mother to baby", "hv_not": "Hugs, cups and mosquitoes are safe", "hv_sti": "Many have no signs at first", "hv_test": "Test to know; treatment works", "hv_strong": "Decide before the moment", "hv_care": "Kindness, not shame"}}, "visit": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FDF1E6\"/><stop offset=\"1\" stop-color=\"#F2D9C2\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><rect x=\"120\" y=\"120\" width=\"160\" height=\"120\" fill=\"#F7E3CF\" stroke=\"#C98A5A\" stroke-width=\"4\"/><path d=\"M104 126L200 60L296 126Z\" fill=\"#C0553A\" opacity=\".55\"/><rect x=\"186\" y=\"180\" width=\"30\" height=\"60\" fill=\"#C98A5A\" opacity=\".6\"/><rect y=\"240\" width=\"400\" height=\"60\" fill=\"#B9D88F\" opacity=\".7\"/>", "pos": {"vs_why": [20, 30, "✝️", "Why"], "vs_plan": [50, 22, "📞", "Plan"], "vs_arrive": [80, 30, "🚪", "Arrive"], "vs_listen": [20, 72, "👂", "Listen"], "vs_help": [50, 64, "🧹", "Help"], "vs_close": [80, 72, "🙏", "Close"]}, "find": {"vs_why": "Serving them is serving Jesus", "vs_plan": "Ask first, go as a group", "vs_arrive": "Greet by name, sit at eye level", "vs_listen": "Ask about their life and listen", "vs_help": "Clean, run errands, read to them", "vs_close": "Pray, don’t stay too long, follow up"}}, "witness": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#E6F3F8\"/><stop offset=\"1\" stop-color=\"#CFE6EF\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><rect x=\"60\" y=\"70\" width=\"140\" height=\"70\" rx=\"20\" fill=\"#FFFFFF\" opacity=\".7\"/><path d=\"M90 140l-10 24 30-24z\" fill=\"#FFFFFF\" opacity=\".7\"/><rect x=\"200\" y=\"160\" width=\"140\" height=\"70\" rx=\"20\" fill=\"#1F6F8B\" opacity=\".25\"/><path d=\"M310 230l10 24-30-24z\" fill=\"#1F6F8B\" opacity=\".25\"/>", "pos": {"wt_friend": [20, 30, "🤝", "Friend first"], "wt_listen": [50, 22, "👂", "Listen"], "wt_story": [80, 30, "📖", "Your story"], "wt_plan": [20, 72, "📝", "One friend"], "wt_barriers": [50, 64, "🧱", "Barriers"], "wt_invite": [80, 72, "🎯", "Invite"]}, "find": {"wt_friend": "People listen to friends", "wt_listen": "Questions, kindness, no arguing", "wt_story": "Before, how Jesus met me, now", "wt_plan": "Pray, invite, share when they ask", "wt_barriers": "Fear, not knowing enough, bad experiences", "wt_invite": "Invite, don’t pressure"}}, "choices": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#E7F2F4\"/><stop offset=\"1\" stop-color=\"#CFE3E6\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><path d=\"M200 300L190 170L120 70M190 170L280 70\" fill=\"none\" stroke=\"#9FB9BE\" stroke-width=\"26\" stroke-linecap=\"round\"/><path d=\"M200 300L190 170L120 70M190 170L280 70\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\" stroke-dasharray=\"10 12\"/>", "pos": {"ch_gifts": [16, 28, "🎨", "Gifts"], "ch_path": [40, 20, "🎓", "Career path"], "ch_test": [64, 20, "⚖️", "Choices"], "ch_why": [86, 30, "🛣️", "Limits"], "ch_dating": [24, 70, "💬", "Dating"], "ch_flags": [50, 62, "🚩", "Flags"], "ch_partner": [76, 70, "💍", "Life partner"]}, "find": {"ch_gifts": "Where your gifts meet a need", "ch_path": "School, talk, try, train", "ch_test": "Four questions before you decide", "ch_why": "Like guard rails on a road", "ch_dating": "Groups, limits, no means no", "ch_flags": "Respect is green; pressure is red", "ch_partner": "Shared faith and character"}}, "fitness": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FCEDEA\"/><stop offset=\"1\" stop-color=\"#F6D7CF\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><ellipse cx=\"200\" cy=\"170\" rx=\"180\" ry=\"110\" fill=\"none\" stroke=\"#D9826F\" stroke-width=\"30\" opacity=\".5\"/><ellipse cx=\"200\" cy=\"170\" rx=\"180\" ry=\"110\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\" stroke-dasharray=\"8 10\"/>", "pos": {"ft_why": [20, 30, "💓", "Why train"], "ft_plan": [50, 22, "📅", "Plan"], "ft_safe": [80, 30, "🔥", "Safety"], "ft_alcohol": [20, 72, "🍺", "Alcohol"], "ft_smoke": [50, 64, "🚭", "Smoking"], "ft_drugs": [80, 72, "🛑", "Say no"]}, "find": {"ft_why": "Heart, lungs, mind and muscles", "ft_plan": "Start easy, build slowly, rest, record", "ft_safe": "Warm up, water, cool down", "ft_alcohol": "It slows the brain", "ft_smoke": "Nicotine is addictive", "ft_drugs": "“No thanks, I’m in training”"}}, "teach": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#E3F3F1\"/><stop offset=\"1\" stop-color=\"#C9E6E2\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><rect x=\"70\" y=\"50\" width=\"260\" height=\"140\" rx=\"8\" fill=\"#245E57\" opacity=\".75\"/><path d=\"M100 90h120M100 120h170M100 150h90\" stroke=\"#FFFFFF\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".7\"/><rect x=\"60\" y=\"190\" width=\"280\" height=\"10\" fill=\"#8A6A44\" opacity=\".6\"/>", "pos": {"tc_mentor": [20, 30, "🧑‍🏫", "Mentor"], "tc_plan": [50, 22, "📝", "Plan"], "tc_teach": [80, 30, "👐", "Four steps"], "tc_kids": [20, 72, "🧒", "Juniors"], "tc_choose": [50, 64, "🧩", "Choose"], "tc_after": [80, 72, "📋", "After"]}, "find": {"tc_mentor": "Plan it with a staff member", "tc_plan": "Aim, materials, timing, activity", "tc_teach": "The four teaching steps", "tc_kids": "Short talks, lots of doing", "tc_choose": "Hands-on requirements work best", "tc_after": "Feedback and record it"}}, "parable": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#EAF4E1\"/><stop offset=\"1\" stop-color=\"#CFE5BE\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><circle cx=\"330\" cy=\"60\" r=\"30\" fill=\"#FFD25A\" opacity=\".8\"/><path d=\"M0 210Q100 170 200 200T400 190V300H0Z\" fill=\"#8CC56B\" opacity=\".8\"/><path d=\"M80 210V150\" stroke=\"#7A5A2B\" stroke-width=\"8\"/><circle cx=\"80\" cy=\"130\" r=\"34\" fill=\"#4A8A3C\" opacity=\".85\"/>", "pos": {"pb_child": [20, 30, "🧒", "As a child"], "pb_nature": [50, 22, "🌾", "In nature"], "pb_what": [80, 30, "✨", "Parable"], "pb_make": [20, 72, "💡", "Make one"], "pb_ideas": [50, 64, "🐜", "Ideas"], "pb_tell": [80, 72, "🎤", "Tell it"]}, "find": {"pb_child": "Nazareth, His mother, the Scriptures", "pb_nature": "Birds, lilies, seeds and sheep", "pb_what": "An earthly story, a heavenly meaning", "pb_make": "Observe, find the lesson, add a text, tell it", "pb_ideas": "Ants, seeds, the sun, the vine", "pb_tell": "Show it, keep it short, ask a question"}}, "honours": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#E8EEF9\"/><stop offset=\"1\" stop-color=\"#D2DCF1\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><path d=\"M70 30L330 270\" stroke=\"#24407A\" stroke-width=\"70\" opacity=\".18\" stroke-linecap=\"round\"/><circle cx=\"90\" cy=\"50\" r=\"16\" fill=\"#FFFFFF\" opacity=\".55\"/><circle cx=\"140\" cy=\"96\" r=\"16\" fill=\"#FFFFFF\" opacity=\".55\"/><circle cx=\"190\" cy=\"142\" r=\"16\" fill=\"#FFFFFF\" opacity=\".55\"/><circle cx=\"240\" cy=\"188\" r=\"16\" fill=\"#FFFFFF\" opacity=\".55\"/><circle cx=\"290\" cy=\"234\" r=\"16\" fill=\"#FFFFFF\" opacity=\".55\"/>", "pos": {"ho_what": [20, 30, "🎖️", "Honours"], "ho_le1": [50, 22, "🏠", "LE 1 areas"], "ho_od4": [80, 30, "🏅", "OD 4"], "ho_choose": [20, 72, "🤔", "Choose"], "ho_lab": [50, 64, "🧭", "Lab help"], "ho_record": [80, 72, "📸", "Record"]}, "find": {"ho_what": "Requirements, instructor, patch", "ho_le1": "Household, science, vocational, outdoor, outreach", "ho_od4": "A set of honours in one area", "ho_choose": "Enjoy it, find an instructor, overlap", "ho_lab": "Explorers that teach honours", "ho_record": "Name, date, instructor, photo"}}, "temperance": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#F8EAF0\"/><stop offset=\"1\" stop-color=\"#EBCFDA\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><g fill=\"none\" stroke=\"#7A2E4A\" stroke-width=\"10\" opacity=\".28\"><ellipse cx=\"110\" cy=\"150\" rx=\"40\" ry=\"24\"/><ellipse cx=\"170\" cy=\"150\" rx=\"40\" ry=\"24\"/><ellipse cx=\"230\" cy=\"150\" rx=\"40\" ry=\"24\"/></g><path d=\"M290 120l40-30M300 160l50 0M290 190l40 30\" stroke=\"#E9B649\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\".7\"/>", "pos": {"te_why": [16, 28, "🎯", "Why"], "te_no": [40, 20, "🛑", "Say no"], "te_grace": [64, 20, "⚡", "Power"], "te_will": [86, 30, "🗝️", "The will"], "te_stay": [24, 70, "🌱", "Stay free"], "te_stories": [50, 62, "📜", "Stories"], "te_help": [76, 70, "🫂", "Help"]}, "find": {"te_why": "Christ reshapes the character", "te_no": "Not “a little at a time”", "te_grace": "The only remedy", "te_will": "Choose, and God works", "te_stay": "Health, work, humility, helping", "te_stories": "People who broke free", "te_help": "Jesus understands"}}, "story": {"bg": "<defs><linearGradient id=\"xg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#E5F1F6\"/><stop offset=\"1\" stop-color=\"#CFE4EE\"/></linearGradient></defs><rect width=\"400\" height=\"300\" fill=\"url(#xg)\"/><path d=\"M0 230C60 210 120 250 200 228S330 205 400 226V300H0Z\" fill=\"#6FA6C2\" opacity=\".55\"/><path d=\"M250 120L310 40L370 120Z\" fill=\"#7FA36A\" opacity=\".55\"/><path d=\"M60 214h70l-12 12H72z\" fill=\"#8A5A2B\" opacity=\".7\"/>", "pos": {"gy_tract": [16, 28, "📄", "Tracts"], "gy_first": [40, 20, "⛪", "Ministers"], "gy_davis": [64, 20, "⛰️", "Roraima"], "gy_dmh": [86, 30, "🏥", "Hospital"], "gy_grow": [24, 70, "🌱", "Growth"], "gy_today": [50, 62, "🌎", "Today"], "gy_book": [76, 70, "📘", "Your book"]}, "find": {"gy_tract": "Where it began, in the 1880s", "gy_first": "1887 and 1895", "gy_davis": "1910–1911, the Davis Indians", "gy_dmh": "Named after Elder Davis", "gy_grow": "From mission to conference", "gy_today": "Conference, union, division", "gy_book": "What to look for as you read"}}}, "W": {"hv_plan": ["chain", {"start": "God made us male and female, and He called it “very good” (Genesis 1:31).", "steps": [["🎁", "Our bodies and our sexuality are part of God’s good design. They are not dirty or shameful."], ["💍", "God made sex for a husband and wife who have promised their lives to each other."], ["🛡️", "Inside marriage, it brings a couple close and keeps them together."], ["🙏", "Outside God’s plan, it can bring hurt, infections and a baby before you are ready."]], "end": "God’s rules about sex come from love. He wants the best for you."}], "hv_wait": ["steps", [["🛡️", "It protects your body", "Waiting is the surest way to avoid HIV, other STIs and pregnancy before you are ready."], ["❤️", "It protects your heart", "You don’t get used or hurt, and you don’t carry regrets."], ["🎯", "It protects your future", "You stay free to focus on school, friends, your faith and your dreams."], ["💍", "It’s a gift to your future husband or wife", "And to yourself."], ["🌱", "It’s never too late to start", "If you’ve made mistakes, God forgives and gives a fresh start (1 John 1:9)."]]], "hv_abbr": ["flip", [["🦠", "HIV", "Human Immunodeficiency Virus: the virus that weakens the body’s defences."], ["🩺", "AIDS", "Acquired Immune Deficiency Syndrome: the late stage of HIV if it isn’t treated."], ["⚠️", "STI", "Sexually Transmitted Infection: an infection passed on through sex. It used to be called STD."], ["💊", "ART", "Antiretroviral Therapy: the daily medicine that keeps HIV under control."], ["💉", "HPV", "Human Papillomavirus: an STI. A vaccine protects against the types that cause most cervical cancer."], ["🔬", "CD4", "CD4 cells: white blood cells that lead the body’s defence. HIV attacks them."]]], "hv_what": ["chain", {"start": "Follow what HIV does if it is never treated.", "steps": [["🦠", "HIV gets into the blood."], ["🔬", "It attacks the CD4 cells that lead the body’s defence (immune) system."], ["📉", "Over several years, more and more CD4 cells are lost."], ["🤒", "The body can no longer fight off other illnesses. This late stage is called AIDS."], ["💊", "With ART, this does not have to happen. Most people who take it never get AIDS."]], "end": "HIV and AIDS are not the same thing. Treatment makes the difference."}], "hv_spread": ["flip", [["💑", "Through sex", "Sex with someone who has HIV. HIV is in semen, vaginal fluids and blood."], ["💉", "Through blood", "Sharing needles, or anything that cuts the skin, like razors or tattoo tools."], ["🤰", "From mother to baby", "During pregnancy, birth or breastfeeding. Treatment almost always stops this."], ["🔎", "Only a test can tell", "Most people with HIV look and feel well, so you can’t tell by looking."]]], "hv_not": ["flip", [["🤗", "Hugs and handshakes?", "Safe. HIV is not passed on by touching."], ["🥤", "Sharing cups or food?", "Safe. HIV is not passed on by saliva on cups, plates or food."], ["🚽", "Toilets and pools?", "Safe. HIV can’t spread through toilet seats or swimming water."], ["🦟", "Mosquito bites?", "Safe. HIV can’t live or multiply inside mosquitoes."]]], "hv_sti": ["chain", {"start": "HIV is not the only infection passed on through sex.", "steps": [["📋", "Others include chlamydia, gonorrhoea, syphilis, herpes and HPV."], ["🙈", "Many have no signs at first, so people pass them on without knowing."], ["💊", "Some can be cured with medicine. Others, like herpes, can be treated but not cured."], ["💉", "The HPV vaccine protects against the types of HPV that cause most cervical cancer."]], "end": "Only a test can tell. And waiting protects you from all of them."}], "hv_test": ["steps", [["🧪", "Get tested", "A test is the only way to know. It is quick and private."], ["💊", "Start ART", "Medicine taken every day keeps the virus very low, so the body stays strong."], ["🏃", "Live well", "People with HIV who take their medicine can live long, healthy lives."], ["🤰", "Protect babies", "Treatment in pregnancy almost always stops HIV passing to the baby."]]], "hv_strong": ["check", [["🗣️", "Know your answer", "“No. I’m waiting.” Practise saying it."], ["👥", "Choose friends who share your values", "They make it easier to stand firm."], ["🚪", "Stay out of risky situations", "Being alone together with no adults, or parties with alcohol."], ["🙏", "Ask God for strength", "He always makes a way to escape (1 Corinthians 10:13)."], ["🆘", "Tell a trusted adult", "If anyone pressures you or touches you in a way that is wrong, it is not your fault."]]], "hv_care": ["steps", [["❤️", "Love, not fear", "People living with HIV deserve love and respect, not gossip."], ["✝️", "Like Jesus", "He touched the man with leprosy that everyone else avoided (Mark 1:41)."], ["🤐", "Keep it private", "A person’s health is their own business."], ["🏥", "Get answers", "A parent, your counsellor, your pastor, or a nurse at a health centre can help in private."]]], "vs_why": ["chain", {"start": "Jesus spent His days with people others forgot.", "steps": [["👀", "He noticed people in need: the sick, the lonely and the poor."], ["🤲", "He stopped, touched them and helped (Mark 1:41)."], ["🗣️", "He said that when we help the least of these, we help Him (Matthew 25:40)."], ["🧒", "Now we are His hands and feet."]], "end": "CO 1: visit a shut-in, adopt a person or family in need, or another outreach your leader approves."}], "vs_plan": ["check", [["📞", "Ask first", "Your leader sets a day and time that suits them."], ["👥", "Go as a group, with an adult", "Never visit a stranger’s home on your own."], ["🎁", "Bring something small", "Fruit, a card the class made, or a meal if the family needs one."], ["🎵", "Prepare a song and a short Bible promise", "Choose a hymn they may know."]]], "vs_arrive": ["check", [["🙋", "Greet everyone by name and smile", "Say who you are."], ["🪑", "Sit at their eye level", "Standing over someone in a bed or chair feels unfriendly."], ["🗣️", "Face them and speak clearly", "Many older people hear better when they can see your face."], ["📵", "Phones away", "Give them your full attention."]]], "vs_listen": ["flip", [["❓", "A good question to ask", "“What was Guyana like when you were young?”"], ["😊", "They repeat a story", "Listen kindly anyway. It matters to them."], ["🤐", "They share something private", "Keep it private. Don’t pass it on."], ["😢", "They are sad or lonely", "Sit with them, listen, and offer to pray."]]], "vs_help": ["steps", [["🧹", "Clean and tidy", "Sweep, wash dishes or weed the yard. Ask before you move anything."], ["🛒", "Run errands", "Bring groceries or medicine, with an adult."], ["🔧", "Small repairs", "Only with an adult and safe tools."], ["📖", "Read to them", "A Bible passage, the news or a letter."]]], "vs_close": ["check", [["🎶", "Sing together", "Your song can be the highlight of their week."], ["🙏", "Ask if you may pray with them", "Keep it short and personal."], ["⏱️", "Don’t stay too long", "About 30 to 45 minutes is enough for someone who is unwell."], ["💌", "Follow up", "Send a card, call or visit again. Adopting a family means helping more than once."]]], "wt_friend": ["chain", {"start": "People listen to their friends. So start there.", "steps": [["👋", "Notice someone: a classmate who sits alone, a teammate, a neighbour."], ["😊", "Be friendly every day: talk, listen, help."], ["🙏", "Pray for them by name."], ["🤝", "Trust grows. They see how you live."], ["💬", "When the moment comes, they are ready to hear about Jesus."]], "end": "CO 2: talk about witnessing as a class, then put it into practice."}], "wt_listen": ["flip", [["👂", "What do good listeners do?", "They look at you, don’t interrupt, and ask questions."], ["❓", "A good question to ask", "“What’s been the hardest thing this week?”"], ["🚫", "What not to do", "Preach at them, argue, or make fun of what they believe."], ["😇", "What makes people listen?", "Respect and kindness."]]], "wt_story": ["steps", [["⏪", "Before", "What your life was like before you knew Jesus well, or a time you struggled."], ["✝️", "How", "How Jesus met you: a moment, a prayer, a person."], ["🌱", "Now", "What is different now."], ["⏱️", "Keep it short and real", "About a minute or two. Practise it."]]], "wt_plan": ["check", [["📝", "Choose one friend", "Write their first name in your app."], ["🙏", "Pray for them every day", ""], ["🎈", "Invite them to something fun", "Pathfinders, a camp-out, a youth programme or a sports day."], ["📖", "Share when they ask", "Answer honestly. “I don’t know, but I’ll find out” is fine."]]], "wt_barriers": ["flip", [["😳", "“I’m scared they’ll laugh.”", "Start small: invite, don’t preach."], ["🤷", "“I don’t know enough.”", "Share your own story. You are the expert on that."], ["😒", "“They think church is boring.”", "Invite them to something active first, like a camp-out."], ["💔", "“They were hurt by church people.”", "Listen, say you’re sorry it happened, and show them Jesus is different."]]], "wt_invite": ["chain", {"start": "When your friend is interested…", "steps": [["💬", "Ask: “Would you like to know Jesus better?”"], ["📅", "Invite them to a Bible study or a youth programme."], ["🙏", "Offer to pray with them."], ["🤝", "Keep being their friend, whatever they decide."]], "end": "The Holy Spirit changes hearts. Your part is to be a friend and invite."}], "ch_gifts": ["flip", [["🎨", "What are gifts?", "Things God made you good at: fixing things, caring, numbers, music, speaking…"], ["❤️", "What are interests?", "Things you enjoy so much you lose track of time."], ["🌍", "What does the world need?", "Look for where your gifts and interests meet a real need."], ["🙏", "Ask God to guide you", "He promises to direct your paths."]]], "ch_path": ["steps", [["📚", "Do your best in school now", "Your CSEC subjects open or close doors later."], ["🗣️", "Talk to people", "Ask a nurse, mechanic, teacher or engineer what their work is really like."], ["🛠️", "Try it", "Volunteer, shadow someone, or earn an honour in that area."], ["🎓", "Plan the training", "University, technical institute, an apprenticeship or a trade."]]], "ch_test": ["steps", [["📖", "Is it right?", "Does it go against what God says in the Bible?"], ["✝️", "Would I be happy if Jesus were with me?", "He is."], ["🔮", "What will it do tomorrow?", "To me, and to other people."], ["🏠", "Would I be happy for my family to know?", "If you want to hide it, think again."]]], "ch_why": ["chain", {"start": "God’s commandments are like guard rails on a mountain road.", "steps": [["🛣️", "Guard rails don’t stop the journey."], ["⚠️", "They keep you from going over the edge."], ["❤️", "God gives His commandments because He loves us."], ["🙂", "Living by them brings freedom, not fear."]], "end": "We keep them because we love Him."}], "ch_dating": ["check", [["⏳", "Take your time", "There’s no rush. Friendship comes first."], ["👥", "Go out in groups", "It’s safer, and often more fun."], ["🛑", "Set your limits before", "Decide your boundaries before you are in the moment."], ["🙅", "“No” means no", "Respect the other person’s no, and expect yours to be respected."], ["👨‍👩‍👧", "Involve your parents", "A good relationship doesn’t need to be hidden."]]], "ch_flags": ["flip", [["🟢", "Green flag: respect", "They respect your faith, your family and your “no”."], ["🔴", "Red flag: pressure", "They push you to do things you don’t want, or to keep secrets."], ["🟢", "Green flag: kindness", "They are kind to everyone, not just to you."], ["🔴", "Red flag: control", "They check your phone, choose your friends or get angry easily."]]], "ch_partner": ["steps", [["✝️", "Shared faith", "Someone who loves God too."], ["💎", "Character", "Honest, kind, faithful and hardworking. Looks change; character lasts."], ["🤝", "Friendship", "Strong marriages are built on deep friendship."], ["⌛", "God’s timing", "The right person is worth waiting for."]]], "ft_why": ["chain", {"start": "Your body is God’s temple. Exercise keeps it strong.", "steps": [["💓", "Your heart gets stronger and pumps more blood with each beat."], ["🫁", "Your lungs and blood carry oxygen better."], ["🧠", "You sleep better, think more clearly and feel happier."], ["💪", "Your muscles and bones get stronger."]], "end": "Teens need at least 60 minutes of activity a day."}], "ft_plan": ["steps", [["📅", "Start where you are", "If running is hard, start with walk–run: run 1 minute, walk 2."], ["📈", "Build slowly", "Add a little more each week, not a lot."], ["😴", "Rest days count", "Your body gets stronger while it rests. Take easy days."], ["📝", "Keep a record", "Date, what you did, how long. HF 2 needs it."]]], "ft_safe": ["check", [["🔥", "Warm up for 5 minutes", "Walk, then jog slowly."], ["💧", "Drink water", "Before, during and after, especially in Guyana’s heat."], ["🌅", "Run when it’s cooler", "Early morning or late afternoon."], ["👟", "Wear good shoes, run with a buddy", "And face the traffic if there is no footpath."], ["🧊", "Cool down and stretch", "Walk 5 minutes, then stretch gently."]]], "ft_alcohol": ["flip", [["🧠", "What does alcohol do to the brain?", "It slows it down, so judgement, balance and reactions get worse."], ["🧒", "Why is it worse for teens?", "The brain keeps developing into the mid-20s, and alcohol can harm it."], ["🚗", "Alcohol and the roads", "Drinking and driving causes many crashes and deaths."], ["🙅", "The Adventist choice", "Adventists choose not to drink alcohol at all."]]], "ft_smoke": ["flip", [["🚬", "What’s in cigarettes?", "Nicotine, which is addictive, and thousands of chemicals, many of which cause cancer."], ["💨", "Is vaping safe?", "No. Most vapes contain nicotine, which is addictive and harms the growing brain."], ["🫁", "What does smoking do?", "It damages the lungs and heart, and causes cancer. Smoke harms people nearby too."], ["🏃", "Smoking and sport", "Smokers get out of breath faster: their blood carries less oxygen."]]], "ft_drugs": ["steps", [["🌿", "Marijuana", "It can harm memory, attention and learning in teens, and it can be addictive."], ["💊", "Pills that aren’t yours", "Taking someone else’s medicine can be dangerous."], ["🗣️", "Ways to say no", "“No thanks, I’m in training.” “Not for me.” Then walk away."], ["🤝", "Choose your friends and places", "Stay away from places where drugs are used. Tell a trusted adult if you’re worried."]]], "tc_mentor": ["check", [["🧑‍🏫", "Choose the honour together", "Pick one you know well, or learn it first."], ["📄", "Read the honour’s requirements", "Choose the two you will teach."], ["🗓️", "Set the date and the time you have", ""], ["✅", "Show your plan", "Your mentor checks it and helps you improve it."]]], "tc_plan": ["steps", [["🎯", "Aim", "What will the Juniors be able to do at the end?"], ["🧰", "Materials", "Rope, pictures or real objects, enough for everyone."], ["⏱️", "Timing", "Plan each part in minutes. Juniors focus best in short chunks."], ["🎲", "Make it active", "Plan a game or a hands-on activity."]]], "tc_teach": ["steps", [["🗣️", "Explain", "Say what it is and why it matters, in simple words."], ["👐", "Show", "Demonstrate slowly, where everyone can see."], ["🙌", "Let them try", "Everyone practises while you walk round and help."], ["✔️", "Check", "Each Junior shows you they can do it."]]], "tc_kids": ["flip", [["⏰", "How long can Juniors listen?", "Not long. Keep talks short, then switch to doing."], ["😴", "A Junior looks bored. Now what?", "Give them a job: hand out the rope, or be your helper."], ["😢", "A Junior can’t get it", "Stay calm, show again slowly, and praise each try."], ["🎉", "How do you finish?", "Review with a quick game and praise what they learned."]]], "tc_choose": ["chain", {"start": "Pick requirements that work well for Juniors.", "steps": [["🙌", "Hands-on is best: tying a knot, naming leaves, a first-aid step."], ["🧩", "Break it into small steps."], ["🖼️", "Use pictures and real objects."], ["🏁", "Plan how they will show you they learned it."]], "end": "OL 3: plan and teach at least two requirements of an honour to younger Pathfinders."}], "tc_after": ["check", [["📝", "Write what worked", "And what you would change."], ["🗨️", "Ask your mentor for feedback", ""], ["📋", "Record it in your app", "The honour, the two requirements, the date and your mentor."]]], "pb_child": ["chain", {"start": "Jesus grew up in Nazareth, a small town in the hills of Galilee.", "steps": [["👩", "His mother was His first teacher. He learned the Scriptures from her."], ["📜", "He was not taught in the schools of the rabbis."], ["🌄", "He learned from the Scriptures, from nature and from the work of His hands."], ["🪚", "He worked as a carpenter (Mark 6:3)."]], "end": "The Desire of Ages, chapter 7, “As a Child”, tells this story."}], "pb_nature": ["flip", [["🌾", "Seeds in a field", "Later He told the parable of the sower (Matthew 13)."], ["🐦", "The birds", "God feeds them, so He will care for us (Matthew 6:26)."], ["🌸", "The lilies", "God clothes the flowers beautifully, so don’t worry (Matthew 6:28–30)."], ["🐑", "The sheep", "A good shepherd knows and protects each one (John 10:11)."]]], "pb_what": ["steps", [["🌍", "An earthly story", "About something everyone knows: seeds, sheep, bread, a lost coin."], ["✨", "With a heavenly meaning", "It teaches something true about God."], ["🎯", "One main point", "A good parable makes one clear lesson."], ["🧠", "Easy to remember", "People remember stories longer than lectures."]]], "pb_make": ["steps", [["👀", "Observe", "Watch something closely: ants, a seed sprouting, a river after rain."], ["💡", "Find the lesson", "What does it show about God, or about living for Him?"], ["📖", "Add a Bible text", "Find a verse that says the same thing."], ["🎤", "Tell it", "Keep it short, and bring the real thing or a picture."]]], "pb_ideas": ["flip", [["🐜", "Ants storing food", "Work hard and plan ahead (Proverbs 6:6–8)."], ["🌱", "A tiny seed growing tall", "God’s kingdom grows from small beginnings (Matthew 13:31–32)."], ["🌻", "A plant turning to the sun", "We grow when we turn to Jesus, the Light (John 8:12)."], ["🍇", "A branch on a vine", "We bear fruit when we stay joined to Jesus (John 15:5)."]]], "pb_tell": ["check", [["🖼️", "Bring the real thing", "A seed, a leaf, a shell, or a photo."], ["⏱️", "Keep it to 3 to 5 minutes", ""], ["❓", "Ask a question", "“What do you think this teaches us?”"], ["🙏", "End with your Bible text", "And a short prayer."]]], "ho_what": ["steps", [["📋", "Its own requirements", "Each honour is a skill with its own list of requirements."], ["🧑‍🏫", "An instructor", "Someone qualified teaches it, checks your work and signs it off."], ["🧵", "A patch", "When you finish, you get a patch for your sash."], ["🆕", "New means new", "For LE 1 and OD 4 it must be an honour you haven’t earned before."]]], "ho_le1": ["flip", [["🏠", "Household Arts", "Cooking, Baking, Dressmaking, Laundering, Housekeeping."], ["🔬", "Health and Science", "First Aid, Nutrition, Chemistry, Temperance."], ["🛠️", "Vocational", "Carpentry, Computers, Electricity, Plumbing, Masonry."], ["🌾", "Outdoor Industries", "Gardening, Agriculture, Poultry Raising, Beekeeping, Dog Care."], ["📣", "Outreach Ministries", "Christian Storytelling, Bible Evangelism, Personal Evangelism, Christian Visitation."]]], "ho_od4": ["steps", [["🏅", "What is a Master award?", "A big award for earning a set of honours in one area."], ["🏕️", "Wilderness Master", "Includes Backpacking, Camp Craft, Knot Tying, Orienteering and Tents."], ["🏊", "Other Master awards", "Such as Aquatic, Recreation and Sportsman."], ["✅", "Check with your counsellor", "They confirm the honour counts toward the award you choose."]]], "ho_choose": ["check", [["❤️", "Pick something you enjoy", "You’ll finish it."], ["🧑‍🏫", "Find an instructor", "Someone in your church or community who knows it."], ["🔗", "Look for overlaps", "Orienteering counts for OD 4 and the Wilderness Master."], ["📆", "Plan your time", "Most honours take several weeks."]]], "ho_lab": ["chain", {"start": "Some explorers here help with honours.", "steps": [["🧭", "Orienteering: OD 4 and the Wilderness Master."], ["🥗", "Nutrition: the Nutrition Honour for HF 3."], ["🌿", "Ecology: the Ecology Honour for NS 2."], ["🔥", "Fire & Camp Cooking: toward Fire Building & Camp Cookery."]], "end": "Ask your counsellor which honours your club is teaching this year."}], "ho_record": ["check", [["📝", "Honour name and date", ""], ["✍️", "Your instructor’s name", ""], ["📷", "A photo of your work", "Add it in your app."], ["🙋", "Ask your counsellor to check", "Tap “Done – ask my counsellor to check”."]]], "te_why": ["flip", [["🎯", "The aim (p. 102)", "Real change happens when Christ’s grace reshapes a person and brings them close to God."], ["❤️", "From the inside (p. 102)", "Changing your surroundings is not enough. Christ changes the heart, and the actions follow."], ["🧠", "Body and mind (pp. 102–103)", "Your body is how your mind and character grow, so harmful habits hurt the mind too."], ["👑", "Self-control (p. 103)", "Your will, guided by God, is meant to rule your desires, not the other way round."]]], "te_no": ["steps", [["🐢", "“I’ll stop by degrees” doesn’t work (p. 103)", "Planning to quit slowly keeps you in the habit’s power."], ["🛑", "Say no clearly (p. 103)", "Temptation has no power over someone who says no firmly and holds on to Jesus."], ["🙏", "Ask, then believe (p. 103)", "It may be a hard battle, but ask God for grace and trust Him to give it."], ["🤝", "Stay close to godly friends (p. 104)", "Ask people who love God to keep you close until you are stronger."]]], "te_grace": ["chain", {"start": "Where does the power to change come from?", "steps": [["📝", "Promises made in our own strength can’t break a habit (p. 106)."], ["✝️", "The only remedy for sin is the grace and power of Christ (p. 106)."], ["📖", "Jesus met every temptation with “It is written”, so use God’s word too (p. 107)."], ["🙏", "When you have failed and feel you can’t pray, that is the very time to pray (p. 107)."]], "end": "Knowing you are safe in Christ even helps your health (p. 108)."}], "te_will": ["steps", [["🗝️", "What the will is (pp. 112–113)", "Not your feelings: it is your power to choose and decide."], ["🤲", "We can’t change our hearts (p. 112)", "But we can choose to give our will to God, and He changes us."], ["💪", "“I can, I will” (p. 113)", "Don’t say “I can’t”. God has promised His Holy Spirit to help every real effort."], ["👂", "The weakest prayer is heard (p. 114)", "Jesus hears even the feeblest prayer."]]], "te_stay": ["check", [["🥗", "Live by the laws of health", "Breaking them can create cravings that lead to the liquor habit (p. 115)."], ["🛠️", "Keep busy with useful work", "It protects against temptation (p. 115)."], ["🙇", "Don’t make a show of your past", "Lean on Christ, not on praise (p. 116)."], ["🤝", "Help others who struggle", "Helping them helps you stay strong (pp. 116–117)."]]], "te_stories": ["flip", [["🧥", "The man in the old blue coat (p. 109)", "He prayed and struggled all night and won. Six months later he looked ten years younger."], ["🇦🇺", "A man in Australia (p. 118)", "He gave up tobacco after hearing about Jesus’ self-denial, then gave his life to God."], ["🎣", "A fisherman (pp. 118–119)", "God helped him give up tobacco and tea. After a headache, his mind grew clearer."], ["⛓️", "The man at Capernaum (pp. 122–123)", "His own choices had enslaved him, but Jesus set him free. No one is too far gone."]]], "te_help": ["chain", {"start": "If you are struggling right now…", "steps": [["🫂", "Jesus invites the weary to find rest in Him (p. 120)."], ["🧑‍🤝‍🧑", "He was tempted like us, so He understands (p. 120)."], ["🩹", "He healed people who had brought sickness on themselves (p. 121)."], ["🕊️", "God never forces our minds. We choose who rules us, and Christ can free anyone (p. 123)."]], "end": "Those forgiven most love Him most (p. 125)."}], "gy_tract": ["flip", [["⚓", "A ship’s captain", "Adventist tracts reportedly left on a Georgetown wharf reached a woman named Alberta Alleyne, who began keeping the Sabbath."], ["📮", "1885: a call for help", "More than 20 Sabbath keepers in British Guiana asked the church in Battle Creek, USA, to send help."], ["📚", "1886: a tract society", "Colporteur Thomas E. Amsterdam organised a tract society with branches in Berbice and Demerara."], ["💡", "The lesson", "God used printed pages and ordinary believers before any minister arrived."]]], "gy_first": ["steps", [["🚢", "1887: G. G. Rupert arrives", "The General Conference sent him. He reached Georgetown on 31 January 1887."], ["🙏", "1893–1896: the Kneelands", "W. G. Kneeland and his wife Mary served for about three years."], ["💧", "July 1895: a church is organised", "Kneeland baptised six members of the Fleming family and organised a church."], ["🎓", "Philip Giddings", "A British Guianese believer who graduated from Battle Creek College in 1895 and led the building of a church in New Amsterdam."]]], "gy_davis": ["chain", {"start": "Far inland, near Mount Roraima, the people asked to be taught about God.", "steps": [["🛶", "Elder Ovid E. Davis went to them in 1910 and again in 1911, by boat and on foot."], ["📖", "He taught them from the Bible, and many chose to follow Jesus."], ["🕯️", "He died there of blackwater fever on 31 July 1911, and Chief Jeremiah buried him."], ["🎵", "For years the people met at his grave on Sabbath to sing. In 1922 Chief Jeremiah walked to Georgetown to ask for a teacher."], ["🤝", "In 1925 W. E. Baxter and C. B. Sutton reached the grave, and in 1927 A. W. and Elizabeth Cott began the Mount Roraima mission."]], "end": "By the 1980s about 1,500 Adventists lived among the people now called the Davis Indians."}], "gy_dmh": ["flip", [["🩺", "1954: a doctor arrives", "Dr E. C. Duerksen took charge of the new medical work in Georgetown."], ["🏷️", "1955: a name", "The hospital was named after Elder Davis and opened at Bel Air."], ["🏗️", "1967: a new building", "It opened at its present home on D’Urban Street, Georgetown."], ["🌍", "Today", "It is linked with Loma Linda University and is supervised by the Caribbean Union Conference."]]], "gy_grow": ["steps", [["🏫", "Schools", "Mission schools grew at Bethany, Paruima, Kaikan and Waramadong, with more schools in Georgetown, Wismar and elsewhere."], ["🇬🇾", "1971: a Guyanese leader", "Wallace W. Weithers became the first Guyanese president of the Guyana Mission."], ["💪", "1976: a conference", "The Guyana Mission became a self-supporting conference, with Roy I. McGarrell as president."], ["📈", "2019", "170 churches and 65,160 members in Guyana."]]], "gy_today": ["chain", {"start": "Your local church is part of a worldwide family.", "steps": [["⛪", "Your church belongs to the Guyana Conference."], ["🏝️", "The Guyana Conference belongs to the Caribbean Union Conference."], ["🌎", "The union belongs to the Inter-American Division, formed in 1922."], ["🌐", "The division is part of the General Conference, the worldwide church."]], "end": "Many Guyanese leaders trained at the church’s college in Trinidad, opened in 1927 and now the University of the Southern Caribbean."}], "gy_book": ["check", [["📅", "When did your church begin?", "And where did the first members meet?"], ["👥", "Who started it?", "Pastors, families, Bible workers."], ["🏗️", "How did it grow?", "Buildings, schools, evangelism."], ["📖", "One story you like", "Tell it to your class."], ["🙋", "Ask the oldest member", "They may remember things no book has."]]]}, "G": {"hiv": {"gid": "hiv:know", "icon": "🎗️", "title": "Know it, live it", "hearts": 5, "how": "Three different rounds. 1: a memory game with the short names. 2: myth bubbles float up, so pop the myths and let the facts fly. 3: choose God’s plan in real situations. A wrong answer costs a heart.", "end": ["You know it, and you can live it!", "HIV, AIDS, STI, ART, HPV. Myths and facts. And God’s plan: waiting is worth it."], "rounds": [{"type": "memory", "title": "Short-name memory", "help": "Flip two cards at a time. Match each short name with what it stands for. Remember where the cards are!", "pairs": [["HIV", "Human Immunodeficiency Virus"], ["AIDS", "Acquired Immune Deficiency Syndrome"], ["STI", "Sexually Transmitted Infection"], ["ART", "Antiretroviral Therapy"], ["HPV", "Human Papillomavirus"]]}, {"type": "pop", "title": "Pop the myths", "help": "Bubbles float up. Tap to pop the MYTHS. Let the FACTS float away. Don’t pop a fact, and don’t let a myth escape!", "badLabel": "Myth", "goodLabel": "Fact", "items": [["You can get HIV from a hug.", 1, "Hugging, touching and sharing cups don’t pass on HIV."], ["Sharing needles can pass on HIV.", 0, "HIV is in blood, so anything that cuts the skin is risky."], ["Mosquitoes spread HIV.", 1, "HIV can’t live or multiply inside mosquitoes."], ["You can tell who has HIV by looking.", 1, "Most people with HIV look and feel well. Only a test can tell."], ["HIV and AIDS are the same thing.", 1, "HIV is the virus. AIDS is the late stage if HIV is not treated."], ["Many STIs have no signs at first.", 0, "That’s why testing matters."], ["Daily medicine (ART) keeps people with HIV well.", 0, "People on treatment can live long, healthy lives."], ["You can get HIV from a toilet seat.", 1, "HIV does not spread through toilet seats."], ["Washing after sex stops HIV.", 1, "Washing does not prevent HIV or other STIs."], ["Waiting for marriage protects you from STIs.", 0, "With a faithful partner who has also waited. God’s plan protects your body and heart."]]}, {"type": "path", "title": "God’s plan and waiting", "help": "Real situations. Choose the answer that follows God’s plan.", "stops": [{"icon": "💬", "sit": "Someone you’re dating says, “If you really loved me, you would.”", "opts": [["“If you really loved me, you would respect my no.”", 1], ["Give in so they don’t leave you", 0], ["Say “maybe later” to keep them happy", 0]], "why": "Real love is patient and doesn’t push for its own way (1 Corinthians 13:4–5)."}, {"icon": "👥", "sit": "Your friends say everyone your age is having sex.", "opts": [["Know it isn’t true, and stick to your choice to wait", 1], ["Feel you have to catch up", 0], ["Make up stories so you fit in", 0]], "why": "Not everyone is. God’s plan is worth waiting for."}, {"icon": "🎉", "sit": "You’re invited to a party with no adults and lots of alcohol.", "opts": [["Skip it, and plan something fun with friends", 1], ["Go, and just be careful", 0], ["Go and stay late", 0]], "why": "Alcohol makes it much harder to keep the choices you’ve made."}, {"icon": "🙏", "sit": "You made a mistake and feel God could never forgive you.", "opts": [["Confess it to God and start fresh", 1], ["Give up on waiting, since it’s too late", 0], ["Hide it and pretend everything is fine", 0]], "why": "“If we confess our sins, he is faithful and just to forgive us our sins” (1 John 1:9)."}]}]}, "visit": {"gid": "visit:day", "icon": "🏡", "title": "Visit day", "hearts": 4, "how": "Your class is visiting Sister Grace, who can’t leave her house. Round 1: a quick-tap game, so tap the helpful things as they pop up. Round 2: choose well at every step of the visit.", "end": ["What a visit!", "Plan it, greet warmly, listen, help, sing, pray, and come back again."], "rounds": [{"type": "whack", "title": "Helping hands", "help": "You’re at Sister Grace’s house. Things pop up in the windows. Tap the HELPFUL ones fast. Leave the unhelpful ones alone, or you lose a heart.", "count": 16, "items": [["🍽️", "Wash her dishes (ask first)", 1, ""], ["👂", "Listen to her story", 1, ""], ["🎵", "Sing a hymn with her", 1, ""], ["📖", "Read her a psalm", 1, ""], ["🛍️", "Carry in the groceries", 1, ""], ["🌿", "Water her plants", 1, ""], ["💌", "Give her the class card", 1, ""], ["📱", "Scroll on your phone", 0, "Put the phone away. Give her your full attention."], ["🚪", "Walk in without knocking", 0, "Knock, wait, and greet her by name."], ["🗣️", "Talk only about yourself", 0, "Listen more than you talk."], ["📦", "Move her things without asking", 0, "It’s her home. Ask first."], ["🤫", "Spread her private news", 0, "Keep her business private."]]}, {"type": "path", "title": "Visit Sister Grace", "help": "Choose what to do at each step.", "stops": [{"icon": "📞", "sit": "Your class wants to visit Sister Grace, who can’t leave her house. What do you do first?", "opts": [["Ask your leader to call her and set a time", 1], ["Just turn up when you’re free", 0], ["Go alone after school", 0]], "why": "Plan ahead with your leader, and always go as a group with an adult."}, {"icon": "🚪", "sit": "She opens the door slowly and looks unsure.", "opts": [["Smile, greet her by name and say who you are", 1], ["Walk straight in", 0], ["Wait silently for her to speak", 0]], "why": "A warm greeting puts people at ease."}, {"icon": "🪑", "sit": "She sits down in her chair. Where do you sit?", "opts": [["Pull up a chair at her eye level", 1], ["Stand around her chair", 0], ["Sit across the room on your phone", 0]], "why": "Eye level and full attention show respect."}, {"icon": "👂", "sit": "She starts a long story about growing up in Berbice.", "opts": [["Listen, and ask a question about it", 1], ["Change the subject to your news", 0], ["Check your phone until she finishes", 0]], "why": "Listening is one of the kindest gifts you can give."}, {"icon": "🍽️", "sit": "You notice her sink is full of dishes.", "opts": [["Ask if you may wash them for her", 1], ["Pretend you didn’t see", 0], ["Tell her she should keep it cleaner", 0]], "why": "Ask first, then help with a real job."}, {"icon": "🙏", "sit": "It’s time to go.", "opts": [["Sing a hymn, pray briefly and promise to come back", 1], ["Leave without saying goodbye", 0], ["Stay three more hours", 0]], "why": "Close warmly, keep it short, and follow up."}]}]}, "witness": {"gid": "witness:chat", "icon": "💬", "title": "Chat with a friend", "hearts": 3, "how": "Round 1: Jordan, a friend from school, is messaging you. Pick your replies. Kind, honest replies build the friendship; preaching and put-downs cost a heart. Round 2: put a short testimony together.", "end": ["Jordan is coming to Pathfinders!", "Friend first, listen, tell your story, invite, and keep being a friend."], "rounds": [{"type": "chat", "title": "Chat with Jordan", "help": "Pick the best reply each time.", "who": "Jordan", "avatar": "🧑🏾", "lines": [{"them": "Why do you always go to Pathfinders? Isn’t it boring?", "opts": [["It’s actually fun. We camp, cook on fires and do drill. Want to come and see?", 1, "Camping? Ok, that sounds kind of cool."], ["It’s a church thing. You wouldn’t get it.", 0, "Wow. Ok then."], ["Because my parents make me.", 0, "Sounds like you don’t even like it."]]}, {"them": "My week was rough. My parents keep fighting.", "opts": [["That sounds really hard. Do you want to talk about it?", 1, "Yeah… thanks. It’s been bad."], ["You should just pray more.", 0, "That’s easy for you to say."], ["Anyway, did you see the match?", 0, "…never mind."]]}, {"them": "Do you really think God cares about stuff like that?", "opts": [["Yes. Can I tell you about a time He helped me?", 1, "Ok. Go on."], ["Only if you go to church.", 0, "So He doesn’t care about me, then."], ["Everybody knows that. Duh.", 0, "Not everybody."]]}, {"them": "So what happened?", "opts": [["(Tell your story: before, how Jesus met you, now. About a minute.)", 1, "I didn’t know that about you. That’s real."], ["(Talk for half an hour about everything you know.)", 0, "Uh… I have to go soon."], ["(Tell Jordan everything they need to change.)", 0, "I didn’t ask for a lecture."]]}, {"them": "But I’ve done a lot of bad stuff. God wouldn’t want me.", "opts": [["Jesus said He came to seek and save the lost. Nobody is too far gone.", 1, "Seriously? Even me?"], ["Yeah, you’d have to fix yourself first.", 0, "Then forget it."], ["Same. I try not to think about it.", 0, "Hm."]]}, {"them": "Maybe I’ll come to Pathfinders one time.", "opts": [["Great! I’ll come by your house so we can go together.", 1, "Ok, deal."], ["Cool, whenever.", 0, "Yeah… maybe."], ["You need the uniform first.", 0, "Never mind then."]]}, {"them": "Thanks for listening, for real.", "opts": [["Any time. Can I pray for you and your parents?", 1, "Yeah. I’d like that."], ["No problem. Bye.", 0, "Bye."], ["You owe me one.", 0, "Uh, ok?"]]}]}, {"type": "stack", "title": "Build your story", "help": "A testimony has three parts: before, how Jesus met me, and now. Tap the pieces to put Maya’s story together, then check it.", "hint": "Some pieces are in the wrong part. Before, then how Jesus met you, then now.", "win": "That’s a real story: before, how Jesus met me, now. About a minute long.", "groups": {"before": "1 · Before", "met": "2 · How Jesus met me", "now": "3 · Now"}, "strips": [["before", "I got angry fast and said things I was sorry for."], ["before", "I felt like nobody really cared about me."], ["met", "At camp a counsellor prayed with me, and I read Psalm 139."], ["met", "I asked Jesus to be my Friend and to change me."], ["now", "I still mess up, but now I ask Him for help and say sorry sooner."], ["now", "I know I’m loved, and I want my friends to know Him too."]]}]}, "choices": {"gid": "choices:flags", "icon": "🚩", "title": "Flags and choices", "hearts": 3, "how": "Round 1: swipe each card. Green flag or red flag? Round 2: crossroads. Choose your road on school, careers and dating. A wrong answer costs a heart.", "end": ["Wise choices!", "Respect is green, pressure is red. Ask the four questions, and let God direct your paths."], "rounds": [{"type": "twoway", "title": "Green flag or red flag?", "help": "Is this a good sign (green) or a warning sign (red) in someone you might date?", "left": "🔴 Red flag", "right": "🟢 Green flag", "items": [["Respects your “no”", 1, "Respect is the biggest green flag."], ["Wants you to keep the relationship secret from your parents", 0, "Good relationships don’t need hiding."], ["Encourages your faith", 1, "They want the best for you."], ["Checks your phone and tells you who to talk to", 0, "That’s control, not love."], ["Is kind to parents, waiters and little children", 1, "Watch how they treat everyone."], ["Pressures you to be alone together", 0, "Pressure is a red flag."], ["Gets angry fast and blames you", 0, "Anger and blame are warning signs."], ["Is happy for you to spend time with your friends", 1, "Healthy people don’t isolate you."], ["Wants to get to know your family", 1, "Nothing to hide."]]}, {"type": "path", "look": "cross", "title": "Crossroads", "help": "Every choice is a fork in the road. At each crossroads, take the road that leads somewhere good.", "stops": [{"icon": "📝", "sit": "A friend offers you the answers to tomorrow’s test.", "opts": [["Say no, and study instead", 1], ["Take them but don’t look", 0], ["Use them just this once", 0]], "why": "Is it right? Would you want Jesus and your family to know? Cheating fails all four questions."}, {"icon": "🏠", "sit": "Someone you like asks you over when no adults are home.", "opts": [["Suggest meeting with friends somewhere public", 1], ["Go. It’s just to hang out", 0], ["Go, but don’t tell your parents", 0]], "why": "Set your limits before. Groups and public places are safer."}, {"icon": "🩺", "sit": "You want to be a nurse, but your friends say it’s not cool.", "opts": [["Follow your gifts, and talk to a nurse about the work", 1], ["Choose whatever your friends choose", 0], ["Give up planning", 0]], "why": "Look where your gifts meet a real need, and ask God to direct your paths."}, {"icon": "💬", "sit": "A classmate asks you out, but they make fun of your faith.", "opts": [["Say no kindly: shared faith matters to you", 1], ["Say yes and hope they change", 0], ["Hide your faith so they like you", 0]], "why": "“Be ye not unequally yoked together with unbelievers” (2 Corinthians 6:14)."}]}]}, "fitness": {"gid": "fitness:guard", "icon": "🛡️", "title": "Train and guard", "hearts": 4, "how": "Round 1: a puzzle. Plan a safe training week. Round 2: guard your body. Tap away what harms it and let the good things in.", "end": ["Fit and free!", "Warm up, build slowly, rest, keep a record. And say no to what harms your body temple."], "rounds": [{"type": "planner", "title": "Plan your training week", "help": "Tap a session, then tap a day. Fill all seven days, then check your week against the rules.", "rules": ["Start Monday easy: no run", "Never two runs in a row", "Saturday is Sabbath rest"], "tiles": [["🏃", "Walk–run", "hard"], ["🏃🏾‍♀️", "15-min jog", "hard"], ["⛰️", "Longer walk–run", "hard"], ["🚶", "Easy walk", "easy"], ["🧘", "Stretch & core", "easy"], ["😴", "Rest day", "rest"], ["⛪", "Sabbath rest", "sabbath"]]}, {"type": "defend", "title": "Guard your body temple", "help": "Things float toward your lungs. Tap away anything that harms your body. Let the good things through: they give you energy!", "bad": [["🚬", "Cigarette", "Nicotine is addictive, and smoke damages your lungs."], ["💨", "Vape", "Most vapes contain nicotine, which harms the growing brain."], ["🍺", "Alcohol", "It slows your brain, judgement and reactions."], ["🌿", "Marijuana", "It can harm memory and learning in teens."], ["💊", "A friend’s pills", "Medicine is only for the person it was prescribed for."], ["⚡", "Energy drink", "Lots of caffeine and sugar. Not for growing bodies."]], "good": [["💧", "Water"], ["🍎", "Fruit"], ["🥦", "Vegetables"], ["😴", "Sleep"], ["🌬️", "Fresh air"], ["☀️", "Sunshine"]]}]}, "teach": {"gid": "teach:class", "icon": "🧑‍🏫", "title": "Lead the class", "hearts": 3, "how": "You’re teaching the square knot to the Juniors, with your mentor watching. Round 1: plan your 30 minutes on a timeline. Round 2: lead the class and handle what happens.", "end": ["Great teaching!", "Plan with your mentor, then explain, show, let them try, and check."], "rounds": [{"type": "timeline", "title": "Plan a 30-minute lesson", "help": "Build your square-knot lesson. Tap the part that comes next. Watch where the time goes.", "total": 30, "blocks": [["Greet and give the aim", 2, "Say what they’ll learn today."], ["Explain", 4, "What the square knot is and why it matters."], ["Show", 5, "Tie it slowly where everyone can see."], ["Let them try", 12, "Everyone ties their own. You help."], ["Check", 5, "Each Junior shows you their knot."], ["Review game", 2, "A quick race, and lots of praise."]]}, {"type": "path", "title": "Teach the square knot", "help": "Choose what to do.", "stops": [{"icon": "📝", "sit": "Your mentor asks to see your plan.", "opts": [["Show a written plan with an aim, materials and timings", 1], ["Say you’ll just wing it", 0], ["Plan only the game", 0]], "why": "A plan shows you’re ready, and your mentor can help you improve it."}, {"icon": "🙋", "sit": "The Juniors arrive. First you…", "opts": [["Greet them and say what they’ll learn today", 1], ["Start talking about something else", 0], ["Hand out rope with no instructions", 0]], "why": "Tell them the aim, so they know where you are going."}, {"icon": "👐", "sit": "Time to show the square knot.", "opts": [["Tie it slowly where everyone can see", 1], ["Tie it fast once", 0], ["Tell them to look it up", 0]], "why": "Show slowly, step by step."}, {"icon": "😴", "sit": "One Junior is bored and poking the others.", "opts": [["Give them a job, like handing out the rope", 1], ["Shout at them", 0], ["Ignore it", 0]], "why": "Busy hands help a Junior focus."}, {"icon": "🪢", "sit": "Half the group still can’t tie it.", "opts": [["Show again slowly and help each one", 1], ["Move on anyway", 0], ["Tie it for them", 0]], "why": "Patience, and lots of practice."}, {"icon": "⏱️", "sit": "Five minutes left.", "opts": [["Check each one can do it, then review with a quick game", 1], ["Leave early", 0], ["Start a new topic", 0]], "why": "Check, review and praise."}]}]}, "parable": {"gid": "parable:build", "icon": "🍃", "title": "Parable builder", "hearts": 3, "how": "Round 1: grow a parable garden. Each parable you build makes your plant grow. Round 2: true or false about Jesus as a child.", "end": ["You can build a parable!", "Observe, find the lesson, add a Bible text, and tell it."], "rounds": [{"type": "grow", "title": "Grow a parable garden", "help": "For each thing you see in nature, choose its lesson, then its Bible text. Every parable you build makes your plant grow.", "items": [["🐦", "Birds being fed", "God takes care of us, so we don’t need to worry", "Matthew 6:26"], ["🌱", "A tiny seed growing tall", "God’s kingdom grows from small beginnings", "Matthew 13:31–32"], ["🐑", "A shepherd with his sheep", "Jesus knows us and protects us", "John 10:11"], ["🌻", "A plant turning to the sun", "We grow when we turn to Jesus, the Light", "John 8:12"], ["🐜", "Ants storing food", "Work hard and plan ahead", "Proverbs 6:6–8"], ["🍇", "A branch on a vine", "We bear fruit when we stay joined to Jesus", "John 15:5"]]}, {"type": "twoway", "title": "Jesus as a child: true or false?", "help": "From Luke 2 and The Desire of Ages, chapter 7.", "left": "False", "right": "True", "items": [["Jesus grew up in Nazareth.", 1, "Luke 2:39–40."], ["Jesus studied for years in the rabbis’ schools.", 0, "He was not taught in the schools of the rabbis."], ["His mother taught Him the Scriptures.", 1, "She was His first teacher."], ["Jesus learned lessons from plants and animals.", 1, "Nature was one of His teachers."], ["Jesus never worked with His hands.", 0, "He was a carpenter (Mark 6:3)."], ["Luke 2:52 says Jesus grew in wisdom and stature.", 1, "And in favour with God and man."]]}]}, "honours": {"gid": "honours:sort", "icon": "🎖️", "title": "Patch drop", "hearts": 3, "how": "Round 1: honour patches fall. Steer each one into its lifestyle area for LE 1. Round 2: which ones count toward the Wilderness Master for OD 4?", "end": ["Honour expert!", "Pick a new honour you enjoy, find an instructor, and ask your counsellor to check it."], "rounds": [{"type": "drop", "title": "Patch drop", "help": "Honour patches fall onto your sash. Tap an area button to steer each patch into the right area, then tap ⬇ to drop it fast.", "cols": [["ha", "🏠", "Household"], ["hs", "🔬", "Health & Science"], ["vo", "🛠️", "Vocational"], ["oi", "🌾", "Outdoor Industries"], ["om", "📣", "Outreach"]], "items": [["Cooking", "ha"], ["Laundering", "ha"], ["First Aid", "hs"], ["Nutrition", "hs"], ["Carpentry", "vo"], ["Computers", "vo"], ["Gardening", "oi"], ["Beekeeping", "oi"], ["Christian Storytelling", "om"], ["Christian Visitation", "om"]]}, {"type": "twoway", "title": "Wilderness Master?", "help": "Does this honour count toward the Wilderness Master?", "left": "No", "right": "Yes", "items": [["Orienteering", 1, "On the Wilderness Master list."], ["Cooking", 0, "A Household Arts honour."], ["Knot Tying", 1, "On the Wilderness Master list."], ["Computers", 0, "A Vocational honour."], ["Backpacking", 1, "On the Wilderness Master list."], ["Christian Storytelling", 0, "An Outreach Ministries honour."], ["Tents", 1, "On the Wilderness Master list."], ["Chemistry", 0, "A Health and Science honour."]]}]}, "temperance": {"gid": "temperance:free", "icon": "⛓️", "title": "Break free", "hearts": 4, "how": "Round 1: a habit has you in chains. Break each link by answering its lie with the truth from the reading. Round 2: lies and truths float up. Pop the lies!", "end": ["Free in Christ!", "Say no squarely, give your will to God, pray even when it’s hard, and help others. The power is His."], "rounds": [{"type": "chains", "title": "Break the chains", "help": "Each link is a lie the habit tells you. Pick the truth from the reading to break it.", "links": [{"tag": "Slowly", "lie": "“I’ll quit slowly, a little less each week.”", "opts": [["Say “No” squarely, once and for all, and hold on to Jesus.", 1], ["Yes, cut down very slowly.", 0], ["Wait until it gets easier.", 0]], "why": "Page 103: quitting “by degrees” leaves you in the habit’s power."}, {"tag": "I can’t", "lie": "“I’ve failed so many times. I just can’t resist.”", "opts": [["You can and you must resist. Give your will to God.", 1], ["That’s true. Some people can’t.", 0], ["Try again when you feel stronger.", 0]], "why": "Pages 111–112."}, {"tag": "Ashamed", "lie": "“After what I did, I can’t pray right now.”", "opts": [["Now is exactly the time to pray.", 1], ["Wait until you feel better.", 0], ["Pray only when you’ve been good.", 0]], "why": "Page 107."}, {"tag": "Alone", "lie": "“I’ll beat it on my own with one big promise.”", "opts": [["Promises in my own strength fail. I need Christ’s power.", 1], ["A big enough promise will do it.", 0], ["Willpower is all you need.", 0]], "why": "Page 106."}, {"tag": "Too far", "lie": "“God won’t help me. I brought this on myself.”", "opts": [["Jesus healed people who brought sickness on themselves.", 1], ["God only helps good people.", 0], ["You have to fix it first.", 0]], "why": "Page 121."}, {"tag": "Friends", "lie": "“My friends will laugh if I don’t join in.”", "opts": [["I belong to Christ, and I’ll stay close to friends who love God.", 1], ["Join in so they like you.", 0], ["Just do it secretly.", 0]], "why": "Pages 103–104."}]}, {"type": "pop", "title": "Pop the lies", "help": "Lies and truths float up. Tap to pop the LIES. Let the TRUTHS float away.", "badLabel": "Lie", "goodLabel": "Truth", "items": [["Quit slowly, a little at a time.", 1, "Say no squarely (p. 103)."], ["Some people just can’t resist evil.", 1, "They can, and must (p. 111)."], ["Wait to pray until you feel better.", 1, "Pray now (p. 107)."], ["Willpower alone can save you.", 1, "Only Christ’s power can (p. 106)."], ["Harmful habits don’t affect the mind.", 1, "They cloud the mind (p. 103)."], ["God gives a way of escape.", 0, "Page 105."], ["Jesus hears the feeblest prayer.", 0, "Page 114."], ["Choose God, and He gives the power.", 0, "Pages 112–113."], ["Healthy living helps beat cravings.", 0, "Page 115."], ["Helping others helps you stay free.", 0, "Page 117."]]}]}, "story": {"gid": "story:river", "icon": "🛶", "title": "Time river", "hearts": 3, "how": "Round 1: paddle down the time river. Put each event at its year. Round 2: a memory match of people and what they did.", "end": ["Story keeper!", "Tracts, ministers, Elder Davis, a hospital, a conference. And your own church has a story too."], "rounds": [{"type": "river", "title": "The time river", "help": "An event floats up. Tap the year it happened. The canoe paddles there.", "years": [1885, 1887, 1895, 1911, 1922, 1927, 1955, 1967, 1971, 1976], "items": [["More than 20 Sabbath keepers ask Battle Creek for help", 1885, "November 1885."], ["G. G. Rupert arrives in Georgetown", 1887, "31 January 1887."], ["Kneeland organises a church after baptising the Fleming family", 1895, "July 1895."], ["Elder Ovid E. Davis dies near Mount Roraima", 1911, "31 July 1911."], ["Chief Jeremiah walks to Georgetown to ask for a teacher", 1922, "1922."], ["A. W. and Elizabeth Cott begin the Mount Roraima mission", 1927, "1927."], ["The hospital is named after Elder Davis and opens at Bel Air", 1955, "1955."], ["Davis Memorial Hospital opens on D’Urban Street", 1967, "1967."], ["W. W. Weithers: first Guyanese mission president", 1971, "1971."], ["The Guyana Mission becomes a conference", 1976, "1976."]]}, {"type": "memory", "title": "Who did what?", "help": "Flip two cards. Match each person to what they did.", "pairs": [["G. G. Rupert", "First minister sent, 1887"], ["W. G. Kneeland", "Organised a church, 1895"], ["Ovid E. Davis", "Taught near Mount Roraima"], ["Chief Jeremiah", "Walked to Georgetown for a teacher"], ["The Cotts", "Began the Roraima mission, 1927"], ["W. W. Weithers", "First Guyanese mission president"]]}]}}, "C": {"temperance": {"tf": 14, "mc": 6, "pass": 0.75}}};
+  /* ======================= VERSION 16: eight more explorers ======================= */
+  /* X16 = { L: {k: explorer}, V: {k: picture}, W: {cardId: [style, data]}, G: {k: game} } is filled in by the build. */
+  Object.keys(X16.L).forEach(function(k){ L[k] = X16.L[k]; V[k] = X16.V[k]; });
+  if (!S.topic && B.topic && X16.L[B.topic]) S.topic = B.topic;
+
+  /* ---------- What to know: flip cards, "what happens next" chains, steps and checklists, each with Listen ---------- */
+  var X3S = {};
+  function x3Card(k, id){ return (L[k] && L[k].cards.filter(function(c){ return c.id === id; })[0]) || null; }
+  function x3Say(id){
+    var w = X16.W[id], d = w[1];
+    if (w[0] === 'flip') return d.map(function(f){ return f[1] + '. ' + f[2]; }).join(' ');
+    if (w[0] === 'chain') return d.start + ' ' + d.steps.map(function(s){ return s[1]; }).join(' Then, ') + ' ' + d.end;
+    return d.map(function(s){ return s[1] + '. ' + (s[2] || ''); }).join(' ');
+  }
+  function x3Inner(k, c){
+    var w = X16.W[c.id], d = w[1], st = X3S[c.id] || (X3S[c.id] = {}), h = '';
+    var say = ('speechSynthesis' in window) ? '<button type="button" class="w2-say" data-x3say="' + k + ':' + c.id + '" aria-label="Read this aloud">🔊 Listen</button>' : '';
+    if (w[0] === 'flip') {
+      h = '<div class="w2-top"><p class="w2-lead">Tap a card to flip it.</p>' + say + '</div><div class="fl-grid x3-fl">' + d.map(function(f, i){
+        return '<button type="button" class="fl-card' + (st[i] ? ' on' : '') + '" data-x3fl="' + k + ':' + c.id + ':' + i + '" aria-pressed="' + !!st[i] + '"><span class="fl-in"><span class="fl-front"><i>' + f[0] + '</i>' + esc(f[1]) + '</span><span class="fl-back">' + esc(f[2]) + '</span></span></button>';
+      }).join('') + '</div>';
+    } else if (w[0] === 'chain') {
+      var n = st.n || 0, done = n >= d.steps.length;
+      h = '<div class="w2-top"><p class="w2-lead">' + esc(d.start) + '</p>' + say + '</div><ol class="ch2">';
+      for (var i = 0; i < Math.min(n, d.steps.length); i++) h += (i ? '<li class="ch2-arrow" aria-hidden="true">↓</li>' : '') + '<li class="ch2-step' + (i === n - 1 ? ' new' : '') + '"><span class="ch2-ic">' + d.steps[i][0] + '</span><span>' + esc(d.steps[i][1]) + '</span></li>';
+      h += '</ol>' + (!done ? '<button type="button" class="w2-next" data-x3next="' + k + ':' + c.id + '">' + (n ? 'Then what? ↓' : 'Show me ↓') + '</button><p class="w2-count">' + n + ' of ' + d.steps.length + '</p>'
+        : '<p class="w2-end">💡 ' + esc(d.end) + '</p><button type="button" class="w2-again" data-x3again="' + k + ':' + c.id + '">Start again</button>');
+    } else if (w[0] === 'steps') {
+      var j = Math.min(st.i || 0, d.length - 1), s = d[j];
+      h = '<div class="w2-top"><p class="w2-lead">' + d.length + ' steps · tap Next</p>' + say + '</div>'
+        + '<div class="stp"><div class="stp-pic" aria-hidden="true">' + s[0] + '</div><div class="stp-n">Step ' + (j + 1) + ' of ' + d.length + '</div><b class="stp-t">' + esc(s[1]) + '</b>' + (s[2] ? '<p class="stp-x">' + esc(s[2]) + '</p>' : '') + '</div>'
+        + '<div class="stp-dots" aria-hidden="true">' + d.map(function(_, q){ return '<i' + (q === j ? ' class="on"' : q < j ? ' class="was"' : '') + '></i>'; }).join('') + '</div>'
+        + '<div class="stp-nav"><button type="button" class="w2-again" data-x3step="' + k + ':' + c.id + ':-1"' + (j ? '' : ' disabled') + '>Back</button><button type="button" class="w2-next" data-x3step="' + k + ':' + c.id + ':1">' + (j === d.length - 1 ? 'Start again' : 'Next') + '</button></div>';
+    } else if (w[0] === 'check') {
+      var dn = d.filter(function(_, q){ return st[q]; }).length;
+      h = '<div class="w2-top"><p class="w2-lead">Tap each one to tick it off.</p>' + say + '</div><div class="ck-paper"><div class="ck-head"><b>📋 Checklist</b><span>' + dn + ' of ' + d.length + ' ticked</span></div>' + d.map(function(r, q){
+        return '<button type="button" class="ck-row' + (st[q] ? ' on' : '') + '" data-x3ck="' + k + ':' + c.id + ':' + q + '" aria-pressed="' + !!st[q] + '"><span class="ck-box">' + (st[q] ? '✓' : '') + '</span><span class="ck-ic">' + r[0] + '</span><span class="ck-t"><b>' + esc(r[1]) + '</b>' + (r[2] ? '<small>' + esc(r[2]) + '</small>' : '') + '</span></button>';
+      }).join('') + '</div>';
+    }
+    return h;
+  }
+  Object.keys(X16.L).forEach(function(k){
+    WTK[k] = { has: function(c){ return !!X16.W[c.id]; }, html: function(c){ return '<div class="w2 x3" data-x3box="' + k + ':' + c.id + '">' + x3Inner(k, c) + '</div>'; } };
+  });
+  function x3Redraw(b, k, id){ var box = b.closest('.x3'), c = x3Card(k, id); if (box && c) box.innerHTML = x3Inner(k, c); }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-x3say],[data-x3fl],[data-x3next],[data-x3again],[data-x3step],[data-x3ck]'); if (!b) return;
+    var a;
+    if ((a = b.getAttribute('data-x3say'))) { gkSpeakLong(x3Say(a.split(':')[1])); return; }
+    if ((a = b.getAttribute('data-x3fl'))) { var p = a.split(':'), s = X3S[p[1]] || (X3S[p[1]] = {}); s[p[2]] = !s[p[2]]; b.classList.toggle('on', !!s[p[2]]); b.setAttribute('aria-pressed', !!s[p[2]]); SFX.pop(); return; }
+    if ((a = b.getAttribute('data-x3next'))) { var q = a.split(':'), t = X3S[q[1]] || (X3S[q[1]] = {}); t.n = (t.n || 0) + 1; SFX.pop(); x3Redraw(b, q[0], q[1]); return; }
+    if ((a = b.getAttribute('data-x3again'))) { var r = a.split(':'); (X3S[r[1]] || (X3S[r[1]] = {})).n = 0; x3Redraw(b, r[0], r[1]); return; }
+    if ((a = b.getAttribute('data-x3step'))) { var u = a.split(':'), len = X16.W[u[1]][1].length, v = X3S[u[1]] || (X3S[u[1]] = {}), nx = (v.i || 0) + Number(u[2]); v.i = nx >= len ? 0 : Math.max(0, nx); SFX.pop(); x3Redraw(b, u[0], u[1]); return; }
+    if ((a = b.getAttribute('data-x3ck'))) { var w = a.split(':'), x = X3S[w[1]] || (X3S[w[1]] = {}); x[w[2]] = !x[w[2]]; if (x[w[2]]) SFX.coin(); x3Redraw(b, w[0], w[1]); }
+  });
+
+  /* ---------- Games: rounds of different kinds ---------- */
+  var X6 = {};
+  function x6Count(i, n){ return '<div class="x6-count"><span>' + (i + 1) + ' / ' + n + '</span><i><b style="width:' + Math.round(100 * i / n) + '%"></b></i></div>'; }
+  /* Two buttons, or swipe the card left or right: myth or fact, true or false, red or green flag… */
+  X6.twoway = function(api, r, done, miss){
+    var items = gkShuffle(r.items), i = 0, m = 0, box = gkEl('div', 'x6-tw'); api.stage.appendChild(box);
+    function show(){
+      if (api.st.done) return;
+      if (i >= items.length) { done(m); return; }
+      var it = items[i], live = true;
+      box.innerHTML = x6Count(i, items.length) + '<div class="x6-card x6-sw">' + esc(it[0]) + '</div><div class="x6-two"><button type="button" class="gk-btn x6-l" data-a="0">' + esc(r.left) + '</button><button type="button" class="gk-btn x6-r" data-a="1">' + esc(r.right) + '</button></div><p class="x6-why"></p>';
+      var card = box.querySelector('.x6-card');
+      function answer(a){
+        if (!live) return; live = false;
+        var ok = a === it[1], why = box.querySelector('.x6-why');
+        card.classList.add(ok ? 'ok' : 'no'); card.style.transform = 'translateX(' + (a ? 26 : -26) + 'px) rotate(' + (a ? 3 : -3) + 'deg)';
+        box.querySelector('[data-a="' + it[1] + '"]').classList.add('ok');
+        why.innerHTML = (ok ? '✓ ' : '✗ ') + '<b>' + esc(it[1] ? r.right : r.left) + '.</b> ' + esc(it[2] || ''); why.className = 'x6-why ' + (ok ? 'ok' : 'no');
+        if (ok) api.good(100); else { m++; if (miss()) return; }
+        var nb = gkEl('button', 'gk-btn gk-go x6-next', i === items.length - 1 ? 'Done ✓' : 'Next →'); nb.type = 'button'; nb.onclick = function(){ i++; show(); }; box.appendChild(nb);
+      }
+      box.querySelector('.x6-two').onclick = function(e){ var b = e.target.closest('[data-a]'); if (b) answer(+b.getAttribute('data-a')); };
+      var sx = null;
+      card.addEventListener('pointerdown', function(e){ sx = e.clientX; });
+      card.addEventListener('pointerup', function(e){ if (sx == null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) answer(dx > 0 ? 1 : 0); });
+    }
+    show();
+  };
+  /* Real situations with three choices (like the Legion of Honour path). */
+  X6.path = function(api, r, done, miss){
+    var i = 0, m = 0, cross = r.look === 'cross', box = gkEl('div', 'x6-path' + (cross ? ' x6-cross' : '')); api.stage.appendChild(box);
+    function show(){
+      if (api.st.done) return;
+      if (i >= r.stops.length) { done(m); return; }
+      var s = r.stops[i], live = true;
+      var top = cross ? '<div class="x6-road" aria-hidden="true"><span class="x6-fork"></span><span class="x6-walker">' + s.icon + '</span><small>Crossroads ' + (i + 1) + ' of ' + r.stops.length + '</small></div>'
+        : '<div class="x6-trail">' + r.stops.map(function(x, j){ return '<span class="' + (j < i ? 'was' : j === i ? 'on' : '') + '">' + x.icon + '</span>'; }).join('') + '</div>';
+      box.innerHTML = top + '<div class="lg-card"><p class="lg-sit">' + esc(s.sit) + '</p><div class="lg-opts">' + gkShuffle(s.opts).map(function(o, j){ return '<button type="button" class="gk-btn lg-opt' + (cross ? ' x6-sign' : '') + '" data-ok="' + o[1] + '">' + (cross ? '<i class="x6-arr">' + ['↖', '⬆', '↗', '➡'][j % 4] + '</i>' : '') + esc(o[0]) + '</button>'; }).join('') + '</div><p class="lg-why"></p></div>';
+      var card = box.querySelector('.lg-card');
+      card.querySelector('.lg-opts').onclick = function(e){
+        var b = e.target.closest('.lg-opt'); if (!b || !live) return; live = false;
+        var why = card.querySelector('.lg-why'), ok = b.getAttribute('data-ok') === '1';
+        [].forEach.call(card.querySelectorAll('.lg-opt'), function(x){ if (x.getAttribute('data-ok') === '1') x.classList.add('ok'); });
+        if (ok) { api.good(120); why.innerHTML = '✓ ' + esc(s.why); why.className = 'lg-why ok'; }
+        else { b.classList.add('no'); m++; why.innerHTML = esc(s.why); why.className = 'lg-why no'; if (miss()) return; }
+        var nb = gkEl('button', 'gk-btn gk-go lg-next', i === r.stops.length - 1 ? 'Done ✓' : 'Next →'); nb.type = 'button'; nb.onclick = function(){ i++; show(); }; card.appendChild(nb);
+      };
+    }
+    show();
+  };
+  /* Tap the bin each card belongs in. A wrong bin costs points, not a heart. */
+  X6.sort = function(api, r, done){
+    var items = gkShuffle(r.items), i = 0, m = 0, counts = {}, box = gkEl('div', 'x6-sort'); api.stage.appendChild(box);
+    function show(){
+      if (api.st.done) return;
+      if (i >= items.length) { done(m); return; }
+      var it = items[i], live = true;
+      box.innerHTML = x6Count(i, items.length) + '<div class="x6-card x6-in">' + esc(it[0]) + '</div><div class="x6-bins x6-b' + r.bins.length + '">' + r.bins.map(function(b){
+        return '<button type="button" class="x6-bin" data-b="' + b[0] + '"><span>' + b[1] + '</span><b>' + esc(b[2]) + '</b><small>' + (counts[b[0]] || 0) + '</small></button>'; }).join('') + '</div><p class="x6-why"></p>';
+      box.querySelector('.x6-bins').onclick = function(e){
+        var b = e.target.closest('[data-b]'); if (!b || !live) return;
+        var why = box.querySelector('.x6-why');
+        if (b.getAttribute('data-b') === it[1]) {
+          live = false; counts[it[1]] = (counts[it[1]] || 0) + 1; b.classList.add('ok'); api.good(100);
+          why.innerHTML = '✓ ' + esc(it[2] || ''); why.className = 'x6-why ok'; setTimeout(function(){ i++; show(); }, 800);
+        } else { m++; b.classList.add('no'); SFX.bad(); api.addScore(-25); why.innerHTML = 'Not that one. Try again.'; why.className = 'x6-why no'; setTimeout(function(){ b.classList.remove('no'); }, 450); }
+      };
+    }
+    show();
+  };
+  /* Tap the words in order to spell out a short name (HIV, AIDS…). */
+  X6.spell = function(api, r, done){
+    var i = 0, m = 0, box = gkEl('div', 'x6-spell'); api.stage.appendChild(box);
+    function show(){
+      if (api.st.done) return;
+      if (i >= r.items.length) { done(m); return; }
+      var it = r.items[i], got = 0, bank = gkShuffle(it.words.concat(it.extra)), busy = false;
+      function paint(){
+        box.innerHTML = x6Count(i, r.items.length) + '<div class="x6-abbr">' + it.abbr.split('').map(function(ch){ return '<b>' + esc(ch) + '</b>'; }).join('') + '</div><div class="x6-slots">'
+          + it.words.map(function(w, j){ return '<span class="x6-slot' + (j < got ? ' ok' : '') + '">' + (j < got ? esc(w) : '?') + '</span>'; }).join('') + '</div><p class="x6-ask">' + (got >= it.words.length ? '✓ ' + esc(it.abbr) + ' = ' + esc(it.words.join(' ')) : 'Tap the next word') + '</p><div class="x6-bank">'
+          + bank.map(function(w, j){ return '<button type="button" class="gk-btn x6-w" data-xw="' + j + '">' + esc(w) + '</button>'; }).join('') + '</div>';
+        box.querySelector('.x6-bank').onclick = function(e){
+          var b = e.target.closest('[data-xw]'); if (!b || busy) return;
+          var j = +b.getAttribute('data-xw');
+          if (bank[j] === it.words[got]) {
+            got++; bank.splice(j, 1); SFX.pop(); api.addScore(40);
+            if (got >= it.words.length) { busy = true; paint(); api.good(60); gkSpeak(it.abbr.split('').join(' ') + ' stands for ' + it.words.join(' ')); setTimeout(function(){ i++; show(); }, 2200); return; }
+            paint();
+          } else { m++; b.classList.add('no'); SFX.bad(); api.addScore(-20); setTimeout(function(){ b.classList.remove('no'); }, 450); }
+        };
+      }
+      paint();
+    }
+    show();
+  };
+  /* A phone chat: pick your reply, see how your friend answers. */
+  X6.chat = function(api, r, done, miss){
+    var i = 0, m = 0, meter = 0;
+    var box = gkEl('div', 'x6-chat', '<div class="x6-phtop"><span class="x6-av">' + r.avatar + '</span><b>' + esc(r.who) + '</b><span class="x6-meter" title="Friendship"><i></i></span></div><div class="x6-msgs"></div><div class="x6-opts"></div>');
+    api.stage.appendChild(box);
+    var msgs = box.querySelector('.x6-msgs'), opts = box.querySelector('.x6-opts'), bar = box.querySelector('.x6-meter i');
+    function add(cls, text){ msgs.appendChild(gkEl('p', 'x6-bb ' + cls, esc(text))); msgs.scrollTop = msgs.scrollHeight; }
+    function typing(cb){ var p = gkEl('p', 'x6-bb them x6-typing', '<i></i><i></i><i></i>'); msgs.appendChild(p); msgs.scrollTop = msgs.scrollHeight; setTimeout(function(){ p.remove(); if (!api.st.done) cb(); }, 800); }
+    function step(){
+      if (api.st.done) return;
+      if (i >= r.lines.length) { opts.innerHTML = ''; setTimeout(function(){ done(m); }, 900); return; }
+      var ln = r.lines[i];
+      typing(function(){
+        add('them', ln.them);
+        opts.innerHTML = gkShuffle(ln.opts.map(function(_, j){ return j; })).map(function(j){ return '<button type="button" class="gk-btn x6-o" data-j="' + j + '">' + esc(ln.opts[j][0]) + '</button>'; }).join('');
+        opts.onclick = function(e){
+          var b = e.target.closest('[data-j]'); if (!b) return; opts.onclick = null;
+          var o = ln.opts[+b.getAttribute('data-j')]; opts.innerHTML = '';
+          add('me', o[0]);
+          if (o[1]) { meter++; api.good(100); } else { m++; SFX.bad(); }
+          bar.style.width = Math.round(100 * meter / r.lines.length) + '%';
+          typing(function(){ add('them', o[2]); if (!o[1] && miss()) return; i++; setTimeout(step, 600); });
+        };
+      });
+    }
+    step();
+  };
+  /* Build a parable: choose the lesson, then the Bible text. */
+  X6.pair = function(api, r, done, miss){
+    var items = gkShuffle(r.items), i = 0, m = 0, stp = 0, box = gkEl('div', 'x6-pair'); api.stage.appendChild(box);
+    function choices(f, it){ return gkShuffle([it[f]].concat(gkShuffle(r.items.filter(function(x){ return x !== it; })).slice(0, 2).map(function(x){ return x[f]; }))); }
+    function show(){
+      if (api.st.done) return;
+      if (i >= items.length) { done(m); return; }
+      var it = items[i], f = stp ? 3 : 2, cs = choices(f, it);
+      box.innerHTML = x6Count(i, items.length) + '<div class="x6-nat"><span>' + it[0] + '</span><b>' + esc(it[1]) + '</b>' + (stp ? '<p>' + esc(it[2]) + '</p>' : '') + '</div><p class="x6-ask">' + (stp ? 'Which Bible text goes with it?' : 'What lesson does it teach?') + '</p><div class="x6-ch">'
+        + cs.map(function(o, j){ return '<button type="button" class="gk-btn x6-o" data-c="' + j + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+      box.querySelector('.x6-ch').onclick = function(e){
+        var b = e.target.closest('[data-c]'); if (!b || b.disabled) return;
+        if (cs[+b.getAttribute('data-c')] === it[f]) { b.classList.add('ok'); api.good(75); box.querySelector('.x6-ch').onclick = null; setTimeout(function(){ if (stp) { stp = 0; i++; } else stp = 1; show(); }, 600); }
+        else { m++; b.classList.add('no'); b.disabled = true; if (miss()) return; }
+      };
+    }
+    show();
+  };
+  function x6Run(api, G){
+    var ri = 0, mist = 0;
+    function miss(msg){ return api.loseHeart(msg); }
+    function next(){
+      if (api.st.done) return;
+      if (ri >= G.rounds.length) { api.finish(true, { stars: mist === 0 ? 3 : mist <= 2 ? 2 : 1, title: G.end[0], summary: esc(G.end[1]) }); return; }
+      var r = G.rounds[ri++];
+      api.stage.innerHTML = '';
+      var intro = gkEl('div', 'x6-intro', '<span class="x6-rn">Round ' + ri + ' of ' + G.rounds.length + '</span><h4>' + esc(r.title) + '</h4><p>' + esc(r.help || '') + '</p>');
+      var go = gkEl('button', 'gk-btn gk-go', ri === 1 ? 'Start' : 'Next round'); go.type = 'button'; intro.appendChild(go);
+      api.stage.appendChild(intro);
+      go.onclick = function(){ api.stage.innerHTML = ''; X6[r.type](api, r, function(mm){ mist += mm; next(); }, miss); };
+    }
+    next();
+  }
+  Object.keys(X16.G).forEach(function(k){
+    var G = X16.G[k];
+    NGAMES[k] = function(){ return GK({ gid: G.gid, icon: G.icon, title: G.title, hearts: G.hearts, how: G.how, build: function(api){ x6Run(api, G); } }); };
+  });
+
+  /* ======================= VERSION 16: more kinds of play ======================= */
+  /* Memory match: flip two cards, find the pairs. */
+  X6.memory = function(api, r, done){
+    var cards = [], m = 0, open = [], got = 0, lock = false, box = gkEl('div', 'x6-mem'); box.lang = 'en'; api.stage.appendChild(box);
+    r.pairs.forEach(function(p, i){ cards.push({ p: i, t: p[0], big: true }); cards.push({ p: i, t: p[1] }); });
+    cards = gkShuffle(cards);
+    box.innerHTML = '<p class="x6-ask">Find the ' + r.pairs.length + ' pairs</p><div class="x6-mgrid">' + cards.map(function(c, i){
+      return '<button type="button" class="x6-mc" data-mi="' + i + '" data-p="' + c.p + '"><span class="x6-mb">?</span><span class="x6-mf' + (c.big ? ' big' : '') + '">' + esc(c.t) + '</span></button>'; }).join('') + '</div>';
+    box.querySelector('.x6-mgrid').onclick = function(e){
+      var b = e.target.closest('.x6-mc'); if (!b || lock || b.classList.contains('up')) return;
+      b.classList.add('up'); SFX.pop(); open.push(b);
+      if (open.length < 2) return;
+      lock = true;
+      var a = open[0], c = open[1]; open = [];
+      if (a.getAttribute('data-p') === c.getAttribute('data-p')) {
+        setTimeout(function(){ a.classList.add('ok'); c.classList.add('ok'); api.good(120); got++; lock = false; if (got >= r.pairs.length) setTimeout(function(){ done(m); }, 700); }, 300);
+      } else {
+        m++; api.addScore(-10);
+        setTimeout(function(){ a.classList.remove('up'); c.classList.remove('up'); lock = false; }, 900);
+      }
+    };
+  };
+  /* Bubbles float up. Pop the bad ones; let the good ones rise. */
+  X6.pop = function(api, r, done, miss){
+    var items = gkShuffle(r.items), next = 0, live = [], m = 0, spawnT = 0.4, finished = false;
+    var box = gkEl('div', 'x6-pop', '<div class="x6-sky"></div><div class="x6-legend"><span>💥 Pop: ' + esc(r.badLabel) + '</span><span>⬆️ Let rise: ' + esc(r.goodLabel) + '</span></div>');
+    api.stage.appendChild(box);
+    var sky = box.querySelector('.x6-sky');
+    function spawn(){
+      var it = items[next++], el = gkEl('button', 'x6-bub' + (next % 2 ? ' l' : ' r'), esc(it[0]));
+      el.type = 'button'; el.setAttribute('data-bad', it[1] ? 1 : 0);
+      var b = { it: it, el: el, y: 0, dead: false };
+      el.addEventListener('pointerdown', function(e){
+        e.preventDefault(); if (b.dead || api.st.done) return; b.dead = true;
+        if (it[1]) { el.classList.add('popped'); api.good(100); api.toast('💥 ' + esc(r.badLabel) + ' busted! ' + esc(it[2]), true, 2200); }
+        else { el.classList.add('oops'); m++; api.addScore(-20); if (miss('That one is true: ' + esc(it[2]))) return; }
+        setTimeout(function(){ el.remove(); }, 450);
+      });
+      sky.appendChild(el); live.push(b);
+    }
+    api.tick(function(dt){
+      if (finished) return;
+      spawnT -= dt;
+      if (spawnT <= 0 && next < items.length && live.filter(function(b){ return !b.dead; }).length < 2) { spawn(); spawnT = 3.2; }
+      var H = sky.clientHeight || 380;
+      live.forEach(function(b){
+        if (b.dead) return;
+        b.y += dt * ((H + 170) / 9); b.el.style.transform = 'translateY(' + (-b.y) + 'px)';
+        if (b.y > H + 170) {
+          b.dead = true; b.el.remove();
+          if (b.it[1]) { m++; miss('A myth got away: ' + esc(b.it[2])); }
+          else { api.addScore(50); SFX.coin(); }
+        }
+      });
+      live = live.filter(function(b){ return !b.dead; });
+      if (next >= items.length && !live.length && !api.st.done) { finished = true; setTimeout(function(){ done(m); }, 400); }
+    });
+  };
+  /* Things pop up in the windows. Tap the helpful ones, leave the rest. */
+  X6.whack = function(api, r, done, miss){
+    var seq = gkShuffle(r.items.concat(r.items.filter(function(x){ return x[2]; }))).slice(0, r.count || 16), k = 0, m = 0, slots = [null, null, null, null, null, null], wait = 0.5, finished = false;
+    var box = gkEl('div', 'x6-whack', '<div class="x6-house">' + slots.map(function(_, i){ return '<button type="button" class="x6-win" data-s="' + i + '"><span class="x6-pop-in"></span></button>'; }).join('') + '</div><p class="x6-ask">Tap the helpful things. Leave the others alone.</p>');
+    api.stage.appendChild(box);
+    var wins = box.querySelectorAll('.x6-win');
+    function show(i, it){ slots[i] = { it: it, t: 2.3, hit: false }; wins[i].classList.add('up'); wins[i].setAttribute('data-good', it[2]); wins[i].querySelector('.x6-pop-in').innerHTML = '<i>' + it[0] + '</i><b>' + esc(it[1]) + '</b>'; }
+    function hide(i){ slots[i] = null; wins[i].classList.remove('up', 'ok', 'no'); wins[i].removeAttribute('data-good'); }
+    box.querySelector('.x6-house').addEventListener('pointerdown', function(e){
+      var w = e.target.closest('.x6-win'); if (!w || api.st.done) return; e.preventDefault();
+      var i = +w.getAttribute('data-s'), s = slots[i]; if (!s || s.hit) return; s.hit = true;
+      if (s.it[2]) { w.classList.add('ok'); api.good(100); }
+      else { w.classList.add('no'); m++; if (miss(esc(s.it[3] || 'That doesn’t help.'))) return; }
+      s.t = Math.min(s.t, 0.35);
+    });
+    api.tick(function(dt){
+      if (finished) return;
+      slots.forEach(function(s, i){ if (!s) return; s.t -= dt; if (s.t <= 0) hide(i); });
+      wait -= dt;
+      if (wait <= 0 && k < seq.length) {
+        var free = slots.map(function(s, i){ return s ? -1 : i; }).filter(function(i){ return i > -1; });
+        if (free.length) { show(free[Math.floor(Math.random() * free.length)], seq[k++]); wait = 0.75 + Math.random() * 0.5; }
+      }
+      if (k >= seq.length && slots.every(function(s){ return !s; }) && !api.st.done) { finished = true; setTimeout(function(){ done(m); }, 300); }
+    });
+  };
+  /* Put the pieces of a story in order: tap a piece to place it, tap again to take it back. */
+  X6.stack = function(api, r, done, miss){
+    var pool = gkShuffle(r.strips.map(function(s, i){ return i; })), placed = [], m = 0, box = gkEl('div', 'x6-stack'); api.stage.appendChild(box);
+    function paint(bad){
+      box.innerHTML = '<div class="x6-slots2">' + r.strips.map(function(s, i){
+        var p = placed[i];
+        return '<div class="x6-slot2' + (bad && bad[i] ? ' no' : '') + (p != null && bad && !bad[i] ? ' ok' : '') + '"><small>' + esc(r.groups[r.strips[i][0]]) + '</small>' + (p != null ? '<button type="button" class="x6-strip in" data-back="' + i + '">' + esc(r.strips[p][1]) + '</button>' : '<span class="x6-empty">Tap a piece below</span>') + '</div>'; }).join('') + '</div>'
+        + '<div class="x6-pool">' + pool.map(function(i){ return '<button type="button" class="x6-strip" data-take="' + i + '" data-g="' + r.strips[i][0] + '">' + esc(r.strips[i][1]) + '</button>'; }).join('') + '</div>'
+        + (placed.filter(function(x){ return x != null; }).length === r.strips.length ? '<button type="button" class="gk-btn gk-go x6-next" data-check="1">Check my story</button>' : '');
+    }
+    box.onclick = function(e){
+      var b = e.target.closest('button'); if (!b || api.st.done) return;
+      if (b.hasAttribute('data-take')) { var i = +b.getAttribute('data-take'), slot = -1; for (var q = 0; q < r.strips.length; q++) if (placed[q] == null) { slot = q; break; } if (slot < 0) return; placed[slot] = i; pool.splice(pool.indexOf(i), 1); SFX.pop(); paint(); return; }
+      if (b.hasAttribute('data-back')) { var s = +b.getAttribute('data-back'); pool.push(placed[s]); placed[s] = null; paint(); return; }
+      if (b.hasAttribute('data-check')) {
+        var bad = {}, nbad = 0;
+        r.strips.forEach(function(st, q){ if (r.strips[placed[q]][0] !== st[0]) { bad[q] = 1; nbad++; } });
+        if (!nbad) { api.good(300, esc(r.win || 'Well done!')); paint({}); setTimeout(function(){ done(m); }, 1200); return; }
+        m++; paint(bad);
+        if (miss(esc(r.hint || 'Some pieces are in the wrong place.'))) return;
+        setTimeout(function(){ Object.keys(bad).forEach(function(q){ pool.push(placed[q]); placed[q] = null; }); paint(); }, 1100);
+      }
+    };
+    paint();
+  };
+  /* Plan a training week: put each session on a day, then check the rules. */
+  X6.planner = function(api, r, done, miss){
+    var pool = gkShuffle(r.tiles.map(function(t, i){ return i; })), week = [null, null, null, null, null, null, null], sel = null, m = 0;
+    var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], box = gkEl('div', 'x6-plan'); api.stage.appendChild(box);
+    function paint(msgs){
+      box.innerHTML = '<div class="x6-rules">' + r.rules.map(function(x){ return '<span>✔ ' + esc(x) + '</span>'; }).join('') + '</div><div class="x6-week">' + DAYS.map(function(dn, d){
+        var t = week[d] != null ? r.tiles[week[d]] : null;
+        return '<button type="button" class="x6-day' + (t ? ' ' + t[2] : '') + (msgs && msgs.days && msgs.days[d] ? ' no' : '') + '" data-day="' + d + '"><small>' + dn + '</small>' + (t ? '<i>' + t[0] + '</i><b>' + esc(t[1]) + '</b>' : '<em>+</em>') + '</button>'; }).join('') + '</div>'
+        + '<div class="x6-tiles">' + pool.map(function(i){ var t = r.tiles[i]; return '<button type="button" class="x6-tile ' + t[2] + (sel === i ? ' sel' : '') + '" data-tile="' + i + '" data-kind="' + t[2] + '"><i>' + t[0] + '</i>' + esc(t[1]) + '</button>'; }).join('') + '</div>'
+        + '<p class="x6-why ' + (msgs && msgs.text ? 'no' : '') + '">' + (msgs && msgs.text ? esc(msgs.text) : pool.length ? (sel != null ? 'Now tap a day.' : 'Tap a session, then tap a day.') : 'All placed. Check your week.') + '</p>'
+        + (pool.length ? '' : '<button type="button" class="gk-btn gk-go x6-next" data-pcheck="1">Check my week</button>');
+    }
+    box.onclick = function(e){
+      var b = e.target.closest('button'); if (!b || api.st.done) return;
+      if (b.hasAttribute('data-tile')) { var i = +b.getAttribute('data-tile'); sel = sel === i ? null : i; SFX.pop(); paint(); return; }
+      if (b.hasAttribute('data-day')) {
+        var d = +b.getAttribute('data-day');
+        if (sel != null) { if (week[d] != null) pool.push(week[d]); week[d] = sel; pool.splice(pool.indexOf(sel), 1); sel = null; SFX.pop(); }
+        else if (week[d] != null) { pool.push(week[d]); week[d] = null; }
+        paint(); return;
+      }
+      if (b.hasAttribute('data-pcheck')) {
+        var kinds = week.map(function(x){ return r.tiles[x][2]; }), bad = {}, why = '';
+        if (kinds[0] === 'hard') { bad[0] = 1; why = 'Start the week easy: no run on Monday.'; }
+        for (var q = 1; q < 7; q++) if (kinds[q] === 'hard' && kinds[q - 1] === 'hard') { bad[q] = bad[q - 1] = 1; why = why || 'Two runs in a row. Put an easy day or a rest day between them.'; }
+        var sab = kinds.indexOf('sabbath');
+        if (sab > -1 && sab !== 5) { bad[sab] = 1; why = why || 'Keep Saturday for Sabbath rest and worship.'; }
+        if (!why) { api.good(300, 'A safe, steady week. Copy it into your training record!'); paint(); setTimeout(function(){ done(m); }, 1400); return; }
+        m++; paint({ days: bad, text: why }); miss();
+      }
+    };
+    paint();
+  };
+  /* Guard the lungs: harmful things drift in. Tap them away; let the good things through. */
+  X6.defend = function(api, r, done, miss){
+    var items = [], k = 0, m = 0, wait = 0.6, list = gkShuffle(r.bad.map(function(x){ return [x, 1]; }).concat(r.bad.map(function(x){ return [x, 1]; }), r.good.map(function(x){ return [x, 0]; }))), health = 100, finished = false;
+    var box = gkEl('div', 'x6-def', '<div class="x6-body"><span class="x6-lungs">Body health</span><i class="x6-hp"><b></b></i></div><div class="x6-air"></div><p class="x6-ask">Tap away what harms your body. Let the good things in.</p>');
+    api.stage.appendChild(box);
+    var air = box.querySelector('.x6-air'), hp = box.querySelector('.x6-hp b');
+    function paintHp(){ hp.style.width = Math.max(0, health) + '%'; }
+    function spawn(){
+      var x = list[k++], el = gkEl('button', 'x6-thing' + (x[1] ? ' bad' : ' good'), '<i>' + x[0][0] + '</i><small>' + esc(x[0][1]) + '</small>');
+      el.type = 'button'; el.setAttribute('data-bad', x[1]);
+      var o = { x: x, el: el, p: 0, lane: Math.floor(Math.random() * 3), dead: false };
+      el.style.top = (8 + o.lane * 30) + '%';
+      el.addEventListener('pointerdown', function(e){
+        e.preventDefault(); if (o.dead || api.st.done) return; o.dead = true;
+        if (x[1]) { el.classList.add('zap'); api.good(80); } else { el.classList.add('oops'); api.addScore(-30); api.toast(esc(x[0][1]) + ' is good for you. Let it through!', false, 1600); SFX.bad(); }
+        setTimeout(function(){ el.remove(); }, 400);
+      });
+      air.appendChild(el); items.push(o);
+    }
+    api.tick(function(dt){
+      if (finished) return;
+      wait -= dt;
+      if (wait <= 0 && k < list.length) { spawn(); wait = 1.15 + Math.random() * 0.6; }
+      var W = air.clientWidth || 320;
+      items.forEach(function(o){
+        if (o.dead) return;
+        o.p += dt / 5.2; o.el.style.left = ((1 - o.p) * (W - 60)) + 'px';
+        if (o.p >= 1) {
+          o.dead = true; o.el.remove();
+          if (o.x[1]) { health -= 20; paintHp(); m++; box.classList.remove('hurt'); void box.offsetWidth; box.classList.add('hurt'); if (miss(esc(o.x[0][1]) + ' got in. ' + esc(o.x[0][2] || ''))) return; }
+          else { api.addScore(40); SFX.coin(); health = Math.min(100, health + 5); paintHp(); }
+        }
+      });
+      items = items.filter(function(o){ return !o.dead; });
+      if (k >= list.length && !items.length && !api.st.done) { finished = true; setTimeout(function(){ done(m); }, 400); }
+    });
+    paintHp();
+  };
+  /* Build a lesson on a 30-minute timeline: tap the parts in the right order. */
+  X6.timeline = function(api, r, done, miss){
+    var got = 0, m = 0, pool = gkShuffle(r.blocks.map(function(b, i){ return i; })), box = gkEl('div', 'x6-tl'); api.stage.appendChild(box);
+    function paint(){
+      var used = 0;
+      box.innerHTML = '<div class="x6-bar">' + r.blocks.slice(0, got).map(function(b, i){ used += b[1]; return '<span class="x6-seg s' + (i % 6) + '" style="flex:' + b[1] + '" title="' + esc(b[0]) + '"><small>' + b[1] + '′</small></span>'; }).join('')
+        + (got < r.blocks.length ? '<span class="x6-seg rest" style="flex:' + (r.total - used) + '"><small>' + (r.total - used) + ' min left</small></span>' : '') + '</div>'
+        + '<ol class="x6-tlist">' + r.blocks.slice(0, got).map(function(b, i){ return '<li><i class="s' + (i % 6) + '"></i>' + esc(b[0]) + ' <small>' + b[1] + ' min</small></li>'; }).join('') + '</ol>'
+        + '<p class="x6-ask">' + (got < r.blocks.length ? 'What comes next?' : 'A ' + r.total + '-minute lesson. Most of the time is spent doing!') + '</p><div class="x6-ch">'
+        + pool.map(function(i){ var b = r.blocks[i]; return '<button type="button" class="gk-btn x6-o" data-o="' + i + '"><b>' + esc(b[0]) + '</b> · ' + b[1] + ' min<br><small>' + esc(b[2]) + '</small></button>'; }).join('') + '</div>';
+    }
+    box.onclick = function(e){
+      var b = e.target.closest('[data-o]'); if (!b || api.st.done) return;
+      var i = +b.getAttribute('data-o');
+      if (i === got) { got++; pool.splice(pool.indexOf(i), 1); api.good(100); paint(); if (got >= r.blocks.length) setTimeout(function(){ done(m); }, 1400); }
+      else { m++; b.classList.add('no'); setTimeout(function(){ b.classList.remove('no'); }, 450); miss('Not yet. Think: what do the Juniors need first?'); }
+    };
+    paint();
+  };
+  /* Grow a parable: for each thing in nature, pick the lesson and the Bible text; the plant grows. */
+  X6.grow = function(api, r, done, miss){
+    var items = gkShuffle(r.items), i = 0, stp = 0, m = 0, box = gkEl('div', 'x6-grow'); api.stage.appendChild(box);
+    var STAGES = ['🌰', '🌱', '🌿', '🪴', '🌳', '🌳🌼', '🌳🍎'];
+    function choices(f, it){ return gkShuffle([it[f]].concat(gkShuffle(r.items.filter(function(x){ return x !== it; })).slice(0, 2).map(function(x){ return x[f]; }))); }
+    function show(){
+      if (api.st.done) return;
+      if (i >= items.length) { done(m); return; }
+      var it = items[i], f = stp ? 3 : 2, cs = choices(f, it);
+      box.innerHTML = '<div class="x6-pot"><span class="x6-plant">' + STAGES[Math.min(STAGES.length - 1, i)] + '</span><small>Parables built: ' + i + ' / ' + items.length + '</small></div>'
+        + '<div class="x6-pcard"><div class="x6-prow"><span>' + it[0] + '</span><b>I saw: ' + esc(it[1]) + '</b></div><div class="x6-prow' + (stp ? ' done' : ' now') + '"><span>💡</span><b>' + (stp ? esc(it[2]) : 'It teaches…?') + '</b></div><div class="x6-prow' + (stp ? ' now' : '') + '"><span>📖</span><b>' + (stp ? 'Bible text…?' : '…') + '</b></div></div>'
+        + '<div class="x6-ch">' + cs.map(function(o, j){ return '<button type="button" class="gk-btn x6-o" data-c="' + j + '" data-ok="' + (o === it[f] ? 1 : 0) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+      box.querySelector('.x6-ch').onclick = function(e){
+        var b = e.target.closest('[data-c]'); if (!b || b.disabled) return;
+        if (cs[+b.getAttribute('data-c')] === it[f]) { b.classList.add('ok'); api.good(75); box.querySelector('.x6-ch').onclick = null; setTimeout(function(){ if (stp) { stp = 0; i++; } else stp = 1; show(); }, 600); }
+        else { m++; b.classList.add('no'); b.disabled = true; if (miss()) return; }
+      };
+    }
+    show();
+  };
+  /* Honour patches fall. Tap an area to steer the patch there; tap ⬇ to drop it fast. */
+  X6.drop = function(api, r, done, miss){
+    var items = gkShuffle(r.items), i = 0, m = 0, cur = null, finished = false, n = r.cols.length, ids = r.cols.map(function(c){ return c[0]; });
+    var box = gkEl('div', 'x6-drop', '<div class="x6-well">' + r.cols.map(function(c, j){ return '<div class="x6-lane" data-lane="' + j + '"><span>' + c[1] + '</span><b>0</b></div>'; }).join('') + '<div class="x6-patch"></div></div>'
+      + '<div class="x6-cbtns">' + r.cols.map(function(c, j){ return '<button type="button" class="x6-cb" data-c="' + j + '"><span>' + c[1] + '</span>' + esc(c[2]) + '</button>'; }).join('') + '</div>'
+      + '<button type="button" class="gk-btn x6-fast" data-fast="1">⬇ Drop</button>');
+    api.stage.appendChild(box);
+    var well = box.querySelector('.x6-well'), patch = box.querySelector('.x6-patch'), lanes = box.querySelectorAll('.x6-lane'), counts = ids.map(function(){ return 0; });
+    function place(){
+      if (!cur) return;
+      var W = well.clientWidth || 320;
+      var half = (patch.offsetWidth || 90) / 2, x = (cur.lane + 0.5) / n * W;
+      patch.style.left = Math.max(half + 2, Math.min(W - half - 2, x)) + 'px'; patch.style.top = cur.y + 'px';
+      [].forEach.call(lanes, function(l, j){ l.classList.toggle('on', j === cur.lane); });
+    }
+    function next(){
+      if (api.st.done) return;
+      if (i >= items.length) { finished = true; patch.style.display = 'none'; setTimeout(function(){ done(m); }, 500); return; }
+      cur = { it: items[i++], y: 0, lane: Math.floor(n / 2), fast: false };
+      patch.className = 'x6-patch'; patch.setAttribute('data-want', ids.indexOf(cur.it[1]));
+      patch.innerHTML = '<i>🎖️</i>' + esc(cur.it[0]); place();
+    }
+    function steer(j){ if (!cur || cur.fast) return; cur.lane = j; SFX.pop(); place(); }
+    box.querySelector('.x6-cbtns').addEventListener('click', function(e){ var b = e.target.closest('[data-c]'); if (b) steer(+b.getAttribute('data-c')); });
+    well.addEventListener('click', function(e){ var b = e.target.closest('[data-lane]'); if (b) steer(+b.getAttribute('data-lane')); });
+    box.querySelector('.x6-fast').addEventListener('click', function(){ if (cur) { cur.fast = true; SFX.whoosh(); } });
+    api.tick(function(dt){
+      if (finished || !cur || api.st.done) return;
+      var H = Math.max(120, (well.clientHeight || 300) - 46);
+      cur.y += dt * (cur.fast ? H * 3 : H / Math.max(4, 8 - i * 0.35)); place();
+      if (cur.y < H) return;
+      var want = ids.indexOf(cur.it[1]), landed = cur.lane, it = cur.it; cur = null;
+      if (landed === want) {
+        counts[want]++; lanes[want].querySelector('b').textContent = counts[want];
+        lanes[want].classList.add('ok'); setTimeout(function(){ lanes[want].classList.remove('ok'); }, 450);
+        api.good(100); patch.className = 'x6-patch in'; setTimeout(next, 350);
+      } else {
+        m++; patch.className = 'x6-patch out';
+        lanes[want].classList.add('hint'); setTimeout(function(){ lanes[want].classList.remove('hint'); }, 1300);
+        if (miss(esc(it[0]) + ' belongs in ' + esc(r.cols[want][2]) + '.')) return;
+        setTimeout(next, 1300);
+      }
+    });
+    next();
+  };
+  /* A habit holds you in chains. Each link is a lie; answer it with the truth to break it. */
+  X6.chains = function(api, r, done, miss){
+    var i = 0, m = 0, box = gkEl('div', 'x6-chains'); api.stage.appendChild(box);
+    function show(){
+      if (api.st.done) return;
+      var L = r.links, free = i >= L.length;
+      var top = '<div class="x6-chain">' + L.map(function(l, j){ return '<span class="x6-link' + (j < i ? ' broke' : j === i ? ' on' : '') + '">' + esc(l.tag) + '</span>'; }).join('') + '</div>'
+        + '<div class="x6-captive' + (free ? ' free' : '') + '"><span class="x6-person">' + (free ? '🙌' : '🧍') + '</span><small>' + (free ? 'Free!' : (L.length - i) + ' link' + (L.length - i === 1 ? '' : 's') + ' left') + '</small></div>';
+      if (free) { box.innerHTML = top + '<p class="x6-verse">“If the Son therefore shall make you free, ye shall be free indeed.” <b>John 8:36</b></p>'; setTimeout(function(){ done(m); }, 1800); return; }
+      var l = L[i], live = true;
+      box.innerHTML = top + '<div class="x6-lie"><small>The habit says</small>' + esc(l.lie) + '</div><p class="x6-ask">Break the link with the truth:</p><div class="x6-ch">'
+        + gkShuffle(l.opts).map(function(o){ return '<button type="button" class="gk-btn x6-o" data-ok="' + o[1] + '">' + esc(o[0]) + '</button>'; }).join('') + '</div><p class="x6-why"></p>';
+      box.querySelector('.x6-ch').onclick = function(e){
+        var b = e.target.closest('[data-ok]'); if (!b || !live || b.disabled) return;
+        if (b.getAttribute('data-ok') === '1') {
+          live = false; b.classList.add('ok'); box.querySelectorAll('.x6-link')[i].classList.add('snap'); api.good(150);
+          var w = box.querySelector('.x6-why'); w.innerHTML = '✓ ' + esc(l.why); w.className = 'x6-why ok';
+          setTimeout(function(){ i++; show(); }, 1400);
+        } else { m++; b.classList.add('no'); b.disabled = true; if (miss('That’s not the truth. ' + esc(l.why))) return; }
+      };
+    }
+    show();
+  };
+
+  /* ======================= Reading room: the readings word for word, with Listen ======================= */
+  var RD = { data: {}, tok: 0, i: -1, playing: false, rate: 0.95, size: 18 };
+  try { RD.size = Math.min(24, Math.max(15, +localStorage.getItem('gq-rd-size') || 18)); RD.rate = +localStorage.getItem('gq-rd-rate') || 0.95; } catch (e) {}
+  var RD_BOOKS = {
+    sc: { title: 'Steps to Christ', code: 'AV 2', tile: '13 chapters · word for word · Listen', note: 'Read every chapter, then answer its question in your Guide app.' },
+    da7: { title: 'The Desire of Ages, chapter 7', code: 'NS 1', tile: '“As a Child” · word for word · Listen', note: 'Then find your own lesson in nature and tell it as a parable.', ch: 7 },
+    gal5: { title: 'Galatians 5:22–23', code: 'SD 1', tile: 'The fruit of the Spirit · KJV · Listen', note: 'The fruit of the Spirit.' },
+    friends: { title: 'Bible verses about friends', code: 'AV 4', tile: 'Six passages · KJV · Listen', note: 'Read these before you write or plan your talk.' },
+    te: { title: 'Temperance, pages 102–125', code: 'HF 2', tile: 'Recorded reading · 5 chapters', note: 'For HF 2, option c. Then take the quiz in the Temperance explorer.' },
+    cs: { title: 'Counsels on Stewardship', code: 'AV 1', tile: 'Recorded reading · Section IV, p. 14, p. 66', note: 'For part 2 of the Stewardship Honour.' }
+  };
+  var RD_ORDER = ['sc', 'da7', 'te', 'cs', 'gal5', 'friends'];
+  var RD_BASE = /github\.io$/.test(location.hostname) ? 'readings/' : 'https://shaquanbrowne17-sys.github.io/guide-quest/readings/';
+  (function(){
+    var key = B.read || '', ch = +B.rch || 0;
+    try { var u = new URLSearchParams(location.search); key = key || u.get('r') || ''; ch = ch || +u.get('ch') || 0; } catch (e) {}
+    if (RD_BOOKS[key]) { S.read = { key: key, ch: ch || RD_BOOKS[key].ch || 1, viaHub: false }; S.topic = ''; }
+  })();
+  function rdLoad(key){
+    if (RD.data[key] && RD.data[key] !== 'error') return;
+    RD.data[key] = 'loading';
+    fetch(RD_BASE + key + '.json').then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(d){ RD.data[key] = d; if (S.read && S.read.key === key) render(); })
+      .catch(function(){ RD.data[key] = 'error'; if (S.read && S.read.key === key) render(); });
+  }
+  function rdChapter(){ var d = RD.data[S.read.key]; return d && d.chapters ? (d.chapters.filter(function(c){ return c.n === S.read.ch; })[0] || d.chapters[0]) : null; }
+  function rdAudio(src, label){ return '<div class="rd-audio"><span>🎧 ' + esc(label || 'Recorded reading') + '</span><audio controls preload="none" src="' + esc(src) + '"></audio></div>'; }
+  function rdPartsHTML(parts){
+    return '<ol class="rd-parts">' + parts.map(function(p){ return '<li><div class="rd-pt"><b>' + esc(p[0]) + '</b><small>' + esc(p[1]) + '</small></div><audio controls preload="none" src="' + esc(p[2]) + '"></audio><a class="rd-text" href="' + esc(p[3]) + '" target="_blank" rel="noopener">Read the text ↗</a></li>'; }).join('') + '</ol>';
+  }
+  function rdAudioOnlyHTML(d){
+    var h = '<div class="rd-note">🔒 ' + esc(d.note) + '</div>';
+    if (d.parts) h += rdPartsHTML(d.parts);
+    (d.groups || []).forEach(function(g){
+      h += '<section class="rd-group"><h2 class="rd-title">' + esc(g.title) + '</h2>' + (g.tip ? '<p class="rd-intro">' + esc(g.tip) + '</p>' : '')
+        + (g.audio ? rdAudio(g.audio) : '') + (g.parts ? rdPartsHTML(g.parts) : '') + '<a class="btn btn-ghost btn-block rd-open" href="' + esc(g.text) + '" target="_blank" rel="noopener">📖 Read ' + esc(g.title.toLowerCase()) + ' on egwwritings.org ↗</a></section>';
+    });
+    return h;
+  }
+  function x16ReaderHTML(){
+    var R = S.read, bk = RD_BOOKS[R.key], d = RD.data[R.key];
+    if (!d) { rdLoad(R.key); d = 'loading'; }
+    var back = R.back ? '<button class="backlink" data-rd="hub">' + BACK + 'Back to ' + esc((META[R.back] || {}).name || 'the explorer') + '</button>' : R.viaHub || !B.back ? '<button class="backlink" data-rd="hub">' + BACK + 'All explorers</button>' : '<a class="backlink" href="' + esc(B.back) + '">' + BACK + esc(B.backLabel || 'Back') + '</a>';
+    var h = '<div class="topnav">' + back + whoPill() + '</div><header class="thead rd-head" style="--c:#5B3A1E"><span class="ico" aria-hidden="true">' + (R.key === 'te' || R.key === 'cs' ? '🎧' : '📖') + '</span><div class="eyebrow">Reading room · ' + esc(bk.code) + '</div><h1>' + esc(bk.title) + '</h1><p>' + esc(d && d.author ? d.author : 'Ellen G. White') + ' · ' + esc(bk.note) + '</p></header>';
+    if (d === 'loading') return h + '<p class="think">Opening the book…</p>';
+    if (d === 'error') return h + '<div class="panel"><p>The reading couldn’t open. Check your internet, then try again.</p><button class="btn btn-primary" data-rd="retry">Try again</button></div>';
+    if (d.audioOnly) return h + rdAudioOnlyHTML(d) + (B.back && !R.viaHub ? '<div class="btnrow"><a class="btn btn-primary btn-grow" href="' + esc(B.back) + '">Done · ' + esc((B.backLabel || 'back').replace(/^Back/, 'back')) + '</a></div>' : '');
+    var c = rdChapter(), idx = d.chapters.indexOf(c);
+    if (d.chapters.length > 1) h += '<nav class="rd-chips" aria-label="Chapters">' + d.chapters.map(function(x){ return '<button class="rd-chip' + (x === c ? ' on' : '') + '" data-rdch="' + x.n + '" aria-current="' + (x === c) + '">' + x.n + '</button>'; }).join('') + '</nav>';
+    h += '<article class="rd-book" style="--rd:' + RD.size + 'px">' + (d.refs ? '' : '<div class="eyebrow">Chapter ' + c.n + '</div>') + '<h2 class="rd-title">' + esc(c.title) + '</h2>' + (c.intro ? '<p class="rd-intro">' + esc(c.intro) + '</p>' : '')
+      + (c.audio ? rdAudio(c.audio, 'Recorded reading of this chapter (Ellen G. White Estate)') : '')
+      + c.paras.map(function(p, i){ return '<p class="rd-p' + (RD.playing && RD.i === i ? ' on' : '') + '" data-rdp="' + i + '">' + (d.refs ? '<b class="rd-vref">' + esc(p[0]) + '</b>' : '<span class="rd-ref">' + esc((d.prefix || '') + ' ' + p[0].split('.')[0]) + '</span>') + esc(p[1]).replace(/\n/g, '<br>') + '</p>'; }).join('')
+      + '<p class="rd-src">' + esc(d.note) + (d.href ? ' <a href="' + esc(d.href) + '" target="_blank" rel="noopener">egwwritings.org ↗</a>' : '') + '</p></article>';
+    h += '<div class="btnrow">' + (idx > 0 ? '<button class="btn btn-ghost btn-grow" data-rdch="' + d.chapters[idx - 1].n + '">‹ Chapter ' + d.chapters[idx - 1].n + '</button>' : '')
+      + (idx < d.chapters.length - 1 ? '<button class="btn btn-primary btn-grow" data-rdch="' + d.chapters[idx + 1].n + '">Chapter ' + d.chapters[idx + 1].n + ' ›</button>' : (B.back && !R.viaHub ? '<a class="btn btn-primary btn-grow" href="' + esc(B.back) + '">Done · ' + esc((B.backLabel || 'back').replace(/^Back/, 'back')) + '</a>' : '')) + '</div>';
+    h += '<div class="rd-bar" role="toolbar" aria-label="Listen">' + (('speechSynthesis' in window) ? '<button class="rd-btn rd-play" data-rd="' + (RD.playing ? 'stop' : 'play') + '">' + (RD.playing ? '⏸ Pause' : '🔊 Listen') + '</button><button class="rd-btn" data-rd="rate" aria-label="Reading speed">' + (RD.rate < 0.9 ? '🐢 Slow' : RD.rate > 1 ? '🐇 Fast' : '🚶 Normal') + '</button>' : '')
+      + '<button class="rd-btn" data-rd="smaller" aria-label="Smaller text">A−</button><button class="rd-btn" data-rd="bigger" aria-label="Bigger text">A+</button></div>';
+    return h;
+  }
+  function rdMark(){
+    [].forEach.call(document.querySelectorAll('.rd-p'), function(p){ p.classList.toggle('on', RD.playing && +p.getAttribute('data-rdp') === RD.i); });
+    var b = document.querySelector('.rd-play'); if (b) { b.textContent = RD.playing ? '⏸ Pause' : '🔊 Listen'; b.setAttribute('data-rd', RD.playing ? 'stop' : 'play'); }
+    var on = document.querySelector('.rd-p.on'); if (on && on.scrollIntoView) try { on.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { on.scrollIntoView(); }
+  }
+  function rdPauseAudio(){ [].forEach.call(document.querySelectorAll('audio'), function(a){ try { a.pause(); } catch (e) {} }); }
+  function rdStop(){ RD.tok++; RD.playing = false; gkStopSpeech(); rdMark(); }
+  function rdPlay(from){
+    var c = rdChapter(), d = RD.data[S.read.key]; if (!c) return;
+    rdPauseAudio(); gkUnlockVoice();
+    RD.tok++; var tok = RD.tok; RD.playing = true; RD.i = Math.max(0, Math.min(c.paras.length - 1, from));
+    (function step(){
+      if (tok !== RD.tok) return;
+      if (RD.i >= c.paras.length) { RD.playing = false; RD.i = -1; rdMark(); return; }
+      rdMark();
+      var p = c.paras[RD.i], text = (d.refs ? p[0] + '. ' : RD.i === 0 ? 'Chapter ' + c.n + '. ' + c.title + '. ' : '') + p[1].replace(/\n/g, ' ');
+      gkSpeakLong(text, { rate: RD.rate, end: function(){ if (tok !== RD.tok) return; RD.i++; step(); } });
+    })();
+  }
+  document.addEventListener('play', function(e){ if (e.target && e.target.tagName === 'AUDIO') { if (RD.playing) rdStop(); [].forEach.call(document.querySelectorAll('audio'), function(a){ if (a !== e.target) try { a.pause(); } catch (er) {} }); } }, true);
+  function rdOpen(key, ch, viaHub){ rdStop(); S.read = { key: key, ch: ch || RD_BOOKS[key].ch || 1, viaHub: !!viaHub, back: S.topic && S.topic !== 'gems' ? S.topic : '' }; S.topic = ''; render(); window.scrollTo(0, 0); }
+  function x16ReadBtn(k){
+    var r = L[k] && L[k].read; if (!r) return '';
+    if (r.r) return '<button class="btn btn-ghost btn-block rd-open" data-rdopen="' + r.r + '">' + (r.r === 'te' ? '🎧 ' : '📖 ') + esc(r.label) + '</button>';
+    return '<a class="btn btn-ghost btn-block rd-open" href="' + esc(r.href) + '" target="_blank" rel="noopener">📖 ' + esc(r.label) + ' ↗</a>';
+  }
+  function x16ReadTiles(){
+    return '<h2 class="rd-hubh">📖 Reading room</h2><p class="rd-hubp">Everything the Guide class asks you to read, with Listen.</p><div class="grid">' + RD_ORDER.map(function(k){ var t = RD_BOOKS[k];
+      return '<button class="tile" style="--c:#5B3A1E" data-rdopen="' + k + '"><span class="ico" aria-hidden="true">' + (k === 'te' || k === 'cs' ? '🎧' : '📖') + '</span><span style="flex:1;min-width:0"><b>' + esc(t.title) + '</b><small>' + esc(t.code) + ' · ' + esc(t.tile) + '</small></span></button>'; }).join('') + '</div>';
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-rd],[data-rdch],[data-rdopen],[data-rdp]'); if (!b) return;
+    var a;
+    if ((a = b.getAttribute('data-rdopen'))) { rdOpen(a, 0, true); return; }
+    if (!S.read) return;
+    if ((a = b.getAttribute('data-rdch'))) { rdStop(); S.read.ch = +a; render(); window.scrollTo(0, 0); return; }
+    if ((a = b.getAttribute('data-rdp')) != null && b.classList.contains('rd-p')) { if (RD.playing) rdPlay(+a); return; }
+    a = b.getAttribute('data-rd');
+    if (a === 'play') rdPlay(RD.i > -1 ? RD.i : 0);
+    else if (a === 'stop') rdStop();
+    else if (a === 'rate') { RD.rate = RD.rate < 0.9 ? 0.95 : RD.rate > 1 ? 0.82 : 1.1; try { localStorage.setItem('gq-rd-rate', RD.rate); } catch (er) {} if (RD.playing) rdPlay(RD.i); else render(); }
+    else if (a === 'smaller' || a === 'bigger') { RD.size = Math.min(24, Math.max(15, RD.size + (a === 'bigger' ? 1 : -1))); try { localStorage.setItem('gq-rd-size', RD.size); } catch (er) {} var bk = document.querySelector('.rd-book'); if (bk) bk.style.setProperty('--rd', RD.size + 'px'); }
+    else if (a === 'retry') { delete RD.data[S.read.key]; render(); }
+    else if (a === 'hub') { rdStop(); rdPauseAudio(); var bt = S.read.back; S.read = null; if (bt) { S.topic = bt; S.tab = 'learn'; S.big = false; } render(); window.scrollTo(0, 0); }
+  });
+
+  /* ======================= Challenges: True/False stays in order; some explorers ask more ======================= */
+  function x16IsTF(b){ var o = (b.opts || []).filter(function(x){ return x !== '' && x != null; }); return o.length === 2 && /^true$/i.test(o[0]) && /^false$/i.test(o[1]); }
+  function x16Pool(k){
+    var all = BANK.filter(function(q){ return q.topic === k; }), C = X16.C && X16.C[k];
+    if (!C) return shuffle(all).slice(0, 8);
+    var tf = shuffle(all.filter(x16IsTF)).slice(0, C.tf), mc = shuffle(all.filter(function(q){ return !x16IsTF(q); })).slice(0, C.mc);
+    return shuffle(tf.concat(mc));
+  }
+  function x16PassHTML(k, ch){
+    var C = X16.C && X16.C[k]; if (!C || !ch.qs.length) return '';
+    var need = Math.ceil(C.pass * ch.qs.length), ok = ch.score >= need;
+    return '<p class="think rd-pass' + (ok ? ' ok' : '') + '">' + (ok ? '✓ Passed: you need ' + need + ' of ' + ch.qs.length + ' (75%).' : 'To pass you need ' + need + ' of ' + ch.qs.length + ' (75%). Read the pages again, then try again.') + '</p>';
+  }
+  /* The time river: an event floats up; tap its year and the canoe paddles there. */
+  X6.river = function(api, r, done, miss){
+    var items = gkShuffle(r.items), i = 0, m = 0, box = gkEl('div', 'x6-river'); api.stage.appendChild(box);
+    var at = -1;
+    function show(){
+      if (api.st.done) return;
+      if (i >= items.length) { done(m); return; }
+      var it = items[i], live = true;
+      box.innerHTML = x6Count(i, items.length) + '<div class="x6-card x6-in">' + esc(it[0]) + '</div><div class="x6-water">' + r.years.map(function(y, j){
+        return '<button type="button" class="x6-buoy' + (j === at ? ' here' : '') + '" data-y="' + y + '"><b>' + y + '</b>' + (j === at ? '<i>🛶</i>' : '') + '</button>'; }).join('') + '</div><p class="x6-why"></p>';
+      box.querySelector('.x6-water').onclick = function(e){
+        var b = e.target.closest('[data-y]'); if (!b || !live || b.disabled) return;
+        var y = +b.getAttribute('data-y'), why = box.querySelector('.x6-why');
+        if (y === it[1]) {
+          live = false; at = r.years.indexOf(y); api.good(100);
+          [].forEach.call(box.querySelectorAll('.x6-buoy i'), function(x){ x.remove(); });
+          b.classList.add('here', 'ok'); b.insertAdjacentHTML('beforeend', '<i>🛶</i>');
+          why.innerHTML = '✓ ' + esc(it[2]); why.className = 'x6-why ok';
+          setTimeout(function(){ i++; show(); }, 1100);
+        } else { m++; b.classList.add('no'); b.disabled = true; why.innerHTML = 'Not ' + y + '. Try another year.'; why.className = 'x6-why no'; if (miss()) return; }
+      };
+    }
+    show();
+  };
+
   /* ======================= RENDER + EVENTS ======================= */
   function render(){
-    app.innerHTML = S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
+    app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
     document.body.classList.toggle('lock', !!(S.topic && S.big && S.tab === 'learn'));
     afterRender();
   }
-  function goTopic(k){ S.topic = k; S.tab = 'learn'; S.sel = ''; S.big = false; S.viaHub = true; render(); window.scrollTo(0, 0); }
+  function goTopic(k){ S.read = null; S.topic = k; S.tab = 'learn'; S.sel = ''; S.big = false; S.viaHub = true; render(); window.scrollTo(0, 0); }
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && S.big){ S.big = false; render(); } });
 
   app.addEventListener('click', function(e){
@@ -2970,7 +3906,7 @@ body.lock{overflow:hidden}
     if (d.pack !== undefined){ var gp = gstate(S.topic); gp.picked[d.pack] = !gp.picked[d.pack]; gp.checked = false; render(); return; }
     if (d.mem !== undefined){ var gmm = gstate(S.topic); gmm.level = +d.mem; gmm.shown = {}; render(); return; }
     switch (d.act){
-      case 'hub': S.topic = ''; S.ch = null; S.big = false; render(); window.scrollTo(0, 0); break;
+      case 'hub': S.read = null; S.topic = ''; S.ch = null; S.big = false; render(); window.scrollTo(0, 0); break;
       case 'findagain': S.find[S.topic] = newFind(S.topic); render(); break;
       case 'close': S.big = false; render(); break;
       case 'facenext': S.face.i++; S.face.pick = ''; render(); break;

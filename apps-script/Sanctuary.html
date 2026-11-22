@@ -275,6 +275,7 @@ body.sheet-open .page{padding-block-end:64vh}
 .btn-small{min-height:40px;padding:0 14px;font-size:14px}
 .me.slim{padding:8px 12px;font-size:14px;gap:6px 12px}
 
+.sg-ctl .gk-btn[data-f="voice"]{min-width:118px}
 </style>
 </head>
 <body>
@@ -1098,6 +1099,74 @@ body.sheet-open .page{padding-block-end:64vh}
     }
   }
 
+  /* ======================= VOICE (version 16): the most natural voice on this phone ======================= */
+  var GKV = { voice: null, unlocked: false };
+  function gkPickVoice(){
+    try {
+      var vs = speechSynthesis.getVoices() || [];
+      if (!vs.length) return null;
+      var en = vs.filter(function(v){ return /^en([-_]|$)/i.test(v.lang); });
+      if (!en.length) en = vs;
+      function score(v){
+        var n = v.name || '', s = 0;
+        if (/natural|neural/i.test(n)) s += 60;
+        if (/enhanced|premium|siri/i.test(n)) s += 40;
+        if (/google/i.test(n)) s += 30;
+        if (/online/i.test(n)) s += 10;
+        if (/samantha|daniel|karen|moira|tessa|serena|ava|allison|susan|zira|aria|jenny|guy|libby|sonia|ryan|natasha|william/i.test(n)) s += 12;
+        if (/en[-_](GB|US)/i.test(v.lang)) s += 6;
+        if (/compact|espeak|robot|novelty|whisper|bells|zarvox|trinoids|bad news|good news|bubbles|cellos|organ|jester|superstar/i.test(n)) s -= 80;
+        return s;
+      }
+      en.sort(function(a, b){ return score(b) - score(a); });
+      return en[0];
+    } catch (e) { return null; }
+  }
+  if ('speechSynthesis' in window) {
+    try { GKV.voice = gkPickVoice(); speechSynthesis.addEventListener('voiceschanged', function(){ GKV.voice = gkPickVoice(); }); } catch (e) {}
+  }
+  /* Bible references and ranges read the way a person says them. */
+  function gkSayText(t){
+    return String(t || '')
+      .replace(/(\d)\s*[–-]\s*(\d)/g, '$1 to $2')
+      .replace(/\b(\d+):(\d+)/g, ' chapter $1, verse $2')
+      .replace(/[“”"]/g, '')
+      .replace(/\s*\(([^)]*)\)/g, ', $1,')
+      .replace(/·/g, ',')
+      .replace(/\s+/g, ' ').trim();
+  }
+  function gkSpeak(text, o){
+    o = o || {};
+    try {
+      if (!('speechSynthesis' in window)) { if (o.end) setTimeout(o.end, 10); return null; }
+      if (!o.queue) speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(gkSayText(text));
+      if (!GKV.voice) GKV.voice = gkPickVoice();
+      if (GKV.voice) { u.voice = GKV.voice; u.lang = GKV.voice.lang; } else u.lang = 'en-GB';
+      u.rate = o.rate || 0.92; u.pitch = 1;
+      if (o.end) { u.onend = o.end; u.onerror = o.end; }
+      speechSynthesis.speak(u);
+      return u;
+    } catch (e) { if (o.end) setTimeout(o.end, 10); return null; }
+  }
+  /* Long text is read sentence by sentence, because some phones cut off long speech. */
+  function gkSpeakLong(text, o){
+    o = o || {};
+    var parts = String(text || '').match(/[^.!?;:]+[.!?;:]+["”’)]*\s*|[^.!?;:]+$/g) || [], chunks = [], cur = '';
+    parts.forEach(function(p){ if ((cur + p).length > 220 && cur) { chunks.push(cur); cur = p; } else cur += p; });
+    if (cur.trim()) chunks.push(cur);
+    try { speechSynthesis.cancel(); } catch (e) {}
+    chunks.forEach(function(c, i){ gkSpeak(c, { queue: true, rate: o.rate, end: i === chunks.length - 1 ? o.end : null }); });
+  }
+  function gkStopSpeech(){ try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch (e) {} }
+  /* Phones only allow sound after a tap: the first tap anywhere unlocks speech for later. */
+  function gkUnlockVoice(){
+    if (GKV.unlocked || !('speechSynthesis' in window)) return;
+    GKV.unlocked = true;
+    try { var u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {}
+  }
+  document.addEventListener('pointerdown', gkUnlockVoice, true);
+
   /* ----- The priest's walk: a short animated film (side view) ----- */
   function sgFig(robe, head, cap, extra){
     return '<g class="leg l"><line x1="-4" y1="-22" x2="-6" y2="0" stroke="#5A3A22" stroke-width="5" stroke-linecap="round"/></g><g class="leg r"><line x1="4" y1="-22" x2="6" y2="0" stroke="#5A3A22" stroke-width="5" stroke-linecap="round"/></g>'
@@ -1119,6 +1188,7 @@ body.sheet-open .page{padding-block-end:64vh}
     var WX = [[0, 270], [12.5, 270], [13, 285], [15, 345], [16.6, 345], [18, 480], [19.4, 560], [20.4, 560], [21.4, 650], [22.2, 650], [23.2, 742], [26.8, 742], [29.2, 826], [46.5, 826]];
     var IX = [[0, -70], [3, -70], [7, 196], [46.5, 196]];
     var END = 46.5, t = 0, playing = true, last = 0;
+    var voiceOn = ('speechSynthesis' in window) && GK_SOUND, speaking = false, holdT = 0, sayId = 0;
     var film = gkEl('div', 'sg-film');
     film.innerHTML = '<svg class="sg-film-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-label="Animated walk through the sanctuary"><defs><linearGradient id="sgsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8EC3EA"/><stop offset="1" stop-color="#F4E1B5"/></linearGradient>'
       + '<radialGradient id="sgglow"><stop offset="0" stop-color="#FFF8DC" stop-opacity="1"/><stop offset=".5" stop-color="#FFE7A0" stop-opacity=".6"/><stop offset="1" stop-color="#FFE7A0" stop-opacity="0"/></radialGradient></defs>'
@@ -1151,7 +1221,7 @@ body.sheet-open .page{padding-block-end:64vh}
       + '<g class="sg-lamb"><ellipse cx="0" cy="-16" rx="16" ry="11" fill="#FFFFFF" stroke="#DDD"/><circle cx="15" cy="-22" r="7" fill="#FFFFFF" stroke="#DDD"/><path d="M-9 -6V0M9 -6V0" stroke="#5A4A3A" stroke-width="3"/></g>'
       + '<g class="sg-priest">' + sgFig('#FBFAF5', '#C68B59', '<path d="M-10 -72Q0 -82 10 -72V-66H-10Z" fill="#FFFFFF" stroke="#CCC"/>', '<g class="sg-bowl" opacity="0"><ellipse cx="14" cy="-44" rx="7" ry="3.5" fill="#B3202A"/><line x1="6" y1="-50" x2="13" y2="-45" stroke="#C68B59" stroke-width="4" stroke-linecap="round"/></g>') + '</g>'
       + '<g class="sg-blood"></g></svg>'
-      + '<div class="sg-cap" aria-live="polite"></div><div class="sg-ctl"><button type="button" class="gk-btn" data-f="pause">⏸ Pause</button><button type="button" class="gk-btn" data-f="skip">Skip ⏭</button></div>';
+      + '<div class="sg-cap" aria-live="polite"></div><div class="sg-ctl"><button type="button" class="gk-btn" data-f="pause">⏸ Pause</button>' + (('speechSynthesis' in window) ? '<button type="button" class="gk-btn" data-f="voice">' + (voiceOn ? '🔊 Voice on' : '🔇 Voice off') + '</button>' : '') + '<button type="button" class="gk-btn" data-f="skip">Skip ⏭</button></div>';
     api.stage.innerHTML = ''; api.stage.appendChild(film);
     var svg = film.querySelector('svg'), capEl = film.querySelector('.sg-cap'), man = svg.querySelector('.sg-man'), lamb = svg.querySelector('.sg-lamb'), priest = svg.querySelector('.sg-priest');
     var bowl = svg.querySelector('.sg-bowl'), fire = svg.querySelector('.sg-fire'), glow = svg.querySelector('.sg-glow'), drops = svg.querySelector('.sg-drops'), blood = svg.querySelector('.sg-blood'), veil = svg.querySelector('.sg-veil'), smoke = svg.querySelector('.sg-smoke'), hand = svg.querySelector('.sg-hand');
@@ -1160,9 +1230,13 @@ body.sheet-open .page{padding-block-end:64vh}
     function win(a, b){ return t >= a && t < b; }
     var capI = -1, bloodDone = 0, mercyDone = 0, dropDone = 0;
     function frame(now){
-      if (!document.body.contains(film)) return;
+      if (!document.body.contains(film)) { gkStopSpeech(); return; }
       var dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
-      if (playing) t += dt;
+      if (playing) {
+        var nxt = capI + 1 < CAP.length ? CAP[capI + 1][0] : END;
+        if (speaking && voiceOn && t + dt >= nxt - 0.02) { holdT += dt; if (holdT > 16) speaking = false; }
+        else t += dt;
+      }
       if (t >= END) { t = END; done(); return; }
       var c = lerpKeys(CAM, t), w = c[2], h = w * 0.6; svg.setAttribute('viewBox', c[0] + ' ' + c[1] + ' ' + w + ' ' + h);
       var px = lin(WX, t), walking = Math.abs(lin(WX, t + 0.05) - px) > 0.2;
@@ -1179,15 +1253,23 @@ body.sheet-open .page{padding-block-end:64vh}
       veil.setAttribute('opacity', t > 26.8 && t < 44 ? 0.35 : 1);
       smoke.setAttribute('opacity', win(22.5, 26.5) ? 1 : 0.55);
       var gl = t < 27 ? 0.25 : t < 33 ? 0.25 + (t - 27) / 6 * 0.65 : 0.9 + Math.sin(t * 3) * 0.1; glow.setAttribute('opacity', gl.toFixed(2)); glow.setAttribute('r', t > 35 ? 120 : 90);
-      for (var i = CAP.length - 1; i >= 0; i--) if (t >= CAP[i][0]) { if (capI !== i) { capI = i; capEl.textContent = CAP[i][1]; capEl.classList.remove('in'); void capEl.offsetWidth; capEl.classList.add('in'); } break; }
+      for (var i = CAP.length - 1; i >= 0; i--) if (t >= CAP[i][0]) { if (capI !== i) { capI = i; capEl.textContent = CAP[i][1]; capEl.classList.remove('in'); void capEl.offsetWidth; capEl.classList.add('in'); sayCap(); } break; }
       requestAnimationFrame(frame);
+    }
+    function sayCap(){
+      if (!voiceOn || capI < 0) { speaking = false; return; }
+      var my = ++sayId; speaking = true; holdT = 0;
+      gkSpeak(CAP[capI][1], { rate: 0.9, end: function(){ if (my === sayId) speaking = false; } });
     }
     film.querySelector('.sg-ctl').onclick = function(e){
       var b = e.target.closest('[data-f]'); if (!b) return;
-      if (b.getAttribute('data-f') === 'pause') { playing = !playing; b.textContent = playing ? '⏸ Pause' : '▶ Play'; }
-      else { t = END - 0.01; }
+      var f = b.getAttribute('data-f');
+      if (f === 'pause') { playing = !playing; b.textContent = playing ? '⏸ Pause' : '▶ Play'; try { if (playing) speechSynthesis.resume(); else speechSynthesis.pause(); } catch (er) {} }
+      else if (f === 'voice') { voiceOn = !voiceOn; b.textContent = voiceOn ? '🔊 Voice on' : '🔇 Voice off'; if (voiceOn) sayCap(); else { sayId++; speaking = false; gkStopSpeech(); } }
+      else { sayId++; speaking = false; gkStopSpeech(); t = END - 0.01; }
     };
     function done(){
+      speaking = false;
       film.querySelector('.sg-ctl').innerHTML = '<button type="button" class="gk-btn" data-w="again">↺ Watch again</button>';
       film.querySelector('[data-w="again"]').onclick = function(){ api.stage.innerHTML = ''; sgWalk(api, mistakes); };
       api.finish(true, { stars: mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1, title: 'The sanctuary is ready!', summary: 'Gate, altar, laver, lampstand and table, incense, veil, ark. Every step of the way points to Jesus.',
