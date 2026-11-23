@@ -46,6 +46,25 @@ GAME_IDS['run:honour'] = 'Honour Run (3D)';
 GAME_IDS['defend:temple'] = 'Body Temple Defender (3D)';
 GAME_IDS['escape:free'] = 'Break Free escape room (3D)';
 GAME_IDS['canoe:journey'] = 'Canoe Journey (3D)';
+GAME_IDS['train:flags'] = 'Red Flag Express (3D train)';
+GAME_IDS['train:honour'] = 'Honour Line (3D train)';
+GAME_IDS['train:health'] = 'Health Line (3D train)';
+/* names kept ready for the games still to come, so they need no server change */
+GAME_IDS['switch:run'] = 'Switch Run (multiplayer)';
+GAME_IDS['race:kart'] = 'Kart race (3D)';
+GAME_IDS['race:canoe'] = 'Canoe race (3D)';
+GAME_IDS['race:bike'] = 'Bike race (3D)';
+GAME_IDS['photo:nature'] = 'Nature photographer (3D)';
+GAME_IDS['hunt:patch'] = 'Patch hunt (3D)';
+GAME_IDS['hunt:compass'] = 'Compass hunt (3D)';
+GAME_IDS['build:it'] = 'Build it (3D)';
+GAME_IDS['camp:kitchen'] = 'Camp kitchen (3D)';
+GAME_IDS['hike:obstacle'] = 'Obstacle hike (3D)';
+GAME_IDS['walk:serve'] = 'Serving Others walk (3D)';
+GAME_IDS['walk:share'] = 'Sharing Jesus walk (3D)';
+GAME_IDS['class:room'] = 'Classroom (3D)';
+GAME_IDS['walk:pioneers'] = 'Pioneers walk-through (3D)';
+GAME_IDS['camp:open'] = 'Pathfinder Camp (multiplayer)';
 API_FNS.l_game3 = 1; API_FNS.l_top3 = 1;
 function gameLabel3_(game, mode) {
   var name = GAME_IDS[cleanGame_(game)];

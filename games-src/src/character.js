@@ -56,16 +56,16 @@ function uniformMaterial(orig, body, look, outfit) {
 
 function scarf(color, body) {
   /* the folded triangle lies on the upper back, its two ends come round the neck and through the woggle in front */
-  const f = body === 'f', w = f ? 0.125 : 0.15;
+  const f = body === 'f', w = f ? 0.115 : 0.135;
   const tri = new THREE.BufferGeometry();
-  const v = f ? [-w, 0.025, -0.095, w, 0.025, -0.095, 0, -0.22, -0.075, 0, -0.08, -0.11] : [-w, 0.025, -0.145, w, 0.025, -0.145, 0, -0.26, -0.122, 0, -0.09, -0.156];
+  const v = f ? [-w, 0.025, -0.08, w, 0.025, -0.08, 0, -0.22, -0.062, 0, -0.08, -0.09] : [-w, 0.025, -0.114, w, 0.025, -0.114, 0, -0.26, -0.09, 0, -0.09, -0.12];
   tri.setAttribute('position', new THREE.Float32BufferAttribute([v[0], v[1], v[2], v[9], v[10], v[11], v[3], v[4], v[5], v[0], v[1], v[2], v[6], v[7], v[8], v[9], v[10], v[11], v[9], v[10], v[11], v[6], v[7], v[8], v[3], v[4], v[5]], 3));
   tri.computeVertexNormals();
   const back = new THREE.Mesh(tri, new THREE.MeshStandardMaterial({ color, roughness: 0.9, side: THREE.DoubleSide, flatShading: true }));
   const g = merge([
-    P(G.tor(f ? 0.075 : 0.085, 0.03, 6, 14), color, [0, 0, 0.0], [Math.PI / 2 + 0.25, 0, 0], [1.05, 1, 1]),
-    P(G.box(0.035, 0.14, 0.018), color, [0.02, -0.1, f ? 0.085 : 0.105], [0.18, 0, 0.16]), P(G.box(0.035, 0.14, 0.018), color, [-0.02, -0.1, f ? 0.085 : 0.105], [0.18, 0, -0.16]),
-    P(G.cyl(0.022, 0.022, 0.035, 8), '#6E4424', [0, -0.055, f ? 0.08 : 0.1], [Math.PI / 2 + 0.2, 0, 0]),
+    P(G.tor(f ? 0.068 : 0.076, 0.028, 6, 14), color, [0, 0, 0.0], [Math.PI / 2 + 0.25, 0, 0], [1.05, 1, 1]),
+    P(G.box(0.035, 0.14, 0.018), color, [0.02, -0.1, f ? 0.072 : 0.088], [0.18, 0, 0.16]), P(G.box(0.035, 0.14, 0.018), color, [-0.02, -0.1, f ? 0.072 : 0.088], [0.18, 0, -0.16]),
+    P(G.cyl(0.022, 0.022, 0.035, 8), '#6E4424', [0, -0.055, f ? 0.068 : 0.084], [Math.PI / 2 + 0.2, 0, 0]),
   ]);
   const grp = new THREE.Group(); grp.add(new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, flatShading: true }))); grp.add(back);
   return grp;
@@ -108,7 +108,13 @@ export async function makeCharacter(look, outfit = 'pathfinder') {
   }
   const o = OUTFITS[outfit] || OUTFITS.pathfinder;
   if (o.scarf && bones.spine_03) attach(root, bones.spine_03, scarf(o.scarf, body), [0, body === 'm' ? 1.475 : 1.445, body === 'm' ? -0.03 : -0.035]);
-  if (look.bottom === 'skirt' && bones.pelvis) attach(root, bones.pelvis, skirtMesh(o.trousers), [0, 1.0, -0.02], [body === 'm' ? 1.12 : 1.05, 1, 0.95]);
+  // proper shoes over the painted feet
+  root.updateMatrixWorld(true);
+  ['l', 'r'].forEach(sd => { const f = bones['foot_' + sd], b = bones['ball_' + sd]; if (!f || !b) return;
+    const fp = f.getWorldPosition(new THREE.Vector3()), bp = b.getWorldPosition(new THREE.Vector3()), len = Math.max(0.18, bp.z - fp.z + 0.12);
+    const g = merge([P(G.box(0.088, 0.06, len), o.shoes || '#111', [0, 0.042, 0]), P(G.cyl(0.044, 0.044, 0.06, 10, 1), o.shoes || '#111', [0, 0.042, len / 2], null), P(G.box(0.094, 0.018, len + 0.02), '#2B2B2B', [0, 0.009, 0.008])]);
+    attach(root, f, new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.55 })), [fp.x, 0, (fp.z + bp.z) / 2 - 0.005]); });
+  if (look.bottom === 'skirt' && bones.pelvis) attach(root, bones.pelvis, skirtMesh(o.trousers), [0, 1.0, -0.02], [body === 'm' ? 1.0 : 0.97, 1, 0.9]);
   root.traverse(m => { if (m.isMesh && m !== bodyMesh && /Hair/i.test(m.material.name || '')) { m.material = m.material.clone(); m.material.color = new THREE.Color('#2A1B12'); } });
   const mixer = new THREE.AnimationMixer(root); const actions = {}; let cur = null;
   function play(name, o = {}) {
@@ -121,6 +127,6 @@ export async function makeCharacter(look, outfit = 'pathfinder') {
   }
   const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.38, 18), new THREE.MeshBasicMaterial({ color: 0, transparent: true, opacity: 0.3, depthWrite: false }));
   shadow.rotation.x = -Math.PI / 2; shadow.position.y = 0.012; shadow.renderOrder = 1;
-  const holder = new THREE.Group(); holder.add(root); holder.add(shadow);
+  const holder = new THREE.Group(); holder.add(root); holder.add(shadow); root.scale.setScalar(0.94); /* a teenager, not a giant */
   return { root: holder, model: root, bones, mixer, play, update: dt => mixer.update(dt), shadow, look, clips, duration: n => clips[n] ? clips[n].duration : 0 };
 }

@@ -42,14 +42,14 @@ export const THEMES = {
     key: 'seawall', gid: 'run:seawall', title: 'Seawall Fun Run', topic: 'fitness', icon: '🌊', music: 'run',
     blurb: 'Run the Georgetown seawall at sunrise. Grab water and fruit, and dodge what young people get pushed into.',
     sky: { top: '#5E9BD6', bottom: '#F5D6A6', fogNear: 45, fogFar: 125, sun: '#FFE6B8', sunI: 2.3, sunPos: [-10, 9, 4], hemi: 1.5, skyLight: '#CFE3FF', groundLight: '#8A7A5A' },
-    kit: ['tree_palmTall', 'tree_palmBend', 'tree_palmDetailedTall', 'tree_palmShort', 'plant_bushLarge', 'plant_bush', 'rock_largeA', 'rock_largeC', 'flower_redA', 'flower_yellowA', 'grass_large', 'car_sedan', 'car_taxi', 'car_van', 'car_truck', 'car_police'],
+    kit: ['tree_palmTall', 'tree_palmBend', 'tree_palmDetailedTall', 'tree_palmShort', 'plant_bushLarge', 'plant_bush', 'rock_largeA', 'rock_largeC', 'log', 'flower_redA', 'flower_yellowA', 'grass_large', 'car_sedan', 'car_taxi', 'car_van', 'car_truck', 'car_police'],
     obstacles: ['vape', 'cigarette', 'alcohol', 'weed', 'hookah', 'energy', 'lean', 'pills', 'junk', 'scroll'],
     pickups: [['water', '💧 Water: drink plenty in the heat'], ['mango', '🥭 Fruit: real energy, no crash']],
     gates(r) { return shuffle(r, [...DATA.Q.fitness, ...DATA.Q.nutrition]).map(q => mc(q, r)); },
   },
   choices: {
     key: 'choices', gid: 'run:choices', title: 'Choices Run', topic: 'choices', icon: '🚩', music: 'run',
-    blurb: 'Race through town. Run through the GREEN flag or the RED flag gate, and dodge the pressures.',
+    blurb: 'Race through town and say no: dodge “send me a pic”, “skip class”, betting apps, vapes and more.',
     sky: { top: '#4F95DA', bottom: '#CDE6F5', fogNear: 45, fogFar: 125, sun: '#FFF4DE', sunI: 2.2, sunPos: [8, 12, 6], hemi: 1.6, skyLight: '#DDEBFF', groundLight: '#7E7A70' },
     kit: ['tree_default', 'tree_oak', 'tree_fat', 'plant_bushLarge', 'flower_redA', 'flower_purpleA', 'car_sedan', 'car_taxi', 'car_van', 'car_police', 'car_delivery', 'car_suv', 'car_cone'],
     obstacles: ['pic', 'skip', 'betting', 'scroll', 'alcohol', 'vape', 'weed', 'pills', 'energy'],
@@ -66,7 +66,7 @@ export const THEMES = {
   },
   honour: {
     key: 'honour', gid: 'run:honour', title: 'Honour Run', topic: 'legion', icon: '🏅', music: 'run',
-    blurb: 'Run the camp trail. Collect the six Legion of Honour badges and choose the path that honours Christ.',
+    blurb: 'Run the camp trail. Collect the six Legion of Honour badges and dodge what pulls you away.',
     sky: { top: '#4A7FC0', bottom: '#F7C98A', fogNear: 40, fogFar: 118, sun: '#FFD9A0', sunI: 2.1, sunPos: [10, 7, 2], hemi: 1.4, skyLight: '#E3E8FF', groundLight: '#5E6A3A' },
     kit: ['tree_pineTallA_detailed', 'tree_pineRoundC', 'tree_pineDefaultA', 'tree_oak', 'tree_detailed', 'tree_tall', 'plant_bushLarge', 'plant_bushDetailed', 'rock_largeA', 'rock_tallB', 'rock_smallA', 'stump_round', 'log_large', 'log_stack', 'tent_detailedOpen', 'tent_smallClosed', 'campfire_stones', 'campfire_logs', 'sign', 'mushroom_redGroup', 'flower_yellowA', 'grass_large', 'fence_simple'],
     obstacles: ['video', 'music', 'gossip', 'party', 'swear', 'vape', 'alcohol', 'log', 'branch', 'rock'],
@@ -87,16 +87,24 @@ export const THEMES = {
 /* ---------- scenery ---------- */
 const TILE = 30;
 export { TILE };
+/* height of the seawall beach at x (it slopes gently down to the sea) */
+const SANDY = x => -2.05 + (x + 13.5) * 0.046;
 const C = new THREE.Color();
 function strip(w, d, color, x, y = 0) { return P(G.box(w, 0.2, d), color, [x, y - 0.1, 0]); }
 export function groundTile(key) {
   const p = [];
   if (key === 'seawall') {
-    p.push(strip(7.4, TILE, '#CFC6B4', 0)); // promenade
-    for (const x of [-1.05, 1.05]) p.push(P(G.box(0.06, 0.02, TILE), '#B9AF9A', [x, 0.005, 0]));
+    /* the Georgetown seawall: the promenade on top, the wall people sit on, concrete steps down to a shelly beach, the brown Atlantic */
+    p.push(strip(7.4, TILE, '#CFC6B4', 0));
     for (let z = -TILE / 2; z < TILE / 2; z += 3) p.push(P(G.box(7.4, 0.02, 0.05), '#BDB4A1', [0, 0.004, z]));
-    p.push(P(G.box(0.7, 0.45, TILE), '#B5AC98', [-4.05, 0.22, 0])); // seawall parapet
-    p.push(P(G.box(4.2, 0.3, TILE), '#A99F8B', [-6.2, -1.25, 0], [0, 0, -0.62])); // sloping face to the sea
+    p.push(P(G.box(0.6, 0.42, TILE), '#C4BBA7', [-4.0, 0.21, 0]), P(G.box(0.7, 0.07, TILE), '#D6CEBC', [-4.0, 0.45, 0]));
+    for (let i = 0; i < 3; i++) p.push(P(G.box(0.92, 0.7, TILE), i % 2 ? '#B3AA95' : '#A89F8A', [-4.75 - i * 0.9, -0.45 - i * 0.55 - 0.35, 0]));
+    p.push(P(G.box(14, 0.6, TILE), '#D9C49B', [-13.5, -2.35, 0], [0, 0, 0.046]));
+    let sd = 7; const rr = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+    for (let i = 0; i < 80; i++) {
+      const x = -7.3 - rr() * 9, z = (rr() - 0.5) * TILE, y = SANDY(x) + 0.015, c = ['#F4EFE6', '#F2D7CF', '#E9DFC9', '#FFFFFF', '#E6C9A8'][Math.floor(rr() * 5)], sc = 0.6 + rr() * 0.9;
+      p.push(rr() < 0.7 ? P(G.cone(0.13, 0.06, 7), c, [x, y, z], [0, rr() * 6, 0], [sc, sc, sc * 1.2]) : P(G.ball(0.08, 6, 4), c, [x, y + 0.02, z], [0, rr() * 6, 0], [sc, sc * 0.6, sc * 1.4]));
+    }
     p.push(strip(6.2, TILE, '#6FA04A', 6.8)); p.push(strip(6, TILE, '#4A4D52', 12.9, -0.02));
     for (let z = -TILE / 2; z < TILE / 2; z += 6) p.push(P(G.box(0.15, 0.02, 2.6), '#F2EBD8', [12.9, 0.005, z]));
     p.push(strip(30, TILE, '#7FAE56', 30.8, -0.04));
@@ -117,7 +125,8 @@ export function decor(key, r, side) {
   const out = [], add = (o, x, dz = 0, ry) => { if (!o) return; o.position.x = x; o.userData.dz = dz; if (ry != null) o.rotation.y = ry; else o.rotation.y = r() * Math.PI * 2; out.push(o); };
   if (key === 'seawall') {
     if (side < 0) {
-      if (r() < 0.25) add(kit(pick(r, ['rock_largeA', 'rock_largeC']), null, 3 + r() * 2), -5.5 - r() * 1.5);
+      if (r() < 0.15) { const rk = kit(pick(r, ['rock_largeA', 'rock_largeC']), null, 2 + r() * 2); const rx = -7.6 - r() * 4; add(rk, rx); if (rk) rk.position.y = SANDY(rx) - 0.05; }
+      if (r() < 0.12) { const lg = kit('log', null, 3); const lx = -9 - r() * 5; add(lg, lx); if (lg) lg.position.y = SANDY(lx); }
       if (r() < 0.06) add(mesh(prop('kite', pick(r, ['#D3243A', '#2F5FA8', '#F2C14E', '#2E8A6E']), pick(r, ['#F2C14E', '#F4F4F4', '#7B3FB8']))), -14 - r() * 20, 0, 0), out[out.length - 1] && (out[out.length - 1].position.y = 9 + r() * 7, out[out.length - 1].scale.setScalar(2.2), out[out.length - 1].rotation.z = (r() - 0.5) * 0.6);
       if (r() < 0.05) add(boat(r), -24 - r() * 30, 0, r() * 6);
       return out;
@@ -176,13 +185,16 @@ export function backdrop(key, scene) {
 
 /* the sea beside the seawall: gentle low-poly waves */
 export function sea(scene) {
-  const geo = new THREE.PlaneGeometry(240, 260, 48, 52); geo.rotateX(-Math.PI / 2);
-  const mat = new THREE.MeshPhongMaterial({ color: '#8C8264', specular: '#FFF1D0', shininess: 60, flatShading: true });
+  /* the brown Atlantic: rolling low-poly waves, and the swash running up the beach toward the wall and back */
+  const geo = new THREE.PlaneGeometry(240, 260, 60, 60); geo.rotateX(-Math.PI / 2);
+  const mat = new THREE.MeshPhongMaterial({ color: '#8A7E5E', specular: '#FFF1D0', shininess: 70, flatShading: true });
   const u = { uT: { value: 0 }, uS: { value: 0 } }; mat.userData.u = u;
   mat.onBeforeCompile = sh => { Object.assign(sh.uniforms, u);
     sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nuniform float uT; uniform float uS;')
-      .replace('#include <begin_vertex>', '#include <begin_vertex>\n float zz = position.z - uS; transformed.y += sin(zz * 0.35 + uT * 1.6) * 0.22 + sin(position.x * 0.27 + zz * 0.12 + uT * 1.1) * 0.18;'); };
-  const m = new THREE.Mesh(geo, mat); m.position.set(-127, -2.25, -90); scene.add(m);
-  const foam = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 260), new THREE.MeshBasicMaterial({ color: '#EFE6D2', transparent: true, opacity: 0.55 })); foam.rotation.x = -Math.PI / 2; foam.position.set(-7.4, -2.05, -90); scene.add(foam);
-  return { update(t, s) { u.uT.value = t; u.uS.value = s; } };
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\n float zz = position.z - uS; float sh = smoothstep(120.0, 60.0, position.x + 120.0); transformed.y += (sin(position.x * 0.45 + uT * 1.9) * 0.28 + sin(zz * 0.3 + uT * 1.2) * 0.14 + sin(position.x * 0.21 + zz * 0.15 + uT * 0.8) * 0.16) * (0.4 + 0.6 * sh);'); };
+  const m = new THREE.Mesh(geo, mat); m.position.set(-132, -2.22, -90); scene.add(m);
+  const fm = () => new THREE.MeshBasicMaterial({ color: '#F3EBDA', transparent: true, opacity: 0.6, depthWrite: false });
+  const swash = [0, 1, 2].map(i => { const f = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 260, 1, 1).rotateZ(0), fm()); f.rotation.x = -Math.PI / 2; f.position.set(-19, -3.0, -90); f.renderOrder = 2; scene.add(f); return f; });
+  return { update(t, s) { u.uT.value = t; u.uS.value = s;
+    swash.forEach((f, i) => { const ph = (t * 0.16 + i / 3) % 1, k = Math.sin(ph * Math.PI); f.position.x = -17.5 + k * (6.5 + (i === 1 ? 2.2 : 0)); f.position.y = SANDY(f.position.x) + 0.03; f.rotation.y = 0; f.rotation.x = -Math.PI / 2; f.rotation.z = 0; f.material.opacity = 0.65 * (1 - ph) * (ph < 0.08 ? ph / 0.08 : 1); f.scale.x = 0.6 + k; }); } };
 }

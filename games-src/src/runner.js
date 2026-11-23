@@ -49,10 +49,8 @@ export class Runner {
     this.power = { shield: 0, magnet: 0, double: 0 }; this.shieldOn = false;
     this.nextRow = 32; this.nextSide = [6, 9]; this.nextBadge = 140; this.badges = []; this.badgeSets = 0;
     this.dodged = {}; this.hitFacts = []; this.correct = 0; this.wrong = 0; this.state = 'intro'; this.introT = 0; this.ended = false; this.hint = null;
-    this.gq = this.T.gates(this.r); this.gi = 0;
-    if (this.plan) { const n = this.plan.gates; this.gateAt = Array.from({ length: n }, (_, i) => Math.round(this.plan.target * (0.25 + 0.6 * (n === 1 ? 0.5 : i / (n - 1))))); }
-    else this.gateAt = [];
-    this.nextGate = this.plan ? this.gateAt.shift() : this.mode === 'practice' ? 240 : 260;
+    /* runs are just running: questions live in the train games */
+    this.gq = []; this.gi = 0; this.gateAt = []; this.nextGate = null;
     this.tutorial = this.mode === 'practice' || (this.mode === 'levels' && this.level === 1) ? [{ s: 40, pat: 'tutLane', text: 'Swipe ← or → to change lanes' }, { s: 75, pat: 'tutJump', text: 'Swipe ↑ to jump' }, { s: 110, pat: 'tutSlide', text: 'Swipe ↓ to slide' }, { s: 140, pat: 'tutCoins', text: 'Collect the Pathfinder triangles' }] : [];
     if (this.tutorial.length) this.nextRow = 175;
     this.finishAt = this.plan ? this.plan.target : null; this.finishSpawned = false;
@@ -120,7 +118,7 @@ export class Runner {
     const ids = this.T.obstacles.filter(k => PRESSURES[k].kind === kind);
     const id = ids.length ? pick(this.r, ids) : null; if (!id) return;
     const def = PRESSURES[id], g = new THREE.Group(); g.add(mesh(prop(def.prop)));
-    if (def.board) { const b = sign(def.board, 1.85, 0.85, { bg: '#FFFFFF', fg: '#1B1D22', r: 20 }); b.position.set(0, 2.16, 0.12); g.add(b); }
+    if (def.board) { const b = sign(def.board, 1.95, 0.95, { bg: '#FFFFFF', fg: '#111111', r: 20, border: '#111111' }); b.position.set(0, 2.15, 0.13); g.add(b); }
     if (def.screen) { const b = sign(def.screen, def.prop === 'phone' ? 1.12 : 1.62, def.prop === 'phone' ? 1.95 : 1.08, { bg: '#16181C', fg: '#F2C14E', r: 14 }); b.position.set(0, def.prop === 'phone' ? 1.26 : 1.4, 0.11); g.add(b); }
     if (def.label) { const sp = sprite([def.label], 2.3, 0.62, { bg: 'rgba(20,20,24,0.78)', fg: '#FFFFFF', r: 60 }); sp.position.y = kind === 'low' ? 1.55 : kind === 'high' ? 3.25 : 3.25; g.add(sp); }
     g.position.set(LANES[lane], 0, -s); this.world.add(g);
@@ -212,7 +210,7 @@ export class Runner {
     // camera
     this.shake = Math.max(0, this.shake - dt * 2.5); const sh = this.shake * 0.35;
     cam.position.set(this.px * 0.55 + (Math.random() - 0.5) * sh, 3.35 + this.y * 0.35 + (Math.random() - 0.5) * sh, 6.6);
-    cam.lookAt(this.px * 0.72, 1.25 + this.y * 0.25, -8);
+    cam.lookAt(this.px * 0.72 + (this.key === 'seawall' ? -0.9 : 0), 1.25 + this.y * 0.25, -8);
     this.hud();
   }
   recycle(dt) {
