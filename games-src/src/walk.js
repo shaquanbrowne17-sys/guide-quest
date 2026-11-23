@@ -7,8 +7,11 @@ import { loadKit, kit, kitScene } from './kit.js';
 import { makeCharacter, myLook } from './character.js';
 import { GRACE } from './grace.js';
 import { SCHOOL } from './school.js';
+import { NATURE } from './nature.js';
+import { TEACH } from './teach.js';
+import { PATCH } from './patch.js';
 
-export const WALKS = { grace: GRACE, school: SCHOOL };
+export const WALKS = { grace: GRACE, school: SCHOOL, nature: NATURE, teach: TEACH, patch: PATCH };
 
 const R = 0.32;   // the player's radius for bumping into things
 const $ = s => document.querySelector(s);
@@ -98,6 +101,30 @@ export class Walk {
   follow(npc, on = true) { npc.following = on; if (on && !this.followers.includes(npc)) { this.followers.push(npc); this.cols = this.cols.filter(c => c !== npc.col); } if (!on) this.followers = this.followers.filter(f => f !== npc); }
   /** an NPC walks through the points [[x,z],…], then runs then() */
   walkNpc(npc, pts, then) { this.cols = this.cols.filter(c => c !== npc.col); npc.path = pts.map(p => new THREE.Vector3(p[0], 0, p[1])); npc.then = then; npc.play('Walk_Loop', { fade: 0.2 }); if (!this.walkers) this.walkers = []; if (!this.walkers.includes(npc)) this.walkers.push(npc); }
+  /** a screen element owned by this game (hidden when the game ends) */
+  el(id, cls, html) { return uiEl(id, cls, html); }
+  /** move the player straight to a point over secs (no bumping), with an animation and an optional hop */
+  tween(to, secs, anim, hop = 0, o = {}) { return new Promise(res => { this.tw = { from: this.pc.root.position.clone(), to: new THREE.Vector3(...to), t: 0, secs, hop, res, face: o.face !== false }; if (anim) this.pc.play(anim, { fade: 0.12, once: !!o.once, restart: !!o.once, speed: o.speed || 1 }); }); }
+  /** a timing game: tap when the marker is in the green. o = { label, steps, speed, zone, verb, step(i), miss(i) } → misses */
+  timing(o) {
+    this.busy = true; const el = uiEl('h-timing', 'panel'); el.hidden = false;
+    el.innerHTML = '<b>' + o.label + '</b><div class="tbar"><i class="tz"></i><i class="tm"></i></div><button>' + (o.verb || 'Now!') + '</button><small>0 / ' + o.steps + '</small>';
+    const mk = el.querySelector('.tm'), zn = el.querySelector('.tz'), btn = el.querySelector('button');
+    const setZone = () => { const w = o.zone || 0.24, c = w / 2 + 0.08 + Math.random() * (0.84 - w); this.tzone = [c - w / 2, c + w / 2]; zn.style.left = (this.tzone[0] * 100) + '%'; zn.style.width = (w * 100) + '%'; };
+    setZone(); this.tpos = 0; let dir = 1, last = performance.now(), locked = false, done = 0, misses = 0, run = true;
+    return new Promise(res => {
+      const tick = now => { if (!run) return; const dt = Math.min(0.05, (now - last) / 1000); last = now; if (!locked) { this.tpos += dir * dt * (o.speed || 0.9); if (this.tpos > 1) { this.tpos = 1; dir = -1; } if (this.tpos < 0) { this.tpos = 0; dir = 1; } } mk.style.left = (this.tpos * 100) + '%'; requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+      this.timingHit = async () => {
+        if (locked) return; locked = true; btn.disabled = true; const ok = this.tpos >= this.tzone[0] - 0.015 && this.tpos <= this.tzone[1] + 0.015;
+        if (ok) { SND.good(); el.classList.add('ok'); await o.step(done); done++; } else { SND.bad(); el.classList.add('no'); misses++; await o.miss(done); }
+        el.classList.remove('ok', 'no'); el.querySelector('small').textContent = done + ' / ' + o.steps;
+        if (done >= o.steps) { run = false; el.hidden = true; this.timingHit = null; res(misses); return; }
+        setZone(); locked = false; btn.disabled = false;
+      };
+      btn.onclick = e => { e.stopPropagation(); this.timingHit && this.timingHit(); };
+    });
+  }
   async anim(name, ms = 1200) { this.pc.play(name, { once: true, fade: 0.15 }); this.animT = ms / 1000; await wait(ms); }
 
   /* ---------- input ---------- */
@@ -111,6 +138,7 @@ export class Walk {
   }
   release() { this.joy = null; const j = document.getElementById('h-joy'); if (j) j.hidden = true; }
   tapAt(x, y) {
+    if (this.timingHit && !this.dragged) { this.timingHit(); return; }
     if (this.state !== 'play' || this.busy || this.dragged) return;
     const rc = new THREE.Raycaster(); rc.setFromCamera(new THREE.Vector2(x / innerWidth * 2 - 1, -(y / innerHeight) * 2 + 1), this.eng.camera);
     const hits = rc.intersectObjects(this.things.filter(t => this.active(t)).map(t => t.hit), false);
@@ -162,11 +190,13 @@ export class Walk {
   async snap(at, look) {
     this.camOverride = { pos: new THREE.Vector3(...at), look: new THREE.Vector3(...look) }; this.pc.play('Idle_Loop', { fade: 0.2 }); await wait(1300);
     const fl = uiEl('h-flash'); fl.hidden = false; fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go'); SND.noise(0.05, 0.25, 0, 3000); SND.pop();
-    const r = this.eng.renderer, src = r.domElement; r.render(this.eng.scene, this.eng.camera);
+    const r = this.eng.renderer, src = r.domElement, marks = this.things.filter(t => t.mark.visible).map(t => t.mark), ring = this.ring && this.ring.visible;
+    marks.forEach(m => { m.visible = false; }); this.pc.root.visible = false; if (this.ring) this.ring.visible = false; r.render(this.eng.scene, this.eng.camera);
     const c = document.createElement('canvas'); c.width = 360; c.height = 240; const sw = Math.min(src.width, src.height * 1.5), sh = sw / 1.5; c.getContext('2d').drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, 360, 240);
+    marks.forEach(m => { m.visible = true; }); this.pc.root.visible = true; if (this.ring) this.ring.visible = ring;
     let url = ''; try { url = c.toDataURL('image/jpeg', 0.82); } catch (e) { url = ''; } await wait(350); return url;
   }
-  camGoal() { if (this.camOverride) return this.camOverride; const p = this.pc.root.position, tall = innerHeight > innerWidth; return { pos: new THREE.Vector3(p.x, tall ? 10.5 : 7.6, p.z + (tall ? 9.5 : 8.2)), look: new THREE.Vector3(p.x, tall ? -0.3 : 0.8, p.z - (tall ? 2.2 : 1.2)) }; }
+  camGoal() { if (this.camOverride) return this.camOverride; const p = this.pc.root.position, tall = innerHeight > innerWidth, k = this.T.camK || 1; return { pos: new THREE.Vector3(p.x, (tall ? 10.5 : 7.6) * k, p.z + (tall ? 9.5 : 8.2) * k), look: new THREE.Vector3(p.x, tall ? -0.3 : 0.8, p.z - (tall ? 2.2 : 1.2) * k) }; }
   update(dt) {
     const pc = this.pc, cam = this.eng.camera; pc.update(dt); Object.values(this.npcs).forEach(n => n.update(dt));
     const goal = this.camGoal();
@@ -177,6 +207,8 @@ export class Walk {
     }
     if (this.state === 'won') { cam.position.lerp(goal.pos, 1 - Math.exp(-3 * dt)); cam.lookAt(goal.look); return; }
     this.t += dt; if (this.animT > 0) this.animT -= dt;
+    if (this.tw) { const tw = this.tw, p = pc.root.position; tw.t += dt; const k = Math.min(1, tw.t / tw.secs); p.lerpVectors(tw.from, tw.to, k); p.y += Math.sin(k * Math.PI) * tw.hop;
+      if (tw.face) { const dx = tw.to.x - tw.from.x, dz = tw.to.z - tw.from.z; if (dx * dx + dz * dz > 0.01) pc.root.rotation.y = Math.atan2(dx, dz); } if (k >= 1) { this.tw = null; tw.res(); } }
     // where to walk
     let mv = null; const keys = this.eng.keys || {};
     if (!this.busy) {
@@ -233,7 +265,7 @@ export class Walk {
   /** the end of the story: score, stars and what to look at again */
   finish(o = {}) {
     if (this.ended) return; this.ended = true; this.state = 'won'; this.eng.watch = false; SND.stopMusic(); SND.win(); this.pc.play('Yes', { fade: 0.2 });
-    ['h-act', 'h-joy', 'h-quest'].forEach(id => { const e = document.getElementById(id); if (e) e.hidden = true; });
+    ['h-act', 'h-joy', 'h-quest', 'h-timing', 'h-sash'].forEach(id => { const e = document.getElementById(id); if (e) e.hidden = true; });
     const secs = Math.round(this.t), score = Math.max(0, Math.round(this.points + Math.max(0, 900 - secs * 2)));
     const res = { won: true, score, level: 1, stars: this.wrong === 0 ? 3 : this.wrong <= 2 ? 2 : 1, title: o.title || this.T.title,
       stats: [[this.right + '/' + (this.right + this.wrong), 'best choices'], [this.quests.filter(q => q.done).length + '/' + this.quests.length, 'done'], [Math.floor(secs / 60) + ':' + ('0' + secs % 60).slice(-2), 'time'], [score, 'points']].concat(o.stats || []),
