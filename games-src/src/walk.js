@@ -10,8 +10,14 @@ import { SCHOOL } from './school.js';
 import { NATURE } from './nature.js';
 import { TEACH } from './teach.js';
 import { PATCH } from './patch.js';
+import { COMPASS } from './compass.js';
+import { HIKE } from './hike.js';
+import { BUILDIT } from './build.js';
+import { KITCHEN } from './kitchen.js';
+import { PIONEERS } from './pioneers.js';
+import { CAMP } from './camp.js';
 
-export const WALKS = { grace: GRACE, school: SCHOOL, nature: NATURE, teach: TEACH, patch: PATCH };
+export const WALKS = { grace: GRACE, school: SCHOOL, nature: NATURE, teach: TEACH, patch: PATCH, compass: COMPASS, hike: HIKE, build: BUILDIT, kitchen: KITCHEN, pioneers: PIONEERS, camp: CAMP };
 
 const R = 0.32;   // the player's radius for bumping into things
 const $ = s => document.querySelector(s);
@@ -181,6 +187,8 @@ export class Walk {
     try { await t.use(this, t); } catch (e) { console.error(e); }
     this.busy = false; this.ui.closeCard(); this.hud(); this.drawQuests();
   }
+  /** leaving the game: the story file can tidy up (leave a class room) */
+  stop() { if (this.T.stop) this.T.stop(this); }
   go() { if (this.state !== 'intro') return; this.state = 'play'; SND.unlock(); SND.startMusic('calm'); this.eng.watch = true; this.drawQuests(); if (this.T.begin) this.T.begin(this); }
 
   /* ---------- each frame ---------- */
@@ -220,7 +228,7 @@ export class Walk {
         else mv = d.divideScalar(l).multiplyScalar(Math.min(1, l / 0.4 + 0.25)); }
       const ek = keys.Enter || keys.e || keys.E || keys[' ']; if (ek && !this.keyHeld && this.near) { this.keyHeld = true; this.use(this.near); } if (!ek) this.keyHeld = false;
     }
-    const speed = (this.T.speed || 3.4) * (this.carrying ? 0.8 : 1), pos = pc.root.position, before = pos.clone();
+    const speed = (this.T.speed || 3.4) * (this.carrying ? 0.8 : 1) * (this.slow || 1), pos = pc.root.position, before = pos.clone();
     if (mv && mv.lengthSq() > 0.0004) {
       const want = mv.clone().multiplyScalar(speed); this.vel.lerp(want, 1 - Math.exp(-12 * dt));
       pos.addScaledVector(this.vel, dt); this.collide(pos);
@@ -265,7 +273,7 @@ export class Walk {
   /** the end of the story: score, stars and what to look at again */
   finish(o = {}) {
     if (this.ended) return; this.ended = true; this.state = 'won'; this.eng.watch = false; SND.stopMusic(); SND.win(); this.pc.play('Yes', { fade: 0.2 });
-    ['h-act', 'h-joy', 'h-quest', 'h-timing', 'h-sash'].forEach(id => { const e = document.getElementById(id); if (e) e.hidden = true; });
+    ['h-act', 'h-joy', 'h-quest', 'h-timing', 'h-sash', 'h-comp', 'h-omap', 'h-pack', 'h-kit', 'h-chat'].forEach(id => { const e = document.getElementById(id); if (e) e.hidden = true; });
     const secs = Math.round(this.t), score = Math.max(0, Math.round(this.points + Math.max(0, 900 - secs * 2)));
     const res = { won: true, score, level: 1, stars: this.wrong === 0 ? 3 : this.wrong <= 2 ? 2 : 1, title: o.title || this.T.title,
       stats: [[this.right + '/' + (this.right + this.wrong), 'best choices'], [this.quests.filter(q => q.done).length + '/' + this.quests.length, 'done'], [Math.floor(secs / 60) + ':' + ('0' + secs % 60).slice(-2), 'time'], [score, 'points']].concat(o.stats || []),
