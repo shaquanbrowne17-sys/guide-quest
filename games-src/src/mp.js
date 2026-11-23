@@ -2,14 +2,15 @@
    Anonymous sign-in, no emails or passwords. The database rules (rules.json) only allow rooms/<CODE>/{meta, players/<uid>, chat/<id>}:
    names are letters only, and chat is a number that picks one of the ready-made phrases. */
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { initializeAuth, browserSessionPersistence, signInAnonymously } from 'firebase/auth';
 import { getDatabase, ref, set, get, update, push, onValue, onChildAdded, onDisconnect, query, limitToLast, serverTimestamp, off } from 'firebase/database';
 import { FIREBASE } from './firebase-config.js';
 
 let app = null, db = null, uid = null, offset = 0;
 export async function connect() {
   if (uid) return uid;
-  app = initializeApp(FIREBASE); const auth = getAuth(app); db = getDatabase(app);
+  /* Each browser tab is its own player (two tabs on one computer don't share a seat). */
+  app = initializeApp(FIREBASE); const auth = initializeAuth(app, { persistence: browserSessionPersistence }); db = getDatabase(app);
   const cred = await signInAnonymously(auth); uid = cred.user.uid;
   onValue(ref(db, '.info/serverTimeOffset'), s => { offset = s.val() || 0; });
   return uid;
