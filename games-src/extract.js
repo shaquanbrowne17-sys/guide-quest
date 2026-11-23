@@ -5,12 +5,15 @@ const code = fs.readFileSync(dir + '/Code.gs', 'utf8');
 const ctx = { console };
 vm.createContext(ctx);
 const stub = 'var PropertiesService={},SpreadsheetApp={},Utilities={},Session={},LockService={},HtmlService={},ContentService={},CacheService={},UrlFetchApp={},DriveApp={},ScriptApp={},MailApp={},Logger={log(){}};';
-vm.runInContext(stub + code + '\n;this.__Q = TOPIC_QUESTIONS; this.__T = TOPICS;', ctx);
+vm.runInContext(stub + code + '\n;this.__Q = TOPIC_QUESTIONS; this.__T = TOPICS; this.__G = GEMS_DEFAULT;', ctx);
 const learn = fs.readFileSync(dir + '/Learn.html', 'utf8');
 function grab(name){ const i = learn.indexOf('var ' + name + ' = '); let d = 0, k = i + ('var ' + name + ' = ').length;
   const open = learn[k], close = open === '{' ? '}' : ']'; for (let p = k; p < learn.length; p++){ if (learn[p] === open) d++; else if (learn[p] === close){ d--; if (!d) return vm.runInNewContext('(' + learn.slice(k, p + 1) + ')'); } } }
 const want = ['fitness', 'choices', 'legion', 'honours', 'temperance', 'story', 'nutrition'];
 const Q = {}; want.forEach(k => { Q[k] = ctx.__Q[k]; if (!Q[k]) throw new Error('no questions ' + k); });
-const out = { Q, HONOUR: grab('HONOUR'), LEGION_SIX: grab('LEGION_SIX') };
+// every explorer's questions with 3+ answers, and the Memory Gems, for the racing checkpoints
+const ALL = {}; Object.keys(ctx.__Q).forEach(k => { const a = ctx.__Q[k].filter(q => q[1].length >= 3); if (a.length) ALL[k] = a; });
+const TNAMES = {}; Object.keys(ctx.__T || {}).forEach(k => { TNAMES[k] = ctx.__T[k].name || k; });
+const out = { Q, ALL, TNAMES, GEMS: ctx.__G.map(g => [g[1], g[2]]), HONOUR: grab('HONOUR'), LEGION_SIX: grab('LEGION_SIX') };
 fs.writeFileSync('src/data.js', '/* Built from the Apps Script content (Code.gs and Learn.html). Do not edit by hand. */\nexport const DATA = ' + JSON.stringify(out) + ';\n');
 console.log(Object.keys(Q).map(k => k + ':' + Q[k].length).join(' '), 'honour:', Object.keys(out.HONOUR).join(','), 'six:', out.LEGION_SIX.length);

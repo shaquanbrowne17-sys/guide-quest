@@ -7,15 +7,17 @@ import { Defender, DEFENDERS } from './defender.js';
 import { Escape, ESCAPES } from './escape.js';
 import { Canoe, CANOES } from './canoe.js';
 import { Walk, WALKS } from './walk.js';
-const DEFS = Object.assign({}, THEMES, TRAINS, DEFENDERS, ESCAPES, CANOES, WALKS);
-const CLASSES = { train: Train, defend: Defender, escape: Escape, canoe: Canoe, walk: Walk };
+import { Race, RACES } from './race.js';
+import { Switch, SWITCHES } from './switch.js';
+const DEFS = Object.assign({}, THEMES, TRAINS, DEFENDERS, ESCAPES, CANOES, WALKS, RACES, SWITCHES);
+const CLASSES = { train: Train, defend: Defender, escape: Escape, canoe: Canoe, walk: Walk, race: Race, switch: Switch };
 import { makeCharacter, myLook, saveLook, SKIN_TONES, HAIR } from './character.js';
 import { loadKit } from './kit.js';
 
 const $ = s => document.querySelector(s);
 const Q = new URLSearchParams(location.search);
 const TOKEN = (() => { const t = (Q.get('t') || '').replace(/[^\w-]/g, ''); if (t) return t; try { return localStorage.getItem('gq-sanct-me') || ''; } catch (e) { return ''; } })();
-const GROUPS = [['🧭 Explore and do', 'Photograph nature, run the patch hunt, teach the Juniors.', ['patch', 'nature', 'teach']], ['🏘️ Walk and talk', 'Walk around, meet people, help them and share Jesus.', ['grace', 'school']], ['🏹 Adventures', 'Defend the temple, escape the room, paddle through our church’s story.', ['temple', 'breakfree', 'canoe']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']], ['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']]];
+const GROUPS = [['🏁 Racing', 'Race your class in Switch Run, or race three vehicles with question boosts.', ['switchrun', 'racekart', 'racebike', 'racecanoe']], ['🧭 Explore and do', 'Photograph nature, run the patch hunt, teach the Juniors.', ['patch', 'nature', 'teach']], ['🏘️ Walk and talk', 'Walk around, meet people, help them and share Jesus.', ['grace', 'school']], ['🏹 Adventures', 'Defend the temple, escape the room, paddle through our church’s story.', ['temple', 'breakfree', 'canoe']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']], ['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']]];
 const MODES_TRAIN = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. The train waits for you.'], levels: ['🪜', 'Levels', '10 levels. More stops, a bit faster.'], endless: ['♾️', 'Endless', 'Keep going until 3 wrong tracks.'], daily: ['📅', 'Daily Challenge', '10 stops, the same for everyone today.'] };
 const MODES = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. Learn the moves.'], levels: ['🪜', 'Levels', '10 levels. Each one a bit faster.'], endless: ['♾️', 'Endless', 'Keeps speeding up. Beat the class.'], daily: ['📅', 'Daily Challenge', 'Same run for everyone today.'] };
 const ui = {};
@@ -95,7 +97,7 @@ async function play(mode, level) {
   input.on.noSwipe = !!g.noSwipe; $('#h-card').hidden = true; $('#h-banner').hidden = true;
   eng.update = dt => { if (!paused) g.update(dt); };
 }
-function stopGame() { if (game) { game = null; window.__gq3dGame = null; } SND.stopMusic(); eng.watch = false; }
+function stopGame() { if (game) { try { if (game.stop) game.stop(); } catch (e) { /* nothing to stop */ } game = null; window.__gq3dGame = null; } SND.stopMusic(); eng.watch = false; }
 function pause(on) {
   if (!game || game.state === 'over' || game.state === 'won') return;
   paused = on; $('#s-pause').hidden = !on; if (on) SND.stopMusic(); else if (game.state === 'run') SND.startMusic(game.T.music);

@@ -160,7 +160,7 @@ export class Input {
     el.addEventListener('pointerup', up); el.addEventListener('pointercancel', () => { down = false; });
     this.keys = {};
     addEventListener('keydown', e => {
-      if (e.target && /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName) && e.key === ' ') return;
+      if (e.target && (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) || (e.target.tagName === 'BUTTON' && e.key === ' '))) return;
       const k = e.key; this.keys[k] = true;
       const map = { ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right', ArrowUp: 'up', w: 'up', W: 'up', ' ': 'up', ArrowDown: 'down', s: 'down', S: 'down' };
       if (map[k] && on.swipe && !e.repeat) { e.preventDefault(); on.swipe(map[k]); }

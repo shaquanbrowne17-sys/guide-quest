@@ -1064,6 +1064,22 @@ body.has-rdmini{padding-bottom:84px}
 :root[data-theme="dark"] .cv.cv-comic{background-color:#FFF8E1;border-radius:6px}
 :root[data-theme="dark"] .cv.cv-fit{background-color:#0E0F12;color:#F2F2F2;padding:16px;border-radius:24px}
 
+/* Fruit basket, version 17: levels, bombs, combos, Endless */
+.fb-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px}
+.fb-lv{font:800 12px/1 var(--body);letter-spacing:.04em;text-transform:uppercase;color:var(--g-gold)}
+.fb-combo{font:900 13px/1 var(--body);color:#2A1C00;background:var(--g-gold);border-radius:999px;padding:5px 10px;animation:nuYum .3s ease}
+.fb-drop.bomb span{background:rgba(20,20,20,.75);border-color:#F2C14E;animation:fbTick .45s ease-in-out infinite alternate}
+.fb-drop.bomb small{background:#7A1E1E}
+.fb-drop.boom span{transform:scale(1.9);background:rgba(255,160,40,.5);border-color:#FFB347;transition:transform .2s}
+.fb-drop.gold span{background:rgba(242,193,78,.35);border-color:#F2C14E;box-shadow:0 0 14px #F2C14E}
+@keyframes fbTick{from{transform:scale(1)}to{transform:scale(1.12)}}
+.fb-pick{display:flex;flex-direction:column;gap:8px;margin:10px auto 0;max-width:340px}
+.fb-lvls{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.fb-lvls .gk-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px}
+.fb-lvls .gk-btn b{font-size:17px}.fb-lvls .gk-btn small{font:700 9.5px/1.15 var(--body);color:var(--g-mu);text-align:center}
+.fb-lock{opacity:.45}
+.fb-end{font-size:14px}
+
 </style>
 </head>
 <body>
@@ -2689,19 +2705,34 @@ body.has-rdmini{padding-bottom:84px}
     how: 'Run and catch healthy food to fill all five bars: energy, builders, good fats, vitamins and water. <b>Dodge</b> soda, candy, junk, alcohol and tobacco: they cost a heart. When a bar is full, dodge that kind of food too. Too much of a good thing isn’t good!' }); };
 
   /* ======================= GAME: Fruit basket (Galatians 5:22–23 in order) ======================= */
+  /* Version 17: five levels, works-of-the-flesh bombs, combos and Endless. Level 1 plays as it always did. */
   var FB_FRUIT = [['❤️', 'love', ''], ['😊', 'joy', ''], ['🕊️', 'peace', ''], ['⏳', 'longsuffering', 'patience'], ['🤲', 'gentleness', 'kindness'], ['⭐', 'goodness', ''], ['⚓', 'faith', 'faithfulness'], ['🐑', 'meekness', 'gentleness'], ['🛑', 'temperance', 'self-control']];
   var FB_FLESH = [['💢', 'Wrath', 'anger', '20'], ['😠', 'Hatred', '', '20'], ['🥊', 'Strife', 'fighting', '20'], ['😒', 'Envyings', 'jealousy', '21'], ['🗯️', 'Variance', 'quarrelling', '20']];
-  function fruitBuild(api){
-    var next = 0, drops = [], spawn = 0.4, mistakes = 0, W = 0, H = 360, bx = 0.5;
-    var verse = gkEl('p', 'fb-verse'), msg = gkEl('p', 'nu-msg', 'Catch the fruits in the order of the verse. Dodge the works of the flesh!');
+  var FB_BOMBS = [['Drunkenness', '', '21'], ['Idolatry', 'putting things before God', '20'], ['Seditions', 'stirring up divisions', '20'], ['Emulations', 'jealous rivalry', '20'], ['Revellings', 'wild partying', '21']];
+  var FB_LEVELS = [null,
+    { name: 'The verse', speed: 95, spawn: 1.05, flesh: 0.28, bomb: 0, rounds: 1, gold: 0 },
+    { name: 'Faster', speed: 125, spawn: 0.9, flesh: 0.32, bomb: 0, rounds: 1, gold: 0 },
+    { name: 'Bombs', speed: 120, spawn: 0.9, flesh: 0.18, bomb: 0.15, rounds: 1, gold: 0 },
+    { name: 'Golden combos', speed: 135, spawn: 0.8, flesh: 0.2, bomb: 0.15, rounds: 1, gold: 0.12 },
+    { name: 'Twice through', speed: 150, spawn: 0.72, flesh: 0.22, bomb: 0.18, rounds: 2, gold: 0.1 }];
+  var FB_ENDLESS = 99;
+  function fbUnlocked(){ try { return Math.max(1, Math.min(5, +localStorage.getItem('gq-fruit-lv') || 1)); } catch (e) { return 1; } }
+  function fbUnlock(n){ try { if (n > fbUnlocked()) localStorage.setItem('gq-fruit-lv', String(Math.min(5, n))); } catch (e) {} }
+  function fruitBuild(api, level){
+    var endless = level === FB_ENDLESS, L = endless ? { name: 'Endless', speed: 110, spawn: 0.95, flesh: 0.22, bomb: 0.12, rounds: 1e9, gold: 0.1 } : (FB_LEVELS[level] || FB_LEVELS[1]);
+    var next = 0, round = 1, drops = [], spawn = 0.4, mistakes = 0, W = 0, H = 360, bx = 0.5, combo = 0, best = 0, caught = 0;
+    var head = gkEl('div', 'fb-head', '<span class="fb-lv">' + (endless ? '♾ Endless' : 'Level ' + level + ' · ' + L.name) + '</span><span class="fb-combo" hidden></span>');
+    var verse = gkEl('p', 'fb-verse'), msg = gkEl('p', 'nu-msg', level === 3 ? 'New: 💣 bombs! If one lands near your basket it costs a heart. Move away!' : level === 4 ? 'New: golden fruit ✨ doubles your combo. Catch in a row for a bigger combo!' : endless ? 'The verse goes round and round, faster each time. How far can you go?' : 'Catch the fruits in the order of the verse. Dodge the works of the flesh!');
     var field = gkEl('div', 'fb-field', '<div class="fb-tree">🌳</div><div class="fb-basket"><span>🧺</span></div>');
-    var want = gkEl('div', 'fb-want');
-    [verse, want, msg, field].forEach(function(e){ api.stage.appendChild(e); });
+    var want = gkEl('div', 'fb-want'), comboEl = head.querySelector('.fb-combo');
+    [head, verse, want, msg, field].forEach(function(e){ api.stage.appendChild(e); });
     var basket = field.querySelector('.fb-basket');
     function paintVerse(){
-      verse.innerHTML = '“But the fruit of the Spirit is ' + FB_FRUIT.map(function(f, i){ return i < next ? '<b>' + f[1] + '</b>' : '<span class="fb-blank">' + '_'.repeat(Math.max(3, Math.round(f[1].length * 0.7))) + '</span>'; }).join(', ') + ': against such there is no law.” <cite>Galatians 5:22–23</cite>';
+      verse.innerHTML = '“But the fruit of the Spirit is ' + FB_FRUIT.map(function(f, i){ return i < next ? '<b>' + f[1] + '</b>' : '<span class="fb-blank">' + '_'.repeat(Math.max(3, Math.round(f[1].length * 0.7))) + '</span>'; }).join(', ') + ': against such there is no law.” <cite>Galatians 5:22–23' + (L.rounds > 1 ? ' · round ' + round + (endless ? '' : ' of ' + L.rounds) : '') + '</cite>';
       var f = FB_FRUIT[next]; want.innerHTML = f ? 'Catch next: <span class="fb-ic">' + f[0] + '</span> <b>' + f[1] + '</b>' + (f[2] ? ' (' + f[2] + ')' : '') : '';
     }
+    function paintCombo(){ comboEl.hidden = combo < 2; comboEl.textContent = '🔥 Combo ×' + mult(); }
+    function mult(){ return 1 + Math.floor(combo / 3); }
     paintVerse();
     function moveTo(clientX){ var r = field.getBoundingClientRect(); bx = Math.max(0.08, Math.min(0.92, (clientX - r.left) / r.width)); basket.style.left = (bx * 100) + '%'; }
     moveTo(field.getBoundingClientRect().left + field.getBoundingClientRect().width / 2);
@@ -2711,44 +2742,72 @@ body.has-rdmini{padding-bottom:84px}
     if (api._fbKey) document.removeEventListener('keydown', api._fbKey);
     api._fbKey = onKey; document.addEventListener('keydown', onKey);
     function say(m, ok){ msg.innerHTML = m; msg.className = 'nu-msg ' + (ok ? 'ok' : 'no'); }
+    var speedK = 1;
     function make(){
       var r = Math.random(), d;
-      if (r < 0.45 && next < FB_FRUIT.length) d = { kind: 'want', f: FB_FRUIT[next], i: next };
-      else if (r < 0.72) { var j = Math.floor(Math.random() * FB_FRUIT.length); d = { kind: j === next ? 'want' : 'fruit', f: FB_FRUIT[j], i: j }; }
-      else d = { kind: 'flesh', f: FB_FLESH[Math.floor(Math.random() * FB_FLESH.length)] };
-      d.x = 0.1 + Math.random() * 0.8; d.y = 40; d.v = 95 + Math.random() * 40 + next * 7;
-      d.el = gkEl('div', 'fb-drop ' + (d.kind === 'flesh' ? 'flesh' : 'fruit'), '<span>' + d.f[0] + '</span><small>' + esc(d.kind === 'flesh' ? d.f[1] : d.f[1]) + '</small>');
+      if (r < L.bomb) { var b = FB_BOMBS[Math.floor(Math.random() * FB_BOMBS.length)]; d = { kind: 'bomb', f: ['💣', b[0], b[1], b[2]] }; }
+      else if (r < L.bomb + L.flesh) d = { kind: 'flesh', f: FB_FLESH[Math.floor(Math.random() * FB_FLESH.length)] };
+      else if (r < L.bomb + L.flesh + 0.42 && next < FB_FRUIT.length) d = { kind: 'want', f: FB_FRUIT[next], i: next, gold: Math.random() < L.gold };
+      else { var j = Math.floor(Math.random() * FB_FRUIT.length); d = { kind: j === next ? 'want' : 'fruit', f: FB_FRUIT[j], i: j, gold: j === next && Math.random() < L.gold }; }
+      d.x = 0.1 + Math.random() * 0.8; d.y = 40; d.v = (L.speed + Math.random() * 40 + next * 6) * speedK * (d.kind === 'bomb' ? 1.15 : 1);
+      d.el = gkEl('div', 'fb-drop ' + (d.kind === 'flesh' ? 'flesh' : d.kind === 'bomb' ? 'bomb' : 'fruit') + (d.gold ? ' gold' : ''), '<span>' + d.f[0] + '</span><small>' + esc(d.f[1]) + '</small>');
       d.el.style.left = (d.x * 100) + '%'; field.appendChild(d.el); drops.push(d);
     }
     api.tick(function(dt){
-      spawn -= dt; if (spawn <= 0) { make(); spawn = Math.max(0.55, 1.05 - next * 0.05); }
+      if (api.st.done) return;
+      spawn -= dt; if (spawn <= 0) { make(); spawn = Math.max(0.42, (L.spawn - next * 0.05) / speedK); }
       W = field.clientWidth || 300;
       drops = drops.filter(function(d){
         d.y += d.v * dt; d.el.style.transform = 'translate(-50%,' + d.y + 'px)';
-        if (d.y > H - 78 && d.y < H - 30 && Math.abs(d.x - bx) * W < 44) { catchIt(d); d.el.remove(); return false; }
-        if (d.y > H + 20) { d.el.remove(); return false; }
+        if (d.kind !== 'bomb' && d.y > H - 78 && d.y < H - 30 && Math.abs(d.x - bx) * W < 44) { catchIt(d); d.el.remove(); return false; }
+        if (d.kind === 'bomb' && d.y > H - 62) { boom(d); return false; }
+        if (d.y > H + 20) { if (d.kind === 'want' && combo) { combo = 0; paintCombo(); } d.el.remove(); return false; }
         return true;
       });
     });
+    function hurt(text){
+      mistakes++; combo = 0; paintCombo(); say(text, false);
+      if (!endless) { api.loseHeart(); return; }
+      if (api.st.done) return; api.st.hearts--; SFX.bad(); api.paint();
+      api.el.classList.remove('gk-hit'); void api.el.offsetWidth; api.el.classList.add('gk-hit');
+      if (api.st.hearts <= 0) { drops.forEach(function(x){ x.el.remove(); }); drops = []; setTimeout(function(){ api.finish(true, { stars: round >= 4 ? 3 : round >= 2 ? 2 : 1, title: 'Endless: ' + (round - 1) + ' full verse' + (round - 1 === 1 ? '' : 's'), summary: caught + ' fruits caught, best combo ×' + (1 + Math.floor(best / 3)) + '. Can you say the verse without looking?', againLevel: FB_ENDLESS }); }, 700); }
+    }
+    function boom(d){
+      d.el.classList.add('boom'); d.el.querySelector('span').textContent = '💥'; setTimeout(function(){ d.el.remove(); }, 450);
+      if (api.st.done) return;
+      if (Math.abs(d.x - bx) * W < 70) hurt('💥 ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : '') + ' is a work of the flesh (Galatians 5:' + d.f[3] + '). Keep away from it!');
+    }
     function catchIt(d){
       if (api.st.done) return;
-      if (d.kind === 'flesh') { mistakes++; say('🚫 ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : '') + ' is a work of the flesh (Galatians 5:' + d.f[3] + '). Dodge it!', false); api.loseHeart(); return; }
+      if (d.kind === 'flesh') { hurt('🚫 ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : '') + ' is a work of the flesh (Galatians 5:' + d.f[3] + '). Dodge it!'); return; }
       if (d.i === next) {
-        next++; SFX.coin(); api.addScore(100); basket.classList.remove('nu-yum'); void basket.offsetWidth; basket.classList.add('nu-yum');
-        say('✓ ' + d.f[0] + ' ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : ''), true); paintVerse();
+        next++; caught++; combo += d.gold ? 3 : 1; best = Math.max(best, combo); SFX.coin(); api.addScore(100 * mult()); paintCombo();
+        basket.classList.remove('nu-yum'); void basket.offsetWidth; basket.classList.add('nu-yum');
+        say('✓ ' + d.f[0] + ' ' + d.f[1] + (d.f[2] ? ' (' + d.f[2] + ')' : '') + (d.gold ? ' ✨ golden!' : '') + (mult() > 1 ? ' · combo ×' + mult() : ''), true); paintVerse();
         if (next >= FB_FRUIT.length) {
+          if (round < L.rounds) { round++; next = 0; speedK *= endless ? 1.08 : 1.1; api.addScore(endless ? 300 : 200); paintVerse(); api.toast((endless ? '♾ Round ' : 'Round ') + round + '! Faster now.', true); return; }
           drops.forEach(function(x){ x.el.remove(); }); drops = [];
-          var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 - secs)) * 5);
-          api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: 'All nine fruits!', summary: 'Love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance. Can you say the verse without looking?' });
+          var secs = api.elapsed(); api.addScore(Math.max(0, Math.round(90 * L.rounds - secs)) * 5);
+          fbUnlock(level + 1);
+          var btns = level < 5 ? [{ label: 'Level ' + (level + 1) + ' ▶', fn: function(){ api.begin(level + 1); } }] : [{ label: '♾ Endless ▶', fn: function(){ api.begin(FB_ENDLESS); } }];
+          api.finish(true, { stars: mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1, title: level >= 5 ? 'All five levels!' : 'Level ' + level + ' done!', summary: 'Love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance. Best combo ×' + (1 + Math.floor(best / 3)) + '. Can you say the verse without looking?', buttons: btns });
         }
         return;
       }
       if (d.i < next) { say('You already have ' + d.f[1] + '. Look for ' + FB_FRUIT[next][1] + '.', false); return; }
-      api.addScore(-20); SFX.bad(); say('Not yet! The verse says <b>' + FB_FRUIT[next][1] + '</b> next.', false);
+      combo = 0; paintCombo(); api.addScore(-20); SFX.bad(); say('Not yet! The verse says <b>' + FB_FRUIT[next][1] + '</b> next.', false);
     }
   }
-  NGAMES.fruit = function(){ return GK({ gid: 'fruit:basket', icon: '🧺', title: 'Fruit basket', build: fruitBuild,
-    how: 'Move the basket by sliding your finger. Catch the nine fruits <b>in the order of Galatians 5:22–23</b>: love, joy, peace, longsuffering… The verse fills in as you go. Dodge the works of the flesh, like wrath and strife: they cost a heart.' }); };
+  NGAMES.fruit = function(){
+    var g = GK({ gid: 'fruit:basket', icon: '🧺', title: 'Fruit basket', build: fruitBuild,
+      how: 'Move the basket by sliding your finger. Catch the nine fruits <b>in the order of Galatians 5:22–23</b>: love, joy, peace, longsuffering… The verse fills in as you go. Dodge the works of the flesh, like wrath and strife: they cost a heart. Catch in a row for a 🔥 combo.' });
+    var st = g.el.querySelector('.gk-start'), play = st.querySelector('.gk-play'), un = fbUnlocked();
+    var pick = gkEl('div', 'fb-pick', '<div class="fb-lvls">' + [1, 2, 3, 4, 5].map(function(n){ return '<button type="button" class="gk-btn' + (n <= un ? '' : ' fb-lock') + '" data-fbl="' + n + '"' + (n <= un ? '' : ' disabled') + '><b>' + n + '</b><small>' + (n <= un ? FB_LEVELS[n].name : '🔒') + '</small></button>'; }).join('') + '</div><button type="button" class="gk-btn fb-end" data-fbl="' + FB_ENDLESS + '">♾ Endless</button>');
+    play.parentNode.insertBefore(pick, play.nextSibling);
+    pick.addEventListener('click', function(e){ var b = e.target.closest('[data-fbl]'); if (b && !b.disabled) g.begin(+b.getAttribute('data-fbl')); });
+    play.textContent = '▶ Play level ' + un; play.onclick = function(){ g.begin(fbUnlocked()); };
+    return g;
+  };
 
   /* ======================= GAME: Timeline and memory (pioneers) ======================= */
   var PIO_EVENTS = [['miller', 'Oct 1844', 'The Great Disappointment'], ['edson', 'Oct 1844', 'The cornfield: the sanctuary is in heaven'], ['ellen', 'Dec 1844', 'First vision, aged 17'],
@@ -4377,6 +4436,10 @@ body.has-rdmini{padding-bottom:84px}
   /* ===== Version 17: the 3D arcade (Guide Quest Arcade on the website) ===== */
   var X17_SITE = 'https://shaquanbrowne17-sys.github.io/guide-quest/';
   var X17_GAMES = {
+    switchrun: ['🔁', 'Switch Run', 'Flip gravity over the gaps, collect the nine fruits of the Spirit, and race your class to the finish (up to 8 players).'],
+    racekart: ['🏎️', 'Town Kart Race', 'Three laps through town. Steer through the gate with the right answer for a boost.'],
+    racebike: ['🚲', 'Forest Bike Race', 'Three laps on the forest trail, with questions from every explorer and the Memory Gems.'],
+    racecanoe: ['🛶', 'River Canoe Race', 'Three laps on the river. Right answers give a boost.'],
     patch: ['🎖️', 'Honours Patch Hunt', 'A 3D camp obstacle course: cross the beam, the wall, the stones, the swing, the net and the tyres, try six honours and fill your sash.'],
     nature: ['📷', 'Nature Photographer', 'Walk the creek trail in 3D with a camera. Photograph seven things, and each photo opens its parable and Bible text.'],
     teach: ['🧑🏾‍🏫', 'Teach the Juniors', 'A 3D classroom: plan with your mentor, then teach six Juniors two knots. Help the stuck ones and keep the bored ones busy.'],
@@ -4392,7 +4455,7 @@ body.has-rdmini{padding-bottom:84px}
     healthline: ['🚆', 'Health Line', 'Ride the train: Fit & Free and Nutrition questions, two answers, two tracks.'],
     honour: ['🏅', 'Honour Run', 'Collect the six Legion of Honour badges on the camp trail and dodge what pulls you away.']
   };
-  var X17_TOPIC = { fitness: ['temple', 'seawall', 'healthline'], choices: ['flags', 'choices'], legion: ['honourline', 'honour'], temperance: ['breakfree'], story: ['canoe'], visit: ['grace'], witness: ['school'], parable: ['nature'], honours: ['patch'], teach: ['teach'] };
+  var X17_TOPIC = { fitness: ['temple', 'seawall', 'healthline'], choices: ['flags', 'choices'], legion: ['honourline', 'honour'], temperance: ['breakfree'], story: ['canoe'], visit: ['grace'], witness: ['school'], parable: ['nature'], honours: ['patch'], teach: ['teach'], fruit: ['switchrun'] };
   function x17PlayUrl(key){ return (window.GQ_STATIC ? '' : X17_SITE) + 'play.html' + (key ? '?g=' + key : '') + (TOKEN ? (key ? '&' : '?') + 't=' + encodeURIComponent(TOKEN) : ''); }
   function x17Arcade(k){
     var list = X17_TOPIC[k]; if (!list) return '';
@@ -4400,7 +4463,7 @@ body.has-rdmini{padding-bottom:84px}
       return '<a class="x17-arc" href="' + esc(x17PlayUrl(g)) + '" target="_top"><span class="x17-tag">NEW · 3D game</span><span class="x17-ic">' + G3[0] + '</span><b>' + esc(G3[1]) + '</b><small>' + esc(G3[2]) + '</small><span class="x17-go">Play ▶</span></a>'; }).join('');
   }
   function x17ArcadeBanner(){
-    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Explore and do: Honours Patch Hunt, Nature Photographer, Teach the Juniors. Walk and talk: Sister Grace’s Street, School Days. Adventures: Body Temple Defender, Break Free, Canoe Journey. Choice trains: Red Flag Express, Honour Line, Health Line. Runs: Seawall Fun Run, Choices Run, Honour Run.</small><span class="x17-go">Open the arcade ▶</span></a>';
+    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Racing: Switch Run (with your class), Town Kart, Forest Bike and River Canoe races. Explore and do: Honours Patch Hunt, Nature Photographer, Teach the Juniors. Walk and talk: Sister Grace’s Street, School Days. Adventures: Body Temple Defender, Break Free, Canoe Journey. Choice trains: Red Flag Express, Honour Line, Health Line. Runs: Seawall Fun Run, Choices Run, Honour Run.</small><span class="x17-go">Open the arcade ▶</span></a>';
   }
 
   /* ======================= RENDER + EVENTS ======================= */

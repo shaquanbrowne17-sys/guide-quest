@@ -17,6 +17,11 @@ T = {f: rd(os.path.join(SRC, f)) for f in FILES}
 # ---------- Learning Lab ----------
 l = T['Learn.html']
 l = rep(l, '</style>', g('x17.css') + '\n' + g('covers.css') + '\n</style>', 1, 'css')
+# Fruit basket gains levels, bombs, combos and Endless (Version 17, Release 2)
+_fa = l.index('  /* ======================= GAME: Fruit basket (Galatians 5:22–23 in order) ======================= */')
+_fb = l.index("NGAMES.fruit = function(){", _fa); _fb = l.index('\n', l.index("}); };", _fb)) + 1
+l = l[:_fa] + g('g_fruit2.js') + l[_fb:]
+l = rep(l, '</style>', g('fruit2.css') + '\n</style>', 1, 'fruit css')
 l = rep(l, '  /* ======================= RENDER + EVENTS ======================= */', g('covers.js') + '\n' + g('x17.js') + '\n  /* ======================= RENDER + EVENTS ======================= */', 1, 'js')
 # Listen: only what is on screen
 l = rep(l, "if ((a = b.getAttribute('data-x3say'))) { gkSpeakLong(x3Say(a.split(':')[1])); return; }",
