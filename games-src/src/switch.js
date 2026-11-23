@@ -54,7 +54,7 @@ export class Switch {
     return { floor, ceil, fruits };
   }
   solid(arr, x) { for (const s of arr) if (x >= s[0] && x <= s[1]) return true; return false; }
-  build(seed) {
+  build(seed, go) {
     const { scene } = this.eng; while (scene.children.length) scene.remove(scene.children[0]);
     setSky(scene, this.T.sky); this.world = new THREE.Group(); scene.add(this.world);
     const C = this.C = this.course(seed); this.seed = seed;
@@ -71,14 +71,15 @@ export class Switch {
     this.runners = [this.newRunner('me', 'You', this.pc, this.myCode)];
     (this.bots || []).forEach((ch, i) => { this.world.add(ch.root); ch.root.rotation.y = PI / 2; if (ch.shadow) ch.shadow.visible = false; const R = this.newRunner('bot' + i, BOTS[i].n, ch, BOTS[i].c, true); R.speedK = [0.99, 0.975, 0.96][i]; this.runners.push(R); });
     Object.values(this.ghosts).forEach(gh => { if (gh.ch) this.world.add(gh.ch.root); if (gh.tag) this.world.add(gh.tag); });
-    this.me = this.runners[0]; this.reset();
+    this.me = this.runners[0]; this.reset(go);
   }
   newRunner(id, name, ch, code, bot) {
     const tag = sprite([name], 2.2, 0.5, { bg: 'rgba(0,0,0,.55)', fg: '#FFFFFF', w: 384, h: 88, r: 30 }); this.world.add(tag);
     return { id, name, ch, code, bot, x: 0, y: 0, vy: 0, g: -1, ground: true, alive: true, fell: 0, got: new Set(), score: 0, fin: 0, tag, lastFlip: 0, lane: 0 };
   }
-  reset() {
-    this.state = this.mode === 'multi' && !this.opt.idle ? 'lobby' : 'intro'; this.t = 0; this.ended = false; this.count = 0;
+  /* go: a class race is starting, so straight to the countdown (no lobby). */
+  reset(go) {
+    this.state = go ? 'count' : this.mode === 'multi' && !this.opt.idle ? 'lobby' : 'intro'; this.t = 0; this.ended = false; this.count = 0;
     this.runners.forEach((R, i) => { Object.assign(R, { x: -i * 1.4, y: 0, vy: 0, g: -1, ground: true, alive: true, fell: 0, got: new Set(), score: 0, fin: 0, lane: (i - 1) * 0.9 }); this.fruitObjs.forEach(f => { f.visible = true; }); this.pose(R); });
     this.hud(true);
     if (this.state === 'lobby') this.lobby();
@@ -213,7 +214,7 @@ export class Switch {
   onChat(c) { if (!this.say) this.say = {}; this.say[c.u] = c.p; this.drawList(); if (this.state === 'run' || this.state === 'over') { const p = (this.mpPlayers || {})[c.u]; if (p) this.ui.toast(p.n + ': ' + PHRASES[c.p], 'good'); } setTimeout(() => { if (this.say && this.say[c.u] === c.p) { delete this.say[c.u]; this.drawList(); } }, 5000); }
   onMeta(m) {
     if (!m) { if (this.state === 'lobby' && this.mpRoom && !this.mpRoom.isHost) { this.ui.toast('The host closed the room', 'bad'); this.mpRoom = null; this.mp = null; this.lobby(); } return; }
-    if (m.state === 'run' && this.state === 'lobby') { const e = document.getElementById('h-lobby'); if (e) e.hidden = true; this.build(m.seed); this.state = 'count'; this.startAt = m.start; this.lastN = null; SND.unlock(); this.eng.watch = true; }
+    if (m.state === 'run' && this.state === 'lobby') { this.build(m.seed, true); const e = document.getElementById('h-lobby'); if (e) e.hidden = true; this.state = 'count'; this.startAt = m.start; this.lastN = null; SND.unlock(); this.eng.watch = true; }
   }
   stop() { if (this.mpRoom) { this.mpRoom.leave(); this.mpRoom = null; } const e = document.getElementById('h-lobby'); if (e) e.hidden = true; }
 }
