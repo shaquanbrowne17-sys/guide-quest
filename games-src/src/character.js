@@ -25,14 +25,17 @@ export const OUTFITS = {
   pastor: { shirt: '#F4F4F2', trim: '#2B2F38', trousers: '#2B2F38', belt: '#141414', shoes: '#111111', buckle: '#9AA3AE', socks: '#2B2F38', patch: '#F4F4F2', rim: '#F4F4F2' },
   village: { shirt: '#B5452C', trim: '#7A2E1D', trousers: '#6E4B2C', belt: '#3A2A1A', shoes: '#5A3A22', buckle: '#C9A13B', socks: '#6E4B2C', patch: '#B5452C', rim: '#B5452C' },
   casual: { shirt: '#2F6DB5', trim: '#24578F', trousers: '#3A3F4A', belt: '#141414', shoes: '#EDEDED', buckle: '#9AA3AE', socks: '#F1F1F1', patch: '#2F6DB5', rim: '#2F6DB5' },
+  school: { shirt: '#F7F7F5', trim: '#E9E9E6', trousers: '#1F2B4A', belt: '#141414', shoes: '#111111', buckle: '#9AA3AE', socks: '#F1F1F1', patch: '#1F2B4A', rim: '#D4AF37' },
   counsellor: { shirt: '#C9B27E', trim: '#9C8556', trousers: '#1E2126', belt: '#141414', shoes: '#111111', buckle: '#D4AF37', socks: '#F1F1F1', patch: '#B8202E', rim: '#E8C547', scarf: '#F4C21B' },
 };
+/** an outfit by name, or an object with the same colour keys (missing keys come from the casual outfit) */
+export function outfitOf(o) { return o && typeof o === 'object' ? Object.assign({}, OUTFITS.casual, o) : OUTFITS[o] || OUTFITS.pathfinder; }
 export const LOOK_DEFAULT = { body: 'm', skin: 1, hair: 'buzzed', bottom: 'trousers' };
 export function myLook() { return Object.assign({}, LOOK_DEFAULT, store('gq3d-look') || {}); }
 export function saveLook(l) { store('gq3d-look', l); }
 
 function uniformMaterial(orig, body, look, outfit) {
-  const o = OUTFITS[outfit] || OUTFITS.pathfinder, c = k => new THREE.Color(o[k]);
+  const o = outfitOf(outfit), c = k => new THREE.Color(o[k]);
   const cols = [new THREE.Color('#ffffff'), c('shirt'), c('trim'), c('trousers'), c('belt'), c('shoes'), c('buckle'), c('socks'), c('patch'), c('rim'), c('trousers')];
   const skin = new THREE.Color(SKIN_TONES[look.skin] || SKIN_TONES[1]), base = new THREE.Color('#A0694A');
   const tint = new THREE.Vector3(skin.r / base.r, skin.g / base.g, skin.b / base.b);
@@ -106,7 +109,7 @@ export async function makeCharacter(look, outfit = 'pathfinder') {
     hair.material.color = new THREE.Color(look.hairColor || '#2A1B12'); hair.material.roughness = 0.9;
     bodyMesh.parent.add(hair); hair.bind(new THREE.Skeleton(bodyMesh.skeleton.bones, hm.skeleton.boneInverses.map(m => m.clone())), hm.bindMatrix.clone());
   }
-  const o = OUTFITS[outfit] || OUTFITS.pathfinder;
+  const o = outfitOf(outfit);
   if (o.scarf && bones.spine_03) attach(root, bones.spine_03, scarf(o.scarf, body), [0, body === 'm' ? 1.475 : 1.445, body === 'm' ? -0.03 : -0.035]);
   // proper shoes over the painted feet
   root.updateMatrixWorld(true);
@@ -127,6 +130,6 @@ export async function makeCharacter(look, outfit = 'pathfinder') {
   }
   const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.38, 18), new THREE.MeshBasicMaterial({ color: 0, transparent: true, opacity: 0.3, depthWrite: false }));
   shadow.rotation.x = -Math.PI / 2; shadow.position.y = 0.012; shadow.renderOrder = 1;
-  const holder = new THREE.Group(); holder.add(root); holder.add(shadow); root.scale.setScalar(0.94); /* a teenager, not a giant */
+  const holder = new THREE.Group(); holder.add(root); holder.add(shadow); root.scale.setScalar(look.scale || 0.94); /* a teenager, not a giant */
   return { root: holder, model: root, bones, mixer, play, update: dt => mixer.update(dt), shadow, look, clips, duration: n => clips[n] ? clips[n].duration : 0 };
 }

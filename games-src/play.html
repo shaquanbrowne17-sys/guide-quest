@@ -76,6 +76,14 @@ h4{margin:14px 0 6px;font:800 13px var(--font);text-transform:uppercase;letter-s
 .qo.none{background:transparent;border:none;color:#C9D6CC}
 #h-q small{display:block;margin-top:5px;color:#C9D6CC;font-size:11.5px}
 @keyframes pop{from{transform:translateY(-8px);opacity:0}}
+#h-quest{position:fixed;left:10px;top:calc(env(safe-area-inset-top) + 84px);max-width:min(270px,62vw);padding:8px 11px;font:700 12.5px/1.35 var(--font);display:flex;flex-direction:column;gap:3px;pointer-events:none;opacity:.95}
+#h-quest[hidden]{display:none!important} #h-quest b{font:900 11px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--gold)} #h-quest span{color:#D8E2DC} #h-quest span.now{color:#fff;font-weight:900} #h-quest span.more{opacity:.6}
+#h-act{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 26px);z-index:3}
+#h-act button{font:900 17px var(--font);background:var(--gold);color:#2A1C00;border:0;border-radius:18px;padding:15px 24px;box-shadow:0 6px 18px rgba(0,0,0,.4);animation:pop .25s ease;white-space:nowrap}
+#h-joy{position:fixed;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;border:3px solid rgba(255,255,255,.55);background:rgba(0,0,0,.14);pointer-events:none}
+#h-joy i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.82)}
+#h-flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:5} #h-flash.go{animation:flash .6s ease-out} @keyframes flash{0%{opacity:.95}100%{opacity:0}}
+#h-card .cd-photo{display:block;width:100%;max-width:360px;aspect-ratio:3/2;object-fit:cover;border-radius:12px;margin:10px auto 2px;border:4px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.35);transform:rotate(-1.2deg)}
 #h-toasts{position:fixed;left:0;right:0;top:46%;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
 .toast{max-width:min(520px,90vw);background:var(--glass);border-radius:14px;padding:8px 14px;font:800 15px/1.3 var(--font);text-align:center;animation:pop .25s ease;transition:opacity .4s,transform .4s;border:1px solid var(--line)}
 .toast.good{border-color:#5FD08A} .toast.bad{border-color:#F07A6A} .toast.go{font:900 40px var(--font);background:none;border:none;color:var(--gold);text-shadow:0 4px 14px rgba(0,0,0,.5)}

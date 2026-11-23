@@ -6,15 +6,16 @@ import { Train, TRAINS } from './train.js';
 import { Defender, DEFENDERS } from './defender.js';
 import { Escape, ESCAPES } from './escape.js';
 import { Canoe, CANOES } from './canoe.js';
-const DEFS = Object.assign({}, THEMES, TRAINS, DEFENDERS, ESCAPES, CANOES);
-const CLASSES = { train: Train, defend: Defender, escape: Escape, canoe: Canoe };
+import { Walk, WALKS } from './walk.js';
+const DEFS = Object.assign({}, THEMES, TRAINS, DEFENDERS, ESCAPES, CANOES, WALKS);
+const CLASSES = { train: Train, defend: Defender, escape: Escape, canoe: Canoe, walk: Walk };
 import { makeCharacter, myLook, saveLook, SKIN_TONES, HAIR } from './character.js';
 import { loadKit } from './kit.js';
 
 const $ = s => document.querySelector(s);
 const Q = new URLSearchParams(location.search);
 const TOKEN = (() => { const t = (Q.get('t') || '').replace(/[^\w-]/g, ''); if (t) return t; try { return localStorage.getItem('gq-sanct-me') || ''; } catch (e) { return ''; } })();
-const GROUPS = [['🏹 Adventures', 'Defend the temple, escape the room, paddle through our church’s story.', ['temple', 'breakfree', 'canoe']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']], ['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']]];
+const GROUPS = [['🏘️ Walk and talk', 'Walk around, meet people, help them and share Jesus.', ['grace', 'school']], ['🏹 Adventures', 'Defend the temple, escape the room, paddle through our church’s story.', ['temple', 'breakfree', 'canoe']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']], ['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']]];
 const MODES_TRAIN = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. The train waits for you.'], levels: ['🪜', 'Levels', '10 levels. More stops, a bit faster.'], endless: ['♾️', 'Endless', 'Keep going until 3 wrong tracks.'], daily: ['📅', 'Daily Challenge', '10 stops, the same for everyone today.'] };
 const MODES = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. Learn the moves.'], levels: ['🪜', 'Levels', '10 levels. Each one a bit faster.'], endless: ['♾️', 'Endless', 'Keeps speeding up. Beat the class.'], daily: ['📅', 'Daily Challenge', 'Same run for everyone today.'] };
 const ui = {};
@@ -85,7 +86,7 @@ async function play(mode, level) {
   curMode = mode; view = 'game'; show('s-load'); $('#load-bar').style.width = '5%'; SND.unlock();
   idle = null; stopGame();
   const Cls = CLASSES[DEFS[curKey].kind] || Runner;
-  eng.zoom(1); const g = new Cls(eng, curKey, mode, { level, autostart: false }, gameUI);
+  eng.zoom(1); document.querySelectorAll('.walk-ui').forEach(e => { e.hidden = true; }); const g = new Cls(eng, curKey, mode, { level, autostart: false }, gameUI);
   try { await g.load(p => { $('#load-bar').style.width = Math.round(p * 100) + '%'; }); } catch (e) { console.error(e); $('#load-msg').textContent = 'Couldn’t load the game. Check your internet and try again.'; return; }
   game = g; window.__gq3dGame = g; show('s-hud'); paused = false;
   $('#h-badges').hidden = !g.T.badges; $('#h-tap').hidden = false; $('#h-tq').hidden = true;
@@ -218,6 +219,7 @@ function boot() {
   document.addEventListener('click', e => { const b = e.target.closest('[data-cardopt]'); if (!b || b.disabled) return; const c = $('#h-card'); if (c._res) { const r = c._res; c._res = null; r(+b.dataset.cardopt); } });
   input = new Input($('#cv'), {
     press: (x, y) => { if (game && !paused && game.press) game.press(x, y); }, drag: (x, y, dx, dy) => { if (game && !paused && game.drag) game.drag(x, y, dx, dy); }, release: (x, y) => { if (game && !paused && game.release) game.release(x, y); }, swipe: d => { if (game && !paused) game.input(d); }, tap: (x, y) => { if (game && game.state === 'intro') game.go(); else if (game && !paused && game.tapAt) game.tapAt(x, y); }, pause: () => pause(!paused) });
+  eng.keys = input.keys;
   $('#h-tap').addEventListener('pointerdown', () => { $('#h-tap').hidden = true; if (game) game.go(); });
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-g],[data-mode],[data-lv],[data-act],[data-look]'); if (!b) return;
