@@ -940,22 +940,28 @@ body.has-rdmini{padding-bottom:84px}
 .cv-pledge{margin-top:auto;font:800 12.5px/1.2 var(--body);letter-spacing:.04em;text-transform:uppercase;opacity:.9}
 .cv-moment.seen{outline:3px solid rgba(255,255,255,.75);outline-offset:-6px}
 .cv-dots{display:flex;justify-content:center;gap:6px}.cv-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.cv-dots i.on{background:#5A3188}
-/* Life Choices: comic */
-.cv-comic{background:#FFF8E1;border:3px solid #111;border-radius:6px;padding:10px;box-shadow:6px 6px 0 #111}
-.cv-comic-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:3px solid #111;padding-bottom:6px;margin-bottom:10px}
-.cv-comic-head b{font:900 24px/1 var(--display);letter-spacing:.04em;color:#D7263D;-webkit-text-stroke:1px #111}
-.cv-comic-head span{font:800 12px/1 var(--body);text-transform:uppercase;color:#111}
-.cv-panels{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.cv-panel{position:relative;border:3px solid #111;background:#fff radial-gradient(circle,rgba(14,94,115,.16) 1.5px,transparent 1.6px) 0 0/9px 9px;padding:0;text-align:left;min-height:150px;transform:rotate(var(--r));display:flex;flex-direction:column;color:#111}
-.cv-panel.wide{grid-column:span 2;min-height:130px}
-.cv-cap{background:#FFE14D;border-bottom:3px solid #111;font:900 11.5px/1.2 var(--body);text-transform:uppercase;padding:5px 7px}
-.cv-scene{flex:1;position:relative;display:flex;align-items:flex-end;gap:6px;padding:8px}
-.cv-who{font-size:46px;line-height:1}
-.cv-bubble{position:relative;background:#fff;border:2.5px solid #111;border-radius:16px;padding:6px 8px;font:700 13px/1.25 var(--body);margin-bottom:34px;flex:1}
-.cv-bubble small{display:block;font:900 10px/1 var(--body);text-transform:uppercase;color:#D7263D;margin-bottom:2px}
-.cv-bubble:after{content:"";position:absolute;left:-12px;bottom:8px;border:8px solid transparent;border-right:12px solid #111}
-.cv-prop{position:absolute;right:8px;bottom:6px;font-size:28px}
-.cv-stamp{position:absolute;top:30px;right:6px;transform:rotate(12deg);border:2.5px solid #1E7A46;color:#1E7A46;font:900 11px/1 var(--body);padding:3px 6px;border-radius:4px;font-style:normal;background:rgba(255,255,255,.8)}
+/* Life Choices: comic (fixed colours so it reads the same in dark mode) */
+.cv-comic{background:#FFF8E1;border:3px solid #111;border-radius:6px;padding:10px;box-shadow:6px 6px 0 #111;color:#111}
+.cv-comic-head{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:3px solid #111;padding-bottom:6px;margin-bottom:12px}
+.cv-comic-head b{font:900 26px/1 var(--display);letter-spacing:.04em;color:#D7263D;-webkit-text-stroke:1px #111}
+.cv-comic-head span{font:800 12px/1.2 var(--body);text-transform:uppercase;color:#111;text-align:right}
+.cv-panels{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:720px){.cv-panels{grid-template-columns:1fr 1fr}}
+.cv-panel{position:relative;border:3px solid #111;background:#fff radial-gradient(circle,rgba(14,94,115,.14) 1.5px,transparent 1.6px) 0 0/9px 9px;padding:0;text-align:left;transform:rotate(var(--r));display:flex;flex-direction:column;color:#111;cursor:pointer;font:inherit}
+.cv-cap{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#FFE14D;border-bottom:3px solid #111;font:900 13px/1.2 var(--body);text-transform:uppercase;padding:6px 8px;color:#111}
+.cv-prop{font-size:22px;line-height:1}
+.cv-scene{display:flex;flex-direction:column;gap:8px;padding:10px 8px 34px}
+.cv-line{display:flex;align-items:flex-end;gap:6px}
+.cv-line.r{flex-direction:row-reverse}
+.cv-who{font-size:40px;line-height:1;flex:none}
+.cv-bubble{position:relative;background:#fff;border:2.5px solid #111;border-radius:16px;padding:7px 10px;font:700 15px/1.3 var(--body);color:#111;max-width:78%;margin-bottom:10px}
+.cv-line.r .cv-bubble{background:#E8F4FF}
+.cv-bubble small{display:block;font:900 11px/1 var(--body);text-transform:uppercase;color:#D7263D;margin-bottom:3px}
+.cv-line.r .cv-bubble small{color:#1F5FA8}
+.cv-bubble:after{content:"";position:absolute;left:-13px;bottom:6px;border:7px solid transparent;border-right:12px solid #111}
+.cv-line.r .cv-bubble:after{left:auto;right:-13px;border-right:7px solid transparent;border-left:12px solid #111}
+.cv-more{position:absolute;right:8px;bottom:7px;font:800 12px/1 var(--body);color:#0E5E73;font-style:normal}
+.cv-stamp{position:absolute;right:8px;bottom:5px;transform:rotate(-4deg);border:2.5px solid #1E7A46;color:#1E7A46;font:900 12px/1 var(--body);padding:3px 6px;border-radius:4px;font-style:normal;background:rgba(255,255,255,.9)}
 /* Sharing Jesus: phone */
 .cv-phone{display:flex;flex-direction:column;align-items:center}
 .cv-ph{width:min(300px,86%);border-radius:40px;border:10px solid #1B1B1F;background:linear-gradient(170deg,#1F6F8B,#3B2A6E 60%,#C2185B);padding:10px 14px 14px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
@@ -1057,6 +1063,13 @@ body.has-rdmini{padding-bottom:84px}
 .cv-li{font-size:22px}
 .cv-line.done .cv-lt{color:#5C6B7A}
 .cv-sign-off{margin:8px 0 0;font:italic 13px Georgia,serif;color:#5C596D}
+/* Covers are illustrations: in dark mode they keep their light colours, on a light card */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cv{--ink:#1D1B2B;--muted:#5C596D;--surface:#FFFFFF;--surface2:#ECE8DF;--line:#DEDAD0;--tip:#FBEFCB;--tip-ink:#6B4A00;color:var(--ink);background-color:#F5F3EE;border-radius:18px;padding:10px}
+  :root:not([data-theme="light"]) .cv.cv-comic{background-color:#FFF8E1;border-radius:6px}
+  :root:not([data-theme="light"]) .cv.cv-fit{background-color:#0E0F12;color:#F2F2F2;padding:16px;border-radius:24px}}
+:root[data-theme="dark"] .cv{--ink:#1D1B2B;--muted:#5C596D;--surface:#FFFFFF;--surface2:#ECE8DF;--line:#DEDAD0;--tip:#FBEFCB;--tip-ink:#6B4A00;color:var(--ink);background-color:#F5F3EE;border-radius:18px;padding:10px}
+:root[data-theme="dark"] .cv.cv-comic{background-color:#FFF8E1;border-radius:6px}
+:root[data-theme="dark"] .cv.cv-fit{background-color:#0E0F12;color:#F2F2F2;padding:16px;border-radius:24px}
 
 </style>
 <style>
@@ -4072,15 +4085,21 @@ body.has-rdmini{padding-bottom:84px}
       + '<div class="cv-dots" aria-hidden="true">' + M.map(function(m){ return '<i' + (cvSeen(k, m[0]) ? ' class="on"' : '') + '></i>'; }).join('') + '</div></div>';
   };
 
-  /* Life Choices: a comic strip about Maya and Jordan */
+  /* Life Choices: a comic strip about Maya and Jordan. One panel per row, a line and a reply, big readable bubbles. */
   COVERS.choices = function(k){
-    var P = [['ch_gifts', '🧑🏾‍🎨', 'Maya', 'I love drawing… could that be a job one day?', 'wide'], ['ch_path', '🧑🏽‍🎓', 'Jordan', 'Engineer? Nurse? How do I even start?', ''],
-             ['ch_test', '🧑🏾', 'Maya', 'Before I decide, four questions.', ''], ['ch_why', '🧑🏽', 'Jordan', 'Why does God set limits anyway?', 'wide'],
-             ['ch_dating', '🧑🏾', 'Maya', 'Group outing on Friday? My parents said yes!', ''], ['ch_flags', '🧑🏽', 'Jordan', 'They keep pushing me. Is that a red flag?', ''],
-             ['ch_partner', '🧑🏾', 'Maya', 'Someday: someone who loves God like I do.', 'wide']];
-    return '<div class="cv cv-comic"><div class="cv-comic-head"><b>MAYA &amp; JORDAN</b><span>Life Choices · tap a panel</span></div><div class="cv-panels">' + P.map(function(p, i){
-      return '<button class="cv-panel' + (p[4] ? ' ' + p[4] : '') + (cvSeen(k, p[0]) ? ' seen' : '') + '" data-card="' + p[0] + '" style="--r:' + ((i % 3) - 1) * 0.6 + 'deg"><span class="cv-cap">' + (i + 1) + ' · ' + esc(cvCards(k).filter(function(c){ return c.id === p[0]; })[0].t) + '</span>'
-        + '<span class="cv-scene"><span class="cv-who" aria-hidden="true">' + p[1] + '</span><span class="cv-bubble"><small>' + p[2] + '</small>' + esc(p[3]) + '</span><span class="cv-prop" aria-hidden="true">' + glyph(k, p[0]) + '</span></span>' + (cvSeen(k, p[0]) ? '<i class="cv-stamp">READ</i>' : '') + '</button>'; }).join('') + '</div></div>';
+    var M = ['🧑🏾', 'Maya'], J = ['🧑🏽', 'Jordan'];
+    var P = [['ch_gifts', M, 'I love drawing… could that be a job one day?', J, 'Start with what God gave you, and where people need help.'],
+             ['ch_path', J, 'Engineer? Nurse? How do I even start?', M, 'Talk to people who do the job, and see what you’d study.'],
+             ['ch_test', M, 'Before I decide anything big, I ask four questions.', J, 'Four? Show me!'],
+             ['ch_why', J, 'Why does God set limits anyway?', M, 'Like the rails on a bridge: they keep us safe.'],
+             ['ch_dating', M, 'Group outing on Friday? My parents said yes!', J, 'Nice, all of us together.'],
+             ['ch_flags', J, 'They keep pushing me. Is that a red flag?', M, 'Pressure is a red flag. Talk to someone you trust.'],
+             ['ch_partner', M, 'Someday: someone who loves God like I do.', J, 'Worth the wait!']];
+    function line(who, txt, side){ return '<span class="cv-line ' + side + '"><span class="cv-who" aria-hidden="true">' + who[0] + '</span><span class="cv-bubble"><small>' + who[1] + '</small>' + esc(txt) + '</span></span>'; }
+    return '<div class="cv cv-comic"><div class="cv-comic-head"><b>MAYA &amp; JORDAN</b><span>Tap a panel to read it</span></div><div class="cv-panels">' + P.map(function(p, i){
+      var seen = cvSeen(k, p[0]), t = cvCards(k).filter(function(c){ return c.id === p[0]; })[0].t;
+      return '<button class="cv-panel' + (seen ? ' seen' : '') + '" data-card="' + p[0] + '" style="--r:' + ((i % 3) - 1) * 0.5 + 'deg"><span class="cv-cap"><span>' + (i + 1) + ' · ' + esc(t) + '</span><span class="cv-prop" aria-hidden="true">' + glyph(k, p[0]) + '</span></span>'
+        + '<span class="cv-scene">' + line(p[1], p[2], 'l') + line(p[3], p[4], 'r') + '</span>' + (seen ? '<i class="cv-stamp">READ ✓</i>' : '<i class="cv-more">Tap to read →</i>') + '</button>'; }).join('') + '</div></div>';
   };
 
   /* Sharing Jesus: a phone home screen */
@@ -4105,7 +4124,7 @@ body.has-rdmini{padding-bottom:84px}
   COVERS.story = function(k){
     var Y = { gy_tract: '1885', gy_first: '1887–1895', gy_davis: '1911', gy_dmh: '1955', gy_grow: '1971–1976', gy_today: 'Today', gy_book: 'Your church' };
     var C = cvCards(k), next = C.filter(function(c){ return !cvSeen(k, c.id); })[0];
-    var H = 120 * C.length + 40, d = 'M200 0';
+    var H = 120 * C.length + 90, d = 'M200 0';
     C.forEach(function(_, i){ var y = 60 + i * 120; d += ' Q' + (i % 2 ? 330 : 70) + ' ' + (y - 40) + ' 200 ' + (y + 30); });
     d += ' L200 ' + H;
     return '<div class="cv cv-river" style="height:' + H + 'px"><svg class="cv-river-map" viewBox="0 0 400 ' + H + '" preserveAspectRatio="none" aria-hidden="true"><rect width="400" height="' + H + '" fill="#CFE6C4"/><path d="' + d + '" fill="none" stroke="#6FA6C2" stroke-width="46" stroke-linecap="round"/><path d="' + d + '" fill="none" stroke="#A9D2E6" stroke-width="12" stroke-dasharray="2 22" stroke-linecap="round"/></svg>'
@@ -4376,10 +4395,13 @@ body.has-rdmini{padding-bottom:84px}
   var X17_SITE = 'https://shaquanbrowne17-sys.github.io/guide-quest/';
   var X17_GAMES = {
     seawall: ['🌊', 'Seawall Fun Run', 'Run the Georgetown seawall. Grab water and fruit, and dodge vapes, energy drinks and more.'],
-    choices: ['🚩', 'Choices Run', 'Run through the green flag or the red flag, and dodge the pressures.'],
-    honour: ['🏅', 'Honour Run', 'Collect the six Legion of Honour badges on the camp trail and choose what honours Christ.']
+    choices: ['🏃', 'Choices Run', 'Run through town and dodge “send me a pic”, “skip class”, betting apps and more.'],
+    flags: ['🚂', 'Red Flag Express', 'Ride the train: is it a green flag or a red flag? Pick your track. The wrong bridge gives way!'],
+    honourline: ['🚃', 'Honour Line', 'Ride the train: which choice honours Christ? Pick your track before the bridge.'],
+    healthline: ['🚆', 'Health Line', 'Ride the train: Fit & Free and Nutrition questions, two answers, two tracks.'],
+    honour: ['🏅', 'Honour Run', 'Collect the six Legion of Honour badges on the camp trail and dodge what pulls you away.']
   };
-  var X17_TOPIC = { fitness: ['seawall'], choices: ['choices'], legion: ['honour'] };
+  var X17_TOPIC = { fitness: ['seawall', 'healthline'], choices: ['flags', 'choices'], legion: ['honourline', 'honour'] };
   function x17PlayUrl(key){ return (window.GQ_STATIC ? '' : X17_SITE) + 'play.html' + (key ? '?g=' + key : '') + (TOKEN ? (key ? '&' : '?') + 't=' + encodeURIComponent(TOKEN) : ''); }
   function x17Arcade(k){
     var list = X17_TOPIC[k]; if (!list) return '';
@@ -4387,7 +4409,7 @@ body.has-rdmini{padding-bottom:84px}
       return '<a class="x17-arc" href="' + esc(x17PlayUrl(g)) + '" target="_top"><span class="x17-tag">NEW · 3D game</span><span class="x17-ic">' + G3[0] + '</span><b>' + esc(G3[1]) + '</b><small>' + esc(G3[2]) + '</small><span class="x17-go">Play ▶</span></a>'; }).join('');
   }
   function x17ArcadeBanner(){
-    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Run as your own Pathfinder: Seawall Fun Run, Choices Run and Honour Run. Practice, levels, endless and a daily challenge.</small><span class="x17-go">Open the arcade ▶</span></a>';
+    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Runs: Seawall Fun Run, Choices Run, Honour Run. Choice trains: Red Flag Express, Honour Line, Health Line.</small><span class="x17-go">Open the arcade ▶</span></a>';
   }
 
   /* ======================= RENDER + EVENTS ======================= */
