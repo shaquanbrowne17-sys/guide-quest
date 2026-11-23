@@ -117,6 +117,19 @@ h4{margin:14px 0 6px;font:800 13px var(--font);text-transform:uppercase;letter-s
 #h-tres{position:fixed;left:50%;transform:translateX(-50%);bottom:max(18px,env(safe-area-inset-bottom));width:min(520px,calc(100vw - 20px));padding:12px 16px;border-radius:18px;animation:pop .3s ease}
 #h-tres.good{background:rgba(20,70,40,.92);border:1px solid #5FD08A} #h-tres.bad{background:rgba(80,18,18,.92);border:1px solid #F07A6A}
 #h-tres b{font:900 18px var(--font)} #h-tres p{margin:4px 0 0;font-size:14.5px;line-height:1.35}
+/* cards for the adventures (questions, people talking, choices) */
+#h-card{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));width:min(540px,calc(100vw - 16px));max-height:72vh;overflow:auto;padding:14px 14px 12px;pointer-events:auto;animation:pop .3s ease;touch-action:pan-y}
+#h-card .cd-tag{display:inline-block;font:800 11px var(--font);letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:#2A1C00;padding:4px 8px;border-radius:8px;margin-bottom:8px}
+#h-card .cd-head{display:flex;gap:10px;align-items:center} #h-card .cd-ic{font-size:34px;width:52px;height:52px;display:grid;place-items:center;background:rgba(255,255,255,.1);border-radius:14px;flex:none}
+#h-card .cd-head small{display:block;color:var(--gold);font:800 12px var(--font);text-transform:uppercase;letter-spacing:.05em} #h-card .cd-head b{font:900 18px/1.25 var(--font)}
+#h-card p{margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#EEF3EF}
+.cd-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px} .cd-opts.col{grid-template-columns:1fr}
+.cd-opts button{min-height:50px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.12);font:800 15px/1.25 var(--font);padding:8px 12px;text-align:center}
+.cd-opts button.go{background:var(--gold);color:#2A1C00;border-color:var(--gold)} .cd-opts button:disabled{opacity:.55}
+#h-card.ok{border-color:#5FD08A} #h-card.no{border-color:#F07A6A} .cd-fb{font-weight:700} #h-card.ok .cd-fb{color:#8BE3AC} #h-card.no .cd-fb{color:#FFB0A4}
+#h-banner{position:fixed;left:0;right:0;top:34%;text-align:center;pointer-events:none;animation:pop .35s ease}
+#h-banner b{display:block;font:900 34px/1.1 var(--font);color:var(--gold);text-shadow:0 4px 14px rgba(0,0,0,.55)} #h-banner small{display:block;margin-top:6px;font:800 15px var(--font);text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.lvgrid.named{grid-template-columns:1fr} .lvgrid.named .lv{aspect-ratio:auto;flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px} .lv em{font-style:normal;font:800 15px var(--font);flex:1;text-align:left}
 .grp{margin:14px 0 2px} .grp:first-of-type{margin-top:8px} .grp-p{margin:0 0 8px}
 .mecard{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.08);margin:8px 0 4px}
 .mecard .me-sw{width:40px;height:40px;border-radius:50%;flex:none;border:3px solid var(--gold);box-shadow:inset 0 -6px 0 rgba(201,178,126,.9)}
@@ -158,6 +171,8 @@ h4{margin:14px 0 6px;font:800 13px var(--font);text-transform:uppercase;letter-s
   <div id="h-q" class="panel" hidden></div>
   <div id="h-tq" class="panel" hidden></div>
   <div id="h-tres" hidden></div>
+  <div id="h-card" class="panel" hidden></div>
+  <div id="h-banner" hidden></div>
   <div id="h-toasts"></div>
   <div id="h-hint" hidden></div>
   <div id="h-fact" hidden></div>
