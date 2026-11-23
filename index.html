@@ -307,6 +307,7 @@ input[type=number]{width:100%;min-height:42px;border:1.5px solid var(--line);bor
 :root[data-theme="dark"] .donebtn.waiting{background:#2E2408;color:#F2C14E}
 :root[data-theme="dark"] .mstat small.wt{color:#F2C14E}
 
+.hf2steps{display:flex;flex-direction:column;gap:8px}.hf2btns{display:flex;gap:8px;flex-wrap:wrap}.hf2msg{font-size:14px;color:var(--muted);margin:0}.hf2msg:empty{display:none}
 </style>
 <style>
 .gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -452,6 +453,7 @@ var BOOT = window.__GQBOOT;
       {t:'text',k:'awhere',label:'Where I sent or shared it',when:['way','A health or temperance article or poem']},
       {t:'note',html:'Keep a training record, then run it. The class can run it together at sunrise on the camp.',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
       {t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true,when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
+      {t:'hf2steps',when:['way','A Fun Run, after a training programme']},
       {t:'text',k:'run',label:'Run day: distance and time',when:['way','A Fun Run, after a training programme'],legacy:['log','run']},
       {t:'note',html:'Read <i>Temperance</i> by Ellen G. White, pages 102–125 (<a href="https://m.egwwritings.org/en/book/110.562" target="_blank" rel="noopener">open page 102 at egwwritings.org</a>), or listen to the recorded reading below. Then take the quiz in the Temperance explorer: 20 questions, true or false and multiple choice. You need 75% (15 of 20). Your counsellor sees your score.',when:['way','Temperance reading and quiz']},
       {t:'checks',k:'read',label:'Pages read',opts:['Pages 102–110','Pages 111–118','Pages 119–125'],when:['way','Temperance reading and quiz']},
@@ -616,6 +618,7 @@ var BOOT = window.__GQBOOT;
       h += '<section class="lab"><div class="labhead"><h2>Learning Lab</h2><a href="'+esc(LAB + '&from=home')+'">See all explorers</a></div>'
         + '<p class="muted" style="font-size:14px">Learn each topic, play the game, then take the challenge.</p><div class="labgrid">'
         + labs.map(function(t){ return '<a class="labtile" href="'+esc(labHref(t, 'home'))+'"><span class="li" aria-hidden="true">'+(LAB_ICONS[t.id] || '')+'</span><span>'+esc(t.name)+'<small>'+fmt(t.code)+'</small></span></a>'; }).join('')
+        + '<a class="labtile" href="'+esc(LAB + '&k=boards&from=home')+'"><span class="li" aria-hidden="true">🏆</span><span>Class boards<small>Steps, reading, service</small></span></a>'
         + '<a class="labtile" href="'+esc(LAB + '&k=gems&from=home')+'"><span class="li" aria-hidden="true">💎</span><span>Memory Gems<small>SD 4</small></span></a>'
         + '</div></section>';
     }
@@ -671,6 +674,7 @@ var BOOT = window.__GQBOOT;
         var val = fd.vals ? fd.vals[i] : o, on = sel2.indexOf(val) > -1;
         return '<button class="chk" id="c-'+k+'-'+i+'" data-chip="'+k+'" data-label="'+esc(fd.label)+'" data-max="0" data-val="'+esc(val)+'" aria-pressed="'+on+'"><span class="chkbox">'+(on?CHECK:'')+'</span><span>'+esc(o)+'</span></button>'; }).join('') + '</div></div>';
     }
+    if (fd.t === 'hf2steps') return hf2StepsHTML();
     if (fd.t === 'game') return GAMES[fd.game]();
     return '';
   }
@@ -1238,6 +1242,32 @@ var BOOT = window.__GQBOOT;
     window.scrollTo(0,0);
   }
 
+  /* Version 17.6: the HF 2 training record can be filled from the steps log on the Class boards. */
+  function hf2StepsHTML(){
+    if (!LAB) return '';
+    return '<div class="hf2steps"><p class="how">Log your daily steps on the 🏆 Class boards in the Learning Lab, and they become your training record.</p>'
+      + '<div class="hf2btns"><button class="btn btn-ghost" data-hf2fill="1">👟 Fill from my steps log</button><a class="btn btn-ghost" href="' + esc(LAB + '&k=boards&from=home') + '">🏆 Class boards</a></div><p class="hf2msg" id="hf2msg" role="status"></p></div>';
+  }
+  function hf2Day(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+  app.addEventListener('click', function(e){
+    var b = e.target.closest && e.target.closest('[data-hf2fill]'); if (!b) return;
+    var msg = document.getElementById('hf2msg');
+    b.disabled = true; if (msg) msg.textContent = 'Getting your steps…';
+    google.script.run.withSuccessHandler(function(d){
+      b.disabled = false;
+      var w = (d && d.steps && d.steps.weeks || []).slice(0, 3).reverse(), n = 0, kept = 0;
+      w.forEach(function(x, i){
+        if (!x.steps) return;
+        var k0 = 'HF2.log.' + i + '.0', k1 = 'HF2.log.' + i + '.1';
+        if (String(G.f[k0] || '').trim() || String(G.f[k1] || '').trim()) { kept++; return; }
+        var v0 = 'Walking, week of ' + hf2Day(x.from) + ': ' + x.steps.toLocaleString('en-US') + ' steps on ' + x.days + ' day' + (x.days === 1 ? '' : 's') + ' (my steps log)', v1 = 'about ' + Math.round(x.steps / 100);
+        [[k0, v0], [k1, v1]].forEach(function(p){ var el = document.getElementById('f-' + p[0]); if (el) el.value = p[1]; saveField(p[0], p[1], el ? el.getAttribute('data-label') : p[0]); });
+        n++;
+      });
+      if (msg) msg.textContent = n ? 'Filled ' + n + ' week' + (n === 1 ? '' : 's') + ' from your steps log. Minutes are worked out at about 100 steps a minute (brisk walking).' + (kept ? ' Weeks you already wrote in stay as they are.' : '')
+        : kept ? 'Your training weeks already have writing in them, so nothing was changed.' : 'No full weeks of steps yet. Log your steps on the Class boards each day.';
+    }).withFailureHandler(function(){ b.disabled = false; if (msg) msg.textContent = 'Couldn’t reach Guide Quest. Check your internet, then try again.'; }).l_boards(TOKEN);
+  });
   app.addEventListener('click', function(e){
     if (e.target && e.target.dataset && e.target.dataset.phclose){ PH.open = ''; PH.confirm = ''; render(); return; }
     var b = e.target.closest('button');

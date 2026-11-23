@@ -1087,6 +1087,95 @@ body.has-rdmini{padding-bottom:84px}
 .fb-lock{opacity:.45}
 .fb-end{font-size:14px}
 
+/* ===== Version 17.6: class boards ===== */
+.x18-bd{position:relative;display:grid;grid-template-columns:56px 1fr;column-gap:12px;row-gap:2px;align-items:center;width:100%;margin:4px 0 12px;padding:16px 14px 14px;border:0;border-radius:20px;text-align:left;cursor:pointer;color:#FFF6EA;font-family:var(--body);background:linear-gradient(135deg,#6B2E0E 0%,#9A4B16 55%,#E0A23A 140%);box-shadow:0 10px 24px rgba(107,46,14,.28);overflow:hidden}
+.x18-bd::after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,214,120,.4),transparent 70%)}
+.x18-ic{grid-row:span 2;width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:30px}
+.x18-bd b{font:900 19px/1.15 var(--body)} .x18-bd small{font-size:13.5px;line-height:1.35;color:#F6E2CC}
+.bd-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;margin:0 -2px;scrollbar-width:none}
+.bd-tabs::-webkit-scrollbar{display:none}
+.bd-tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:700 14px/1 var(--body);cursor:pointer}
+.bd-tab[aria-pressed="true"]{background:#7A3E12;border-color:#7A3E12;color:#FFF}
+.bd-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px}
+.bd-stat{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.bd-stat b{font:900 22px/1.1 var(--display)} .bd-stat small{font-size:13px;color:var(--muted)}
+.bd-log h2,.bd-walk h2{margin:0}
+.bd-tip{font-size:14px;color:var(--muted);margin:0}
+.bd-days{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bd-days .chip[aria-pressed="true"]{background:var(--ink);color:var(--linen);border-color:var(--ink)}
+.bd-date{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.bd-date input,.bd-row input,.bd-field input,.bd-field select{min-height:48px;padding:0 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 16px var(--body)}
+.bd-date input{min-height:40px;font-size:14px}
+.bd-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.bd-row input{flex:1;min-width:140px;font-size:20px;font-weight:800}
+.bd-field{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:var(--muted);flex:1;min-width:0}
+.bd-field input{width:100%}
+.bd-hrs{max-width:180px}
+.bd-shot{display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.bd-shot input{width:20px;height:20px;margin-top:1px;flex:none}
+.bd-ahead{margin:0;padding:12px 14px;border-radius:14px;background:var(--tip);color:var(--tip-ink);font-size:15px}
+.bd-h2row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.bd-h2row h2{margin:0}
+.bd-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.bd-list li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface2)}
+.bd-list li.me{outline:2px solid #C98A1E;background:color-mix(in srgb,#F2C14E 22%,var(--surface))}
+.bd-list li.cn .bd-nm{font-style:italic}
+.bd-rk{width:28px;text-align:center;font-weight:800;color:var(--muted)}
+.bd-nm{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere}
+.bd-nm em{font-weight:600;color:var(--muted);font-style:normal}
+.bd-ex{font-size:13px;color:var(--muted);white-space:nowrap}
+.bd-v{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bd-empty{color:var(--muted);margin:0}
+.bd-need{padding:12px 14px;border-radius:14px;background:var(--surface2);font-size:15px}
+.bd-need p{margin:0}
+.bd-warn{margin:0;font-size:14px;color:var(--bad)}
+.bd-foot{font-size:13px;color:var(--muted);text-align:center;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.bd-mine{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.bd-mine li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--line)}
+.bd-mine li>span{flex:1;min-width:0;display:flex;flex-direction:column}
+.bd-mine small{color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.bd-x{width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;flex:none}
+.bd-del{display:inline-flex;gap:10px}
+.linkbtn.bad{color:var(--bad)}
+.bd-wk{width:100%;border-collapse:collapse;font-size:15px}
+.bd-wk th,.bd-wk td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+.bd-wk th{font-size:13px;color:var(--muted)}
+.bd-map{width:100%;max-width:440px;align-self:center;height:auto;overflow:visible}
+.bd-land{fill:#D7EBCB;stroke:#3C7A4C;stroke-width:2.5;stroke-linejoin:round}
+.bd-route{fill:none;stroke:#8A8577;stroke-width:3;stroke-dasharray:7 6}
+.bd-done{fill:none;stroke:#C2410C;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.bd-pin{cursor:pointer}
+.bd-pin circle{fill:#FFF;stroke:#5C596D;stroke-width:3}
+.bd-pin.got circle{fill:#F2C14E;stroke:#7A3E12}
+.bd-pin.sel circle{stroke:#C2410C;stroke-width:4}
+.bd-pin text{font:700 17px var(--body);fill:#2A2939;paint-order:stroke;stroke:#F5F3EE;stroke-width:4px}
+.bd-pin:focus{outline:none} .bd-pin:focus circle{stroke:#2B4C8C;stroke-width:5}
+.bd-me{fill:#C2410C;opacity:.25;animation:bdPulse 1.6s ease-in-out infinite}
+.bd-walker{font-size:22px}
+@keyframes bdPulse{50%{opacity:.55}}
+@media (prefers-reduced-motion: reduce){.bd-me{animation:none}}
+.bd-next{margin:0;font-size:15px}
+.bd-fact{padding:12px 14px;border-radius:14px;background:var(--surface2);font-size:15px}
+.bd-fact p{margin:6px 0 0}
+.bd-src{font-size:12px;color:var(--muted);margin:0}
+.bd-badges{display:flex;flex-wrap:wrap;gap:8px}
+.bd-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:var(--tip);color:var(--tip-ink);font-weight:800;font-size:14px}
+.bd-goal{height:18px;border-radius:999px;background:var(--surface2);overflow:hidden}
+.bd-goal span{display:block;height:100%;background:linear-gradient(90deg,#1E7A46,#62D092);border-radius:999px}
+.bd-sash{display:flex;flex-wrap:wrap;gap:8px}
+.bd-patch{display:inline-flex;align-items:center;gap:6px;padding:6px 6px 6px 10px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:14px}
+.bd-patch.new{border-color:#C98A1E}
+.bd-patch small{color:var(--muted);font-weight:600}
+.bd-patch .bd-x{width:30px;height:30px}
+.bd-top{flex-direction:row;align-items:center;background:linear-gradient(135deg,#FFF3D6,#F7E1A8);color:#3A2600}
+.bd-top small{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.bd-top b{display:block;font:900 24px/1.1 var(--display)}
+.bd-top p{margin:2px 0 0}
+.bd-crown{font-size:40px}
+.bd-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1D1B2B;color:#FFF;padding:12px 18px;border-radius:14px;font-weight:700;z-index:50;max-width:calc(100% - 32px);text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bd-land{fill:#24402C;stroke:#62D092}:root:not([data-theme="light"]) .bd-pin text{fill:#ECEAF4;stroke:#13121C}:root:not([data-theme="light"]) .bd-top{background:linear-gradient(135deg,#3A2A10,#4A3712);color:#F8E6B8}}
+:root[data-theme="dark"] .bd-land{fill:#24402C;stroke:#62D092} :root[data-theme="dark"] .bd-pin text{fill:#ECEAF4;stroke:#13121C} :root[data-theme="dark"] .bd-top{background:linear-gradient(135deg,#3A2A10,#4A3712);color:#F8E6B8}
+
 </style>
 <style>
 .gq-load{max-width:420px;margin:18vh auto 0;padding:24px;text-align:center;font:16px/1.5 Figtree,system-ui,sans-serif;color:#526057;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -1269,7 +1358,7 @@ body.has-rdmini{padding-bottom:84px}
   var BANK = (B.questions || []).filter(function(q){ return q && q.q && Array.isArray(q.opts) && q.opts[q.correct]; });
   var seen = {}; Object.keys(B.seen || {}).forEach(function(k){ seen[k] = {}; (B.seen[k] || []).forEach(function(id){ seen[k][id] = true; }); });
   var best = B.best || {};
-  var S = { topic: (L[B.topic] || B.topic === 'gems') ? B.topic : '', tab: 'learn', sel: '', big: false, find: {}, game: {}, ch: null, viaHub: false, face: null };
+  var S = { topic: (L[B.topic] || B.topic === 'gems' || B.topic === 'boards') ? B.topic : '', tab: 'learn', sel: '', big: false, find: {}, game: {}, ch: null, viaHub: false, face: null };
   var app = document.getElementById('app');
   var joinShown = false, joinMsg = '', joinBusy = false, joinOpen = false, JOIN_FIRST = false;
   try { JOIN_FIRST = !localStorage.getItem('gq-joinseen'); localStorage.setItem('gq-joinseen', '1'); } catch(e){}
@@ -1337,7 +1426,7 @@ body.has-rdmini{padding-bottom:84px}
     h += '<header class="hubhead"><div class="eyebrow">Pathfinder Guide class</div><h1>Learning Lab</h1><p>Explore each topic, play the game, then take the challenge. Your counsellor sees your scores.</p></header>';
     h += (JOIN_FIRST || joinOpen) ? whoHTML() : '';
     var order = ['sanctuary','orienteering','lashing','fire','packcamp','nutrition','ecology','newstart','church','pioneers','story','fruit','legion','visit','witness','choices','fitness','temperance','teach','parable','honours','hiv'];
-    h += x17ArcadeBanner() + '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>' + x16ReadTiles();
+    h += x18Banner() + x17ArcadeBanner() + '<div class="grid">' + order.filter(function(k){ return k === 'sanctuary' || L[k]; }).map(tileHTML).join('') + gemsTileHTML() + '</div>' + x16ReadTiles();
     return h;
   }
 
@@ -4483,10 +4572,347 @@ body.has-rdmini{padding-bottom:84px}
     return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Racing: Switch Run (with your class), Town Kart, Forest Bike and River Canoe races. Explore and do: Honours Patch Hunt, Nature Photographer, Teach the Juniors. Walk and talk: Sister Grace’s Street, School Days. Adventures: Body Temple Defender, Break Free, Canoe Journey. Choice trains: Red Flag Express, Honour Line, Health Line. Runs: Seawall Fun Run, Choices Run, Honour Run.</small><span class="x17-go">Open the arcade ▶</span></a>';
   }
 
+  var BD_MAP = {"w":497,"h":749,"d":"M494.8 670.8L485.5 674.5L479.1 671.3L474.7 673.8L469.4 673.6L462.6 677.7L455.4 676.5L451.1 673.1L442.1 673.1L437.8 670.3L436.0 665.4L432.8 662.8L419.5 670.1L411.6 667.2L400.5 675.0L396.9 683.4L390.5 691.9L387.2 694.1L379.7 695.4L367.9 693.7L351.4 700.8L345.3 699.3L344.9 706.4L341.0 713.3L336.7 714.2L328.8 713.1L325.2 708.2L322.0 709.4L315.5 708.4L311.9 704.9L308.7 709.6L304.8 712.0L305.1 716.0L302.6 717.9L294.0 719.2L292.6 721.1L295.8 731.5L291.8 738.3L288.3 736.3L285.7 737.8L274.3 737.0L266.7 744.9L260.6 746.4L254.2 743.2L251.3 736.6L247.4 733.9L226.2 729.4L218.3 726.3L212.2 717.7L210.4 712.5L206.1 712.6L204.3 709.8L202.5 709.4L189.3 692.9L180.3 692.9L176.4 689.3L179.6 681.1L168.5 678.9L167.8 673.0L169.9 668.7L170.6 662.8L169.2 658.8L171.0 653.7L170.3 638.7L168.1 636.1L164.2 635.8L154.1 629.1L153.1 627.2L153.8 619.1L149.5 607.1L147.3 605.7L148.0 603.7L144.4 595.6L145.2 579.2L147.3 571.1L147.0 563.2L148.4 558.3L153.4 552.4L152.3 550.0L154.1 549.2L152.7 545.6L156.3 537.7L160.2 529.9L162.4 529.4L162.0 521.8L160.2 522.5L162.4 516.6L158.1 509.8L158.1 506.8L160.6 504.1L168.8 501.2L175.6 496.0L177.1 489.4L184.3 484.7L183.9 479.4L186.0 475.1L191.4 471.8L190.7 469.3L184.6 468.0L184.3 464.8L178.2 457.0L179.6 451.6L171.7 447.4L170.3 443.6L172.1 438.6L170.6 436.4L174.9 431.0L175.6 426.9L163.5 418.5L161.7 419.5L157.7 418.8L157.0 416.5L153.1 417.6L149.1 414.4L145.9 416.1L138.0 415.6L135.8 412.4L132.3 414.8L128.7 412.2L128.3 408.5L131.2 405.7L135.8 404.3L141.2 392.5L140.9 386.2L146.2 359.2L146.2 356.3L135.5 349.4L131.2 340.6L126.9 342.3L123.3 338.3L117.2 340.3L111.1 345.7L102.5 344.4L99.6 347.6L95.0 345.4L89.2 346.2L83.5 344.2L70.6 344.9L7.1 274.4L5.3 270.4L11.0 266.3L17.9 254.4L24.3 252.5L28.6 246.8L32.6 246.4L33.6 239.7L30.0 235.6L29.0 231.9L30.8 220.1L23.6 208.9L25.7 201.7L31.8 193.4L51.6 191.9L54.8 188.5L54.1 183.4L60.9 186.3L65.5 185.6L70.9 188.5L74.5 188.3L80.6 181.2L89.9 178.7L102.5 170.8L106.8 171.1L108.6 164.5L114.3 159.6L114.7 152.9L107.5 147.8L97.1 146.1L89.9 152.4L81.7 145.9L80.3 139.9L84.6 134.3L84.6 131.9L81.7 126.5L78.8 124.2L79.2 122.1L74.5 119.6L71.6 112.5L73.1 109.8L77.7 108.5L82.0 102.0L84.6 101.5L86.3 96.1L86.0 92.3L92.1 83.6L107.2 82.6L121.5 68.6L126.2 66.8L131.5 62.2L141.6 60.7L144.8 52.2L144.4 49.7L148.8 45.0L159.5 42.3L161.3 40.4L162.7 36.2L142.3 9.2L151.3 15.8L160.6 28.1L168.5 30.8L179.2 37.7L182.1 38.2L183.2 40.7L190.0 42.1L200.8 51.9L195.0 44.8L168.1 29.4L166.3 24.4L168.8 23.9L189.6 36.7L199.0 40.7L233.7 63.7L260.6 91.2L270.3 106.1L269.6 102.0L275.7 104.6L287.2 119.6L295.1 127.4L297.6 133.8L296.5 137.0L297.2 136.3L297.2 153.4L295.4 163.8L290.4 168.4L287.2 174.3L284.0 186.3L284.3 192.9L282.9 195.1L282.9 214.0L275.3 226.8L281.1 222.6L285.0 223.3L287.2 201.3L297.6 182.8L304.0 176.7L312.6 175.8L322.3 180.1L326.6 183.6L328.4 181.7L337.0 182.8L343.1 185.8L381.9 220.2L390.5 238.5L393.0 232.1L394.4 231.1L399.1 231.9L414.5 241.5L422.7 249.8L426.7 256.5L428.8 267.2L426.7 264.5L429.2 269.4L429.6 276.8L424.9 291.8L427.4 295.7L427.1 301.1L418.8 315.8L417.0 324.6L409.8 333.4L414.5 334.2L415.2 342.5L418.1 341.5L416.7 338.4L420.2 338.8L424.2 344.7L424.5 348.1L420.2 350.8L418.8 347.7L414.5 347.9L411.3 356.7L414.5 362.9L410.6 362.6L395.9 365.8L391.9 363.8L382.6 365.8L378.6 364.1L375.0 364.4L371.5 366.0L366.1 372.4L360.7 371.7L358.6 372.7L351.7 382.0L351.0 385.4L355.3 388.8L360.0 399.9L348.5 424.1L349.2 430.6L348.2 435.0L338.5 445.7L337.0 449.9L340.6 466.3L349.6 474.4L356.0 483.8L360.7 498.7L371.1 504.3L373.3 509.5L379.0 513.4L377.6 518.1L377.9 526.0L386.9 530.1L389.0 530.3L390.1 528.2L395.9 531.1L400.5 528.9L400.9 526.2L406.6 528.4L412.7 525.5L415.2 530.6L414.1 537.4L415.9 548.2L414.9 550.7L417.0 551.7L420.2 550.9L418.4 553.7L421.3 557.1L422.7 562.2L420.6 562.9L421.3 565.7L419.9 567.9L424.5 569.1L424.9 570.5L421.3 574.2L423.1 580.4L426.0 583.1L430.6 582.4L428.8 586.0L429.6 587.8L434.2 587.7L433.5 592.2L437.1 596.8L437.8 600.7L440.7 600.2L441.4 601.5L440.7 605.6L443.9 610.1L443.2 613.5L443.9 614.5L447.5 612.5L448.2 613.5L447.5 618.1L450.4 621.5L449.3 623.8L455.0 631.1L454.7 634.6L460.8 638.8L462.9 648.5L472.6 662.0L485.2 663.3L494.1 668.7L494.8 670.8ZM305.8 167.7L310.5 168.9L304.8 173.0L299.7 174.5L297.9 176.7L299.0 170.8L301.9 167.7L305.8 167.7Z","p":[["gt","Georgetown",0,328.2,184.9],["li","Linden",91,313.8,265],["ku","Kurupukari",244,276.9,397.8],["le","Lethem",434,164.4,526.7],["an","Annai",531,230.8,470],["ka","Kaieteur Falls",673,196.2,347.5],["ro","Mount Roraima",815,68.5,350.7],["ba","Bartica",1090,282.2,225],["pa","Parika",1146,301.3,179.1],["ar","Anna Regina",1191,295.8,138.7],["sb","Shell Beach",1356,188.6,35.8],["ma","Mabaruma",1383,166,45],["gt2","Georgetown",1620,328.2,184.9],["na","New Amsterdam",1714,391.8,240],["co","Corriverton",1766,426.9,271.8]]};
+
+  /* ======================= VERSION 17.6: CLASS BOARDS ======================= */
+  /* Steps, reading, Memory Gems, service hours, honours, challenges and attendance.
+     Reading time, chapters and Memory Gem practice are logged by the Learning Lab itself. */
+  var BD = { tab: 'steps', data: null, busy: false, err: '', loadedFor: null, when: 'today', place: '', date: '', sdate: '', hdate: '', code: 'CO1', saving: false, confirm: '' };
+  try { BD.tab = localStorage.getItem('gq-bd-tab') || 'steps'; var bc = JSON.parse(localStorage.getItem('gq-bd-cache') || 'null'); if (bc && bc.t === TOKEN) BD.data = bc.d; } catch (e) {}
+  var BD_TABS = [['steps', '👟', 'Steps'], ['read', '📖', 'Reading'], ['gems', '💎', 'Memory Gems'], ['serve', '🤝', 'Service'], ['honours', '🎖️', 'Honours'], ['chal', '🧠', 'Challenges'], ['attend', '📅', 'Attendance']];
+  var BD_PER_KM = 1400;
+  var BD_FACT = {
+    gt: 'Guyana’s capital, where the Demerara River meets the Atlantic Ocean. The class walk starts here.',
+    li: 'Guyana’s second-largest town, on the Demerara River. It is a bauxite mining town, with pits 60 to 90 metres deep.',
+    ku: 'Here the Linden–Lethem Road crosses the Essequibo River by ferry. It is the way into the Iwokrama Forest, called “the green heart of Guyana”.',
+    le: 'A border town on the Takutu River. The bridge to Bonfim in Brazil opened in 2009, and the Easter rodeo is the big event of the year.',
+    an: 'A Macushi village where the Rupununi savannah meets the foothills of the Pakaraima Mountains. Its electricity comes from solar power.',
+    ka: 'The Potaro River drops 226 metres (741 feet) in one plunge, in Kaieteur National Park.',
+    ro: 'A table-top mountain (a tepui) where Guyana, Brazil and Venezuela meet. Guyana’s highest point is on it: 2,772 metres. Remember Elder Davis from the Canoe Journey? He took the Adventist message to the people of this area.',
+    ba: 'Where the Cuyuni and Mazaruni rivers meet the Essequibo. It is the capital of Region 7, and it began as a mission settlement in 1837.',
+    pa: 'Best known for its market: over 700 stalls, and Sunday is the busiest day. Ferries leave from here for the Essequibo islands.',
+    ar: 'The capital of the Pomeroon-Supenaam Region, on the Essequibo Coast. Sugar once kept it going; today it is rice.',
+    sb: 'About 120 km of beach where four kinds of sea turtle come to lay their eggs: the green, hawksbill, leatherback and olive ridley.',
+    ma: 'The capital of Region One, near the Venezuelan border. It became a town in 2016.',
+    gt2: 'Back in the capital. Two more stops along the coast to the east.',
+    na: 'On the east bank of the Berbice River. The Berbice Bridge, opened in December 2008, links it to Georgetown.',
+    co: 'Guyana’s easternmost town, at the mouth of the Corentyne River, with Suriname across the water. The class walked across Guyana!'
+  };
+  var BD_HONOURS = ['Baking', 'Basic Rescue', 'Bible Marking', 'Camp Craft', 'Camping Skills I', 'Camping Skills II', 'Camping Skills III', 'Camping Skills IV', 'Carpentry', 'Christian Storytelling', 'Cooking', 'Drilling and Marching', 'Ecology', 'Environmental Conservation', 'Fire Building & Camp Cookery', 'First Aid, Basic', 'Hiking', 'Knot Tying', 'Lashing', 'Nutrition', 'Orienteering', 'Outdoor Leadership', 'Personal Evangelism', 'Physical Fitness', 'Pioneering', 'Poultry Raising', 'Prayer', 'Red Alert', 'Stewardship', 'Swimming, Beginner', 'Temperance', 'Tents', 'Wilderness Living'];
+  function bdNum(n){ return Number(n || 0).toLocaleString('en-US'); }
+  function bdHours(n){ n = Math.round(Number(n || 0) * 100) / 100; return n + ' h'; }
+  function bdDay(s, long){ var p = String(s).split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return d.toLocaleDateString('en-GB', long ? { weekday: 'long', day: 'numeric', month: 'long' } : { weekday: 'short', day: 'numeric', month: 'short' }); }
+  function bdToday(){ var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function bdAdd(s, n){ var p = String(s).split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)).toISOString().slice(0, 10); }
+  function bdToast(m){ var el = document.getElementById('bd-toast'); if (!el){ el = document.createElement('div'); el.id = 'bd-toast'; el.className = 'bd-toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); } el.textContent = m; el.hidden = false; clearTimeout(bdToast.t); bdToast.t = setTimeout(function(){ el.hidden = true; }, 3200); }
+  var BD_ERR = { 'bad-number': 'Check the number.', 'bad-date': 'Pick today or an earlier day.', 'too-old': 'That day is too long ago to add now.', 'no-what': 'Say what you did.', 'bad-honour': 'Type the honour’s name.', 'too-many': 'That’s the most this page can hold.', 'not-yours': 'You can only remove your own entries.', 'link-not-found': 'Type your name again at the top.' };
+  function bdErr(e){ var m = String(e && e.message || e || ''); for (var k in BD_ERR) if (m.indexOf(k) > -1) return BD_ERR[k]; return 'Couldn’t reach Guide Quest. Check your internet, then try again.'; }
+  function bdRun(fn, args, ok, fail){
+    if (!hasRun()) { if (fail) fail(new Error('offline')); return; }
+    var r = google.script.run.withSuccessHandler(ok || function(){}).withFailureHandler(fail || function(){});
+    r[fn].apply(r, args);
+  }
+  function bdSet(d){ BD.data = d; BD.loadedFor = TOKEN; try { localStorage.setItem('gq-bd-cache', JSON.stringify({ t: TOKEN, d: d })); } catch (e) {} }
+  function bdLoad(){
+    if (BD.busy) return; BD.busy = true; BD.err = '';
+    bdRun('l_boards', [TOKEN], function(d){ BD.busy = false; bdSet(d); if (S.topic === 'boards') render(); },
+      function(e){ BD.busy = false; BD.err = bdErr(e); BD.loadedFor = TOKEN; if (S.topic === 'boards') render(); });
+  }
+  function x18Banner(){
+    var d = BD.data, line = 'Steps, reading, Memory Gems, service hours, honours, challenges and attendance. Counsellors are on some boards too.';
+    if (d && d.steps) { var km = Math.floor(d.steps.total / BD_PER_KM); if (km > 0) line = 'The class has walked ' + bdNum(km) + ' km across Guyana. ' + line; }
+    return '<button class="x18-bd" data-topic="boards"><span class="x17-tag">NEW · Class boards</span><span class="x18-ic" aria-hidden="true">🏆</span><b>Class boards</b><small>' + esc(line) + '</small><span class="x17-go">Open the boards ▶</span></button>';
+  }
+
+  /* ---------- the page ---------- */
+  function x18HTML(){
+    if (BD.loadedFor !== TOKEN && !BD.busy) setTimeout(bdLoad, 0);
+    var back = S.viaHub || !B.back ? '<button class="backlink" data-act="hub">' + BACK + 'All explorers</button>' : '<a class="backlink" href="' + esc(B.back) + '">' + BACK + esc(B.backLabel || 'Back') + '</a>';
+    var h = '<div class="topnav">' + back + whoPill() + '</div>' + (joinOpen ? whoHTML() : '');
+    h += '<header class="thead" style="--c:#7A3E12"><span class="ico" aria-hidden="true">🏆</span><div class="eyebrow">Guide class</div><h1>Class boards</h1><p>Walk, read, learn and serve together. Counsellors are on the steps, reading and service boards too.</p></header>';
+    h += '<nav class="bd-tabs" aria-label="Boards">' + BD_TABS.map(function(t){ return '<button class="bd-tab" data-bdtab="' + t[0] + '" aria-pressed="' + (BD.tab === t[0]) + '"><span aria-hidden="true">' + t[1] + '</span>' + t[2] + '</button>'; }).join('') + '</nav>';
+    var d = BD.data;
+    if (!d) return h + (BD.err ? '<div class="panel"><p>' + esc(BD.err) + '</p><button class="btn btn-primary" data-bdact="reload">Try again</button></div>' : '<p class="think">Loading the boards…</p>');
+    if (BD.err) h += '<p class="bd-warn">' + esc(BD.err) + ' These may be old numbers.</p>';
+    setTimeout(bdTabInView, 0);
+    var fn = { steps: bdSteps, read: bdRead, gems: bdGems, serve: bdServe, honours: bdHonours, chal: bdChal, attend: bdAttend }[BD.tab] || bdSteps;
+    return h + fn(d) + '<p class="bd-foot">Names show as first name and initial. <button class="linkbtn" data-bdact="reload">' + (BD.busy ? 'Loading…' : 'Refresh') + '</button></p>';
+  }
+  function bdTabInView(){ var nav = document.querySelector('.bd-tabs'), t = nav && nav.querySelector('[aria-pressed="true"]'); if (t && (t.offsetLeft + t.offsetWidth > nav.scrollLeft + nav.clientWidth || t.offsetLeft < nav.scrollLeft)) nav.scrollLeft = Math.max(0, t.offsetLeft - 16); }
+  function bdNeedName(what){ return TOKEN ? '' : '<div class="bd-need"><p>Type your name at the top (💾 Save my progress) so ' + esc(what) + ' count for you.</p></div>'; }
+  function bdList(list, unit, extra, empty){
+    if (!list || !list.length) return '<p class="bd-empty">' + esc(empty || 'Nobody yet. Be the first!') + '</p>';
+    return '<ol class="bd-list">' + list.map(function(o){
+      var medal = o.rank === 1 ? '🥇' : o.rank === 2 ? '🥈' : o.rank === 3 ? '🥉' : o.rank;
+      return '<li class="' + (o.me ? 'me' : '') + (o.c ? ' cn' : '') + '"><span class="bd-rk">' + medal + '</span><span class="bd-nm">' + esc(o.name) + (o.me ? ' <em>(you)</em>' : '') + '</span>'
+        + (extra ? '<span class="bd-ex">' + extra(o) + '</span>' : '') + '<b class="bd-v">' + unit(o.v) + '</b></li>';
+    }).join('') + '</ol>';
+  }
+  function bdStat(big, small){ return '<div class="bd-stat"><b>' + big + '</b><small>' + small + '</small></div>'; }
+  function bdDateChips(cur, max, attr){
+    var t = bdToday(), y = bdAdd(t, -1);
+    return '<div class="bd-days"><button class="chip" data-' + attr + '="' + t + '" aria-pressed="' + (cur === t) + '">Today</button><button class="chip" data-' + attr + '="' + y + '" aria-pressed="' + (cur === y) + '">Yesterday</button>'
+      + '<label class="bd-date"><span>Another day</span><input type="date" id="' + attr + '-pick" max="' + t + '" min="' + bdAdd(t, -max) + '" value="' + esc(cur !== t && cur !== y ? cur : '') + '"></label></div>';
+  }
+
+  /* Steps */
+  function bdSteps(d){
+    var s = d.steps, h = '', t = bdToday();
+    if (!BD.date) BD.date = t;
+    if (TOKEN) {
+      h += '<section class="panel bd-log"><h2>Log your steps</h2><p class="bd-tip">Copy the number from your phone’s step counter: Samsung Health, Google Fit or the iPhone Health app.</p>' + bdDateChips(BD.date, 7, 'bdsday')
+        + '<div class="bd-row"><input type="number" inputmode="numeric" id="bd-steps" min="0" max="100000" placeholder="Steps on ' + esc(bdDay(BD.date)) + '" aria-label="Steps"><button class="btn btn-primary" data-bdsave="steps"' + (BD.saving ? ' disabled' : '') + '>' + (BD.saving ? 'Saving…' : 'Save') + '</button></div>'
+        + '<label class="bd-shot"><input type="checkbox" id="bd-shotok"> Add a screenshot of my step counter as proof (it goes with your HF 2 photos)</label></section>';
+      h += '<div class="bd-stats">' + bdStat(bdNum(s.myToday), 'steps today') + bdStat(bdNum(s.myWeek), 'this week') + bdStat((s.streak || 0) + ' 🔥', 'days in a row') + '</div>';
+      var up = BD.when === 'week' ? s.aheadWeek : s.aheadToday;
+      if (up) h += '<p class="bd-ahead">' + (up.c ? '👀 ' : '🏃 ') + '<b>' + esc(up.name) + '</b> is ahead of you by ' + bdNum(up.by) + ' steps ' + (BD.when === 'week' ? 'this week' : 'today') + '. Catch up!</p>';
+      else if ((BD.when === 'week' ? s.myWeek : s.myToday) > 0) h += '<p class="bd-ahead">👑 Nobody is ahead of you ' + (BD.when === 'week' ? 'this week' : 'today') + '.</p>';
+    } else h += bdNeedName('your steps');
+    h += '<section class="panel"><div class="bd-h2row"><h2>Steps board</h2><div class="seg" role="tablist" aria-label="Which board"><button role="tab" data-bdwhen="today" aria-selected="' + (BD.when !== 'week') + '">Today</button><button role="tab" data-bdwhen="week" aria-selected="' + (BD.when === 'week') + '">This week</button></div></div>'
+      + bdList(BD.when === 'week' ? s.week : s.today, function(v){ return bdNum(v); }, null, BD.when === 'week' ? 'No steps logged this week yet.' : 'No steps logged today yet.') + '</section>';
+    h += bdWalk(s.total);
+    if (TOKEN && s.mine && s.mine.length) h += '<section class="panel"><h2>My last two weeks</h2><ul class="bd-mine">' + s.mine.map(function(m){ return '<li><span>' + esc(bdDay(m.date)) + '</span><b>' + bdNum(m.n) + '</b>' + bdDel(m.id) + '</li>'; }).join('') + '</ul></section>';
+    if (TOKEN && s.weeks) {
+      var any = s.weeks.some(function(w){ return w.steps > 0; });
+      h += '<section class="panel bd-hf2"><h2>HF 2 · Fun Run training record</h2><p class="bd-tip">Doing HF 2 by the Fun Run? Your steps log is a training record. In your Guide app, HF 2 → “A Fun Run, after a training programme” has a button that copies these weeks in.</p>'
+        + (any ? '<table class="bd-wk"><thead><tr><th>Week of</th><th>Steps</th><th>Days</th></tr></thead><tbody>' + s.weeks.slice().reverse().map(function(w){ return '<tr><td>' + esc(bdDay(w.from)) + '</td><td>' + bdNum(w.steps) + '</td><td>' + w.days + '</td></tr>'; }).join('') + '</tbody></table>' : '<p class="bd-empty">Log your steps each day; full weeks show here.</p>') + '</section>';
+    }
+    return h;
+  }
+  function bdDel(id){ return BD.confirm === id ? '<span class="bd-del"><button class="linkbtn bad" data-bdunlog="' + esc(id) + '">Remove</button><button class="linkbtn" data-bdact="nodel">Keep</button></span>' : '<button class="bd-x" data-bdask="' + esc(id) + '" aria-label="Remove">✕</button>'; }
+  /* The class walk across Guyana. Labels sit where they don't cover each other: [dx, dy, anchor]. */
+  var BD_LBL = { gt: [14, 6, 'start'], li: [14, 7, 'start'], ku: [14, 6, 'start'], le: [14, 6, 'start'], an: [14, 6, 'start'], ka: [14, 6, 'start'], ro: [0, -17, 'middle'], ba: [-14, 8, 'end'], pa: [-14, -2, 'end'], ar: [14, 4, 'start'], sb: [14, 2, 'start'], ma: [-14, 10, 'end'], na: [0, -17, 'middle'], co: [0, 30, 'middle'] };
+  function bdLabel(p){ var o = BD_LBL[p[0]] || [14, 6, 'start']; return '<text x="' + (p[3] + o[0]) + '" y="' + (p[4] + o[1]) + '" text-anchor="' + o[2] + '">' + esc(p[1]) + '</text>'; }
+  function bdWalk(total){
+    var P = BD_MAP.p, full = P[P.length - 1][2], km = total / BD_PER_KM, lap = Math.floor(km / full), k = km - lap * full, at = 0;
+    while (at < P.length - 1 && P[at + 1][2] <= k) at++;
+    var a = P[at], b = P[Math.min(at + 1, P.length - 1)], f = b[2] > a[2] ? (k - a[2]) / (b[2] - a[2]) : 0, x = a[3] + (b[3] - a[3]) * f, y = a[4] + (b[4] - a[4]) * f;
+    var done = P.slice(0, at + 1).map(function(p){ return p[3] + ',' + p[4]; }).join(' ') + ' ' + x.toFixed(1) + ',' + y.toFixed(1);
+    var next = P[at + 1], sel = BD.place;
+    var svg = '<svg class="bd-map" viewBox="-14 -14 ' + (BD_MAP.w + 28) + ' ' + (BD_MAP.h + 28) + '" role="img" aria-label="Map of Guyana with the class walk"><path class="bd-land" d="' + BD_MAP.d + '"/>'
+      + '<polyline class="bd-route" points="' + P.map(function(p){ return p[3] + ',' + p[4]; }).join(' ') + '"/><polyline class="bd-done" points="' + done + '"/>'
+      + P.map(function(p, i){ if (p[0] === 'gt2') return ''; var got = i <= at || lap > 0; return '<g class="bd-pin' + (got ? ' got' : '') + (sel === p[0] ? ' sel' : '') + '" data-bdplace="' + p[0] + '" tabindex="0" role="button" aria-label="' + esc(p[1]) + '"><circle cx="' + p[3] + '" cy="' + p[4] + '" r="' + (sel === p[0] ? 13 : 10) + '"/>' + bdLabel(p) + '</g>'; }).join('')
+      + '<circle class="bd-me" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="15"/><text class="bd-walker" x="' + x.toFixed(1) + '" y="' + (y + 8).toFixed(1) + '" text-anchor="middle">🚶</text></svg>';
+    var h = '<section class="panel bd-walk"><h2>🇬🇾 The class walk across Guyana</h2><p>Everyone’s steps add up. About ' + bdNum(BD_PER_KM) + ' steps make 1 km. The class has walked <b>' + bdNum(Math.floor(km)) + ' km</b> (' + bdNum(total) + ' steps)' + (lap ? ', and finished the whole route ' + lap + ' time' + (lap === 1 ? '' : 's') : '') + '.</p>'
+      + (next ? '<p class="bd-next">Next stop: <b>' + esc(next[1]) + '</b>, ' + bdNum(Math.ceil(next[2] - k)) + ' km to go (' + bdNum(Math.ceil((next[2] - k) * BD_PER_KM)) + ' steps).</p>' : '')
+      + svg;
+    var pl = P.filter(function(p){ return p[0] === sel; })[0];
+    if (pl) { var idx = P.indexOf(pl), got = idx <= at || lap > 0; h += '<div class="bd-fact"><b>' + esc(pl[1]) + '</b> · ' + (pl[2] ? bdNum(pl[2]) + ' km along the route' : 'the start') + '<p>' + (got ? esc(BD_FACT[pl[0]]) : '🔒 The class unlocks this place after ' + bdNum(Math.ceil(pl[2] - k)) + ' more km.') + '</p></div>'; }
+    else h += '<p class="bd-tip">Tap a place on the map.</p>';
+    return h + '<p class="bd-src">Distances are straight lines between the places on the map.</p></section>';
+  }
+
+  /* Reading */
+  function bdRead(d){
+    var r = d.read, h = '';
+    if (TOKEN && r.mine) {
+      var m = r.mine, badges = [];
+      if (m.chapters >= 1) badges.push(['📗', 'First chapter']);
+      if (m.total >= 60) badges.push(['⏱️', '1 hour']);
+      if (m.total >= 300) badges.push(['🕯️', '5 hours']);
+      if (m.total >= 600) badges.push(['🏅', '10 hours']);
+      if ((m.books.sc || 0) >= 13) badges.push(['📚', 'Steps to Christ']);
+      if ((m.books.te || 0) >= 5) badges.push(['⛓️', 'Temperance pages']);
+      if (m.best >= 7) badges.push(['🔥', '7 days in a row']);
+      h += '<div class="bd-stats">' + bdStat(m.week + ' min', 'this week') + bdStat(m.weekCh, 'chapters this week') + bdStat((m.streak || 0) + ' 🔥', 'days in a row') + '</div>';
+      h += '<section class="panel"><h2>My badges</h2>' + (badges.length ? '<div class="bd-badges">' + badges.map(function(b){ return '<span class="bd-badge"><span aria-hidden="true">' + b[0] + '</span>' + esc(b[1]) + '</span>'; }).join('') + '</div>' : '<p class="bd-empty">Read or listen in the Reading room to earn your first badge.</p>')
+        + '<p class="bd-tip">All time: ' + bdNum(m.total) + ' minutes and ' + m.chapters + ' chapter' + (m.chapters === 1 ? '' : 's') + '.</p></section>';
+    } else h += bdNeedName('your reading minutes');
+    h += '<section class="panel"><h2>Reading board · this week</h2><p class="bd-tip">Minutes reading or listening in the Reading room, and chapters finished.</p>'
+      + bdList(r.week, function(v){ return bdNum(v) + ' min'; }, function(o){ return o.ch ? o.ch + ' ch.' : ''; }, 'Nobody has read this week yet.') + '<button class="btn btn-ghost btn-block" data-bdact="readroom">📖 Go to the Reading room</button></section>';
+    return h;
+  }
+  /* Memory Gems */
+  function bdGems(d){
+    var g = d.gems, h = '';
+    if (TOKEN && g.mine) h += '<div class="bd-stats">' + bdStat(g.mine.month, 'learned this month') + bdStat((g.mine.run || 0) + ' 🔥', 'days in a row') + bdStat(g.mine.best || 0, 'longest run') + '</div>';
+    else h += bdNeedName('your Memory Gems');
+    h += '<section class="panel"><h2>Texts learned this month</h2>' + bdList(g.month, function(v){ return v + ' 💎'; }, function(o){ return o.run ? 'run ' + o.run : ''; }, 'Nobody has learned a new text this month yet.') + '</section>'
+      + '<section class="panel"><h2>Longest run of days practised</h2>' + bdList(g.runs, function(v){ return v + ' day' + (v === 1 ? '' : 's'); }, null, 'Practise a Memory Gem today to start a run.') + '<button class="btn btn-primary btn-block" data-gems="1">💎 Practise a Memory Gem</button></section>';
+    return h;
+  }
+  /* Service hours */
+  function bdServe(d){
+    var s = d.serve, h = '', pc = Math.min(100, Math.round(100 * s.total / Math.max(1, s.goal))), t = bdToday();
+    if (!BD.sdate) BD.sdate = t;
+    h += '<section class="panel"><h2>Class goal · ' + esc(d.term.label) + '</h2><div class="bd-goal"><span style="width:' + pc + '%"></span></div><p><b>' + bdHours(s.total) + '</b> of ' + s.goal + ' hours of service together' + (pc >= 100 ? ' · 🎉 goal reached!' : '') + '.</p><p class="bd-tip">Outreach for CO 1 (visiting a shut-in, helping a family in need) and AV 3 counts, and so does any other service your counsellor approves.</p></section>';
+    if (TOKEN) {
+      h += '<section class="panel bd-log"><h2>Log service hours</h2>' + bdDateChips(BD.sdate, 120, 'bdsvday')
+        + '<label class="bd-field"><span>What did you do?</span><input type="text" id="bd-what" maxlength="120" placeholder="e.g. Visited Sister Grace and swept her yard"></label>'
+        + '<label class="bd-field bd-hrs"><span>Hours</span><select id="bd-hours">' + [0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 8].map(function(n){ return '<option value="' + n + '"' + (n === 1 ? ' selected' : '') + '>' + n + (n === 1 ? ' hour' : ' hours') + '</option>'; }).join('') + '</select></label>'
+        + '<div class="bd-field"><span>For</span><div class="bd-days">' + [['CO1', 'CO 1 outreach'], ['AV3', 'AV 3'], ['', 'Other service']].map(function(c){ return '<button class="chip" data-bdcode="' + c[0] + '" aria-pressed="' + (BD.code === c[0]) + '">' + c[1] + '</button>'; }).join('') + '</div></div>'
+        + '<button class="btn btn-primary" data-bdsave="serve"' + (BD.saving ? ' disabled' : '') + '>' + (BD.saving ? 'Saving…' : 'Save') + '</button></section>';
+      if (s.mine && s.mine.length) h += '<section class="panel"><h2>My service this term</h2><ul class="bd-mine">' + s.mine.map(function(m){ return '<li><span>' + esc(bdDay(m.date)) + '<small>' + esc(m.what) + '</small></span><b>' + bdHours(m.n) + '</b>' + bdDel(m.id) + '</li>'; }).join('') + '</ul></section>';
+    } else h += bdNeedName('your service hours');
+    h += '<section class="panel"><h2>Service board</h2><p class="bd-tip">' + esc(d.term.label) + '</p>' + bdList(s.board, bdHours, null, 'No service hours logged this term yet.') + '</section>';
+    return h;
+  }
+  /* Honours */
+  function bdHonours(d){
+    var o = d.honours, h = '', t = bdToday();
+    if (!BD.hdate) BD.hdate = t;
+    if (TOKEN) {
+      var term = (o.mine || []).filter(function(x){ return x.term; });
+      h += '<section class="panel"><h2>My sash</h2>' + ((o.mine || []).length ? '<div class="bd-sash">' + o.mine.map(function(x){ return '<span class="bd-patch' + (x.term ? ' new' : '') + '"><span aria-hidden="true">🎖️</span>' + esc(x.name) + '<small>' + esc(bdDay(x.date)) + '</small>' + bdDel(x.id) + '</span>'; }).join('') + '</div><p class="bd-tip">' + term.length + ' this term (' + esc(d.term.label) + ').</p>' : '<p class="bd-empty">Add each honour when your instructor has signed it off.</p>') + '</section>';
+      h += '<section class="panel bd-log"><h2>Add an honour I earned</h2><label class="bd-field"><span>Honour</span><input type="text" id="bd-honour" list="bd-honours" maxlength="50" placeholder="e.g. Knot Tying"></label><datalist id="bd-honours">' + BD_HONOURS.map(function(n){ return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>'
+        + bdDateChips(BD.hdate, 120, 'bdhday') + '<button class="btn btn-primary" data-bdsave="honour"' + (BD.saving ? ' disabled' : '') + '>' + (BD.saving ? 'Saving…' : 'Add to my sash') + '</button><p class="bd-tip">Honours count for OD 4, LE 1, NS 2 and HF 3. Your counsellor still signs those off in your Guide app.</p></section>';
+    } else h += bdNeedName('your honours');
+    h += '<section class="panel"><h2>Honours this term</h2><p class="bd-tip">' + esc(d.term.label) + '</p>' + bdList(o.board, function(v){ return v + ' 🎖️'; }, null, 'No honours added this term yet.') + '</section>';
+    return h;
+  }
+  /* Challenges */
+  function bdChal(d){
+    var c = d.chal.week, top = c && c[0] && c[0].rank === 1 ? c[0] : null;
+    var h = top ? '<section class="panel bd-top"><span class="bd-crown" aria-hidden="true">🏅</span><div><small>Top explorer this week</small><b>' + esc(top.name) + '</b><p>' + bdNum(top.v) + ' points from ' + top.n + ' explorer' + (top.n === 1 ? '' : 's') + '</p></div></section>' : '';
+    h += '<section class="panel"><h2>Challenges · this week</h2><p class="bd-tip">Your best challenge score in each explorer since Monday, added up. Take the 8-question challenge in any explorer.</p>'
+      + bdList(c, function(v){ return bdNum(v) + ' pts'; }, function(o){ return o.n + ' expl.'; }, 'No challenges taken this week yet.') + '</section>';
+    return h;
+  }
+  /* Attendance */
+  function bdAttend(d){
+    var a = d.attend, h = '';
+    if (TOKEN && a.mine) h += '<div class="bd-stats">' + bdStat(a.mine.streak + ' 🔥', 'meetings in a row') + bdStat(a.mine.term + ' of ' + a.meetings, 'meetings this term') + '</div>';
+    h += '<section class="panel"><h2>Meetings in a row</h2><p class="bd-tip">Counted from the meetings your counsellors log. ' + a.meetings + ' meeting' + (a.meetings === 1 ? '' : 's') + ' so far in ' + esc(d.term.label) + '.</p>'
+      + bdList(a.board, function(v){ return v + ' in a row'; }, function(o){ return o.term + ' this term'; }, 'No meetings logged yet.') + '</section>';
+    return h;
+  }
+
+  /* ---------- actions ---------- */
+  function bdSave(kind){
+    if (BD.saving || !TOKEN) return;
+    var x = {};
+    if (kind === 'steps') {
+      var v = (document.getElementById('bd-steps') || {}).value; x = { date: BD.date || bdToday(), n: Math.round(Number(v)) };
+      if (v === '' || !(x.n >= 0 && x.n <= 100000)) { bdToast('Type the number of steps (0 to 100,000).'); return; }
+      if ((document.getElementById('bd-shotok') || {}).checked) { bdShot(x); return; }
+    } else if (kind === 'serve') {
+      x = { date: BD.sdate || bdToday(), n: Number((document.getElementById('bd-hours') || {}).value || 1), what: (document.getElementById('bd-what') || {}).value || '', code: BD.code };
+      if (!x.what.trim()) { bdToast('Say what you did.'); return; }
+    } else if (kind === 'honour') {
+      x = { date: BD.hdate || bdToday(), honour: (document.getElementById('bd-honour') || {}).value || '' };
+      if (x.honour.trim().length < 3) { bdToast('Type the honour’s name.'); return; }
+    }
+    BD.saving = true; render();
+    bdRun('l_log', [TOKEN, kind, x], function(d){ BD.saving = false; bdSet(d); SFX.good && SFX.good(); bdToast(kind === 'steps' ? 'Steps saved 👟' : kind === 'serve' ? 'Service hours saved 🤝' : 'Added to your sash 🎖️'); if (kind === 'steps') BD.date = bdToday(); render(); },
+      function(e){ BD.saving = false; render(); bdToast(bdErr(e)); });
+  }
+  /* The optional screenshot: shrunk on the phone, saved as an HF 2 photo, then the steps. */
+  function bdShot(x){
+    var inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = function(){
+      var f = inp.files && inp.files[0]; if (!f) return;
+      BD.saving = true; render();
+      var rd = new FileReader();
+      rd.onload = function(){
+        var img = new Image();
+        img.onload = function(){
+          function shrink(max, q){ var k = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', q); }
+          var ph = { data: shrink(1600, 0.85), mime: 'image/jpeg', preview: shrink(640, 0.7), caption: 'Steps on ' + bdDay(x.date) + ': ' + bdNum(x.n) };
+          bdRun('p_addPhoto', [TOKEN, 'HF2', ph], function(){ BD.saving = false; bdSaveSteps(x, true); }, function(e){ BD.saving = false; bdToast(/photo-limit/.test(String(e && e.message)) ? 'You have the most HF 2 photos already. Saving the steps without it.' : 'The screenshot didn’t upload. Saving the steps without it.'); bdSaveSteps(x, false); });
+        };
+        img.onerror = function(){ BD.saving = false; bdToast('That file isn’t a picture.'); render(); };
+        img.src = rd.result;
+      };
+      rd.readAsDataURL(f);
+    };
+    inp.click();
+  }
+  function bdSaveSteps(x, shot){
+    BD.saving = true; render();
+    bdRun('l_log', [TOKEN, 'steps', x], function(d){ BD.saving = false; bdSet(d); bdToast(shot ? 'Steps and screenshot saved 👟' : 'Steps saved 👟'); BD.date = bdToday(); render(); }, function(e){ BD.saving = false; render(); bdToast(bdErr(e)); });
+  }
+  app.addEventListener('click', function(e){
+    if (S.topic !== 'boards') return;
+    var pin = e.target.closest('[data-bdplace]');
+    if (pin) { BD.place = BD.place === pin.getAttribute('data-bdplace') ? '' : pin.getAttribute('data-bdplace'); render(); return; }
+    var b = e.target.closest('button'); if (!b) return;
+    var d = b.dataset;
+    if (d.bdtab) { BD.tab = d.bdtab; BD.confirm = ''; try { localStorage.setItem('gq-bd-tab', BD.tab); } catch (er) {} render(); return; }
+    if (d.bdwhen) { BD.when = d.bdwhen; render(); return; }
+    if (d.bdsday) { BD.date = d.bdsday; render(); return; }
+    if (d.bdsvday) { BD.sdate = d.bdsvday; render(); return; }
+    if (d.bdhday) { BD.hdate = d.bdhday; render(); return; }
+    if (d.bdcode !== undefined) { BD.code = d.bdcode; render(); return; }
+    if (d.bdsave) { bdSave(d.bdsave); return; }
+    if (d.bdask) { BD.confirm = d.bdask; render(); return; }
+    if (d.bdunlog) { var id = d.bdunlog; BD.confirm = ''; bdRun('l_unlog', [TOKEN, id], function(r){ bdSet(r); bdToast('Removed'); render(); }, function(er){ bdToast(bdErr(er)); render(); }); return; }
+    if (d.bdact === 'nodel') { BD.confirm = ''; render(); return; }
+    if (d.bdact === 'reload') { BD.loadedFor = null; bdLoad(); render(); return; }
+    if (d.bdact === 'readroom') { S.topic = ''; render(); setTimeout(function(){ var el = document.querySelector('.rd-hubh'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 30); return; }
+  });
+  app.addEventListener('keydown', function(e){ if (S.topic === 'boards' && (e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-bdplace]')) { e.preventDefault(); e.target.closest('[data-bdplace]').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+  app.addEventListener('change', function(e){
+    if (S.topic !== 'boards') return;
+    var t = e.target, v = t.value;
+    if (!v) return;
+    if (t.id === 'bdsday-pick') { BD.date = v; render(); }
+    else if (t.id === 'bdsvday-pick') { BD.sdate = v; render(); }
+    else if (t.id === 'bdhday-pick') { BD.hdate = v; render(); }
+  });
+
+  /* ---------- reading time, chapters and Memory Gem practice ---------- */
+  var RT = { act: Date.now(), key: '', cs: {} };
+  ['pointerdown', 'keydown', 'scroll', 'touchstart', 'wheel'].forEach(function(ev){ document.addEventListener(ev, function(){ RT.act = Date.now(); }, { passive: true, capture: true }); });
+  function rtAudio(){ var on = false; [].forEach.call(document.querySelectorAll('audio'), function(a){ if (!a.paused && !a.ended) on = true; }); return on; }
+  function rtPend(){ try { return JSON.parse(localStorage.getItem('gq-rt') || '{}') || {}; } catch (e) { return {}; } }
+  function rtSave(p){ try { localStorage.setItem('gq-rt', JSON.stringify(p)); } catch (e) {} }
+  function rtFlush(){
+    if (!TOKEN || !hasRun() || RT.sending) return;
+    var p = rtPend(), today = bdToday();
+    Object.keys(p).forEach(function(k){
+      var parts = k.split('|'), min = Math.floor(p[k] / 60);
+      if (parts[0] !== TOKEN) return;
+      if (parts[1] < bdAdd(today, -1)) { delete p[k]; return; }
+      if (min < 1) return;
+      RT.sending = true; p[k] -= min * 60; rtSave(p);
+      bdRun('l_log', [TOKEN, 'read', { date: parts[1], n: Math.min(240, min), book: parts[2] }], function(){ RT.sending = false; },
+        function(e){ RT.sending = false; if (!/bad-date|too-old|bad-number/.test(String(e && e.message))) { var q = rtPend(); q[k] = (q[k] || 0) + min * 60; rtSave(q); } });
+    });
+  }
+  setInterval(function(){
+    if (!TOKEN) return;
+    if (S.read) RT.key = S.read.key;
+    var listen = rtAudio() || (typeof RD !== 'undefined' && RD.playing);
+    var looking = document.visibilityState === 'visible' && S.read && Date.now() - RT.act < 90000;
+    if (!RT.key || !(listen || looking)) return;
+    var p = rtPend(), k = TOKEN + '|' + bdToday() + '|' + RT.key; p[k] = (p[k] || 0) + 15; rtSave(p);
+    if (S.read && RD.data[S.read.key] && RD.data[S.read.key].chapters) {
+      var ck = S.read.key + ':' + S.read.ch; RT.cs[ck] = (RT.cs[ck] || 0) + 15;
+      var end = document.querySelector('.rd-src'), on = document.querySelector('.rd-p.on'), last = document.querySelectorAll('.rd-p');
+      var atEnd = end && end.getBoundingClientRect().top < window.innerHeight, heard = on && last.length && on === last[last.length - 1];
+      if (RT.cs[ck] >= 60 && (atEnd || heard)) rtChapter(S.read.key, S.read.ch);
+    }
+    if (p[k] >= 60) rtFlush();
+  }, 15000);
+  function rtChapter(book, ch){
+    var key = 'gq-ch-' + TOKEN + '-' + book + ':' + ch;
+    try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (e) {}
+    bdRun('l_log', [TOKEN, 'chap', { book: book, ch: ch }], function(){}, function(){ try { localStorage.removeItem(key); } catch (e) {} });
+  }
+  /* Recorded readings (Temperance, Counsels on Stewardship): a part counts when its recording plays to the end. */
+  document.addEventListener('ended', function(e){
+    var a = e.target; if (!TOKEN || !a || a.tagName !== 'AUDIO' || !RT.key) return;
+    var all = [].slice.call(document.querySelectorAll('.rd-book audio, .rd-parts audio, .rd-group audio, .rd-audio audio')), i = all.indexOf(a);
+    if (!S.read || i < 0) return;
+    rtChapter(RT.key, RD.data[RT.key] && RD.data[RT.key].chapters ? S.read.ch : i + 1);
+  }, true);
+  document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden') rtFlush(); });
+  setTimeout(rtFlush, 4000);
+  /* Memory Gems: a text learned, and one practice day a day */
+  document.addEventListener('click', function(e){
+    if (!TOKEN || S.topic !== 'gems') return;
+    var b = e.target.closest && e.target.closest('[data-gmlearn],[data-gmlv],[data-gmpc],[data-gmsay],[data-gm]'); if (!b) return;
+    var ref = b.getAttribute('data-gmlearn');
+    if (ref && GEM.learned.indexOf(ref) < 0) bdRun('l_log', [TOKEN, 'gem', { ref: ref }]);
+    var day = bdToday(), k = 'gq-gday-' + TOKEN;
+    try { if (localStorage.getItem(k) === day) return; localStorage.setItem(k, day); } catch (er) {}
+    bdRun('l_log', [TOKEN, 'gday', { date: day }], function(){}, function(){ try { localStorage.removeItem(k); } catch (er) {} });
+  }, true);
+
   /* ======================= RENDER + EVENTS ======================= */
   function render(){
     x17ViewChange();
-    app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
+    app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'boards' ? x18HTML() : S.topic === 'gems' ? gemsHTML() : S.topic ? topicHTML(S.topic) : hubHTML();
     document.body.classList.toggle('lock', !!(S.topic && S.big && S.tab === 'learn'));
     afterRender();
   }
