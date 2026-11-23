@@ -71,8 +71,8 @@ export function signTexture(lines, o = {}) {
   const L = Array.isArray(lines) ? lines : [lines], sizes = o.sizes || L.map((_, i) => i === 0 && L.length > 1 && o.big ? H * 0.42 : H * (L.length > 2 ? 0.24 : L.length > 1 ? 0.3 : 0.5));
   const total = sizes.reduce((a, b) => a + b * 1.08, 0); let y = H / 2 - total / 2;
   L.forEach((t, i) => {
-    let s = sizes[i]; x.font = '800 ' + s + 'px Figtree, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", system-ui, sans-serif';
-    while (x.measureText(t).width > W * 0.9 && s > 10) { s -= 2; x.font = '800 ' + s + 'px Figtree, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", system-ui, sans-serif'; }
+    let s = sizes[i]; x.font = '800 ' + s + 'px Figtree, system-ui, "Segoe UI", Roboto, sans-serif, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"';
+    while (x.measureText(t).width > W * 0.9 && s > 10) { s -= 2; x.font = '800 ' + s + 'px Figtree, system-ui, "Segoe UI", Roboto, sans-serif, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"'; }
     y += sizes[i] * 0.54; x.fillText(t, W / 2, y); y += sizes[i] * 0.54;
   });
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
@@ -118,13 +118,15 @@ export class Engine {
     this.q = clamp(q, 0, 2); store('gq3d-q', this.q);
     this.camera.far = QUALITY[this.q].far; this.camera.updateProjectionMatrix(); this.resize();
   }
+  /** a game can narrow (k < 1) or widen the view; play() resets it to 1 */
+  zoom(k) { this.fovMul = k; this.resize(); }
   resize() {
     const w = innerWidth, h = innerHeight;
     this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, QUALITY[this.q].dpr));
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     /* phones held upright see less of the sides: widen the view so all three lanes fit */
-    this.camera.fov = w < h ? clamp(60 + (h / w - 1) * 22, 60, 82) : 58;
+    this.camera.fov = (w < h ? clamp(60 + (h / w - 1) * 22, 60, 82) : 58) * (this.fovMul || 1);
     this.camera.updateProjectionMatrix();
     if (this.onResize) this.onResize(w, h);
   }

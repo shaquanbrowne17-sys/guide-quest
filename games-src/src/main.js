@@ -3,14 +3,18 @@ import { Engine, Input, SND, THREE, esc, store, today, setSky, clamp } from './c
 import { Runner, LEVELS, levelPlan } from './runner.js';
 import { THEMES } from './themes.js';
 import { Train, TRAINS } from './train.js';
-const DEFS = Object.assign({}, THEMES, TRAINS);
+import { Defender, DEFENDERS } from './defender.js';
+import { Escape, ESCAPES } from './escape.js';
+import { Canoe, CANOES } from './canoe.js';
+const DEFS = Object.assign({}, THEMES, TRAINS, DEFENDERS, ESCAPES, CANOES);
+const CLASSES = { train: Train, defend: Defender, escape: Escape, canoe: Canoe };
 import { makeCharacter, myLook, saveLook, SKIN_TONES, HAIR } from './character.js';
 import { loadKit } from './kit.js';
 
 const $ = s => document.querySelector(s);
 const Q = new URLSearchParams(location.search);
 const TOKEN = (() => { const t = (Q.get('t') || '').replace(/[^\w-]/g, ''); if (t) return t; try { return localStorage.getItem('gq-sanct-me') || ''; } catch (e) { return ''; } })();
-const GROUPS = [['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']]];
+const GROUPS = [['🏹 Adventures', 'Defend the temple, escape the room, paddle through our church’s story.', ['temple', 'breakfree', 'canoe']], ['🚂 Choice trains', 'No obstacles: read the question and pick your track.', ['flags', 'honourline', 'healthline']], ['🏃 Runs', 'Dodge the pressures, grab the good stuff.', ['seawall', 'choices', 'honour']]];
 const MODES_TRAIN = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. The train waits for you.'], levels: ['🪜', 'Levels', '10 levels. More stops, a bit faster.'], endless: ['♾️', 'Endless', 'Keep going until 3 wrong tracks.'], daily: ['📅', 'Daily Challenge', '10 stops, the same for everyone today.'] };
 const MODES = { practice: ['🎯', 'Practice', 'Slow, no hearts lost. Learn the moves.'], levels: ['🪜', 'Levels', '10 levels. Each one a bit faster.'], endless: ['♾️', 'Endless', 'Keeps speeding up. Beat the class.'], daily: ['📅', 'Daily Challenge', 'Same run for everyone today.'] };
 const ui = {};
@@ -34,18 +38,19 @@ function menu(key) {
   const T = DEFS[key]; if (!T) return arcade();
   view = 'menu'; curKey = key; show('s-menu'); stopGame(); idleScene(key);
   $('#m-title').textContent = T.title; $('#m-icon').textContent = T.icon; $('#m-blurb').textContent = T.blurb;
-  const MM = T.kind === 'train' ? MODES_TRAIN : MODES;
+  const MM = T.modes || (T.kind === 'train' ? MODES_TRAIN : MODES);
   $('#m-modes').innerHTML = Object.keys(MM).map(m => '<button class="mode" data-mode="' + m + '"><span>' + MM[m][0] + '</span><b>' + MM[m][1] + '</b><small>' + MM[m][2] + '</small></button>').join('');
   $('#m-me').innerHTML = meCard();
   $('#m-levels').hidden = true;
-  const b = $('#m-board'); b.innerHTML = '<p class="mute">Loading the class board…</p>';
-  api('l_top3', [T.gid, TOKEN, 'endless']).then(r => { b.innerHTML = '<h4>Class top 5 · Endless</h4>' + boardHTML(r.top, joinNote()); }, () => { b.innerHTML = '<p class="mute">Class board needs the internet.</p>'; });
+  const b = $('#m-board'); b.innerHTML = '<p class="mute">Loading the class board…</p>'; const bm = T.board || 'endless';
+  api('l_top3', [T.gid, TOKEN, bm]).then(r => { b.innerHTML = '<h4>Class top 5 · ' + (bm === 'daily' ? 'today' : T.boardName || 'Endless') + '</h4>' + boardHTML(r.top, joinNote()); }, () => { b.innerHTML = '<p class="mute">Class board needs the internet.</p>'; });
   history.replaceState(null, '', '?g=' + key + (Q.get('t') ? '&t=' + encodeURIComponent(Q.get('t')) : ''));
 }
 function levels() {
-  const L = store('gq3d-lv-' + curKey) || {}, box = $('#m-levels'); let open = 1; for (let i = 1; i <= LEVELS; i++) if (L[i]) open = i + 1;
-  box.innerHTML = '<div class="lvgrid">' + Array.from({ length: LEVELS }, (_, i) => { const n = i + 1, st = L[n] || 0, lock = n > open;
-    return '<button class="lv' + (lock ? ' lock' : '') + '" data-lv="' + n + '"' + (lock ? ' disabled' : '') + '><b>' + (lock ? '🔒' : n) + '</b><small>' + (lock ? '' : '★'.repeat(st) + '<s>' + '★'.repeat(3 - st) + '</s>') + '</small></button>'; }).join('') + '</div>';
+  const NL = (DEFS[curKey] && DEFS[curKey].levels) || LEVELS, names = (DEFS[curKey] && DEFS[curKey].levelTitles) || [];
+  const L = store('gq3d-lv-' + curKey) || {}, box = $('#m-levels'); let open = 1; for (let i = 1; i <= NL; i++) if (L[i]) open = i + 1;
+  box.innerHTML = '<div class="lvgrid' + (names.length ? ' named' : '') + '">' + Array.from({ length: NL }, (_, i) => { const n = i + 1, st = L[n] || 0, lock = n > open;
+    return '<button class="lv' + (lock ? ' lock' : '') + '" data-lv="' + n + '"' + (lock ? ' disabled' : '') + '><b>' + (lock ? '🔒' : n) + '</b>' + (names[i] ? '<em>' + esc(names[i]) + '</em>' : '') + '<small>' + (lock ? '' : '★'.repeat(st) + '<s>' + '★'.repeat(3 - st) + '</s>') + '</small></button>'; }).join('') + '</div>';
   box.hidden = false; box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -53,8 +58,13 @@ function levels() {
 let idle = null;
 async function idleScene(key) {
   if (idle && idle.key === key) return; const my = idle = { key };
-  const T = DEFS[key]; setSky(eng.scene, T.sky);
+  const T = DEFS[key]; setSky(eng.scene, T.sky); eng.zoom(1);
   try {
+    if (CLASSES[T.kind] && T.kind !== 'train') {
+      const r = new CLASSES[T.kind](eng, key, 'practice', { idle: true }, quietUI); await r.load();
+      if (idle !== my || game) return; eng.zoom(1);
+      my.r = r; eng.update = dt => r.idleView(dt); return;
+    }
     if (T.kind === 'train') {
       const r = new Train(eng, key, 'practice', {}, quietUI); await r.load();
       if (idle !== my || game) return;
@@ -68,19 +78,20 @@ async function idleScene(key) {
     r.pc.root.rotation.y = 0; r.pc.play('Idle_Loop');
   } catch (e) { console.error(e); }
 }
-const quietUI = { hud() {}, toast() {}, fact() {}, question() {}, answer() {}, end() {}, hint() {}, tquestion() {}, tprogress() {}, tresult() {} };
+const quietUI = { hud() {}, toast() {}, fact() {}, question() {}, answer() {}, end() {}, hint() {}, tquestion() {}, tprogress() {}, tresult() {}, card() { return new Promise(() => {}); }, banner() {}, closeCard() {} };
 
 /* ---------- playing ---------- */
 async function play(mode, level) {
   curMode = mode; view = 'game'; show('s-load'); $('#load-bar').style.width = '5%'; SND.unlock();
   idle = null; stopGame();
-  const Cls = DEFS[curKey].kind === 'train' ? Train : Runner;
-  const g = new Cls(eng, curKey, mode, { level, autostart: false }, gameUI);
+  const Cls = CLASSES[DEFS[curKey].kind] || Runner;
+  eng.zoom(1); const g = new Cls(eng, curKey, mode, { level, autostart: false }, gameUI);
   try { await g.load(p => { $('#load-bar').style.width = Math.round(p * 100) + '%'; }); } catch (e) { console.error(e); $('#load-msg').textContent = 'Couldn’t load the game. Check your internet and try again.'; return; }
   game = g; window.__gq3dGame = g; show('s-hud'); paused = false;
   $('#h-badges').hidden = !g.T.badges; $('#h-tap').hidden = false; $('#h-tq').hidden = true;
-  $('#h-tap small').textContent = g.T.kind === 'train' ? 'Read the question, then swipe ← or → (or tap your answer)' : '← → change lanes · ↑ jump · ↓ slide';
-  $('#h-mode').textContent = mode === 'levels' ? 'Level ' + level : MODES[mode][1];
+  $('#h-tap small').textContent = g.T.howTo || (g.T.kind === 'train' ? 'Read the question, then swipe ← or → (or tap your answer)' : '← → change lanes · ↑ jump · ↓ slide');
+  const MM = g.T.modes || MODES; $('#h-mode').textContent = mode === 'levels' ? (g.T.levelName || 'Level') + ' ' + level : (MM[mode] || MODES[mode] || [0, mode])[1];
+  input.on.noSwipe = !!g.noSwipe; $('#h-card').hidden = true; $('#h-banner').hidden = true;
   eng.update = dt => { if (!paused) g.update(dt); };
 }
 function stopGame() { if (game) { game = null; window.__gq3dGame = null; } SND.stopMusic(); eng.watch = false; }
@@ -93,10 +104,10 @@ function pause(on) {
 let lastHud = '';
 const gameUI = {
   hud(h, force) {
-    const key = [h.score, h.coins, h.hearts, h.dist, Math.ceil(h.shield), Math.ceil(h.magnet), Math.ceil(h.double), h.badges].join('|'); if (key === lastHud && !force) return; lastHud = key;
+    const key = [h.score, h.coins, h.hearts, h.dist, h.label, Math.ceil(h.shield), Math.ceil(h.magnet), Math.ceil(h.double), h.badges].join('|'); if (key === lastHud && !force) return; lastHud = key;
     $('#h-score').textContent = h.score; $('#h-coins').textContent = h.coins; $('#h-cicon').textContent = h.coinIcon || '🔺';
-    $('#h-hearts').innerHTML = h.hearts === Infinity ? '<span class="inf">Practice</span>' : h.hearts > 5 ? '❤️ ×' + h.hearts : '❤️'.repeat(Math.max(0, h.hearts)) + '<s>' + '❤️'.repeat(Math.max(0, 3 - Math.max(0, h.hearts))) + '</s>';
-    const unit = h.unit ? ' ' + h.unit : ' m'; $('#h-dist').textContent = h.target ? h.dist + ' / ' + h.target + unit : h.dist + unit;
+    $('#h-hearts').innerHTML = h.hearts == null ? '' : h.hearts === Infinity ? '<span class="inf">Practice</span>' : h.hearts > 5 ? '❤️ ×' + h.hearts : '❤️'.repeat(Math.max(0, h.hearts)) + '<s>' + '❤️'.repeat(Math.max(0, 3 - Math.max(0, h.hearts))) + '</s>';
+    const unit = h.unit ? ' ' + h.unit : ' m'; $('#h-dist').textContent = h.label || (h.target ? h.dist + ' / ' + h.target + unit : h.dist + unit);
     $('#h-prog').style.width = h.target ? clamp(h.dist / h.target * 100, 0, 100) + '%' : '0';
     $('#h-power').innerHTML = [['🛡️', h.shield], ['🧲', h.magnet], ['✨', h.double]].filter(p => p[1] > 0).map(p => '<span>' + p[0] + ' ' + Math.ceil(p[1]) + '</span>').join('');
     if (h.badgeList) $('#h-badges').innerHTML = h.badgeList.map((b, i) => '<span class="' + (i < h.badges ? 'on' : '') + '" title="' + esc(b[1]) + '">' + b[0] + '</span>').join('');
@@ -128,6 +139,17 @@ const gameUI = {
     q.hidden = false;
   },
   tprogress(f, urgent) { const b = document.querySelector('#h-tq .tq-bar i'); if (b) b.style.width = Math.round(f * 100) + '%'; $('#h-tq').classList.toggle('urgent', !!urgent); },
+  /* a card in the middle of the screen: a question, a person talking, a choice. Resolves with the button index. */
+  card(o) {
+    const c = $('#h-card'); clearTimeout(c._t);
+    c.innerHTML = (o.tag ? '<span class="cd-tag">' + esc(o.tag) + '</span>' : '') + '<div class="cd-head">' + (o.icon ? '<span class="cd-ic">' + o.icon + '</span>' : '') + '<div>' + (o.who ? '<small>' + esc(o.who) + '</small>' : '') + '<b>' + esc(o.title || '') + '</b></div></div>'
+      + (o.text ? '<p>' + esc(o.text) + '</p>' : '') + (o.html || '') + '<div class="cd-opts' + (o.opts && o.opts.length > 2 ? ' col' : '') + '">' + (o.opts || ['OK']).map((t, i) => '<button data-cardopt="' + i + '" class="' + (o.primary === i ? 'go' : '') + '">' + esc(t) + '</button>').join('') + '</div>';
+    c.hidden = false; c.classList.remove('ok', 'no');
+    return new Promise(res => { c._res = res; });
+  },
+  cardFeedback(ok, text) { const c = $('#h-card'); c.classList.add(ok ? 'ok' : 'no'); const f = document.createElement('p'); f.className = 'cd-fb'; f.textContent = (ok ? '✓ ' : '✗ ') + text; c.appendChild(f); c.querySelectorAll('[data-cardopt]').forEach(b => b.disabled = true); },
+  closeCard() { const c = $('#h-card'); c.hidden = true; c._res = null; },
+  banner(text, sub, ms) { const b = $('#h-banner'); b.innerHTML = '<b>' + esc(text) + '</b>' + (sub ? '<small>' + esc(sub) + '</small>' : ''); b.hidden = false; clearTimeout(b._t); b._t = setTimeout(() => { b.hidden = true; }, ms || 2200); },
   tresult(ok, title, why) {
     const r = $('#h-tres'); r.className = ok ? 'good' : 'bad'; r.innerHTML = '<b>' + (ok ? '✓ ' : '✗ ') + esc(title) + '</b>' + (why ? '<p>' + esc(why) + '</p>' : ''); r.hidden = false; clearTimeout(r._t);
     r._t = setTimeout(() => { r.hidden = true; }, ok ? 2600 : 4200);
@@ -136,15 +158,17 @@ const gameUI = {
 };
 
 function results(res) {
-  show('s-end'); const T = DEFS[curKey], saveMode = curMode === 'daily' ? 'daily' : curMode === 'endless' ? 'endless' : '';
-  let h = '<div class="end-top">' + (res.won ? '<div class="stars">' + '★'.repeat(res.stars) + '<s>' + '★'.repeat(3 - res.stars) + '</s></div><h2>Level ' + res.level + ' complete!</h2>' : curMode === 'levels' ? '<h2>So close!</h2>' : '<h2>Run over</h2>') + '</div>';
-  if (res.kind === 'train') h += '<div class="stats"><div><b>' + res.score + '</b><small>points</small></div><div><b>' + res.correct + '</b><small>right tracks</small></div><div><b>' + res.wrong + '</b><small>in the swamp</small></div><div><b>' + (res.correct + res.wrong) + '</b><small>stops</small></div></div>' + (res.missed.length ? '<h4>Look at these again</h4><ul class="facts">' + res.missed.map(m => '<li><b>' + esc(m[0]) + '</b> → ' + esc(m[1]) + (m[2] ? '. ' + esc(m[2]) : '') + '</li>').join('') + '</ul>' : '');
+  show('s-end'); const T = DEFS[curKey], saveMode = res.save || (curMode === 'daily' ? 'daily' : curMode === 'endless' ? 'endless' : '');
+  let h = '<div class="end-top">' + (res.won ? '<div class="stars">' + '★'.repeat(res.stars) + '<s>' + '★'.repeat(3 - res.stars) + '</s></div><h2>' + esc(res.title || ((T.levelName || 'Level') + ' ' + res.level + ' complete!')) + '</h2>' : '<h2>' + esc(res.title || (curMode === 'levels' ? 'So close!' : 'Run over')) + '</h2>') + '</div>';
+  if (res.stats) h += '<div class="stats">' + res.stats.map(x => '<div><b>' + esc(String(x[0])) + '</b><small>' + esc(x[1]) + '</small></div>').join('') + '</div>' + (res.list && res.list[1].length ? '<h4>' + esc(res.list[0]) + '</h4><ul class="facts">' + res.list[1].map(m => '<li>' + (m[0] ? '<b>' + esc(m[0]) + '</b> ' : '') + esc(m[1] || '') + '</li>').join('') + '</ul>' : '');
+  else if (res.kind === 'train') h += '<div class="stats"><div><b>' + res.score + '</b><small>points</small></div><div><b>' + res.correct + '</b><small>right tracks</small></div><div><b>' + res.wrong + '</b><small>in the swamp</small></div><div><b>' + (res.correct + res.wrong) + '</b><small>stops</small></div></div>' + (res.missed.length ? '<h4>Look at these again</h4><ul class="facts">' + res.missed.map(m => '<li><b>' + esc(m[0]) + '</b> → ' + esc(m[1]) + (m[2] ? '. ' + esc(m[2]) : '') + '</li>').join('') + '</ul>' : '');
   else h += '<div class="stats"><div><b>' + res.score + '</b><small>points</small></div><div><b>' + res.dist + ' m</b><small>distance</small></div><div><b>' + res.coins + '</b><small>triangles</small></div>' + (res.correct + res.wrong ? '<div><b>' + res.correct + '/' + (res.correct + res.wrong) + '</b><small>answers</small></div>' : '<div><b>' + Object.keys(res.dodged).reduce((a, k) => a + res.dodged[k], 0) + '</b><small>said no</small></div>') + '</div>';
   const dodged = Object.keys(res.dodged || {}); if (dodged.length) h += '<h4>You said no to</h4><div class="chips">' + dodged.map(k => '<span>' + esc(k) + ' ×' + res.dodged[k] + '</span>').join('') + '</div>';
   if (res.facts && res.facts.length) h += '<h4>What you learned</h4><ul class="facts">' + res.facts.map(f => '<li><b>' + esc(f[0]) + '</b> ' + esc(f[1]) + '</li>').join('') + '</ul>';
   h += '<div class="saved"></div><div class="btns">';
-  if (res.won && res.level < LEVELS) h += '<button class="btn go" data-act="next">Next level ▶</button>';
-  h += '<button class="btn' + (res.won && res.level < LEVELS ? '' : ' go') + '" data-act="again">' + (res.won ? 'Play again' : 'Try again') + '</button><button class="btn" data-act="menu">Menu</button></div>';
+  const maxL = T.levels || LEVELS, hasNext = res.won && curMode === 'levels' && res.level < maxL;
+  if (hasNext) h += '<button class="btn go" data-act="next">Next ' + esc((T.levelName || 'level').toLowerCase()) + ' ▶</button>';
+  h += '<button class="btn' + (hasNext ? '' : ' go') + '" data-act="again">' + (res.won ? 'Play again' : 'Try again') + '</button><button class="btn" data-act="menu">Menu</button></div>';
   $('#end-body').innerHTML = h;
   if (curMode === 'levels' && res.won) { const L = store('gq3d-lv-' + curKey) || {}; L[res.level] = Math.max(L[res.level] || 0, res.stars); store('gq3d-lv-' + curKey, L); }
   const bestKey = 'gq3d-best-' + curKey + '-' + curMode + (curMode === 'daily' ? '-' + today() : ''); const prev = store(bestKey) || 0; if (res.score > prev) store(bestKey, res.score);
@@ -191,13 +215,15 @@ function boot() {
   eng = new Engine($('#cv')); window.__gq3dEng = eng;
   eng.onHide = () => pause(true);
   document.addEventListener('pointerdown', e => { const b = e.target.closest('[data-pick]'); if (b && game && game.pick) { e.preventDefault(); game.pick(+b.dataset.pick); } });
-  input = new Input($('#cv'), { swipe: d => { if (game && !paused) game.input(d); }, tap: () => { if (game && game.state === 'intro') game.go(); }, pause: () => pause(!paused) });
+  document.addEventListener('click', e => { const b = e.target.closest('[data-cardopt]'); if (!b || b.disabled) return; const c = $('#h-card'); if (c._res) { const r = c._res; c._res = null; r(+b.dataset.cardopt); } });
+  input = new Input($('#cv'), {
+    press: (x, y) => { if (game && !paused && game.press) game.press(x, y); }, drag: (x, y, dx, dy) => { if (game && !paused && game.drag) game.drag(x, y, dx, dy); }, release: (x, y) => { if (game && !paused && game.release) game.release(x, y); }, swipe: d => { if (game && !paused) game.input(d); }, tap: (x, y) => { if (game && game.state === 'intro') game.go(); else if (game && !paused && game.tapAt) game.tapAt(x, y); }, pause: () => pause(!paused) });
   $('#h-tap').addEventListener('pointerdown', () => { $('#h-tap').hidden = true; if (game) game.go(); });
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-g],[data-mode],[data-lv],[data-act],[data-look]'); if (!b) return;
     SND.unlock();
     if (b.dataset.g) menu(b.dataset.g);
-    else if (b.dataset.mode) { const m = b.dataset.mode; if (m === 'levels') levels(); else play(m); }
+    else if (b.dataset.mode) { const m = b.dataset.mode; if (m === 'levels' && (DEFS[curKey].levels || LEVELS) > 1) levels(); else play(m, 1); }
     else if (b.dataset.lv) play('levels', +b.dataset.lv);
     else if (b.dataset.look) { const [k, v] = b.dataset.look.split(':'); look[k] = k === 'skin' ? +v : v; if (k === 'body') { look.hair = HAIR[v][0]; look.bottom = v === 'f' ? 'skirt' : 'trousers'; } saveLook(look); drawCustom(); }
     else {
@@ -217,6 +243,6 @@ function boot() {
   document.querySelectorAll('[data-act=sound]').forEach(x => x.textContent = SND.on ? '🔊' : '🔇');
   if (DEFS[curKey]) menu(curKey); else arcade();
   sendPending();
-  window.__gq3d = { play, menu, arcade, custom, results, THEMES, TRAINS };
+  window.__gq3d = { play, menu, arcade, custom, results, DEFS };
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
