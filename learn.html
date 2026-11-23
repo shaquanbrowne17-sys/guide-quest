@@ -4394,6 +4394,9 @@ body.has-rdmini{padding-bottom:84px}
   /* ===== Version 17: the 3D arcade (Guide Quest Arcade on the website) ===== */
   var X17_SITE = 'https://shaquanbrowne17-sys.github.io/guide-quest/';
   var X17_GAMES = {
+    patch: ['🎖️', 'Honours Patch Hunt', 'A 3D camp obstacle course: cross the beam, the wall, the stones, the swing, the net and the tyres, try six honours and fill your sash.'],
+    nature: ['📷', 'Nature Photographer', 'Walk the creek trail in 3D with a camera. Photograph seven things, and each photo opens its parable and Bible text.'],
+    teach: ['🧑🏾‍🏫', 'Teach the Juniors', 'A 3D classroom: plan with your mentor, then teach six Juniors two knots. Help the stuck ones and keep the bored ones busy.'],
     grace: ['🏡', 'Sister Grace’s Street', 'Walk around in 3D: visit Sister Grace with your class, listen to her, and do real jobs for her. Then read, sing and pray.'],
     school: ['🏫', 'School Days', 'Walk around school in 3D at lunch break. Six friends, six situations: be a friend first, tell your story, and invite them.'],
     temple: ['🏹', 'Body Temple Defender', '“Your body is the temple of the Holy Ghost.” Shoot what harms it with your bow, and let water, fruit, sleep and God’s Word in.'],
@@ -4406,7 +4409,7 @@ body.has-rdmini{padding-bottom:84px}
     healthline: ['🚆', 'Health Line', 'Ride the train: Fit & Free and Nutrition questions, two answers, two tracks.'],
     honour: ['🏅', 'Honour Run', 'Collect the six Legion of Honour badges on the camp trail and dodge what pulls you away.']
   };
-  var X17_TOPIC = { fitness: ['temple', 'seawall', 'healthline'], choices: ['flags', 'choices'], legion: ['honourline', 'honour'], temperance: ['breakfree'], story: ['canoe'], visit: ['grace'], witness: ['school'] };
+  var X17_TOPIC = { fitness: ['temple', 'seawall', 'healthline'], choices: ['flags', 'choices'], legion: ['honourline', 'honour'], temperance: ['breakfree'], story: ['canoe'], visit: ['grace'], witness: ['school'], parable: ['nature'], honours: ['patch'], teach: ['teach'] };
   function x17PlayUrl(key){ return (window.GQ_STATIC ? '' : X17_SITE) + 'play.html' + (key ? '?g=' + key : '') + (TOKEN ? (key ? '&' : '?') + 't=' + encodeURIComponent(TOKEN) : ''); }
   function x17Arcade(k){
     var list = X17_TOPIC[k]; if (!list) return '';
@@ -4414,7 +4417,7 @@ body.has-rdmini{padding-bottom:84px}
       return '<a class="x17-arc" href="' + esc(x17PlayUrl(g)) + '" target="_top"><span class="x17-tag">NEW · 3D game</span><span class="x17-ic">' + G3[0] + '</span><b>' + esc(G3[1]) + '</b><small>' + esc(G3[2]) + '</small><span class="x17-go">Play ▶</span></a>'; }).join('');
   }
   function x17ArcadeBanner(){
-    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Walk and talk: Sister Grace’s Street, School Days. Adventures: Body Temple Defender, Break Free, Canoe Journey. Choice trains: Red Flag Express, Honour Line, Health Line. Runs: Seawall Fun Run, Choices Run, Honour Run.</small><span class="x17-go">Open the arcade ▶</span></a>';
+    return '<a class="x17-arc x17-hub" href="' + esc(x17PlayUrl('')) + '" target="_top"><span class="x17-tag">NEW · 3D games</span><span class="x17-ic">🎮</span><b>Guide Quest Arcade</b><small>Play as your own Pathfinder. Explore and do: Honours Patch Hunt, Nature Photographer, Teach the Juniors. Walk and talk: Sister Grace’s Street, School Days. Adventures: Body Temple Defender, Break Free, Canoe Journey. Choice trains: Red Flag Express, Honour Line, Health Line. Runs: Seawall Fun Run, Choices Run, Honour Run.</small><span class="x17-go">Open the arcade ▶</span></a>';
   }
 
   /* ======================= RENDER + EVENTS ======================= */
