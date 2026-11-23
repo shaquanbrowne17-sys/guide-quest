@@ -3,7 +3,7 @@
 Reads gq13/ (Version 16.1), writes gq14/. Run from the scratchpad folder."""
 import os, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC, OUT, G = os.path.join(HERE, 'gq13'), os.path.join(HERE, 'gq14'), os.path.join(HERE, 'g14')
+SRC, OUT, G = os.path.join(HERE, 'gq13'), os.path.join(HERE, sys.argv[1] if len(sys.argv) > 1 else 'gq14'), os.path.join(HERE, 'g14')
 os.makedirs(OUT, exist_ok=True)
 def rd(p): return open(p, encoding='utf-8').read()
 def g(name): return rd(os.path.join(G, name))
@@ -105,6 +105,37 @@ function l_top3(game, t, mode) {
   return { best: mine ? mine.best : 0, top: gameTop_(rows, label, 5, t) };
 }
 '''
+T['Code.gs'] = c
+
+# ---------- Version 17.6: class boards ----------
+l = T['Learn.html']
+l = rep(l, '</style>', g('x18.css') + '\n</style>', 1, 'boards css')
+l = rep(l, '  /* ======================= RENDER + EVENTS ======================= */', g('x18map.js') + g('x18.js') + '\n  /* ======================= RENDER + EVENTS ======================= */', 1, 'boards js')
+l = rep(l, "var S = { topic: (L[B.topic] || B.topic === 'gems') ? B.topic : '',", "var S = { topic: (L[B.topic] || B.topic === 'gems' || B.topic === 'boards') ? B.topic : '',", 1, 'boards topic')
+l = rep(l, "app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'gems' ? gemsHTML()", "app.innerHTML = S.read ? x16ReaderHTML() : S.topic === 'boards' ? x18HTML() : S.topic === 'gems' ? gemsHTML()", 1, 'boards route')
+l = rep(l, "    h += x17ArcadeBanner() + '<div class=\"grid\">' + order.filter(", "    h += x18Banner() + x17ArcadeBanner() + '<div class=\"grid\">' + order.filter(", 1, 'boards hub')
+T['Learn.html'] = l
+i = T['Index.html']
+i = rep(i, "</style>", ".hf2steps{display:flex;flex-direction:column;gap:8px}.hf2btns{display:flex;gap:8px;flex-wrap:wrap}.hf2msg{font-size:14px;color:var(--muted);margin:0}.hf2msg:empty{display:none}\n</style>", 1, 'hf2 css')
+i = rep(i, "{t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true,when:['way','A Fun Run, after a training programme'],legacy:['log','run']},",
+        "{t:'rows',k:'log',n:3,cols:['My training','Minutes'],rowlabel:'Week',narrow:true,when:['way','A Fun Run, after a training programme'],legacy:['log','run']},\n      {t:'hf2steps',when:['way','A Fun Run, after a training programme']},", 1, 'hf2 field')
+i = rep(i, "    if (fd.t === 'game') return GAMES[fd.game]();", "    if (fd.t === 'hf2steps') return hf2StepsHTML();\n    if (fd.t === 'game') return GAMES[fd.game]();", 1, 'hf2 render')
+i = rep(i, "  app.addEventListener('click', function(e){\n    if (e.target && e.target.dataset && e.target.dataset.phclose){", g('x18i.js') + "  app.addEventListener('click', function(e){\n    if (e.target && e.target.dataset && e.target.dataset.phclose){", 1, 'hf2 js')
+i = rep(i, "        + '<a class=\"labtile\" href=\"'+esc(LAB + '&k=gems&from=home')+'\">", "        + '<a class=\"labtile\" href=\"'+esc(LAB + '&k=boards&from=home')+'\"><span class=\"li\" aria-hidden=\"true\">🏆</span><span>Class boards<small>Steps, reading, service</small></span></a>'\n        + '<a class=\"labtile\" href=\"'+esc(LAB + '&k=gems&from=home')+'\">", 1, 'boards tile')
+T['Index.html'] = i
+k = T['Counsellor.html']
+k = rep(k, '</style>', g('x18c.css') + '\n</style>', 1, 'cb css')
+k = rep(k, "['sanct','lab','questions','games','gems']", "['sanct','lab','questions','games','boards','gems']", 2, 'cb tabs')
+k = rep(k, "    else if (S.tab === 'gems') body = xnav() + renderGems();", "    else if (S.tab === 'gems') body = xnav() + renderGems();\n    else if (S.tab === 'boards') body = xnav() + renderBoards();", 1, 'cb body')
+k = rep(k, "[['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['gems','Memory Gems'],['questions','Questions']]", "[['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['boards','Class boards'],['gems','Memory Gems'],['questions','Questions']]", 1, 'cb xnav')
+k = rep(k, "  /* ---------- Games: every Guide's best score in each new game ---------- */", g('x18c.js') + "\n  /* ---------- Games: every Guide's best score in each new game ---------- */", 1, 'cb js')
+T['Counsellor.html'] = k
+c = T['Code.gs']
+c = rep(c, "var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' ? String(p.k) : '';", "var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' || p.k === 'boards' ? String(p.k) : '';", 2, 'boards boot')
+c = rep(c, "title: topic === 'gems' ? 'Memory Gems · Learning Lab' :", "title: topic === 'boards' ? 'Class boards · Learning Lab' : topic === 'gems' ? 'Memory Gems · Learning Lab' :", 1, 'boards title')
+c = rep(c, ".setTitle(topic === 'gems' ? 'Memory Gems · Learning Lab' :", ".setTitle(topic === 'boards' ? 'Class boards · Learning Lab' : topic === 'gems' ? 'Memory Gems · Learning Lab' :", 1, 'boards title 2')
+c = rep(c, "  if (mine.length >= 8) throw new Error('photo-limit');", "  if (mine.length >= (code === 'HF2' ? 40 : 8)) throw new Error('photo-limit');", 1, 'hf2 photos')
+c += g('boards.gs')
 T['Code.gs'] = c
 
 for f in FILES:

@@ -407,6 +407,21 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
 :root[data-theme="dark"] .rwait{color:#F2C14E}
 @media print{.fold .foldh .chev,.tabsbox{display:none}}
 
+/* Version 17.6: class boards */
+.cb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.cb-grid h3{margin:0;font-size:15px}
+.cb-top{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.cb-top li{display:flex;justify-content:space-between;gap:10px;padding:6px 10px;border-radius:10px;background:var(--surface2);font-size:14px}
+.cb-top li.me{outline:2px solid var(--gold)}
+.cb-top b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.cb-none{margin:0;font-size:14px}
+.cb-ents{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.cb-ents li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.cb-ents li>span:first-child{flex:1;min-width:0;display:flex;flex-direction:column;font-size:14px}
+.cb-ents small{color:var(--muted);overflow-wrap:anywhere}
+.cb-yn{display:flex;gap:6px}
+.cb-del{background:var(--bad,#B3261E);color:#FFF}
+
 </style>
 </head>
 <body>
@@ -534,7 +549,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
   function tabs(){
     var t = [['class','Class'],['meet','Meetings & Plan'],['explorers','Explorers'],['report','Report'],['ai','Assistant'],['roster','Links']];
-    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions','games','gems'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
+    var cur = S.tab === 'map' ? 'class' : (['sanct','lab','questions','games','boards','gems'].indexOf(S.tab) > -1 ? 'explorers' : S.tab);
     var nrv = reviews().length;
     return '<div class="tabsbox"><div class="tabs main" role="tablist" id="maintabs">' + t.map(function(x){ return '<button class="tab" role="tab" data-tab="'+(x[0] === 'explorers' ? (S.lastX || 'lab') : x[0])+'" aria-selected="'+(cur === x[0] && !S.open)+'">'+x[1]+(x[0] === 'class' && nrv ? ' <span class="tbadge" aria-label="'+nrv+' to review">'+nrv+'</span>' : '')+'</button>'; }).join('') + '</div></div>';
   }
@@ -898,6 +913,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     else if (S.tab === 'questions') body = xnav() + renderQuestions();
     else if (S.tab === 'games') body = xnav() + renderGames();
     else if (S.tab === 'gems') body = xnav() + renderGems();
+    else if (S.tab === 'boards') body = xnav() + renderBoards();
     else if (S.tab === 'roster') body = renderRoster();
     else body = renderClass();
     app.innerHTML = '<div class="cwrap">' + topbar() + tabs() + body + '</div>';
@@ -1581,6 +1597,83 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     call('c_parentLink', [S.pin, t, S.who], function(res){ S.parent[t] = res.url; rerender(); then && then(res.url); }, function(){ toast('Couldn’t make the parent link. Try again.'); });
   }
 
+  /* ---------- Version 17.6: class boards (steps, reading, Memory Gems, service, honours, challenges, attendance) ---------- */
+  var CB = { data: null, busy: false, name: '', kind: 'steps', date: '', confirm: '', goal: '', saving: false, show: 'all' };
+  try { CB.name = localStorage.getItem('gq-c-bdname') || ''; } catch (e) {}
+  var CB_KIND = { steps: '👟 Steps', read: '📖 Reading minutes', serve: '🤝 Service hours', chap: '📗 Chapter', gem: '💎 Memory Gem', gday: '💎 Practice day', honour: '🎖️ Honour' };
+  function cbToday(){ var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function cbNum(n){ return Number(n || 0).toLocaleString('en-US'); }
+  function cbErr(code, m){ m = String(m || ''); return /need-name/.test(m) ? 'Type your name first (letters only).' : /bad-number/.test(m) ? 'Check the number.' : /no-what/.test(m) ? 'Say what was done.' : /too-old|bad-date/.test(m) ? 'Pick a day in the last week (service: the last 4 months).' : 'Couldn’t save. Try again.'; }
+  function loadBoards(){
+    CB.busy = true;
+    call('c_boards', [S.pin, CB.name], function(res){ CB.data = res; CB.busy = false; if (S.tab === 'boards') rerender(); },
+      function(){ CB.busy = false; CB.data = CB.data || null; toast('Couldn’t load the class boards.'); if (S.tab === 'boards') rerender(); });
+  }
+  function cbTop(list, unit, n){
+    if (!list || !list.length) return '<p class="muted cb-none">Nobody yet.</p>';
+    return '<ol class="cb-top">' + list.slice(0, n || 5).map(function(o){ return '<li' + (o.me ? ' class="me"' : '') + '><span>' + o.rank + '. ' + esc(o.name) + '</span><b>' + unit(o.v, o) + '</b></li>'; }).join('') + '</ol>';
+  }
+  function renderBoards(){
+    var h = '<section class="panel"><h2>🏆 Class boards</h2><p class="muted">Guides open them from the Learning Lab (🏆 Class boards). They log their own steps, service hours and honours; reading time, chapters and Memory Gem practice count by themselves; challenges and attendance come from the challenges and your meeting log. Counsellors join the steps, reading and service boards by name.</p>';
+    if (!CB.data) { if (!CB.busy) loadBoards(); return h + '<p class="muted">Loading…</p></section>'; }
+    var d = CB.data, t = cbToday();
+    if (!CB.date) CB.date = t;
+    h += '<div class="frow"><label class="field grow"><span>Your name on the boards</span><input type="text" id="cb-name" maxlength="20" value="' + esc(CB.name) + '" placeholder="e.g. Jakeem" autocomplete="off"></label><button class="btn btn-ghost btn-small" data-cbact="name">Save name</button></div>'
+      + (CB.name ? '<p class="muted" style="font-size:13px;margin:0">You show as “Counsellor ' + esc(CB.name.charAt(0).toUpperCase() + CB.name.slice(1)) + '”.</p>' : '')
+      + '</section>';
+    if (CB.name) {
+      h += '<section class="panel"><h2>Log for yourself</h2><div class="tchips">' + ['steps', 'read', 'serve'].map(function(k){ return '<button class="tchip" data-cbkind="' + k + '" aria-pressed="' + (CB.kind === k) + '">' + CB_KIND[k] + '</button>'; }).join('') + '</div>'
+        + '<div class="frow"><label class="field"><span>Day</span><input type="date" id="cb-date" max="' + t + '" value="' + esc(CB.date) + '"></label>'
+        + '<label class="field"><span>' + (CB.kind === 'steps' ? 'Steps' : CB.kind === 'read' ? 'Minutes' : 'Hours') + '</span><input type="text" inputmode="decimal" id="cb-n" placeholder="' + (CB.kind === 'steps' ? 'e.g. 7500' : CB.kind === 'read' ? 'e.g. 20' : 'e.g. 2') + '"></label>'
+        + (CB.kind === 'serve' ? '<label class="field grow"><span>What was done</span><input type="text" id="cb-what" maxlength="120" placeholder="e.g. Visit to a shut-in with the class"></label>' : '')
+        + '<button class="btn btn-primary btn-small" data-cbact="save"' + (CB.saving ? ' disabled' : '') + '>' + (CB.saving ? 'Saving…' : 'Save') + '</button></div>'
+        + (d.steps.aheadWeek && CB.kind === 'steps' ? '<p class="muted" style="margin:0">' + esc(d.steps.aheadWeek.name) + ' is ahead of you by ' + cbNum(d.steps.aheadWeek.by) + ' steps this week.</p>' : '') + '</section>';
+    }
+    var km = Math.floor(d.steps.total / 1400);
+    h += '<div class="cb-grid">'
+      + '<section class="panel"><h3>👟 Steps today</h3>' + cbTop(d.steps.today, cbNum) + '<h3>This week</h3>' + cbTop(d.steps.week, cbNum) + '<p class="muted" style="margin:0">Class walk across Guyana: ' + cbNum(km) + ' km so far.</p></section>'
+      + '<section class="panel"><h3>📖 Reading this week</h3>' + cbTop(d.read.week, function(v, o){ return cbNum(v) + ' min' + (o.ch ? ' · ' + o.ch + ' ch.' : ''); }) + '</section>'
+      + '<section class="panel"><h3>💎 Memory Gems learned this month</h3>' + cbTop(d.gems.month, function(v){ return v; }) + '<h3>Longest run of days practised</h3>' + cbTop(d.gems.runs, function(v){ return v + ' d'; }) + '</section>'
+      + '<section class="panel"><h3>🤝 Service · ' + esc(d.term.label) + '</h3><p style="margin:0"><b>' + d.serve.total + '</b> of ' + d.serve.goal + ' hours</p>' + cbTop(d.serve.board, function(v){ return v + ' h'; })
+      + '<div class="frow"><label class="field"><span>Class goal (hours)</span><input type="text" inputmode="numeric" id="cb-goal" value="' + d.serve.goal + '"></label><button class="btn btn-ghost btn-small" data-cbact="goal">Set goal</button></div></section>'
+      + '<section class="panel"><h3>🎖️ Honours earned · ' + esc(d.term.label) + '</h3>' + cbTop(d.honours.board, function(v){ return v; }) + '</section>'
+      + '<section class="panel"><h3>🧠 Challenges this week</h3>' + cbTop(d.chal.week, function(v, o){ return cbNum(v) + ' pts · ' + o.n; }) + '</section>'
+      + '<section class="panel"><h3>📅 Meetings in a row</h3><p class="muted" style="margin:0">' + d.attend.meetings + ' meetings logged in ' + esc(d.term.label) + '.</p>' + cbTop(d.attend.board, function(v, o){ return v + ' · ' + o.term + ' this term'; }, 8) + '</section>'
+      + '</div>';
+    var ents = (d.entries || []).filter(function(x){ return CB.show === 'all' || x.kind === CB.show; });
+    h += '<section class="panel"><h2>Recent entries</h2><p class="muted">Remove anything that isn’t right. Guides can remove their own steps, service hours and honours too.</p><div class="tchips">'
+      + [['all', 'All'], ['steps', '👟 Steps'], ['serve', '🤝 Service'], ['honour', '🎖️ Honours'], ['read', '📖 Reading'], ['gem', '💎 Gems']].map(function(x){ return '<button class="tchip" data-cbshow="' + x[0] + '" aria-pressed="' + (CB.show === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</div>';
+    h += ents.length ? '<ul class="cb-ents">' + ents.slice(0, 80).map(function(x){
+      var what = x.kind === 'steps' ? cbNum(x.n) + ' steps' : x.kind === 'read' ? x.n + ' min' : x.kind === 'serve' ? x.n + ' h · ' + x.detail : x.kind === 'gday' ? 'practised' : x.detail;
+      return '<li><span><b>' + esc(x.name) + '</b> · ' + esc(CB_KIND[x.kind] || x.kind) + '<small>' + esc(x.date) + ' · ' + esc(what) + '</small></span>'
+        + (CB.confirm === x.id ? '<span class="cb-yn"><button class="btn btn-small cb-del" data-cbdel="' + esc(x.id) + '">Remove</button><button class="btn btn-ghost btn-small" data-cbact="keep">Keep</button></span>' : '<button class="btn btn-ghost btn-small" data-cbask="' + esc(x.id) + '" aria-label="Remove this entry">✕</button>') + '</li>';
+    }).join('') + '</ul>' : '<p class="muted">Nothing yet.</p>';
+    h += '<button class="btn btn-ghost btn-small" data-cbact="refresh">' + (CB.busy ? 'Loading…' : 'Refresh') + '</button></section>';
+    return h;
+  }
+  app.addEventListener('click', function(e){
+    if (S.tab !== 'boards') return;
+    var b = e.target.closest('button'); if (!b) return;
+    var ds = b.dataset;
+    if (ds.cbkind) { CB.kind = ds.cbkind; rerender(); return; }
+    if (ds.cbshow) { CB.show = ds.cbshow; rerender(); return; }
+    if (ds.cbask) { CB.confirm = ds.cbask; rerender(); return; }
+    if (ds.cbdel) { var id = ds.cbdel; CB.confirm = ''; call('c_unlog', [S.pin, id, S.who, CB.name], function(res){ CB.data = res; toast('Removed'); rerender(); }, function(){ toast('Couldn’t remove it. Try again.'); rerender(); }); return; }
+    var a = ds.cbact; if (!a) return;
+    if (a === 'keep') { CB.confirm = ''; rerender(); return; }
+    if (a === 'refresh') { loadBoards(); rerender(); return; }
+    if (a === 'name') { CB.name = ((document.getElementById('cb-name') || {}).value || '').replace(/[^A-Za-z .'-]/g, '').trim().slice(0, 20); try { localStorage.setItem('gq-c-bdname', CB.name); } catch (er) {} loadBoards(); rerender(); return; }
+    if (a === 'goal') { var g = Math.round(Number((document.getElementById('cb-goal') || {}).value)); if (!(g >= 1 && g <= 5000)) { toast('Type a number of hours.'); return; } call('c_setServeGoal', [S.pin, g, S.who], function(){ toast('Goal set'); loadBoards(); }, function(){ toast('Couldn’t set the goal.'); }); return; }
+    if (a === 'save') {
+      var x = { date: (document.getElementById('cb-date') || {}).value || cbToday(), n: Number(String((document.getElementById('cb-n') || {}).value || '').replace(/,/g, '')) };
+      if (!(x.n > 0)) { toast('Type a number.'); return; }
+      if (CB.kind === 'read') x.book = '';
+      if (CB.kind === 'serve') { x.what = (document.getElementById('cb-what') || {}).value || ''; if (!x.what.trim()) { toast('Say what was done.'); return; } }
+      CB.date = x.date; CB.saving = true; rerender();
+      call('c_log', [S.pin, CB.name, CB.kind, x], function(res){ CB.saving = false; CB.data = res; toast('Saved'); rerender(); }, function(code, m){ CB.saving = false; toast(cbErr(code, m)); rerender(); });
+    }
+  });
+
   /* ---------- Games: every Guide's best score in each new game ---------- */
   var GAME_ICONS = { 'church:ladder':'🪜', 'sanctuary:setup':'⛺', 'fire:build':'🔥', 'lashing:tower':'🗼', 'orienteering:race':'🧭', 'packcamp:pack':'🎒', 'nutrition:run':'🏃', 'fruit:basket':'🧺', 'pioneers:timeline':'📜', 'ecology:creek':'🏞️', 'legion:path':'🛡️', 'hiv:know':'🎗️', 'visit:day':'🏡', 'witness:chat':'💬', 'choices:flags':'🚩', 'fitness:guard':'🛡️', 'teach:class':'🧑‍🏫', 'parable:build':'🍃', 'honours:sort':'🎖️', 'temperance:free':'⛓️', 'story:river':'🛶' };
   function loadGames(){
@@ -1810,7 +1903,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
   }
 
   function xnav(){
-    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['gems','Memory Gems'],['questions','Questions']].map(function(x){
+    return '<div class="tabs sub" role="tablist">' + [['sanct','Sanctuary'],['lab','Learning Lab'],['games','Games'],['boards','Class boards'],['gems','Memory Gems'],['questions','Questions']].map(function(x){
       return '<button class="tab" role="tab" data-tab="'+x[0]+'" aria-selected="'+(S.tab === x[0])+'">'+x[1]+'</button>'; }).join('') + '</div>';
   }
 
@@ -1923,7 +2016,7 @@ select{width:100%;max-width:100%;min-height:46px;border:1.5px solid var(--line);
     if (ds.gsel){ S.gameSel = ds.gsel; render(); return; }
     if (ds.act === 'gemrefresh'){ S.gems = null; loadGems(); rerender(); return; }
     if (ds.grefresh !== undefined){ loadGames(); return; }
-    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions','games','gems'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'games') loadGames(); if (ds.tab === 'gems') loadGems(); if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
+    if (ds.tab){ S.tab = ds.tab; if (ds.view) S.view = ds.view; if (['sanct','lab','questions','games','boards','gems'].indexOf(ds.tab) > -1) S.lastX = ds.tab; if (ds.tab === 'games') loadGames(); if (ds.tab === 'gems') loadGems(); if (ds.tab === 'meet' && !S.prog) loadProgramme(); S.open = null; S.confirm = null; S.qConfirm = null; S.phOpen = ''; if (ds.tab !== 'sanct') S.sanctOpen = null; if (ds.tab !== 'lab') S.labOpen = null; render(); window.scrollTo(0,0); if (ds.tab === 'questions' && !S.qs) loadQuestions(); if (ds.tab === 'meet' && !S.meets) loadMeetings(); return; }
     if (ds.ltopic){ S.labTopic = ds.ltopic; S.labOpen = null; rerender(); return; }
     if (ds.lopen !== undefined){ S.labOpen = ds.lopen || null; render(); window.scrollTo(0,0); var lt = labTopic(); if (S.labOpen && lt) loadLabAttempts(S.labOpen, lt.id); return; }
     if (ds.qtopic){ if (ds.qtopic !== S.qTopic){ S.qTopic = ds.qtopic; S.qs = null; S.qEdit = null; S.qConfirm = null; rerender(); loadQuestions(); } return; }

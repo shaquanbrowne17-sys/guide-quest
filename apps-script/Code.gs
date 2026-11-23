@@ -1877,7 +1877,7 @@ function learnState_(t, d) {
 
 function learnPage_(p, data, t, base, back) {
   var tpl = HtmlService.createTemplateFromFile('Learn');
-  var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' ? String(p.k) : '';
+  var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' || p.k === 'boards' ? String(p.k) : '';
   var st = learnState_(t, data);
   tpl.boot = JSON.stringify({
     gems: gemsRead_().list, gp: st.gp,
@@ -1887,7 +1887,7 @@ function learnPage_(p, data, t, base, back) {
     questions: readQuestions_(true).filter(function (q) { return q.topic !== 'sanctuary'; })
   }).replace(/</g, '\\u003c');
   return tpl.evaluate()
-    .setTitle(topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab')
+    .setTitle(topic === 'boards' ? 'Class boards · Learning Lab' : topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, viewport-fit=cover');
 }
 
@@ -2127,9 +2127,9 @@ function bootFor_(p) {
   ensureLearn_();
   var back = backInfo_(p, data ? t : '', base);
   if (p.p === 'learn') {
-    var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' ? String(p.k) : '';
+    var topic = (TOPICS[p.k] && p.k !== 'sanctuary') || p.k === 'gems' || p.k === 'boards' ? String(p.k) : '';
     var st = learnState_(t, data);
-    return { page: 'Learn', title: topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab', boot: {
+    return { page: 'Learn', title: topic === 'boards' ? 'Class boards · Learning Lab' : topic === 'gems' ? 'Memory Gems · Learning Lab' : topic ? TOPICS[topic].name + ' · Learning Lab' : 'Guide Learning Lab', boot: {
       gems: gemsRead_().list, gp: st.gp,
       token: data ? t : '', name: data ? data.name : '', base: base, join: !data, topic: topic,
       back: back.url, backLabel: back.label, from: String(p.from || ''), read: READINGS_.indexOf(String(p.r || '')) > -1 ? String(p.r) : '', rch: Math.max(0, Math.min(20, Number(p.ch) || 0)),
@@ -2265,7 +2265,7 @@ function addPhoto_(t, name, code, ph, by) {
   if (!data || data.length > 20000000) throw new Error('too-big');
   if (prev.length > 1500000) prev = '';
   var mine = evRows_().filter(function (x) { return x.t === t && x.code === code; });
-  if (mine.length >= 8) throw new Error('photo-limit');
+  if (mine.length >= (code === 'HF2' ? 40 : 8)) throw new Error('photo-limit');
   var id = 'ph' + Utilities.getUuid().replace(/-/g, '').slice(0, 14);
   var stamp = Utilities.formatDate(new Date(), tz_(), 'yyyy-MM-dd');
   var ext = mime.split('/')[1].replace('jpeg', 'jpg');
@@ -3099,4 +3099,279 @@ function l_top3(game, t, mode) {
   var label = gameLabel3_(game, mode); t = cleanToken_(t);
   var rows = gameRows_(), mine = t ? rows.filter(function (x) { return x.t === t && x.game === label; })[0] : null;
   return { best: mine ? mine.best : 0, top: gameTop_(rows, label, 5, t) };
+}
+
+
+/* =====================================================================
+   VERSION 17.6: CLASS BOARDS. Steps, reading, Memory Gems, service hours,
+   honours, challenges and attendance, on one page in the Learning Lab.
+   Guides log their own steps, service hours and honours; reading time,
+   chapters and Memory Gem practice are logged by the Learning Lab itself.
+   Counsellors join the steps, reading and service boards by name.
+   Every entry is a row in the "Class boards" tab of the Sheet.
+   ===================================================================== */
+var SHEET_BOARD = 'Class boards', BOARD_GOAL_PROP = 'GQ_SERVE_GOAL';
+var BOARD_KINDS = { steps: 'Steps', read: 'Reading minutes', chap: 'Chapter finished', gem: 'Memory Gem learned', gday: 'Memory Gem practice', serve: 'Service hours', honour: 'Honour earned' };
+var BOARD_BY_LABEL = {}; Object.keys(BOARD_KINDS).forEach(function (k) { BOARD_BY_LABEL[BOARD_KINDS[k]] = k; });
+API_FNS.l_boards = 1; API_FNS.l_log = 1; API_FNS.l_unlog = 1;
+
+function setupBoards_() {
+  var s = sheet_(SHEET_BOARD);
+  if (s.getLastRow() === 0) {
+    s.getRange(1, 1, 1, 8).setValues([['Date', 'Name', 'What', 'Amount', 'Detail', 'Saved', 'Entry ID', 'Link']])
+      .setFontWeight('bold').setBackground('#1F4D3A').setFontColor('#FFFFFF');
+    s.setFrozenRows(1);
+    s.getRange('A:A').setNumberFormat('@');
+    s.getRange('F:F').setNumberFormat('d mmm, h:mm am/pm');
+    s.setColumnWidth(2, 170); s.setColumnWidth(3, 150); s.setColumnWidth(5, 260);
+    s.hideColumns(7, 2);
+  }
+  return s;
+}
+function bDay_(d) { return Utilities.formatDate(d || new Date(), tz_(), 'yyyy-MM-dd'); }
+function bAdd_(s, n) { var p = String(s).split('-'); return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)).toISOString().slice(0, 10); }
+function bDow_(s) { var p = String(s).split('-'); return (new Date(Date.UTC(+p[0], +p[1] - 1, +p[2])).getUTCDay() + 6) % 7; }
+/** School-year thirds: Jan–Apr, May–Aug, Sep–Dec. */
+function bTerm_(s) {
+  var y = +s.slice(0, 4), m = +s.slice(5, 7), st = m >= 9 ? 9 : m >= 5 ? 5 : 1;
+  return { start: y + '-' + ('0' + st).slice(-2) + '-01', label: { 1: 'Jan–Apr', 5: 'May–Aug', 9: 'Sep–Dec' }[st] + ' ' + y };
+}
+function boardRows_() {
+  var s = sheetIf_(SHEET_BOARD);
+  if (!s || s.getLastRow() < 2) return [];
+  var n = s.getLastRow() - 1, v = s.getRange(2, 1, n, 8).getValues(), dv = s.getRange(2, 1, n, 1).getDisplayValues(), out = [];
+  for (var i = 0; i < n; i++) {
+    var r = v[i], kind = BOARD_BY_LABEL[String(r[2])], id = String(r[6]);
+    if (!kind || !id) continue;
+    var d = r[0] instanceof Date ? bDay_(r[0]) : String(dv[i][0]).slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+    out.push({ row: i + 2, date: d, name: String(r[1]), kind: kind, n: Number(r[3]) || 0, detail: String(r[4]).replace(/^'/, ''), id: id, who: String(r[7]) });
+  }
+  return out;
+}
+function guidesList_() {
+  var sh = sheet_(SHEET_PF), last = sh.getLastRow(), out = [];
+  if (last < FIRST_ROW) return out;
+  var n = last - FIRST_ROW + 1, tk = sh.getRange(FIRST_ROW, COL_TOKEN, n, 1).getValues(), nm = sh.getRange(FIRST_ROW, COL_NAME, n, 1).getValues();
+  for (var i = 0; i < n; i++) { var t = String(tk[i][0]), name = String(nm[i][0]).trim(); if (t && name) out.push({ t: t, name: name }); }
+  return out;
+}
+function bCleanText_(s, n) { return String(s || '').replace(/[\u0000-\u001f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, n); }
+
+/** Saves one entry. who: a Guide's token, or "c:<name>" for a counsellor. Returns true if something changed. */
+function boardLog_(who, name, kind, x) {
+  x = x || {}; kind = String(kind || '');
+  if (!BOARD_KINDS[kind]) throw new Error('bad-request');
+  var counsellor = who.indexOf('c:') === 0;
+  if (counsellor && ['steps', 'read', 'serve'].indexOf(kind) < 0) throw new Error('bad-request');
+  var today = bDay_(), date = String(x.date || today);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date > today) throw new Error('bad-date');
+  var back = kind === 'steps' ? 7 : kind === 'serve' || kind === 'honour' ? 120 : 1;
+  if (date < bAdd_(today, -back)) throw new Error('too-old');
+  var n = Number(x.n), detail = '';
+  if (kind === 'steps') { n = Math.round(n); if (!(n >= 0 && n <= 100000)) throw new Error('bad-number'); }
+  else if (kind === 'read') { n = Math.round(n); if (!(n >= 1 && n <= 240)) throw new Error('bad-number'); detail = String(x.book || '').replace(/[^a-z0-9]/g, '').slice(0, 10); }
+  else if (kind === 'chap') { n = 1; detail = String(x.book || '').replace(/[^a-z0-9]/g, '').slice(0, 10) + ':' + Math.max(1, Math.min(60, Math.round(Number(x.ch)) || 1)); }
+  else if (kind === 'gem') { n = 1; detail = bCleanText_(x.ref, 60); if (!detail) throw new Error('bad-request'); }
+  else if (kind === 'gday') { n = 1; }
+  else if (kind === 'serve') {
+    n = Math.round(n * 4) / 4; if (!(n >= 0.25 && n <= 12)) throw new Error('bad-number');
+    var what = bCleanText_(x.what, 120); if (!what) throw new Error('no-what');
+    var code = ['CO1', 'AV3'].indexOf(String(x.code)) > -1 ? String(x.code) : '';
+    detail = (code ? code.replace(/(\D+)(\d)/, '$1 $2') + ' · ' : '') + what;
+  }
+  else if (kind === 'honour') { n = 1; detail = String(x.honour || '').replace(/[^A-Za-z0-9 &'()\-,.]/g, '').replace(/\s+/g, ' ').trim().slice(0, 50); if (detail.length < 3) throw new Error('bad-honour'); }
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var s = setupBoards_(), rows = boardRows_(), now = new Date();
+    var byDay = kind === 'steps' || kind === 'read' || kind === 'gday', once = kind === 'chap' || kind === 'gem' || kind === 'honour';
+    var same = rows.filter(function (r) { return r.who === who && r.kind === kind && (byDay ? r.date === date : once ? r.detail.toLowerCase() === detail.toLowerCase() : false); })[0];
+    if (same) {
+      if (kind === 'steps') { s.getRange(same.row, 2, 1, 5).setValues([[safe_(name), BOARD_KINDS.steps, n, '', now]]); return true; }
+      if (kind === 'read') { s.getRange(same.row, 4, 1, 3).setValues([[Math.min(1440, same.n + n), detail || same.detail, now]]); return true; }
+      return false;
+    }
+    if (kind === 'honour' && rows.filter(function (r) { return r.who === who && r.kind === 'honour'; }).length >= 60) throw new Error('too-many');
+    var id = 'b' + Utilities.getUuid().replace(/-/g, '').slice(0, 12);
+    s.appendRow([date, safe_(name), BOARD_KINDS[kind], n, safe_(detail), now, id, who]);
+    if (kind === 'serve' || kind === 'honour') log_(counsellor ? 'Class' : name, (counsellor ? name + ' logged ' : '') + (kind === 'serve' ? n + ' service hour' + (n === 1 ? '' : 's') + ': ' + detail : 'Honour earned: ' + detail));
+    return true;
+  } finally { lock.releaseLock(); }
+}
+function boardUnlog_(id, who) {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    var x = boardRows_().filter(function (r) { return r.id === String(id); })[0];
+    if (!x) throw new Error('not-found');
+    if (who && (x.who !== who || ['steps', 'serve', 'honour'].indexOf(x.kind) < 0)) throw new Error('not-yours');
+    sheet_(SHEET_BOARD).deleteRow(x.row);
+    return x;
+  } finally { lock.releaseLock(); }
+}
+
+/** Everything the boards page shows. me: a Guide's token or "c:<name>" (or ''). */
+function boardsData_(me) {
+  var today = bDay_(), wk = bAdd_(today, -bDow_(today)), mon = today.slice(0, 8) + '01', term = bTerm_(today);
+  var rows = boardRows_(), guides = guidesList_(), nameOf = {};
+  guides.forEach(function (g) { nameOf[g.t] = g.name; });
+  function disp(who, nm) { return who.indexOf('c:') === 0 ? nm : boardName_(nameOf[who] || nm); }
+  var names = {};
+  rows.forEach(function (r) { if (r.who.indexOf('c:') === 0 || nameOf[r.who]) names[r.who] = disp(r.who, r.name); });
+  function sum(kind, from, to) {
+    var m = {};
+    rows.forEach(function (r) { if (r.kind === kind && names[r.who] && r.date >= from && (!to || r.date <= to)) m[r.who] = (m[r.who] || 0) + r.n; });
+    return m;
+  }
+  function board(m, n, extra) {
+    var list = Object.keys(m).filter(function (w) { return m[w] > 0; }).map(function (w) { var o = { name: names[w], v: Math.round(m[w] * 100) / 100, me: w === me, c: w.indexOf('c:') === 0 }; if (extra) extra(o, w); return o; })
+      .sort(function (a, b) { return b.v - a.v || (a.name < b.name ? -1 : 1); });
+    list.forEach(function (o, i) { o.rank = i + 1; });
+    var out = list.slice(0, n);
+    if (me && !out.some(function (o) { return o.me; })) { var mine = list.filter(function (o) { return o.me; })[0]; if (mine) out.push(mine); }
+    return out;
+  }
+  function days(kind, who) { var d = {}; rows.forEach(function (r) { if (r.kind === kind && r.who === who && r.n > 0) d[r.date] = 1; }); return d; }
+  function streakNow(d) { var s = d[today] ? today : bAdd_(today, -1), k = 0; while (d[s]) { k++; s = bAdd_(s, -1); } return k; }
+  function longest(d) { var ks = Object.keys(d).sort(), best = 0, run = 0, prev = ''; ks.forEach(function (k) { run = prev && bAdd_(prev, 1) === k ? run + 1 : 1; best = Math.max(best, run); prev = k; }); return best; }
+  function ahead(m) {
+    if (!me) return null;
+    var mv = m[me] || 0, up = null;
+    Object.keys(m).forEach(function (w) { if (w !== me && names[w] && m[w] > mv && (!up || m[w] < m[up])) up = w; });
+    return up ? { name: names[up], by: m[up] - mv, c: up.indexOf('c:') === 0 } : null;
+  }
+
+  // Steps
+  var mT = sum('steps', today, today), mW = sum('steps', wk), total = 0;
+  rows.forEach(function (r) { if (r.kind === 'steps' && names[r.who]) total += r.n; });
+  var steps = { today: board(mT, 10), week: board(mW, 10), total: total, aheadToday: ahead(mT), aheadWeek: ahead(mW), myToday: me ? mT[me] || 0 : 0, myWeek: me ? mW[me] || 0 : 0 };
+  if (me) {
+    var sd = days('steps', me);
+    steps.streak = streakNow(sd); steps.best = longest(sd);
+    steps.mine = rows.filter(function (r) { return r.kind === 'steps' && r.who === me && r.date >= bAdd_(today, -13); })
+      .sort(function (a, b) { return a.date < b.date ? 1 : -1; }).map(function (r) { return { id: r.id, date: r.date, n: r.n }; });
+    var weeks = [];
+    for (var w = 1; w <= 4; w++) {
+      var a = bAdd_(wk, -7 * w), b = bAdd_(a, 6), tot = 0, dn = 0;
+      rows.forEach(function (r) { if (r.kind === 'steps' && r.who === me && r.date >= a && r.date <= b && r.n > 0) { tot += r.n; dn++; } });
+      weeks.push({ from: a, steps: tot, days: dn });
+    }
+    steps.weeks = weeks;
+  }
+
+  // Reading
+  var chW = sum('chap', wk), rdW = sum('read', wk);
+  var read = { week: board(rdW, 10, function (o, w) { o.ch = chW[w] || 0; }) };
+  if (me) {
+    var rd = days('read', me), mineAll = 0, chap = {};
+    rows.forEach(function (r) { if (r.who !== me) return; if (r.kind === 'read') mineAll += r.n; if (r.kind === 'chap') chap[r.detail] = 1; });
+    var books = {}; Object.keys(chap).forEach(function (k) { var b = k.split(':')[0]; books[b] = (books[b] || 0) + 1; });
+    read.mine = { week: rdW[me] || 0, total: mineAll, chapters: Object.keys(chap).length, books: books, streak: streakNow(rd), best: longest(rd), weekCh: chW[me] || 0 };
+  }
+
+  // Memory Gems: texts learned this month, and the longest run of days practised
+  var gm = sum('gem', mon), runs = {};
+  Object.keys(names).forEach(function (w) { if (w.indexOf('c:') === 0) return; var d = days('gday', w); rows.forEach(function (r) { if (r.who === w && r.kind === 'gem') d[r.date] = 1; }); runs[w] = longest(d); });
+  var gemsB = board(gm, 10, function (o, w) { o.run = runs[w] || 0; });
+  var runB = board(runs, 10);
+  var gems = { month: gemsB, runs: runB };
+  if (me) { var gd = days('gday', me); rows.forEach(function (r) { if (r.who === me && r.kind === 'gem') gd[r.date] = 1; }); gems.mine = { month: gm[me] || 0, run: streakNow(gd), best: longest(gd) }; }
+
+  // Service hours this term, toward the class goal
+  var sv = sum('serve', term.start), svTotal = 0;
+  Object.keys(sv).forEach(function (w) { svTotal += sv[w]; });
+  var goal = Number(PropertiesService.getScriptProperties().getProperty(BOARD_GOAL_PROP)) || 50;
+  var serve = { goal: goal, total: Math.round(svTotal * 100) / 100, board: board(sv, 10) };
+  if (me) serve.mine = rows.filter(function (r) { return r.kind === 'serve' && r.who === me && r.date >= term.start; })
+    .sort(function (a, b) { return a.date < b.date ? 1 : -1; }).map(function (r) { return { id: r.id, date: r.date, n: r.n, what: r.detail }; });
+
+  // Honours earned this term
+  var honours = { board: board(sum('honour', term.start), 10) };
+  if (me) honours.mine = rows.filter(function (r) { return r.kind === 'honour' && r.who === me; })
+    .sort(function (a, b) { return a.date < b.date ? 1 : -1; }).map(function (r) { return { id: r.id, date: r.date, name: r.detail, term: r.date >= term.start }; });
+
+  // Challenges this week: the best score in each explorer, added up
+  var chal = { week: [] }, c = sheetIf_(SHEET_CH);
+  if (c && c.getLastRow() >= 2) {
+    var cn = c.getLastRow() - 1, cv = c.getRange(2, 1, cn, 8).getValues(), ct = c.getRange(2, 10, cn, 1).getValues(), best = {};
+    for (var i = 0; i < cn; i++) {
+      var r = cv[i], t = String(r[7]), tp = String(ct[i][0]);
+      if (!(r[0] instanceof Date) || bDay_(r[0]) < wk || !nameOf[t] || !tp) continue;
+      var bt = best[t] || (best[t] = {}); bt[tp] = Math.max(bt[tp] || 0, Number(r[2]) || 0);
+    }
+    var pts = {}, nt = {};
+    Object.keys(best).forEach(function (t) { names[t] = names[t] || boardName_(nameOf[t]); pts[t] = 0; nt[t] = 0; Object.keys(best[t]).forEach(function (k) { pts[t] += best[t][k]; nt[t]++; }); });
+    chal.week = board(pts, 10, function (o, w) { o.n = nt[w]; });
+  }
+
+  // Attendance: meetings in a row, newest first
+  var meets = meetingsRead_(), inTerm = meets.filter(function (m) { return m.date >= term.start; }), streakA = {}, termA = {};
+  guides.forEach(function (g) {
+    var k = 0; while (k < meets.length && meets[k].present.indexOf(g.t) > -1) k++;
+    streakA[g.t] = k; termA[g.t] = inTerm.filter(function (m) { return m.present.indexOf(g.t) > -1; }).length;
+    names[g.t] = names[g.t] || boardName_(g.name);
+  });
+  var attend = { meetings: inTerm.length, board: board(streakA, 15, function (o, w) { o.term = termA[w]; }) };
+  if (me && nameOf[me]) attend.mine = { streak: streakA[me] || 0, term: termA[me] || 0 };
+
+  return { today: today, week: wk, month: mon, term: term, steps: steps, read: read, gems: gems, serve: serve, honours: honours, chal: chal, attend: attend,
+    me: me ? (me.indexOf('c:') === 0 ? me.slice(2) : boardName_(nameOf[me] || '')) : '' };
+}
+
+/* ---------- Guides (Learning Lab) ---------- */
+function l_boards(t) {
+  t = cleanToken_(t);
+  if (t) { var g = guideByToken_(t); return boardsData_(g.t); }
+  return boardsData_('');
+}
+/** kind: steps {date, n} · read {n, book} · chap {book, ch} · gem {ref} · gday {} · serve {date, n, what, code} · honour {date, honour}. */
+function l_log(t, kind, x) {
+  var g = guideByToken_(t);
+  var changed = boardLog_(g.t, g.name, kind, x);
+  if (kind === 'read' || kind === 'chap' || kind === 'gem' || kind === 'gday') return { ok: true, changed: changed };
+  return boardsData_(g.t);
+}
+function l_unlog(t, id) {
+  var g = guideByToken_(t);
+  var x = boardUnlog_(id, g.t);
+  if (x.kind !== 'steps') log_(g.name, 'Removed ' + BOARD_KINDS[x.kind].toLowerCase() + ': ' + (x.detail || x.n));
+  return boardsData_(g.t);
+}
+
+/* ---------- Counsellors ---------- */
+function cBoardWho_(name) {
+  var n = String(name || '').replace(/[^A-Za-z .'-]/g, '').replace(/^[^A-Za-z]+/, '').replace(/\s+/g, ' ').trim().slice(0, 20);
+  if (n.length < 2) throw new Error('need-name');
+  n = n.charAt(0).toUpperCase() + n.slice(1);
+  return { who: 'c:' + n.toLowerCase(), name: 'Counsellor ' + n };
+}
+function c_boards(pin, name) {
+  checkPin_(pin);
+  var me = '';
+  try { if (name) me = cBoardWho_(name).who; } catch (err) { me = ''; }
+  var d = boardsData_(me);
+  d.entries = boardRows_().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : b.row - a.row; }).slice(0, 300)
+    .map(function (r) { return { id: r.id, date: r.date, name: r.name, kind: r.kind, n: r.n, detail: r.detail, c: r.who.indexOf('c:') === 0, mine: r.who === me }; });
+  return d;
+}
+function c_log(pin, name, kind, x) {
+  checkPin_(pin);
+  var c = cBoardWho_(name);
+  boardLog_(c.who, c.name, kind, x);
+  return c_boards(pin, name);
+}
+function c_unlog(pin, id, who, name) {
+  checkPin_(pin);
+  var x = boardUnlog_(id, '');
+  log_('Class', who_(who) + ' removed a class-board entry: ' + x.name + ', ' + BOARD_KINDS[x.kind].toLowerCase() + ' ' + (x.detail || x.n) + ' (' + x.date + ')');
+  return c_boards(pin, name);
+}
+function c_setServeGoal(pin, n, who) {
+  checkPin_(pin);
+  n = Math.round(Number(n));
+  if (!(n >= 1 && n <= 5000)) throw new Error('bad-number');
+  PropertiesService.getScriptProperties().setProperty(BOARD_GOAL_PROP, String(n));
+  log_('Class', who_(who) + ' set the service-hours goal to ' + n);
+  return { ok: true, goal: n };
 }
